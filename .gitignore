@@ -5,3 +5,7 @@ target
 /bin
 /dist
 *~
+/.vs/NLaTexMath
+/NLaTexMath/obj
+/NLaTexMathTests/bin/Debug/net8.0
+/NLaTexMathTests/obj
