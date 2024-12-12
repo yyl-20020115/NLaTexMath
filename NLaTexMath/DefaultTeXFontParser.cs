@@ -180,7 +180,7 @@ public class DefaultTeXFontParser
     }
 
     public DefaultTeXFontParser()
-        : this(DefaultTeXFontParser.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+        : this(DefaultTeXFontParser.GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
         ;
     }
@@ -326,11 +326,11 @@ public class DefaultTeXFontParser
                 string include = GetAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
                 if (_base == null)
                 {
-                    fi = parseFontDescriptions(fi, DefaultTeXFontParser.getResourceAsStream(include), include);
+                    fi = parseFontDescriptions(fi, DefaultTeXFontParser.GetResourceAsStream(include), include);
                 }
                 else
                 {
-                    fi = parseFontDescriptions(fi, _base.GetType().getResourceAsStream(include), include);
+                    fi = parseFontDescriptions(fi, _base.GetType().GetResourceAsStream(include), include);
                 }
             }
         }
@@ -344,7 +344,7 @@ public class DefaultTeXFontParser
         { // element present
           // get required string attribute
             string include = GetAttrValueAndCheckIfNotNull("include", syms);
-            SymbolAtom.AddSymbolAtom(_base.GetType().getResourceAsStream(include), include);
+            SymbolAtom.AddSymbolAtom(_base.GetType().GetResourceAsStream(include), include);
         }
         XElement settings = (XElement)root.XPathSelectElement("FormulaSettings");
         if (settings != null)
@@ -401,9 +401,10 @@ public class DefaultTeXFontParser
     {
         try
         {
-            Font f = Font.createFont(Font.TRUETYPE_FONT, fontIn)
-                     .deriveFont(TeXFormula.PIXELS_PER_POINT * TeXFormula.FONT_SCALE_FACTOR);
-            GraphicsEnvironment graphicEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            Font f = null;
+            //Font f = Font.createFont(Font.TRUETYPE_FONT, fontIn)
+            //         .deriveFont(TeXFormula.PIXELS_PER_POINT * TeXFormula.FONT_SCALE_FACTOR);
+            //GraphicsEnvironment graphicEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
             /**
              * The following fails under java 1.5
              * graphicEnv.registerFont(f);
@@ -413,11 +414,11 @@ public class DefaultTeXFontParser
             {
                 try
                 {
-                    MethodInfo registerFontMethod = graphicEnv.GetType().getMethod("registerFont", [typeof(Font)]);
-                    if ((Boolean)registerFontMethod.Invoke(graphicEnv, new object[] { f }) == false)
-                    {
-                        Console.Error.WriteLine("Cannot register the font " + f.Name);
-                    }
+                    //MethodInfo registerFontMethod = graphicEnv.GetType().getMethod("registerFont", [typeof(Font)]);
+                    //if ((Boolean)registerFontMethod.Invoke(graphicEnv, new object[] { f }) == false)
+                    //{
+                    //    Console.Error.WriteLine("Cannot register the font " + f.Name);
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -469,11 +470,11 @@ public class DefaultTeXFontParser
                 {
                     if (_base == null)
                     {
-                        map = factory.newDocumentBuilder().parse(DefaultTeXFontParser.getResourceAsStream(include)).getDocumentElement();
+                        map = factory.newDocumentBuilder().parse(DefaultTeXFontParser.GetResourceAsStream(include)).getDocumentElement();
                     }
                     else
                     {
-                        map = factory.newDocumentBuilder().parse(_base.GetType().getResourceAsStream(include)).getDocumentElement();
+                        map = factory.newDocumentBuilder().parse(_base.GetType().GetResourceAsStream(include)).getDocumentElement();
                     }
                 }
                 catch (Exception e)

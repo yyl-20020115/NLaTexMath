@@ -162,17 +162,19 @@ public class DefaultTeXFont : TeXFont
         fontInfo = dtfp.ParseFontDescriptions(fontInfo);
         foreach (var v in dtfp.ParseTextStyleMappings())
             textStyleMappings.Add(v.Key, v.Value);
-        foreach(var v in dtfp.ParseSymbolMappings())
+        foreach (var v in dtfp.ParseSymbolMappings())
             symbolMappings.Add(v.Key, v.Value);
     }
 
     public static void AddTeXFontDescription(object _base, Stream _in, string name)
     {
-        DefaultTeXFontParser dtfp = new DefaultTeXFontParser(_base, _in, name);
+        var dtfp = new DefaultTeXFontParser(_base, _in, name);
         fontInfo = dtfp.ParseFontDescriptions(fontInfo);
         dtfp.parseExtraPath();
-        textStyleMappings.putAll(dtfp.ParseTextStyleMappings());
-        symbolMappings.putAll(dtfp.ParseSymbolMappings());
+        foreach (var v in dtfp.ParseTextStyleMappings())
+            textStyleMappings.Add(v.Key, v.Value);
+        foreach (var v in dtfp.ParseSymbolMappings())
+            symbolMappings.Add(v.Key, v.Value);
     }
 
     public static void AddAlphabet(UnicodeBlock alphabet, Stream inlanguage, string language, Stream insymbols, string symbols, Stream inmappings, string mappings)
@@ -213,7 +215,7 @@ public class DefaultTeXFont : TeXFont
 
         try
         {
-            DefaultTeXFont.AddAlphabet(alphabet, TeXFormula.GetResourceAsStream(lg), lg, TeXFormula.GetResourceAsStream(sym), sym, TeXFormula..getResourceAsStream(map), map);
+            DefaultTeXFont.AddAlphabet(alphabet, TeXFormula.GetResourceAsStream(lg), lg, TeXFormula.GetResourceAsStream(sym), sym, TeXFormula.GetResourceAsStream(map), map);
         }
         catch (FontAlreadyLoadedException e) { }
     }

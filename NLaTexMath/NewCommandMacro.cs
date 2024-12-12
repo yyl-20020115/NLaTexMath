@@ -94,24 +94,24 @@ public class NewCommandMacro
         int dec = 0;
 
 
-        if (args[nbargs + 1] != null)
-        {
-            dec = 1;
-            rep = Matcher.quoteReplacement(args[nbargs + 1]);
-            code = code.replaceAll("#1", rep);
-        }
-        else if (macroreplacement[(args[0])] != null)
-        {
-            dec = 1;
-            rep = Matcher.quoteReplacement(macroreplacement.Get(args[0]));
-            code = code.replaceAll("#1", rep);
-        }
+        //if (args[nbargs + 1] != null)
+        //{
+        //    dec = 1;
+        //    rep = Matcher.quoteReplacement(args[nbargs + 1]);
+        //    code = code.replaceAll("#1", rep);
+        //}
+        //else if (macroreplacement[(args[0])] != null)
+        //{
+        //    dec = 1;
+        //    rep = Matcher.quoteReplacement(macroreplacement.Get(args[0]));
+        //    code = code.replaceAll("#1", rep);
+        //}
 
-        for (int i = 1; i <= nbargs; i++)
-        {
-            rep = Matcher.quoteReplacement(args[i]);
-            code = code.replaceAll("#" + (i + dec), rep);
-        }
+        //for (int i = 1; i <= nbargs; i++)
+        //{
+        //    rep = Matcher.quoteReplacement(args[i]);
+        //    code = code.replaceAll("#" + (i + dec), rep);
+        //}
 
         return code;
     }

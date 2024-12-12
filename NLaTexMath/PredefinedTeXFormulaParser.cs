@@ -75,7 +75,7 @@ public class PredefinedTeXFormulaParser
         }
     }
 
-    public PredefinedTeXFormulaParser(string PredefFile, string type) : this(PredefinedTeXFormulaParser.getResourceAsStream(PredefFile), type)
+    public PredefinedTeXFormulaParser(string PredefFile, string type) : this(PredefinedTeXFormulaParser.GetResourceAsStream(PredefFile), type)
     {
     }
 

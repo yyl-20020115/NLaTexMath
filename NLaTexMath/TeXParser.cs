@@ -279,7 +279,7 @@ public class TeXParser
      */
     public void Reset(string latex)
     {
-        parseString = new (latex);
+        parseString = new(latex);
         len = parseString.Length;
         formula.root = null;
         pos = 0;
@@ -449,7 +449,7 @@ public class TeXParser
                                     throw e;
                                 }
                             }
-                            parseString.Remove(spos, pos-spos);
+                            parseString.Remove(spos, pos - spos);
                             len = parseString.Length;
                             pos = spos;
                         }
@@ -958,11 +958,11 @@ public class TeXParser
 
         if (ch == openclose)
         {
-            return parseString.Substring(spos, pos - spos - 1);
+            return parseString.ToString().Substring(spos, pos - spos - 1);
         }
         else
         {
-            return parseString.Substring(spos, pos - spos - 1);
+            return parseString.ToString().Substring(spos, pos - spos - 1);
         }
     }
 
@@ -1000,10 +1000,10 @@ public class TeXParser
 
             if (group != 0)
             {
-                return parseString.substring(spos + 1, pos);
+                return parseString.ToString().Substring(spos + 1, pos - (spos + 1));
             }
 
-            return parseString.substring(spos + 1, pos - 1);
+            return parseString.ToString().Substring(spos + 1, pos - 1 - (spos + 1));
         }
         else
         {
@@ -1112,7 +1112,7 @@ public class TeXParser
             throw new ParseException("The token " + open + " must be closed by " + close);
         }
 
-        return buf.substring(0, buf.Length - pos + startC);
+        return buf.ToString().Substring(0, buf.Length - pos + startC);
     }
 
     /** Get the argument of a command in his atomic format
@@ -1219,11 +1219,11 @@ public class TeXParser
         string str;
         if (ogroup == 0)
         {
-            str = parseString.substring(spos, pos - 1);
+            str = parseString.ToString().Substring(spos, pos - 1 - spos);
         }
         else
         {
-            str = parseString.substring(spos, pos);
+            str = parseString.ToString().Substring(spos, pos - spos);
             ch = '\0';
         }
 
@@ -1249,7 +1249,7 @@ public class TeXParser
         }
         SkipWhiteSpace();
 
-        return SpaceAtom.GetLength(parseString.substring(spos, pos - 1));
+        return SpaceAtom.GetLength(parseString.ToString().Substring(spos, pos - 1 - spos));
     }
 
     /** Convert a character in the corresponding atom in using the file TeXFormulaSettings.xml for non-alphanumeric characters
@@ -1307,7 +1307,7 @@ public class TeXParser
                         }
                         pos++;
                     }
-                    return new JavaFontRenderingAtom(parseString.substring(start, end + 1), fontInfos);
+                    return new JavaFontRenderingAtom(parseString.ToString().Substring(start, end + 1 - start), fontInfos);
                 }
 
                 if (!isPartial)
@@ -1317,7 +1317,7 @@ public class TeXParser
                 }
                 else
                 {
-                    return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int)c) + ")}").root), null, Color.RED);
+                    return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int)c) + ")}").root), null, Color.Red);
                 }
             }
             else
@@ -1350,7 +1350,7 @@ public class TeXParser
         else
         {
             // alphanumeric character
-            if (TeXFormula.externalFontMap.TryGetValue(UnicodeBlock.BASIC_LATIN,out var fontInfos))
+            if (TeXFormula.externalFontMap.TryGetValue(UnicodeBlock.BASIC_LATIN, out var fontInfos))
             {
                 if (oneChar)
                 {
@@ -1368,7 +1368,7 @@ public class TeXParser
                     }
                     pos++;
                 }
-                return new JavaFontRenderingAtom(parseString.substring(start, end + 1), fontInfos);
+                return new JavaFontRenderingAtom(parseString.ToString().Substring(start, end + 1 - start), fontInfos);
             }
 
             return new CharAtom(c, formula.textStyle, ignoreWhiteSpace);
@@ -1397,7 +1397,7 @@ public class TeXParser
             pos++;
         }
 
-        string com = parseString.substring(spos, pos);
+        string com = parseString.ToString().Substring(spos, pos - spos);
         if ("cr" == (com) && pos < len && parseString[pos] == ' ')
         {
             pos++;

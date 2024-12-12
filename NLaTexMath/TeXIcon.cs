@@ -89,7 +89,7 @@ public class TeXIcon
     {
     }
 
-    protected TeXIcon(Box b, float size, bool trueValues)
+    public TeXIcon(Box b, float size, bool trueValues)
     {
         box = b;
 

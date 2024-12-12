@@ -67,6 +67,8 @@ public class TeXFormulaParser
 
     public class MethodInvocationParser : ActionParser
     {
+        private string formulaName;
+       
         public MethodInvocationParser()
         {
             // avoids creation of special accessor type
