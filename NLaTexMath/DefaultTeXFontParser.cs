@@ -46,6 +46,7 @@
 
 /* Modified by Calixte Denizet */
 using System.Drawing;
+using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -66,7 +67,7 @@ public class DefaultTeXFontParser
     //private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     public interface CharChildParser
     { // NOPMD
-        public void parse(XElement el, char ch, FontInfo info);
+        public void Parse(XElement el, char ch, FontInfo info);
     }
 
     public class ExtensionParser : CharChildParser
@@ -77,19 +78,19 @@ public class DefaultTeXFontParser
             // avoid generation of access class
         }
 
-        public void parse(XElement el, char ch, FontInfo info)
+        public void Parse(XElement el, char ch, FontInfo info)
         {
             int[] extensionChars = new int[4];
             // get required integer attributes
             extensionChars[DefaultTeXFont.REP] = DefaultTeXFontParser
-                                                 .getIntAndCheck("rep", el);
+                                                 .GetIntAndCheck("rep", el);
             // get optional integer attributes
             extensionChars[DefaultTeXFont.TOP] = DefaultTeXFontParser
-                                                 .getOptionalInt("top", el, DefaultTeXFont.NONE);
+                                                 .GetOptionalInt("top", el, DefaultTeXFont.NONE);
             extensionChars[DefaultTeXFont.MID] = DefaultTeXFontParser
-                                                 .getOptionalInt("mid", el, DefaultTeXFont.NONE);
+                                                 .GetOptionalInt("mid", el, DefaultTeXFont.NONE);
             extensionChars[DefaultTeXFont.BOT] = DefaultTeXFontParser
-                                                 .getOptionalInt("bot", el, DefaultTeXFont.NONE);
+                                                 .GetOptionalInt("bot", el, DefaultTeXFont.NONE);
 
             // parsing OK, Add extension info
             info.SetExtension(ch, extensionChars);
@@ -103,12 +104,12 @@ public class DefaultTeXFontParser
             // avoid generation of access class
         }
 
-        public void parse(XElement el, char ch, FontInfo info)
+        public void Parse(XElement el, char ch, FontInfo info)
         {
             // get required integer attribute
-            int code = DefaultTeXFontParser.getIntAndCheck("code", el);
+            int code = DefaultTeXFontParser.GetIntAndCheck("code", el);
             // get required float attribute
-            float kernAmount = DefaultTeXFontParser.getFloatAndCheck("val", el);
+            float kernAmount = DefaultTeXFontParser.GetFloatAndCheck("val", el);
 
             // parsing OK, Add kern info
             info.AddKern(ch, (char)code, kernAmount);
@@ -123,11 +124,11 @@ public class DefaultTeXFontParser
             // avoid generation of access class
         }
 
-        public void parse(XElement el, char ch, FontInfo info)
+        public void Parse(XElement el, char ch, FontInfo info)
         {
             // get required integer attributes
-            int code = DefaultTeXFontParser.getIntAndCheck("code", el);
-            int ligCode = DefaultTeXFontParser.getIntAndCheck("ligCode", el);
+            int code = DefaultTeXFontParser.GetIntAndCheck("code", el);
+            int ligCode = DefaultTeXFontParser.GetIntAndCheck("ligCode", el);
 
             // parsing OK, Add ligature info
             info.AddLigature(ch, (char)code, (char)ligCode);
@@ -142,11 +143,11 @@ public class DefaultTeXFontParser
             // avoid generation of access class
         }
 
-        public void parse(XElement el, char ch, FontInfo info)
+        public void Parse(XElement el, char ch, FontInfo info)
         {
             // get required integer attributes
-            string fontId = DefaultTeXFontParser.getAttrValueAndCheckIfNotNull("fontId", el);
-            int code = DefaultTeXFontParser.getIntAndCheck("code", el);
+            string fontId = DefaultTeXFontParser.GetAttrValueAndCheckIfNotNull("fontId", el);
+            int code = DefaultTeXFontParser.GetIntAndCheck("code", el);
 
             // parsing OK, Add "next larger" info
             info.SetNextLarger(ch, (char)code, Font_ID.IndexOf(fontId));
@@ -161,9 +162,9 @@ public class DefaultTeXFontParser
     public static readonly string MUFONTID_ATTR = "mufontid";
     public static readonly string SPACEFONTID_ATTR = "spacefontid";
 
-    protected static List<string> Font_ID = new ();
-    private static Dictionary<string, int> rangeTypeMappings = new ();
-    private static Dictionary<string, CharChildParser> charChildParsers = new ();
+    protected static List<string> Font_ID = new();
+    private static Dictionary<string, int> rangeTypeMappings = new();
+    private static Dictionary<string, CharChildParser> charChildParsers = new();
 
     private Dictionary<string, CharFont[]> parsedTextStyles;
 
@@ -173,7 +174,7 @@ public class DefaultTeXFontParser
     static DefaultTeXFontParser()
     {
         // string-to-constant mappings
-        setRangeTypeMappings();
+        SetRangeTypeMappings();
         // parsers for the child elements of a "Char"-element
         setCharChildParsers();
     }
@@ -186,11 +187,9 @@ public class DefaultTeXFontParser
 
     public DefaultTeXFontParser(Stream file, string name)
     {
-        factory.setIgnoringElementContentWhitespace(true);
-        factory.setIgnoringComments(true);
         try
         {
-            root = factory.newDocumentBuilder().parse(file).getDocumentElement();
+            root = XDocument.Load(file).Root;
         }
         catch (Exception e)
         { // JDOMException or IOException
@@ -201,11 +200,9 @@ public class DefaultTeXFontParser
     public DefaultTeXFontParser(object _base, Stream file, string name)
     {
         this._base = _base;
-        factory.setIgnoringElementContentWhitespace(true);
-        factory.setIgnoringComments(true);
         try
         {
-            root = factory.newDocumentBuilder().parse(file).getDocumentElement();
+            root = XDocument.Load(file).Root;
         }
         catch (Exception e)
         { // JDOMException or IOException
@@ -231,72 +228,72 @@ public class DefaultTeXFontParser
         XElement font;
         try
         {
-            font = factory.newDocumentBuilder().parse(file).getDocumentElement();
+            font = XDocument.Load(file).Root;
         }
         catch (Exception e)
         {
             throw new XMLResourceParseException("Cannot find the file " + name + "!" + e.ToString());
         }
 
-        string fontName = getAttrValueAndCheckIfNotNull("name", font);
+        string fontName = GetAttrValueAndCheckIfNotNull("name", font);
         // get required integer attribute
-        string fontId = getAttrValueAndCheckIfNotNull("id", font);
+        string fontId = GetAttrValueAndCheckIfNotNull("id", font);
         if (Font_ID.IndexOf(fontId) < 0)
             Font_ID.Add(fontId);
         else throw new FontAlreadyLoadedException("Font " + fontId + " is already loaded !");
         // get required real attributes
-        float space = getFloatAndCheck("space", font);
-        float xHeight = getFloatAndCheck("xHeight", font);
-        float quad = getFloatAndCheck("quad", font);
+        float space = GetFloatAndCheck("space", font);
+        float xHeight = GetFloatAndCheck("xHeight", font);
+        float quad = GetFloatAndCheck("quad", font);
 
         // get optional integer attribute
-        int skewChar = getOptionalInt("skewChar", font, -1);
+        int skewChar = GetOptionalInt("skewChar", font, -1);
 
         // get optional bool for unicode
-        int unicode = getOptionalInt("unicode", font, 0);
+        int unicode = GetOptionalInt("unicode", font, 0);
 
         // get different versions of a font
         string bold = null;
         try
         {
-            bold = getAttrValueAndCheckIfNotNull("boldVersion", font);
+            bold = GetAttrValueAndCheckIfNotNull("boldVersion", font);
         }
         catch (ResourceParseException e) { }
         string roman = null;
         try
         {
-            roman = getAttrValueAndCheckIfNotNull("romanVersion", font);
+            roman = GetAttrValueAndCheckIfNotNull("romanVersion", font);
         }
         catch (ResourceParseException e) { }
         string ss = null;
         try
         {
-            ss = getAttrValueAndCheckIfNotNull("ssVersion", font);
+            ss = GetAttrValueAndCheckIfNotNull("ssVersion", font);
         }
         catch (ResourceParseException e) { }
         string tt = null;
         try
         {
-            tt = getAttrValueAndCheckIfNotNull("ttVersion", font);
+            tt = GetAttrValueAndCheckIfNotNull("ttVersion", font);
         }
         catch (ResourceParseException e) { }
         string it = null;
         try
         {
-            it = getAttrValueAndCheckIfNotNull("itVersion", font);
+            it = GetAttrValueAndCheckIfNotNull("itVersion", font);
         }
         catch (ResourceParseException e) { }
 
-        string path = name.substring(0, name.LastIndexOf("/") + 1) + fontName;
+        string path = name.Substring(0, name.LastIndexOf("/") + 1) + fontName;
 
         // create FontInfo-object
         FontInfo info = new FontInfo(Font_ID.IndexOf(fontId), _base, path, fontName, unicode, xHeight, space, quad, bold, roman, ss, tt, it);
 
         if (skewChar != -1) // attribute set
-            info.            SkewChar = (char)skewChar;
+            info.SkewChar = (char)skewChar;
 
         // process all "Char"-elements
-        List<XNode> listF = font.getElementsByTagName("Char");
+        List<XElement> listF = font.Elements("Char").ToList();
         for (int j = 0; j < listF.Count; j++)
             processCharElement((XElement)listF[(j)], info);
 
@@ -306,30 +303,30 @@ public class DefaultTeXFontParser
         for (int i = 0; i < res.Count; i++)
         {
             FontInfo fin = res[i];
-            fin.            BoldId = Font_ID.IndexOf(fin.boldVersion);
-            fin.            RomanId = Font_ID.IndexOf(fin.romanVersion);
-            fin.            SsId = Font_ID.IndexOf(fin.ssVersion);
-            fin.            TtId = Font_ID.IndexOf(fin.ttVersion);
-            fin.            ItId = Font_ID.IndexOf(fin.itVersion);
+            fin.BoldId = Font_ID.IndexOf(fin.boldVersion);
+            fin.RomanId = Font_ID.IndexOf(fin.romanVersion);
+            fin.SsId = Font_ID.IndexOf(fin.ssVersion);
+            fin.TtId = Font_ID.IndexOf(fin.ttVersion);
+            fin.ItId = Font_ID.IndexOf(fin.itVersion);
         }
 
-        parsedTextStyles = parseStyleMappings();
-        return res.toArray(fi);
+        parsedTextStyles = ParseStyleMappings();
+        return res.ToArray();
     }
 
     public FontInfo[] ParseFontDescriptions(FontInfo[] fi)
     {
-        XElement fontDescriptions = (XElement)root.getElementsByTagName("FontDescriptions").item(0);
+        XElement fontDescriptions = root.XPathSelectElement("FontDescriptions");
         if (fontDescriptions != null)
         { // element present
-            List<XNode> list = fontDescriptions.getElementsByTagName("Metrics");
+            List<XElement> list = fontDescriptions.XPathSelectElements("Metrics").ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 // get required string attribute
-                string include = getAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
+                string include = GetAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
                 if (_base == null)
                 {
-                    fi = parseFontDescriptions(fi, DefaultTeXFontParser..getResourceAsStream(include), include);
+                    fi = parseFontDescriptions(fi, DefaultTeXFontParser.getResourceAsStream(include), include);
                 }
                 else
                 {
@@ -342,32 +339,32 @@ public class DefaultTeXFontParser
 
     public void parseExtraPath()
     {
-        XElement syms = (XElement)root.getElementsByTagName("TeXSymbols").item(0);
+        XElement syms = root.XPathSelectElement("TeXSymbols");
         if (syms != null)
         { // element present
           // get required string attribute
-            string include = getAttrValueAndCheckIfNotNull("include", syms);
-            SymbolAtom.addSymbolAtom(_base.GetType().getResourceAsStream(include), include);
+            string include = GetAttrValueAndCheckIfNotNull("include", syms);
+            SymbolAtom.AddSymbolAtom(_base.GetType().getResourceAsStream(include), include);
         }
-        XElement settings = (XElement)root.getElementsByTagName("FormulaSettings").item(0);
+        XElement settings = (XElement)root.XPathSelectElement("FormulaSettings");
         if (settings != null)
         { // element present
           // get required string attribute
-            string include = getAttrValueAndCheckIfNotNull("include", settings);
-            TeXFormula.addSymbolMappings(_base.GetType().getResourceAsStream(include), include);
+            string include = GetAttrValueAndCheckIfNotNull("include", settings);
+            TeXFormula.AddSymbolMappings(_base.GetType().GetResourceAsStream(include), include);
         }
     }
 
     private static void processCharElement(XElement charElement, FontInfo info)
     {
         // retrieve required integer attribute
-        char ch = (char)getIntAndCheck("code", charElement);
+        char ch = (char)GetIntAndCheck("code", charElement);
         // retrieve optional float attributes
         float[] metrics = new float[4];
-        metrics[DefaultTeXFont.WIDTH] = getOptionalFloat("width", charElement, 0);
-        metrics[DefaultTeXFont.HEIGHT] = getOptionalFloat("height", charElement, 0);
-        metrics[DefaultTeXFont.DEPTH] = getOptionalFloat("depth", charElement, 0);
-        metrics[DefaultTeXFont.IT] = getOptionalFloat("italic", charElement, 0);
+        metrics[DefaultTeXFont.WIDTH] = GetOptionalFloat("width", charElement, 0);
+        metrics[DefaultTeXFont.HEIGHT] = GetOptionalFloat("height", charElement, 0);
+        metrics[DefaultTeXFont.DEPTH] = GetOptionalFloat("depth", charElement, 0);
+        metrics[DefaultTeXFont.IT] = GetOptionalFloat("italic", charElement, 0);
         // set metrics
         info.SetMetrics(ch, metrics);
 
@@ -379,29 +376,28 @@ public class DefaultTeXFontParser
             if (node.NodeType != System.Xml.XmlNodeType.Text)
             {
                 XElement el = (XElement)node;
-                object parser = charChildParsers.Get(el.Name.LocalName);
-                if (parser == null) // unknown element
+                if (!charChildParsers.TryGetValue(el.Name.LocalName, out var parser)) // unknown element
                     throw new XMLResourceParseException(RESOURCE_NAME
                                                         + ": a <Char>-element has an unknown child element '"
                                                         + el.Name.LocalName + "'!");
                 else
                     // process the child element
-                    ((CharChildParser)parser).parse(el, ch, info);
+                    ((CharChildParser)parser).Parse(el, ch, info);
             }
         }
     }
 
-    public static void registerFonts(bool b)
+    public static void RegisterFonts(bool b)
     {
         shouldRegisterFonts = b;
     }
 
-    public static Font createFont(string name)
+    public static Font CreateFont(string name)
     {
-        return createFont(DefaultTeXFontParser.getResourceAsStream(name), name);
+        return CreateFont(DefaultTeXFontParser.GetResourceAsStream(name), name);
     }
 
-    public static Font createFont(Stream fontIn, string name)
+    public static Font CreateFont(Stream fontIn, string name)
     {
         try
         {
@@ -417,10 +413,10 @@ public class DefaultTeXFontParser
             {
                 try
                 {
-                    Method registerFontMethod = graphicEnv.GetType().getMethod("registerFont", new Type[] { Font });
-                    if ((Boolean)registerFontMethod.invoke(graphicEnv, new object[] { f }) == false)
+                    MethodInfo registerFontMethod = graphicEnv.GetType().getMethod("registerFont", [typeof(Font)]);
+                    if ((Boolean)registerFontMethod.Invoke(graphicEnv, new object[] { f }) == false)
                     {
-                        Console.Error.WriteLine("Cannot register the font " + f.getFontName());
+                        Console.Error.WriteLine("Cannot register the font " + f.Name);
                     }
                 }
                 catch (Exception ex)
@@ -449,25 +445,25 @@ public class DefaultTeXFontParser
             }
             catch (IOException ioex)
             {
-                throw new RuntimeException("Close threw exception", ioex);
+                throw new Exception("Close threw exception", ioex);
             }
         }
     }
 
     public Dictionary<string, CharFont> ParseSymbolMappings()
     {
-        Dictionary<string, CharFont> res = new ();
-        XElement symbolMappings = (XElement)root.getElementsByTagName("SymbolMappings").item(0);
+        Dictionary<string, CharFont> res = new();
+        XElement symbolMappings = (XElement)root.Element("SymbolMappings");
         if (symbolMappings == null)
             // "SymbolMappings" is required!
             throw new XMLResourceParseException(RESOURCE_NAME, "SymbolMappings");
         else
         { // element present
           // iterate all mappings
-            List<XNode> list = symbolMappings.getElementsByTagName("Mapping");
+            List<XElement> list = symbolMappings.Elements("Mapping").ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                string include = getAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
+                string include = GetAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
                 XElement map;
                 try
                 {
@@ -484,20 +480,20 @@ public class DefaultTeXFontParser
                 {
                     throw new XMLResourceParseException("Cannot find the file " + include + "!");
                 }
-                List<XNode> listM = map.getElementsByTagName(SYMBOL_MAPPING_EL);
+                List<XElement> listM = map.Elements(SYMBOL_MAPPING_EL).ToList();
                 for (int j = 0; j < listM.Count; j++)
                 {
-                    XElement mapping = (XElement)listM.item(j);
+                    XElement mapping = (XElement)listM[(j)];
                     // get string attribute
-                    string symbolName = getAttrValueAndCheckIfNotNull("name", mapping);
+                    string symbolName = GetAttrValueAndCheckIfNotNull("name", mapping);
                     // get integer attributes
-                    int ch = getIntAndCheck("ch", mapping);
-                    string fontId = getAttrValueAndCheckIfNotNull("fontId", mapping);
+                    int ch = GetIntAndCheck("ch", mapping);
+                    string fontId = GetAttrValueAndCheckIfNotNull("fontId", mapping);
                     // put mapping in table
                     string boldFontId = null;
                     try
                     {
-                        boldFontId = getAttrValueAndCheckIfNotNull("boldId", mapping);
+                        boldFontId = GetAttrValueAndCheckIfNotNull("boldId", mapping);
                     }
                     catch (ResourceParseException e) { }
 
@@ -519,26 +515,25 @@ public class DefaultTeXFontParser
     public string[] ParseDefaultTextStyleMappings()
     {
         string[] res = new string[4];
-        XElement defaultTextStyleMappings = (XElement)root
-                                           .getElementsByTagName("DefaultTextStyleMapping").item(0);
+        XElement defaultTextStyleMappings = (XElement)root.Element("DefaultTextStyleMapping");
         if (defaultTextStyleMappings == null)
             return res;
         else
         { // element present
           // iterate all mappings
-            List<XNode> list = defaultTextStyleMappings.getElementsByTagName("MapStyle");
+            List<XElement> list = defaultTextStyleMappings.Elements("MapStyle").ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 XElement mapping = (XElement)list[i];
                 // get range name and check if it's valid
-                string code = getAttrValueAndCheckIfNotNull("code", mapping);
+                string code = GetAttrValueAndCheckIfNotNull("code", mapping);
                 object codeMapping = rangeTypeMappings[(code)];
                 if (codeMapping == null) // unknown range name
                     throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle",
                                                         "code", "Contains an unknown \"range name\" '" + code
                                                         + "'!");
                 // get mapped style and check if it exists
-                string textStyleName = getAttrValueAndCheckIfNotNull("textStyle",
+                string textStyleName = GetAttrValueAndCheckIfNotNull("textStyle",
                                        mapping);
                 object styleMapping = parsedTextStyles[(textStyleName)];
                 if (styleMapping == null) // unknown text style
@@ -563,8 +558,8 @@ public class DefaultTeXFontParser
 
     public Dictionary<string, float> ParseParameters()
     {
-        Dictionary<string, float> res = new ();
-        XElement parameters = (XElement)root.getElementsByTagName("Parameters").item(0);
+        Dictionary<string, float> res = new();
+        XElement parameters = root.Element("Parameters");
         if (parameters == null)
             // "Parameters" is required!
             throw new XMLResourceParseException(RESOURCE_NAME, "Parameters");
@@ -574,17 +569,17 @@ public class DefaultTeXFontParser
             var list = parameters.Attributes().ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                string name = ((Attr)list[i]).getName();
+                string name = list[i].Name.ToString();
                 // set float value (if valid)
-                res.Add(name, new float(getFloatAndCheck(name, parameters)));
-            } 
+                res.Add(name, (GetFloatAndCheck(name, parameters)));
+            }
             return res;
         }
     }
 
-    public Dictionary<string, int> ParseGeneralSettings()
+    public Dictionary<string, ValueType> ParseGeneralSettings()
     {
-        Dictionary<string, int> res = new ();
+        Dictionary<string, ValueType> res = new();
         // TODO: must this be 'Number' ?
         XElement generalSettings = (XElement)root.XPathSelectElements("//GeneralSettings").First();
         if (generalSettings == null)
@@ -593,13 +588,11 @@ public class DefaultTeXFontParser
         else
         { // element present
           // set required int values (if valid)
-            res.Add(MUFONTID_ATTR, Font_ID.IndexOf(getAttrValueAndCheckIfNotNull(MUFONTID_ATTR, generalSettings))); // autoboxing
-            res.Add(SPACEFONTID_ATTR, Font_ID.IndexOf(getAttrValueAndCheckIfNotNull(SPACEFONTID_ATTR, generalSettings))); // autoboxing
+            res.Add(MUFONTID_ATTR, Font_ID.IndexOf(GetAttrValueAndCheckIfNotNull(MUFONTID_ATTR, generalSettings))); // autoboxing
+            res.Add(SPACEFONTID_ATTR, Font_ID.IndexOf(GetAttrValueAndCheckIfNotNull(SPACEFONTID_ATTR, generalSettings))); // autoboxing
                                                                                                                           // set required float values (if valid)
-            res.Add("scriptfactor", GetFloatAndCheck("scriptfactor",
-                    generalSettings)); // autoboxing
-            res.Add("scriptscriptfactor", GetFloatAndCheck(
-                        "scriptscriptfactor", generalSettings)); // autoboxing
+            res.Add("scriptfactor", GetFloatAndCheck("scriptfactor", generalSettings)); // autoboxing
+            res.Add("scriptscriptfactor", GetFloatAndCheck("scriptscriptfactor", generalSettings)); // autoboxing
 
         }
         return res;
@@ -610,48 +603,48 @@ public class DefaultTeXFontParser
         return parsedTextStyles;
     }
 
-    private Dictionary<string, CharFont[]> parseStyleMappings()
+    private Dictionary<string, CharFont[]> ParseStyleMappings()
     {
-        Dictionary<string, CharFont[]> res = new ();
-        XElement textStyleMappings = (XElement)root.getElementsByTagName("TextStyleMappings").item(0);
+        Dictionary<string, CharFont[]> res = [];
+        XElement textStyleMappings = (XElement)root.Element("TextStyleMappings");
         if (textStyleMappings == null)
             return res;
         else
         { // element present
           // iterate all mappings
-            List<XNode> list = textStyleMappings.getElementsByTagName(STYLE_MAPPING_EL);
+            List<XElement> list = textStyleMappings.Elements(STYLE_MAPPING_EL).ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 XElement mapping = (XElement)list[i];
                 // get required string attribute
-                string textStyleName = getAttrValueAndCheckIfNotNull("name",
+                string textStyleName = GetAttrValueAndCheckIfNotNull("name",
                                        mapping);
                 string boldFontId = null;
                 try
                 {
-                    boldFontId = getAttrValueAndCheckIfNotNull("bold", mapping);
+                    boldFontId = GetAttrValueAndCheckIfNotNull("bold", mapping);
                 }
                 catch (ResourceParseException e) { }
 
-                List<XNode> mapRangeList = mapping.getElementsByTagName("MapRange");
+                List<XElement> mapRangeList = mapping.Elements("MapRange").ToList();
                 // iterate all mapping ranges
                 CharFont[] charFonts = new CharFont[4];
                 for (int j = 0; j < mapRangeList.Count; j++)
                 {
-                    XElement mapRange = (XElement)mapRangeList.item(j);
+                    XElement mapRange = (XElement)mapRangeList[(j)];
                     // get required integer attributes
-                    string fontId = getAttrValueAndCheckIfNotNull("fontId", mapRange);
-                    int ch = getIntAndCheck("start", mapRange);
+                    string fontId = GetAttrValueAndCheckIfNotNull("fontId", mapRange);
+                    int ch = GetIntAndCheck("start", mapRange);
                     // get required string attribute and check if it's a known range
-                    string code = getAttrValueAndCheckIfNotNull("code", mapRange);
+                    string code = GetAttrValueAndCheckIfNotNull("code", mapRange);
                     object codeMapping = rangeTypeMappings[(code)];
                     if (codeMapping == null)
                         throw new XMLResourceParseException(RESOURCE_NAME,
                                                             "MapRange", "code",
                                                             "Contains an unknown \"range name\" '" + code + "'!");
                     else if (boldFontId == null)
-                        charFonts[((int)codeMapping).intValue()] = new CharFont((char)ch, Font_ID.IndexOf(fontId));
-                    else charFonts[((int)codeMapping).intValue()] = new CharFont((char)ch, Font_ID.IndexOf(fontId), Font_ID.IndexOf(boldFontId));
+                        charFonts[((int)codeMapping)] = new CharFont((char)ch, Font_ID.IndexOf(fontId));
+                    else charFonts[((int)codeMapping)] = new CharFont((char)ch, Font_ID.IndexOf(fontId), Font_ID.IndexOf(boldFontId));
                 }
                 res.Add(textStyleName, charFonts);
             }
@@ -659,7 +652,7 @@ public class DefaultTeXFontParser
         return res;
     }
 
-    private static void setRangeTypeMappings()
+    private static void SetRangeTypeMappings()
     {
         rangeTypeMappings.Add("numbers", DefaultTeXFont.NUMBERS); // autoboxing
         rangeTypeMappings.Add("capitals", DefaultTeXFont.CAPITALS); // autoboxing
@@ -667,25 +660,25 @@ public class DefaultTeXFontParser
         rangeTypeMappings.Add("unicode", DefaultTeXFont.UNICODE); // autoboxing
     }
 
-    private static string getAttrValueAndCheckIfNotNull(string attrName,
+    private static string GetAttrValueAndCheckIfNotNull(string attrName,
             XElement element)
     {
-        string attrValue = element.Attribute(attrName)?.Value??"";
-        if (attrValue==(""))
+        string attrValue = element.Attribute(attrName)?.Value ?? "";
+        if (attrValue == (""))
             throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName,
                                                 attrName, null);
         return attrValue;
     }
 
-    public static float getFloatAndCheck(string attrName, XElement element)
+    public static float GetFloatAndCheck(string attrName, XElement element)
     {
-        string attrValue = getAttrValueAndCheckIfNotNull(attrName, element);
+        string attrValue = GetAttrValueAndCheckIfNotNull(attrName, element);
 
         // try parsing string to float value
         float res = 0;
         try
         {
-            res = (float)Double.parseDouble(attrValue);
+            res = (float)(double.TryParse(attrValue, out var r) ? r : 0);
         }
         catch (Exception e)
         {
@@ -696,15 +689,15 @@ public class DefaultTeXFontParser
         return res;
     }
 
-    public static int getIntAndCheck(string attrName, XElement element)
+    public static int GetIntAndCheck(string attrName, XElement element)
     {
-        string attrValue = getAttrValueAndCheckIfNotNull(attrName, element);
+        string attrValue = GetAttrValueAndCheckIfNotNull(attrName, element);
 
         // try parsing string to integer value
         int res = 0;
         try
         {
-            res = int.parseInt(attrValue);
+            res = int.TryParse(attrValue, out var i) ? i : 0;
         }
         catch (Exception e)
         {
@@ -715,11 +708,11 @@ public class DefaultTeXFontParser
         return res;
     }
 
-    public static int getOptionalInt(string attrName, XElement element,
+    public static int GetOptionalInt(string attrName, XElement element,
                                      int defaultValue)
     {
-        string attrValue = element.Attribute(attrName)?.Value??"";
-        if (attrValue==("")) // attribute not present
+        string attrValue = element.Attribute(attrName)?.Value ?? "";
+        if (attrValue == ("")) // attribute not present
             return defaultValue;
         else
         {
@@ -727,7 +720,7 @@ public class DefaultTeXFontParser
             int res = 0;
             try
             {
-                res = int.parseInt(attrValue);
+                res = int.TryParse(attrValue, out var i) ? i : 0;
             }
             catch (Exception e)
             {
@@ -739,11 +732,11 @@ public class DefaultTeXFontParser
         }
     }
 
-    public static float getOptionalFloat(string attrName, XElement element,
+    public static float GetOptionalFloat(string attrName, XElement element,
                                          float defaultValue)
     {
-        string attrValue = element.Attribute(attrName)?.Value??"";
-        if (attrValue==("")) // attribute not present
+        string attrValue = element.Attribute(attrName)?.Value ?? "";
+        if (attrValue == ("")) // attribute not present
             return defaultValue;
         else
         {
@@ -751,12 +744,11 @@ public class DefaultTeXFontParser
             float res = 0;
             try
             {
-                res = (float)Double.parseDouble(attrValue);
+                res = (float)(Double.TryParse(attrValue, out var d) ? d : 0);
             }
             catch (Exception e)
             {
-                throw new XMLResourceParseException(RESOURCE_NAME, element
-                                                    .Name.LocalName, attrName, "has an invalid float value!");
+                throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName, attrName, "has an invalid float value!");
             }
             // parsing OK
             return res;

@@ -153,7 +153,7 @@ public class PredefMacroInfo : MacroInfo
                 120 => PredefMacros.arrayATATenv_macro(tp, args),
                 121 => PredefMacros.alignATATenv_macro(tp, args),
                 122 => PredefMacros.alignedATATenv_macro(tp, args),
-                123 => PredefMacros.flalignATATenv_macro(tp, args),
+                123 => PredefMacros.FlalignATATenv_macro(tp, args),
                 124 => PredefMacros.alignatATATenv_macro(tp, args),
                 125 => PredefMacros.alignedatATATenv_macro(tp, args),
                 126 => PredefMacros.multlineATATenv_macro(tp, args),

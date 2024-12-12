@@ -62,9 +62,8 @@ public class TeXSymbolParser
 
     private XElement root;
 
-    public TeXSymbolParser() : this(TeXSymbolParser.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+    public TeXSymbolParser() : this(TeXSymbolParser.GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
-        ;
     }
 
     public TeXSymbolParser(Stream file, string name)
@@ -86,7 +85,7 @@ public class TeXSymbolParser
 
     public Dictionary<string, SymbolAtom> ReadSymbols()
     {
-        Dictionary<string, SymbolAtom> res = new();
+        Dictionary<string, SymbolAtom> res = [];
         // iterate all "symbol"-elements
         List<XElement> list = root.XPathSelectElements("Symbol").ToList();
         for (int i = 0; i < list.Count; i++)

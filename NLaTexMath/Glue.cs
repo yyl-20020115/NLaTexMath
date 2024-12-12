@@ -63,7 +63,7 @@ public class Glue(float space, float stretch, float shrink, string name)
     private static Glue[] glueTypes;
 
     // the glue table representing the "glue rules" (as in TeX)
-    private static readonly int[][][] glueTable;
+    private static readonly int[,,] glueTable;
 
     static Glue()
     {
@@ -93,7 +93,7 @@ public class Glue(float space, float stretch, float shrink, string name)
         int r = (rType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : rType);
 
         // search right glue-type in "glue-table"
-        int glueType = glueTable[l][r][env.Style / 2];
+        int glueType = glueTable[l,r,env.Style / 2];
 
         return glueTypes[glueType].CreateBox(env);
     }

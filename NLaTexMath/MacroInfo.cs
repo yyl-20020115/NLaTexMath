@@ -88,15 +88,15 @@ public class MacroInfo
 
         try
         {
-            object pack = Packages[className];
+            object? pack = Packages[className];
             if (pack == null)
             {
-                Type cl = Type.forName(className);
-                pack = cl.getConstructor(new Type[0]).newInstance(new object[0]);
+                Type? cl = Type.GetType(className);
+                pack = cl?.GetConstructor(new Type[0])?.Invoke(new object[0]);
                 Packages.Add(className, pack);
             }
             this.pack = pack;
-            this.macro = pack.GetType().getDeclaredMethod(methodName, args);
+            this.macro = pack?.GetType()?.GetMethod(methodName, args);
             this.nbArgs = nba;
         }
         catch (Exception e)
@@ -116,12 +116,12 @@ public class MacroInfo
             object pack = Packages[className];
             if (pack == null)
             {
-                Type cl = Type.forName(className);
-                pack = cl.getConstructor(new Type[0]).newInstance(new object[0]);
+                Type? cl = Type.GetType(className);
+                pack = cl?.GetConstructor([])?.Invoke([]);
                 Packages.Add(className, pack);
             }
             this.pack = pack;
-            this.macro = pack.GetType().getDeclaredMethod(methodName, args);
+            this.macro = pack?.GetType()?.GetMethod(methodName, args);
             this.nbArgs = nba;
             this.hasOptions = true;
             this.posOpts = (int)posOpts;

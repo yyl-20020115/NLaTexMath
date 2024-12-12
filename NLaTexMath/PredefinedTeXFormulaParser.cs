@@ -67,7 +67,7 @@ public class PredefinedTeXFormulaParser
             //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             //factory.setIgnoringElementContentWhitespace(true);
             //factory.setIgnoringComments(true);
-            root = factory.newDocumentBuilder().parse(file).getDocumentElement();
+            root = XDocument.Load(file).Root;
         }
         catch (Exception e)
         { // JDOMException or IOException
@@ -86,7 +86,7 @@ public class PredefinedTeXFormulaParser
         if ("true" == (enabledAll))
         { // parse formula's
             // iterate all "Font"-elements
-            List<XNode> list = root.getElementsByTagName(this.type);
+            List<XElement> list = root.Elements(this.type).ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 XElement formula = (XElement)list[i];

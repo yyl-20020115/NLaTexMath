@@ -89,14 +89,14 @@ public class TeXFormulaParser
             else
             {
                 // parse arguments
-                List<XNode> args = el.getElementsByTagName("Argument");
+                List<XElement> args = el.Elements("Argument").ToList();
                 // get argument classes and values
-                Type[] argClasses = getArgumentClasses(args);
+                Type[] argClasses = GetArgumentClasses(args);
                 object[] argValues = GetArgumentValues(args);
                 // invoke method
                 try
                 {
-                    typeof(TeXFormula).getMethod(methodName, argClasses).invoke((TeXFormula)o, argValues);
+                    typeof(TeXFormula).GetMethod(methodName, argClasses)?.Invoke((TeXFormula)o, argValues);
                 }
                 catch (Exception e)
                 {
@@ -123,16 +123,16 @@ public class TeXFormulaParser
             // get required string attribute
             string name = getAttrValueAndCheckIfNotNull("name", el);
             // parse arguments
-            List<XNode> args = el.getElementsByTagName("Argument");
+            List<XElement> args = el.Elements("Argument").ToList();
             // get argument classes and values
-            Type[] argClasses = getArgumentClasses(args);
+            Type[] argClasses = GetArgumentClasses(args);
             object[] argValues = GetArgumentValues(args);
             // create TeXFormula object
             //string code = "TeXFormula.predefinedTeXFormulasAsString.Add(\"%s\", \"%s\");";
             //System._out.println(string.format(code, formulaName, argValues[0]));
             try
             {
-                TeXFormula f = TeXFormula..getConstructor(argClasses).newInstance(argValues);
+                TeXFormula? f = typeof(TeXFormula).GetConstructor(argClasses)?.Invoke( argValues ) as TeXFormula;
                 // succesfully created, so Add to "temporary formula's"-hashtable
                 tempFormulas.Add(name, f);
             }
@@ -156,44 +156,44 @@ public class TeXFormulaParser
 
         public void Parse(XElement el)
         {
-            // get required string attribute
-            string name = getAttrValueAndCheckIfNotNull("name", el);
-            // parse arguments
-            List<XNode> args = el.getElementsByTagName("Argument");
-            // get argument classes and values
-            Type[] argClasses = getArgumentClasses(args);
-            object[] argValues = GetArgumentValues(args);
-            // create TeXFormula object
-            try
-            {
-                MacroInfo f = MacroInfo.getConstructor(argClasses).newInstance(argValues);
-                // succesfully created, so Add to "temporary formula's"-hashtable
-                tempCommands.Add(name, f);
-            }
-            catch (Exception e)
-            {
-                string err = "IllegalArgumentException:\n";
-                err += "ClassLoader to load this class (TeXFormulaParser): " + this.GetType().getClassLoader() + "\n";
-                foreach (Type cl in argClasses)
-                {
-                    err += "Created class: " + cl + " loaded with the ClassLoader: " + cl.getClassLoader() + "\n";
-                }
-                foreach (object obj in argValues)
-                {
-                    err += "Created object: " + obj + "\n";
-                }
-                throw new XMLResourceParseException(
-                    "Error creating the temporary command '" + name
-                    + "' while constructing the predefined command '"
-                    + formulaName + "'!\n" + err);
-            }
-            catch (Exception e)
-            {
-                throw new XMLResourceParseException(
-                    "Error creating the temporary command '" + name
-                    + "' while constructing the predefined command '"
-                    + formulaName + "'!\n" + e.ToString());
-            }
+            //// get required string attribute
+            //string name = getAttrValueAndCheckIfNotNull("name", el);
+            //// parse arguments
+            //List<XElement> args = el.Elements("Argument").ToList();
+            //// get argument classes and values
+            //Type[] argClasses = GetArgumentClasses(args);
+            //object[] argValues = GetArgumentValues(args);
+            //// create TeXFormula object
+            //try
+            //{
+            //    MacroInfo f = MacroInfo.GetConstructor(argClasses).newInstance(argValues);
+            //    // succesfully created, so Add to "temporary formula's"-hashtable
+            //    tempCommands.Add(name, f);
+            //}
+            //catch (Exception e)
+            //{
+            //    string err = "IllegalArgumentException:\n";
+            //    err += "ClassLoader to load this class (TeXFormulaParser): " + this.GetType().getClassLoader() + "\n";
+            //    foreach (Type cl in argClasses)
+            //    {
+            //        err += "Created class: " + cl + " loaded with the ClassLoader: " + cl.getClassLoader() + "\n";
+            //    }
+            //    foreach (object obj in argValues)
+            //    {
+            //        err += "Created object: " + obj + "\n";
+            //    }
+            //    throw new XMLResourceParseException(
+            //        "Error creating the temporary command '" + name
+            //        + "' while constructing the predefined command '"
+            //        + formulaName + "'!\n" + err);
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new XMLResourceParseException(
+            //        "Error creating the temporary command '" + name
+            //        + "' while constructing the predefined command '"
+            //        + formulaName + "'!\n" + e.ToString());
+            //}
         }
     }
 
@@ -391,10 +391,9 @@ public class TeXFormulaParser
             try
             {
                 // get constant value (if present)
-                int constant = TeXConstants.getDeclaredField(value).getInt(
-                                   null);
+                int constant = (int) typeof(TeXConstants).GetField(value).GetValue(null);
                 // return constant integer value
-                return int.valueOf(constant);
+                return (constant);
             }
             catch (Exception e)
             {
@@ -420,7 +419,7 @@ public class TeXFormulaParser
             try
             {
                 // return Color constant (if present)
-                return Color.getDeclaredField(value).Get(null);
+                return typeof(Color).GetField(value).GetValue(null);
             }
             catch (Exception e)
             {
@@ -510,7 +509,7 @@ public class TeXFormulaParser
         return result;
     }
 
-    private object[] GetArgumentValues(List<XNode> args)
+    private object[] GetArgumentValues(List<XElement> args)
     {
         object[] res = new object[args.Count];
         int i = 0;
@@ -529,7 +528,7 @@ public class TeXFormulaParser
         return res;
     }
 
-    private static Type[] getArgumentClasses(List<XNode> args)
+    private static Type[] GetArgumentClasses(List<XElement> args)
     {
         Type[] res = new Type[args.Count];
         int i = 0;

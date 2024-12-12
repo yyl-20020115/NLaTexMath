@@ -92,7 +92,7 @@ public class DefaultTeXFont : TeXFont
 
     static DefaultTeXFont()
     {
-        DefaultTeXFontParser parser = new ();
+        DefaultTeXFontParser parser = new();
         //load LATIN block
         loadedAlphabets.Add(UnicodeBlock.Of('a'));
         // fonts + font descriptions
@@ -144,24 +144,26 @@ public class DefaultTeXFont : TeXFont
 
     public static void AddTeXFontDescription(string file)
     {
-        FileInputStream _in;
+        Stream _in;
         try
         {
-            _in = new FileInputStream(file);
+            _in = new FileStream(file, FileMode.Open);
         }
         catch (FileNotFoundException e)
         {
-            throw new ResourceParseException(file, e);
+            throw new Exception(file, e);
         }
-        addTeXFontDescription(_in, file);
+        AddTeXFontDescription(_in, file);
     }
 
     public static void AddTeXFontDescription(Stream _in, string name)
     {
         DefaultTeXFontParser dtfp = new DefaultTeXFontParser(_in, name);
         fontInfo = dtfp.ParseFontDescriptions(fontInfo);
-        textStyleMappings.putAll(dtfp.ParseTextStyleMappings());
-        symbolMappings.putAll(dtfp.ParseSymbolMappings());
+        foreach (var v in dtfp.ParseTextStyleMappings())
+            textStyleMappings.Add(v.Key, v.Value);
+        foreach(var v in dtfp.ParseSymbolMappings())
+            symbolMappings.Add(v.Key, v.Value);
     }
 
     public static void AddTeXFontDescription(object _base, Stream _in, string name)
@@ -194,7 +196,7 @@ public class DefaultTeXFont : TeXFont
         if (!b)
         {
             TeXParser.isLoading = true;
-            addTeXFontDescription(_base, _base.GetType().getResourceAsStream(language), language);
+            AddTeXFontDescription(_base, _base.GetType().GetResourceAsStream(language), language);
             for (int i = 0; i < alphabet.Length; i++)
             {
                 loadedAlphabets.Add(alphabet[i]);
@@ -211,7 +213,7 @@ public class DefaultTeXFont : TeXFont
 
         try
         {
-            DefaultTeXFont.AddAlphabet(alphabet, TeXFormula.getResourceAsStream(lg), lg, TeXFormula..getResourceAsStream(sym), sym, TeXFormula..getResourceAsStream(map), map);
+            DefaultTeXFont.AddAlphabet(alphabet, TeXFormula.GetResourceAsStream(lg), lg, TeXFormula.GetResourceAsStream(sym), sym, TeXFormula..getResourceAsStream(map), map);
         }
         catch (FontAlreadyLoadedException e) { }
     }
@@ -593,7 +595,7 @@ public class DefaultTeXFont : TeXFont
         magnificationEnable = b;
     }
 
-    private static float GetParameter(string parameterName) 
+    private static float GetParameter(string parameterName)
         => !parameters.TryGetValue(parameterName, out var v) ? 0 : v;
 
     public static float GetSizeFactor(int style) => style < TeXConstants.STYLE_TEXT

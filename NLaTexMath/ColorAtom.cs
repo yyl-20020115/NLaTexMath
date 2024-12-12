@@ -130,9 +130,9 @@ public class ColorAtom : Atom, Row
             {
                 if (s[0] == '#')
                 {
-                    return Color.decode(s);
+                    return Color.Decode(s);
                 }
-                else if (s.IndexOf(',') != -1 || s.IndexOf(';') != -1)
+                else if (s.Contains(',') || s.Contains(';'))
                 {
                     StringTokenizer toks = new StringTokenizer(s, ";,");
                     int n = toks.countTokens();
@@ -145,9 +145,9 @@ public class ColorAtom : Atom, Row
                             string G = toks.nextToken().Trim();
                             string B = toks.nextToken().Trim();
 
-                            float r = float.parseFloat(R);
-                            float g = float.parseFloat(G);
-                            float b = float.parseFloat(B);
+                            float r = float.TryParse(R, out var _r) ? _r : 0;
+                            float g = float.TryParse(G, out var _g) ? _g : 0;
+                            float b = float.TryParse(B, out var _b) ? _b : 0;
 
                             if (r == (int)r && g == (int)g && b == (int)b && R.IndexOf('.') == -1 && G.IndexOf('.') == -1 && B.IndexOf('.') == -1)
                             {
@@ -204,14 +204,14 @@ public class ColorAtom : Atom, Row
                     {
                         try
                         {
-                            float g = (float)Math.Min(1, Math.Max(float.parseFloat(s), 0));
+                            float g = (float)Math.Min(1, Math.Max(float.TryParse(s, out var u) ? u : 0, 0));
 
-                            return Color.FromArgb(g, g, g);
+                            return Color.FromArgb((int)g, (int)g, (int)g);
                         }
                         catch (Exception e) { }
                     }
 
-                    return Color.decode("#" + s);
+                    return Color.Decode("#" + s);
                 }
             }
         }

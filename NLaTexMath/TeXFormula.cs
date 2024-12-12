@@ -130,8 +130,8 @@ public class TeXFormula
 
         try
         {
-            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.forName("NLaTexMath.cyrillic.CyrillicRegistration").newInstance());
-            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.forName("NLaTexMath.greek.GreekRegistration").newInstance());
+            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.GetType("NLaTexMath.cyrillic.CyrillicRegistration").GetConstructor([]).Invoke([]));
+            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.GetType("NLaTexMath.greek.GreekRegistration").GetConstructor([]).Invoke([]));
         }
         catch (Exception e) { }
 
@@ -140,14 +140,14 @@ public class TeXFormula
 
     public static void AddSymbolMappings(string file)
     {
-        FileInputStream _in;
+        FileStream _in;
         try
         {
-            _in = new FileInputStream(file);
+            _in = new FileStream(file, FileMode.Open);
         }
         catch (FileNotFoundException e)
         {
-            throw new ResourceParseException(file, e);
+            throw e;
         }
         AddSymbolMappings(_in, file);
     }
@@ -207,12 +207,13 @@ public class TeXFormula
     /**
      * Set the default target DPI to the screen dpi (only if we're in non-headless mode)
      */
-    public static void setDefaultDPI()
+    public static void SetDefaultDPI()
     {
-        if (!GraphicsEnvironment.isHeadless())
-        {
-            SetDPITarget((float)Toolkit.getDefaultToolkit().getScreenResolution());
-        }
+        //TODO:
+        //if (!GraphicsEnvironment.isHeadless())
+        //{
+        //    SetDPITarget((float)Toolkit.getDefaultToolkit().getScreenResolution());
+        //}
     }
 
     // the root atom of the "atom tree" that represents the formula
@@ -450,7 +451,7 @@ public class TeXFormula
      */
     public static void registerFonts(bool b)
     {
-        DefaultTeXFontParser.registerFonts(b);
+        DefaultTeXFontParser.RegisterFonts(b);
     }
 
     /**
@@ -938,33 +939,33 @@ public class TeXFormula
 
     public void CreateImage(string format, int style, float size, string _out, Color bg, Color fg, bool transparency)
     {
-        TeXIcon icon = CreateTeXIcon(style, size);
-        icon.        Insets = new Insets(1, 1, 1, 1);
-        int w = icon.GetIconWidth(), h = icon.GetIconHeight();
+        //TeXIcon icon = CreateTeXIcon(style, size);
+        //icon.Insets = new Insets(1, 1, 1, 1);
+        //int w = icon.GetIconWidth(), h = icon.GetIconHeight();
 
-        Bitmap image = new Bitmap(w, h, transparency ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
-        Graphics g2 = image.createGraphics();
-        if (bg != null && !transparency)
-        {
-            g2.setColor(bg);
-            g2.fillRect(0, 0, w, h);
-        }
+        //Bitmap image = new Bitmap(w, h, transparency ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
+        //Graphics g2 = image.createGraphics();
+        //if (bg != null && !transparency)
+        //{
+        //    g2.setColor(bg);
+        //    g2.fillRect(0, 0, w, h);
+        //}
 
-        icon.SetForeground(fg);
-        icon.PaintIcon(null, g2, 0, 0);
-        try
-        {
-            FileImageOutputStream imout = new FileImageOutputStream(new File(_out));
-            ImageIO.write(image, format, imout);
-            imout.flush();
-            imout.close();
-        }
-        catch (IOException ex)
-        {
-            Console.Error.WriteLine("I/O error : Cannot generate " + _out);
-        }
+        //icon.SetForeground(fg);
+        //icon.PaintIcon(null, g2, 0, 0);
+        //try
+        //{
+        //    FileImageOutputStream imout = new FileImageOutputStream(new File(_out));
+        //    ImageIO.write(image, format, imout);
+        //    imout.flush();
+        //    imout.close();
+        //}
+        //catch (IOException ex)
+        //{
+        //    Console.Error.WriteLine("I/O error : Cannot generate " + _out);
+        //}
 
-        g2.dispose();
+        //g2.dispose();
     }
 
     public void CreatePNG(int style, float size, string _out, Color bg, Color fg)
@@ -993,24 +994,25 @@ public class TeXFormula
      */
     public static Image CreateBufferedImage(string formula, int style, float size, Color fg, Color bg)
     {
-        TeXFormula f = new TeXFormula(formula);
-        TeXIcon icon = f.CreateTeXIcon(style, size);
-        icon.        Insets = new Insets(2, 2, 2, 2);
-        int w = icon.GetIconWidth(), h = icon.GetIconHeight();
+        //TeXFormula f = new TeXFormula(formula);
+        //TeXIcon icon = f.CreateTeXIcon(style, size);
+        //icon.Insets = new Insets(2, 2, 2, 2);
+        //int w = icon.GetIconWidth(), h = icon.GetIconHeight();
 
-        Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
-        Graphics g2 = image.createGraphics();
-        if (bg != null)
-        {
-            g2.setColor(bg);
-            g2.fillRect(0, 0, w, h);
-        }
+        //Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
+        //Graphics g2 = image.createGraphics();
+        //if (bg != null)
+        //{
+        //    g2.setColor(bg);
+        //    g2.fillRect(0, 0, w, h);
+        //}
 
-        icon.SetForeground(fg == null ? Color.Black : fg);
-        icon.PaintIcon(null, g2, 0, 0);
-        g2.dispose();
+        //icon.SetForeground(fg == null ? Color.Black : fg);
+        //icon.PaintIcon(null, g2, 0, 0);
+        //g2.dispose();
 
-        return image;
+        //return image;
+        return null;
     }
 
     /**
@@ -1022,23 +1024,24 @@ public class TeXFormula
      */
     public Image CreateBufferedImage(int style, float size, Color fg, Color bg)
     {
-        TeXIcon icon = CreateTeXIcon(style, size);
-        icon.        Insets = new Insets(2, 2, 2, 2);
-        int w = icon.GetIconWidth(), h = icon.GetIconHeight();
+        //TeXIcon icon = CreateTeXIcon(style, size);
+        //icon.Insets = new Insets(2, 2, 2, 2);
+        //int w = icon.GetIconWidth(), h = icon.GetIconHeight();
 
-        Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
-        Graphics g2 = image.createGraphics();
-        if (bg != null)
-        {
-            g2.setColor(bg);
-            g2.fillRect(0, 0, w, h);
-        }
+        //Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
+        //Graphics g2 = image.createGraphics();
+        //if (bg != null)
+        //{
+        //    g2.setColor(bg);
+        //    g2.fillRect(0, 0, w, h);
+        //}
 
-        icon.SetForeground(fg == null ? Color.Black : fg);
-        icon.PaintIcon(null, g2, 0, 0);
-        g2.dispose();
+        //icon.SetForeground(fg == null ? Color.Black : fg);
+        //icon.PaintIcon(null, g2, 0, 0);
+        //g2.dispose();
 
-        return image;
+        //return image;
+        return null;
     }
 
     public void SetDEBUG(bool b)

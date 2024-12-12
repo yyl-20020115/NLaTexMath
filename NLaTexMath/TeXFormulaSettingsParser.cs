@@ -60,7 +60,7 @@ public class TeXFormulaSettingsParser
     private XElement root;
 
     public TeXFormulaSettingsParser()
-        : this(GlueSettingsParser.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+        : this(GlueSettingsParser.GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
     }
 
@@ -68,10 +68,7 @@ public class TeXFormulaSettingsParser
     {
         try
         {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringElementContentWhitespace(true);
-            factory.setIgnoringComments(true);
-            root = factory.newDocumentBuilder().parse(file).getDocumentElement();
+            root = XDocument.Load(file).Root;
         }
         catch (Exception e)
         { // JDOMException or IOException
@@ -81,19 +78,19 @@ public class TeXFormulaSettingsParser
 
     public void ParseSymbolToFormulaMappings(string[] mappings, string[] textMappings)
     {
-        XElement charToSymbol = (XElement)root.getElementsByTagName("CharacterToFormulaMappings").item(0);
+        XElement charToSymbol = root.Element("CharacterToFormulaMappings");
         if (charToSymbol != null) // element present
-            addFormulaToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
+            AddFormulaToMap(charToSymbol.Elements("Map").ToList(), mappings, textMappings);
     }
 
     public void ParseSymbolMappings(string[] mappings, string[] textMappings)
     {
-        XElement charToSymbol = (XElement)root.getElementsByTagName("CharacterToSymbolMappings").item(0);
+        XElement charToSymbol = (XElement)root.Element("CharacterToSymbolMappings");
         if (charToSymbol != null) // element present
-            addToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
+            AddToMap(charToSymbol.Elements("Map").ToList(), mappings, textMappings);
     }
 
-    private static void AddToMap(List<XNode> mapList, string[] tableMath, string[] tableText)
+    private static void AddToMap(List<XElement> mapList, string[] tableMath, string[] tableText)
     {
         for (int i = 0; i < mapList.Count; i++)
         {
@@ -128,7 +125,7 @@ public class TeXFormulaSettingsParser
         }
     }
 
-    private static void AddFormulaToMap(List<XNode> mapList, string[] tableMath, string[] tableText)
+    private static void AddFormulaToMap(List<XElement> mapList, string[] tableMath, string[] tableText)
     {
         for (int i = 0; i < mapList.Count; i++)
         {

@@ -185,13 +185,13 @@ public class RowAtom : Atom, Row
                 }
             }
 
-            if (at is DynamicAtom && ((DynamicAtom)at).getInsertMode())
+            if (at is DynamicAtom && ((DynamicAtom)at).InsertMode)
             {
-                Atom a = ((DynamicAtom)at).getAtom();
+                Atom a = ((DynamicAtom)at).GetAtom();
                 if (a is RowAtom atom1)
                 {
                     elements.RemoveAt(position - 1);
-                    elements.Add(position - 1, atom1.elements);
+                    elements.Insert(position - 1, atom1.elements);
                     it = elements.listIterator(position - 1);
                     at = it.next();
                 }

@@ -79,25 +79,32 @@ public class JavaFontRenderingAtom(string str, int type) : Atom
             {
                 if (fontInfos.sansserif == null)
                 {
-                    font = new Font(fontInfos.serif, Font.PLAIN, 10);
+                    font = new Font(fontInfos.serif, Fonts.PLAIN, 10);
                 }
                 else
                 {
-                    font = new Font(fontInfos.sansserif, Font.PLAIN, 10);
+                    font = new Font(fontInfos.sansserif, Fonts.PLAIN, 10);
                 }
             }
             else
             {
                 if (fontInfos.serif == null)
                 {
-                    font = new Font(fontInfos.sansserif, Font.PLAIN, 10);
+                    font = new Font(fontInfos.sansserif, Fonts.PLAIN, 10);
                 }
                 else
                 {
-                    font = new Font(fontInfos.serif, Font.PLAIN, 10);
+                    font = new Font(fontInfos.serif, Fonts.PLAIN, 10);
                 }
             }
             return new JavaFontRenderingBox(str, type, DefaultTeXFont.GetSizeFactor(env.Style), font, kerning);
         }
     }
+}
+
+internal class Fonts
+{
+    public static float PLAIN { get; internal set; }
+    public static int BOLD { get; internal set; }
+    public static int ITALIC { get; internal set; }
 }

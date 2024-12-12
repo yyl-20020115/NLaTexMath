@@ -93,19 +93,19 @@ public class GlueSettingsParser
     private void ParseGlueTypes()
     {
         List<Glue> glueTypesList = new();
-        XElement types = (XElement)root.getElementsByTagName("GlueTypes").item(0);
+        XElement types = (XElement)root.Element("GlueTypes");
         int defaultIndex = -1;
         int index = 0;
         if (types != null)
         { // element present
-            var list = types.getElementsByTagName("GlueType").ToList();
+            var list = types.Elements("GlueType").ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 XElement type = (XElement)list[i];
                 // retrieve required attribute value, throw exception if not set
                 string name = GetAttrValueAndCheckIfNotNull("name", type);
                 Glue glue = createGlue(type, name);
-                if (name.equalsIgnoreCase("default")) // default must have value
+                if (name.Equals("default", StringComparison.OrdinalIgnoreCase)) // default must have value
                     defaultIndex = index;
                 glueTypesList.Add(glue);
                 index++;
@@ -147,7 +147,7 @@ public class GlueSettingsParser
             {
                 attrVal = type.Attribute(names[i])?.Value ?? "";
                 if (attrVal != ("")) // attribute present
-                    val = Double.parseDouble(attrVal);
+                    val = Double.TryParse(attrVal, out var u) ? u : 0;
             }
             catch (Exception e)
             {
@@ -177,11 +177,11 @@ public class GlueSettingsParser
     {
         int size = typeMappings.Count;
         int[,,] table = new int[size, size, styleMappings.Count];
-        XElement glueTable = (XElement)root.getElementsByTagName("GlueTable").item(0);
+        XElement glueTable = root.Element("GlueTable");
         if (glueTable != null)
         { // element present
             // iterate all the "Glue"-elements
-            List<XNode> list = glueTable.getElementsByTagName("Glue");
+            List<XElement> list = glueTable.Elements("Glue").ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 XElement glue = (XElement)list[i];
@@ -190,7 +190,7 @@ public class GlueSettingsParser
                 string right = GetAttrValueAndCheckIfNotNull("righttype", glue);
                 string type = GetAttrValueAndCheckIfNotNull("gluetype", glue);
                 // iterate all the "Style"-elements
-                List<XNode> listG = glue.getElementsByTagName("Style");
+                List<XElement> listG = glue.Elements("Style").ToList();
                 for (int j = 0; j < listG.Count; j++)
                 {
                     XElement style = (XElement)listG[(j)];
@@ -206,7 +206,7 @@ public class GlueSettingsParser
                     CheckMapping(val, "Glue", "gluetype", type);
                     CheckMapping(st, "Style", "name", styleName);
                     // put value in table
-                    table[((int)l).intValue()][((int)r).intValue()][((int)st).intValue()] = ((int)val).intValue();
+                    table[((int)l),((int)r),((int)st)] = ((int)val);
                 }
             }
         }

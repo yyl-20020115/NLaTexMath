@@ -242,8 +242,8 @@ public class FontInfo
     public int SsId { get => ssId; set => ssId = value == -1 ? fontId : value; }
 
     public Font Font => font ??= _base == null
-                    ? DefaultTeXFontParser.createFont(path)
-                    : DefaultTeXFontParser.createFont(_base.GetType().GetResourceAsStream(path), fontName);
+                    ? DefaultTeXFontParser.CreateFont(path)
+                    : DefaultTeXFontParser.CreateFont(_base.GetType().GetResourceAsStream(path), fontName);
 
     public static Font GetFont(int id) => fonts[(id)].Font;
 }

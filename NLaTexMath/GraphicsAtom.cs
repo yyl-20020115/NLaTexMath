@@ -66,40 +66,30 @@ public class GraphicsAtom : Atom
 
     public GraphicsAtom(string path, string option)
     {
-        File f = new File(path);
-        if (!f.Exists())
+        if (!File.Exists(path))
         {
-            try
-            {
-                Uri url = new Uri(path);
-                image = Toolkit.getDefaultToolkit().getImage(url);
-            }
-            catch (MalformedURLException e)
-            {
-                image = null;
-            }
         }
         else
         {
-            image = Toolkit.getDefaultToolkit().getImage(path);
+            image = Bitmap.FromFile(path);
         }
 
         if (image != null)
         {
-            c = new Label();
-            MediaTracker tracker = new MediaTracker(c);
-            tracker.addImage(image, 0);
-            try
-            {
-                tracker.waitForID(0);
-            }
-            catch (InterruptedException e)
-            {
-                image = null;
-            }
+            //c = new Label();
+            //MediaTracker tracker = new MediaTracker(c);
+            //tracker.addImage(image, 0);
+            //try
+            //{
+            //    tracker.waitForID(0);
+            //}
+            //catch (InterruptedException e)
+            //{
+            //    image = null;
+            //}
         }
         Draw();
-        buildAtom(option);
+        BuildAtom(option);
     }
 
     protected void BuildAtom(string option)
@@ -112,7 +102,7 @@ public class GraphicsAtom : Atom
         }
         if (options.ContainsKey("scale"))
         {
-            double scl = Double.parseDouble(options[("scale")]);
+            double scl = Double.TryParse(options[("scale")], out var c) ? c : 0;
             _base = new ScaleAtom(_base, scl, scl);
         }
         if (options.ContainsKey("angle") || options.ContainsKey("origin"))
@@ -121,15 +111,15 @@ public class GraphicsAtom : Atom
         }
         if (options.TryGetValue("interpolation", out string? meth))
         {
-            if (meth.equalsIgnoreCase("bilinear"))
+            if (meth.Equals("bilinear", StringComparison.OrdinalIgnoreCase))
             {
                 interp = GraphicsBox.BILINEAR;
             }
-            else if (meth.equalsIgnoreCase("bicubic"))
+            else if (meth.Equals("bicubic",StringComparison.OrdinalIgnoreCase))
             {
                 interp = GraphicsBox.BICUBIC;
             }
-            else if (meth.equalsIgnoreCase("nearest_neighbor"))
+            else if (meth.Equals("nearest_neighbor", StringComparison.OrdinalIgnoreCase))
             {
                 interp = GraphicsBox.NEAREST_NEIGHBOR;
             }
@@ -140,12 +130,12 @@ public class GraphicsAtom : Atom
     {
         if (image != null)
         {
-            w = image.getWidth(c);
-            h = image.getHeight(c);
-            bimage = new Bitmap(w, h, Bitmap.TYPE_INT_ARGB);
-            Graphics g2d = bimage.createGraphics();
-            g2d.drawImage(image, 0, 0, null);
-            g2d.dispose();
+            //w = image.getWidth(c);
+            //h = image.getHeight(c);
+            //bimage = new Bitmap(w, h, Bitmap.TYPE_INT_ARGB);
+            //Graphics g2d = bimage.createGraphics();
+            //g2d.drawImage(image, 0, 0, null);
+            //g2d.dispose();
         }
     }
 

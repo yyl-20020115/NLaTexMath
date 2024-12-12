@@ -43,6 +43,7 @@
  *
  */
 
+using System.Drawing;
 using System.Text;
 
 namespace NLaTexMath;
@@ -448,7 +449,7 @@ public class TeXParser
                                     throw e;
                                 }
                             }
-                            parseString.delete(spos, pos);
+                            parseString.Remove(spos, pos-spos);
                             len = parseString.Length;
                             pos = spos;
                         }
@@ -1349,8 +1350,7 @@ public class TeXParser
         else
         {
             // alphanumeric character
-            TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.Get(UnicodeBlock.BASIC_LATIN);
-            if (fontInfos != null)
+            if (TeXFormula.externalFontMap.TryGetValue(UnicodeBlock.BASIC_LATIN,out var fontInfos))
             {
                 if (oneChar)
                 {
@@ -1439,7 +1439,7 @@ public class TeXParser
         }
         else
         {
-            return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null, Color.RED);
+            return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null, Color.Red);
         }
     }
 

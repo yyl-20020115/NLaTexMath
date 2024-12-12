@@ -88,7 +88,7 @@ public class VRowAtom : Atom
     public Atom getLastAtom()
     {
         Atom? a = elements.LastOrDefault();
-        elements.RemoveAt(elements.Count-1);
+        elements.RemoveAt(elements.Count - 1);
         return a;
     }
 
@@ -111,9 +111,9 @@ public class VRowAtom : Atom
         {
             float maxWidth = -float.PositiveInfinity;
             List<Box> boxes = new();
-            for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();)
+            foreach (var it in elements)
             {
-                Box b = it.next().createBox(env);
+                Box b = it.CreateBox(env);
                 boxes.Add(b);
                 if (maxWidth < b.Width)
                 {
@@ -123,11 +123,11 @@ public class VRowAtom : Atom
             Box interline = new StrutBox(0, env.Interline, 0, 0);
 
             // convert atoms to boxes and Add to the horizontal box
-            for (ListIterator<Box> it = boxes.listIterator(); it.hasNext();)
+            for (int i = 0; i < boxes.Count; i++)
             {
-                Box b = it.next();
+                Box b = boxes[i];
                 vb.Add(new HorizontalBox(b, maxWidth, halign));
-                if (addInterline && it.hasNext())
+                if (addInterline && i < boxes.Count - 1)
                 {
                     vb.Add(interline);
                 }
@@ -138,10 +138,11 @@ public class VRowAtom : Atom
             Box interline = new StrutBox(0, env.Interline, 0, 0);
 
             // convert atoms to boxes and Add to the horizontal box
-            for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();)
+            for (int i = 0; i < elements.Count; i++)
             {
-                vb.Add(it.next().createBox(env));
-                if (addInterline && it.hasNext())
+                var it = elements[i];
+                vb.Add(it.CreateBox(env));
+                if (addInterline && i < elements.Count - 1)
                 {
                     vb.Add(interline);
                 }

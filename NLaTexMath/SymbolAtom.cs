@@ -127,22 +127,25 @@ public class SymbolAtom : CharSymbol
 
     public static void AddSymbolAtom(string file)
     {
-        FileInputStream _in;
+        FileStream _in;
         try
         {
-            _in = new FileInputStream(file);
+            _in = new FileStream(file,FileMode.Open);
         }
         catch (FileNotFoundException e)
         {
             throw new Exception(file, e);
         }
-        addSymbolAtom(_in, file);
+        AddSymbolAtom(_in, file);
     }
 
     public static void AddSymbolAtom(Stream _in, string name)
     {
         TeXSymbolParser tsp = new TeXSymbolParser(_in, name);
-        symbols.putAll(tsp.ReadSymbols());
+        foreach(var s in tsp.ReadSymbols())
+        {
+            symbols.Add(s.Key,s.Value);
+        }
     }
 
     public static void AddSymbolAtom(SymbolAtom sym)

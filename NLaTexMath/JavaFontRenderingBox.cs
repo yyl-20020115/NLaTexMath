@@ -86,11 +86,12 @@ public class JavaFontRenderingBox : Box
             Dictionary<TextAttribute, object> map = new();
             map.Add(KERNING, KERNING_ON);
             map.Add(LIGATURES, LIGATURES_ON);
-            f = f.deriveFont(map);
+            //f = f.deriveFont(map);
         }
 
-        this.text = new TextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
-        RectangleF rect = text.getBounds();
+        //this.text = new TextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
+        //RectangleF rect = text.getBounds();
+        RectangleF rect=new();
         this.height = (float)(-rect.Y * size / 10.0f);
         this.depth = (float)(rect.Height * size / 10) - this.height;
         this.width = (float)((rect.Width + rect.X + 0.4f) * size / 10);
@@ -103,7 +104,7 @@ public class JavaFontRenderingBox : Box
 
     public static void SetFont(string name)
     {
-        font = new Font(name, Font.PLAIN, 10);
+        font = new Font(name, Fonts.PLAIN, 10);
     }
 
     public override void Draw(Graphics g2, float x, float y)
