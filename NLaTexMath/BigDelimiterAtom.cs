@@ -66,7 +66,7 @@ public class BigDelimiterAtom : Atom
         HorizontalBox hbox = new HorizontalBox();
         float h = b.Height;
         float total = h + b.Depth;
-        float axis = env.TeXFont.getAxisHeight(env.getStyle());
+        float axis = env.TeXFont.getAxisHeight(env.Style);
         b.        Shift = -total / 2 + h - axis;
         hbox.Add(b);
         return hbox;

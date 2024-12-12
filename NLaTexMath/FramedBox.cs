@@ -80,7 +80,7 @@ public class FramedBox : Box {
         Stroke st = g2.getStroke();
         g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         float th = thickness / 2;
-        if (bg != null) {
+        if (bg != null) { 
             Color prev = g2.getColor();
             g2.setColor(bg);
             g2.fill(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));

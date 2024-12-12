@@ -56,9 +56,9 @@ public class MonoScaleAtom : ScaleAtom {
         MonoScaleAtom(Atom _base, float factor) : base(_base, (double)factor, (double)factor) => this.factor = factor;
 
     public override Box CreateBox(TeXEnvironment env) {
-        env = env.copy();
-        float f = env.getScaleFactor();
-        env.setScaleFactor(factor);
+        env = env.Copy();
+        float f = env.ScaleFactor;
+        env.        ScaleFactor = factor;
         return new ScaleBox(base.CreateBox(env), factor / f);
     }
 }

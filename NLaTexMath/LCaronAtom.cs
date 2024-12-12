@@ -53,8 +53,8 @@ public class LCaronAtom(bool upper) : Atom {
     private bool upper = upper;
 
     public override Box CreateBox(TeXEnvironment env) {
-        CharBox A = new CharBox(env.TeXFont.getChar("textapos", env.getStyle()));
-        CharBox L = new CharBox(env.TeXFont.getChar(upper ? 'L' : 'l', "mathnormal", env.getStyle()));
+        CharBox A = new CharBox(env.TeXFont.getChar("textapos", env.Style));
+        CharBox L = new CharBox(env.TeXFont.getChar(upper ? 'L' : 'l', "mathnormal", env.Style));
         HorizontalBox hb = new HorizontalBox(L);
         if (upper)
             hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.3f, 0, 0).CreateBox(env));

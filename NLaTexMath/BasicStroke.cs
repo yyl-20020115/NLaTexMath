@@ -49,7 +49,7 @@ public class BasicStroke
 {
     public BasicStroke(float v, object cAP_BUTT1, object cAP_BUTT, object jOIN_MITER)
     {
-    }
+    } 
 
     public static object CAP_BUTT { get; internal set; }
     public static object JOIN_MITER { get; internal set; }

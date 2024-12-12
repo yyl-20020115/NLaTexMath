@@ -274,7 +274,7 @@ public abstract class Box {
             g2.draw(new RectangleF(x, y - height, width, height + depth));
             if (showDepth) {
                 Color c = g2.getColor();
-                g2.setColor(Color.RED);
+                g2.setColor(Color.Red);
                 if (depth > 0) {
                     g2.fill(new RectangleF(x, y, width, depth));
                     g2.setColor(c);
@@ -286,7 +286,7 @@ public abstract class Box {
                 } else {
                     g2.setColor(c);
                 }
-            }
+            } 
             g2.setStroke(st);
         }
     }

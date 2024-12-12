@@ -124,11 +124,11 @@ public class UnderOverAtom : Atom {
         Box o = null, u = null;
         float max = b.Width;
         if (over != null) {
-            o = over.CreateBox(overScriptSize ? env.subStyle() : env);
+            o = over.CreateBox(overScriptSize ? env.SubStyle : env);
             max = Math.Max(max, o.Width);
         }
         if (under != null) {
-            u = under.CreateBox(underScriptSize ? env.subStyle() : env);
+            u = under.CreateBox(underScriptSize ? env.SubStyle : env);
             max = Math.Max(max, u.Width);
         }
 
@@ -136,7 +136,9 @@ public class UnderOverAtom : Atom {
         VerticalBox vBox = new VerticalBox();
 
         // last font used by the base (for Mspace atoms following)
-        env.setLastFontId(b.LastFontId);
+        env.
+        // last font used by the base (for Mspace atoms following)
+        LastFontId = b.LastFontId;
 
         // overscript + space
         if (over != null) {

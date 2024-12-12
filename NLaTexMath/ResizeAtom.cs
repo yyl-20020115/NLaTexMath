@@ -91,17 +91,17 @@ public class ResizeAtom : Atom {
             double xscl = 1;
             double yscl = 1;
             if (wunit != -1 && hunit != -1) {
-                xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
-                yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
+                xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.Width;
+                yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.Height;
                 if (keepaspectratio) {
                     xscl = Math.Min(xscl, yscl);
                     yscl = xscl;
                 }
             } else if (wunit != -1 && hunit == -1) {
-                xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.width;
+                xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.Width;
                 yscl = xscl;
             } else {
-                yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.height;
+                yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.Height;
                 xscl = yscl;
             }
 

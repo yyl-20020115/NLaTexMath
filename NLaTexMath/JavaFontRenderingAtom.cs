@@ -69,7 +69,7 @@ public class JavaFontRenderingAtom : Atom {
 
     public override Box CreateBox(TeXEnvironment env) {
         if (fontInfos == null) {
-            return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.getStyle()));
+            return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.Style));
         } else {
             DefaultTeXFont dtf = (DefaultTeXFont) env.TeXFont;
             int type = dtf.isIt ? Font.ITALIC : Font.PLAIN;
@@ -89,7 +89,7 @@ public class JavaFontRenderingAtom : Atom {
                     font = new Font(fontInfos.serif, Font.PLAIN, 10);
                 }
             }
-            return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.getStyle()), font, kerning);
+            return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.Style), font, kerning);
         }
     }
 }

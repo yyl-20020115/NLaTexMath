@@ -58,7 +58,7 @@ using System.Drawing;
 public class TeXEnvironment {
 
     // colors
-    private Color background = new(), color = new();
+    private Color? background, color;
 
     // current style
     private int style = TeXConstants.STYLE_DISPLAY;
@@ -81,24 +81,22 @@ public class TeXEnvironment {
 
     public TeXEnvironment(int style, TeXFont tf) : this(style, tf, new Color(), new Color())
     {
-        ;
     }
 
     public TeXEnvironment(int style, TeXFont tf, int widthUnit, float textwidth): this(style, tf, new Color(), new Color())
     {
-        ;
         this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
     }
 
-    private TeXEnvironment(int style, TeXFont tf, Color bg, Color c) {
+    private TeXEnvironment(int style, TeXFont tf, Color? bg, Color? c) {
         this.style = style;
         this.tf = tf;
         background = bg;
         color = c;
-        setInterline(TeXConstants.UNIT_EX, 1f);
+        SetInterline(TeXConstants.UNIT_EX, 1f);
     }
 
-    private TeXEnvironment(int style, float scaleFactor, TeXFont tf, Color bg, Color c, string textStyle, bool smallCap) {
+    private TeXEnvironment(int style, float scaleFactor, TeXFont tf, Color? bg, Color? c, string textStyle, bool smallCap) {
         this.style = style;
         this.scaleFactor = scaleFactor;
         this.tf = tf;
@@ -106,39 +104,33 @@ public class TeXEnvironment {
         this.smallCap = smallCap;
         background = bg;
         color = c;
-        setInterline(TeXConstants.UNIT_EX, 1f);
+        SetInterline(TeXConstants.UNIT_EX, 1f);
     }
 
-    public void setInterline(int unit, float len) {
+    public void SetInterline(int unit, float len) {
         this.interline = len;
         this.interlineUnit = unit;
     }
 
-    public float getInterline() {
+    public float GetInterline() {
         return interline * SpaceAtom.getFactor(interlineUnit, this);
     }
 
-    public void setTextwidth(int widthUnit, float textwidth) {
+    public void SetTextwidth(int widthUnit, float textwidth) {
         this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
     }
 
-    public float getTextwidth() {
+    public float GetTextwidth() {
         return textwidth;
     }
 
-    public void setScaleFactor(float f) {
-        scaleFactor = f;
-    }
+    public float ScaleFactor { get => scaleFactor; set => scaleFactor = value; }
 
-    public float getScaleFactor() {
-        return scaleFactor;
-    }
-
-    public TeXEnvironment copy() {
+    public TeXEnvironment Copy() {
         return new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap);
     }
 
-    public TeXEnvironment copy(TeXFont tf) {
+    public TeXEnvironment Copy(TeXFont tf) {
         TeXEnvironment te = new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap);
         te.textwidth = textwidth;
         te.interline = interline;
@@ -149,8 +141,8 @@ public class TeXEnvironment {
     /**
      * @return a copy of the environment, but in a cramped style.
      */
-    public TeXEnvironment crampStyle() {
-        TeXEnvironment s = copy();
+    public TeXEnvironment CrampStyle() {
+        TeXEnvironment s = Copy();
         s.style = (style % 2 == 1 ? style : style + 1);
         return s;
     }
@@ -159,8 +151,8 @@ public class TeXEnvironment {
      *
      * @return a copy of the environment, but in denominator style.
      */
-    public TeXEnvironment denomStyle() {
-        TeXEnvironment s = copy();
+    public TeXEnvironment DenomStyle() {
+        TeXEnvironment s = Copy();
         s.style = 2 * (style / 2) + 1 + 2 - 2 * (style / 6);
         return s;
     }
@@ -169,59 +161,43 @@ public class TeXEnvironment {
      *
      * @return the background color setting
      */
-    public Color getBackground() {
-        return background;
-    }
+    /**
+ *
+ * @param c the background color to be set
+ */
+    public Color? Background { get => background; set => background = value; }
 
     /**
      *
      * @return the foreground color setting
      */
-    public Color getColor() {
-        return color;
-    }
+    /**
+ *
+ * @param c the foreground color to be set
+ */
+    public Color? Color { get => color; set => color = value; }
 
     /**
      *
      * @return the point size of the TeXFont
      */
-    public float getSize() {
-        return tf.getSize();
-    }
+    public float Size => tf.getSize();
 
     /**
      *
      * @return the current style
      */
-    public int getStyle() {
-        return style;
-    }
-
-    public void setStyle(int style) {
-        this.style = style;
-    }
+    public int Style { get => style; set => this.style = value; }
 
     /**
      * @return the current textStyle
      */
-    public string getTextStyle() {
-        return textStyle;
-    }
-
-    public void setTextStyle(string textStyle) {
-        this.textStyle = textStyle;
-    }
+    public string TextStyle { get => textStyle; set => this.textStyle = value; }
 
     /**
      * @return the current textStyle
      */
-    public bool getSmallCap() {
-        return smallCap;
-    }
-
-    public void setSmallCap(bool smallCap) {
-        this.smallCap = smallCap;
-    }
+    public bool SmallCap { get => smallCap; set => this.smallCap = value; }
 
     /**
      *
@@ -233,77 +209,70 @@ public class TeXEnvironment {
      *
      * @return a copy of the environment, but in numerator style.
      */
-    public TeXEnvironment numStyle() {
-        TeXEnvironment s = copy();
-        s.style = style + 2 - 2 * (style / 6);
-        return s;
+    public TeXEnvironment NumStyle
+    {
+        get
+        {
+            TeXEnvironment s = Copy();
+            s.style = style + 2 - 2 * (style / 6);
+            return s;
+        }
     }
 
     /**
      * Resets the color settings.
      *
      */
-    public void reset() {
-        color = new();
-        background = new();
+    public void Reset() {
+        color = null;
+        background = null;
     }
 
     /**
      *
      * @return a copy of the environment, but with the style changed for roots
      */
-    public TeXEnvironment rootStyle() {
-        TeXEnvironment s = copy();
-        s.style = TeXConstants.STYLE_SCRIPT_SCRIPT;
-        return s;
-    }
-
-    /**
-     *
-     * @param c the background color to be set
-     */
-    public void setBackground(Color c) {
-        background = c;
-    }
-
-    /**
-     *
-     * @param c the foreground color to be set
-     */
-    public void setColor(Color c) {
-        color = c;
+    public TeXEnvironment RootStyle
+    {
+        get
+        {
+            TeXEnvironment s = Copy();
+            s.style = TeXConstants.STYLE_SCRIPT_SCRIPT;
+            return s;
+        }
     }
 
     /**
      *
      * @return a copy of the environment, but in subscript style.
      */
-    public TeXEnvironment subStyle() {
-        TeXEnvironment s = copy();
-        s.style = 2 * (style / 4) + 4 + 1;
-        return s;
+    public TeXEnvironment SubStyle
+    {
+        get
+        {
+            TeXEnvironment s = Copy();
+            s.style = 2 * (style / 4) + 4 + 1;
+            return s;
+        }
     }
 
     /**
      *
      * @return a copy of the environment, but in superscript style.
      */
-    public TeXEnvironment supStyle() {
-        TeXEnvironment s = copy();
-        s.style = 2 * (style / 4) + 4 + (style % 2);
-        return s;
+    public TeXEnvironment SupStyle
+    {
+        get
+        {
+            TeXEnvironment s = Copy();
+            s.style = 2 * (style / 4) + 4 + (style % 2);
+            return s;
+        }
     }
 
-    public float getSpace() {
-        return tf.getSpace(style) * tf.getScaleFactor();
-    }
+    public float Space => tf.getSpace(style) * tf.getScaleFactor();
 
-    public void setLastFontId(int id) {
-        lastFontId = id;
-    }
-
-    public int getLastFontId() {
-        // if there was no last font id (whitespace boxes only), use default "mu font"
-        return (lastFontId == TeXFont.NO_FONT ? tf.getMuFontId() : lastFontId);
-    }
+    public int LastFontId { get =>
+    // if there was no last font id (whitespace boxes only), use default "mu font"
+    (lastFontId == TeXFont.NO_FONT ? tf.getMuFontId() : lastFontId); set => lastFontId = value; }
 }

@@ -54,7 +54,7 @@ namespace NLaTexMath;
 public class TextStyleMappingNotFoundException : JMathTeXException {
 
     
-    protected TextStyleMappingNotFoundException(string styleName) :
+    public TextStyleMappingNotFoundException(string styleName) :
         base("No mapping found for the text style '" + styleName + "'! "
               + "Insert a <" + DefaultTeXFontParser.STYLE_MAPPING_EL
               + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.")

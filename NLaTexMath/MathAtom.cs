@@ -59,12 +59,12 @@ public class MathAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        env = env.copy(env.TeXFont.copy());
+        env = env.Copy(env.TeXFont.copy());
         env.        TeXFont.setRoman(false);
-        int sstyle = env.getStyle();
-        env.setStyle(style);
+        int sstyle = env.Style;
+        env.        Style = style;
         Box box = _base.CreateBox(env);
-        env.setStyle(sstyle);
+        env.        Style = sstyle;
         return box;
     }
 }

@@ -97,7 +97,7 @@ public class Glue {
         int r = (rType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : rType);
 
         // search right glue-type in "glue-table"
-        int glueType = glueTable[l][r][env.getStyle() / 2];
+        int glueType = glueTable[l][r][env.Style / 2];
 
         return glueTypes[glueType].CreateBox(env);
     }
@@ -106,7 +106,7 @@ public class Glue {
     {
         TeXFont tf = env.TeXFont;
         // use "quad" from a font marked as an "mu font"
-        float quad = tf.getQuad(env.getStyle(), tf.getMuFontId());
+        float quad = tf.getQuad(env.Style, tf.getMuFontId());
 
         return new GlueBox((space / 18.0f) * quad, (stretch / 18.0f) * quad, (shrink / 18.0f) * quad);
     }

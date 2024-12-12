@@ -471,7 +471,7 @@ public class TeXParser
                         }
                         else if (NewCommandMacro.isMacro(com))
                         {
-                            mac = MacroInfo.Commands.Get(com);
+                            mac = MacroInfo.Commands[(com)];
                             args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
                             args[0] = com;
                             try
@@ -1377,7 +1377,7 @@ public class TeXParser
                 int end = len - 1;
                 while (pos < len)
                 {
-                    c = parseString.charAt(pos);
+                    c = parseString[pos];
                     if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')))
                     {
                         end = --pos;
@@ -1415,7 +1415,7 @@ public class TeXParser
         }
 
         string com = parseString.substring(spos, pos);
-        if ("cr" == (com) && pos < len && parseString.charAt(pos) == ' ')
+        if ("cr" == (com) && pos < len && parseString[pos] == ' ')
         {
             pos++;
         }

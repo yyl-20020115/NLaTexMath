@@ -60,7 +60,7 @@ public class CedillaAtom : Atom
         Box b = _base.CreateBox(env);
         VerticalBox vb = new VerticalBox();
         vb.Add(b);
-        Char ch = env.TeXFont.getChar("jlatexmathcedilla", env.getStyle());
+        Char ch = env.TeXFont.getChar("jlatexmathcedilla", env.Style);
         float italic = ch.getItalic();
         Box cedilla = new CharBox(ch);
         Box y;

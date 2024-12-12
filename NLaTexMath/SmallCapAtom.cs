@@ -57,10 +57,10 @@ public class SmallCapAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        bool prev = env.getSmallCap();
-        env.setSmallCap(true);
+        bool prev = env.SmallCap;
+        env.        SmallCap = true;
         Box box = _base.CreateBox(env);
-        env.setSmallCap(prev);
+        env.        SmallCap = prev;
         return box;
     }
 }

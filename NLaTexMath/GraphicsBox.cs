@@ -80,7 +80,7 @@ public class GraphicsBox : Box {
             break;
         default :
             interp = null;
-                break;
+                break; 
         }
     }
 

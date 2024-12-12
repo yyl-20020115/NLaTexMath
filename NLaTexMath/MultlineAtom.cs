@@ -71,7 +71,7 @@ public class MultlineAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        float tw = env.getTextwidth();
+        float tw = env.GetTextwidth();
         if (tw == float.PositiveInfinity || type == GATHERED) {
             return new MatrixAtom(isPartial, column, "").CreateBox(env);
         }

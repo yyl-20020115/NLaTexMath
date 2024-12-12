@@ -92,7 +92,7 @@ public class OverUnderDelimiter : Atom
         Box scriptBox = null;
         if (script != null)
         {
-            scriptBox = script.CreateBox((over ? env.supStyle() : env.subStyle()));
+            scriptBox = script.CreateBox((over ? env.SupStyle : env.SubStyle));
         }
 
         // create centered horizontal box if smaller than maximum width

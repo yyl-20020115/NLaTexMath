@@ -171,10 +171,10 @@ public class SymbolAtom : CharSymbol {
 
     public override Box CreateBox(TeXEnvironment env) {
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
         Char c = tf.getChar(name, style);
         Box cb = new CharBox(c);
-        if (env.getSmallCap() && unicode != 0 && char.IsLower(unicode)) {
+        if (env.SmallCap && unicode != 0 && char.IsLower(unicode)) {
             try {
                 cb = new ScaleBox(new CharBox(tf.getChar(TeXFormula.symbolTextMappings[char.ToUpper(unicode)], style)), 0.8, 0.8);
             } catch (SymbolMappingNotFoundException e) { }
@@ -184,7 +184,7 @@ public class SymbolAtom : CharSymbol {
             if (style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c))
                 c = tf.getNextLarger(c, style);
             cb = new CharBox(c);
-            cb.            Shift = -(cb.Height + cb.Depth) / 2 - env.TeXFont.getAxisHeight(env.getStyle());
+            cb.            Shift = -(cb.Height + cb.Depth) / 2 - env.TeXFont.getAxisHeight(env.Style);
             float delta = c.getItalic();
             HorizontalBox hb = new HorizontalBox(cb);
             if (delta > TeXFormula.PREC)

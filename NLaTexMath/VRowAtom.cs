@@ -128,7 +128,7 @@ public class VRowAtom : Atom {
                     maxWidth = b.Width;
                 }
             }
-            Box interline = new StrutBox(0, env.getInterline(), 0, 0);
+            Box interline = new StrutBox(0, env.GetInterline(), 0, 0);
 
             // convert atoms to boxes and Add to the horizontal box
             for (ListIterator<Box> it = boxes.listIterator(); it.hasNext();) {
@@ -139,7 +139,7 @@ public class VRowAtom : Atom {
                 }
             }
         } else {
-            Box interline = new StrutBox(0, env.getInterline(), 0, 0);
+            Box interline = new StrutBox(0, env.GetInterline(), 0, 0);
 
             // convert atoms to boxes and Add to the horizontal box
             for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();) {

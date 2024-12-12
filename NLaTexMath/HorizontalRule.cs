@@ -88,7 +88,7 @@ public class HorizontalRule : Box {
         if (speShift == 0) {
             g2.fill(new RectangleF(x, y - height, width, height));
         } else {
-            g2.fill(new RectangleF(x, y - height + speShift, width, height));
+            g2.fill(new RectangleF(x, y - height + speShift, width, height)); 
         }
         g2.setColor(old);
     }

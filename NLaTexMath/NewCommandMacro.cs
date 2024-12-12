@@ -62,7 +62,7 @@ public class NewCommandMacro {
     }
 
     public static void addNewCommand(string name, string code, int nbargs, string def)  {
-        if (macrocode.Get(name) != null)
+        if (macrocode[(name)] != null)
             throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
         macrocode.Add(name, code);
         macroreplacement.Add(name, def);
@@ -74,14 +74,14 @@ public class NewCommandMacro {
     }
 
     public static void addReNewCommand(string name, string code, int nbargs) {
-        if (macrocode.Get(name) == null)
+        if (macrocode[(name)] == null)
             throw new ParseException("Command " + name + " is not defined ! Use newcommand instead ...");
         macrocode.Add(name, code);
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
 
     public string executeMacro(TeXParser tp, string[] args) {
-        string code = macrocode.get(args[0]);
+        string code = macrocode[(args[0])];
         string rep;
         int nbargs = args.Length - 11;
         int dec = 0;
@@ -91,7 +91,7 @@ public class NewCommandMacro {
             dec = 1;
             rep = Matcher.quoteReplacement(args[nbargs + 1]);
             code = code.replaceAll("#1", rep);
-        } else if (macroreplacement.Get(args[0]) != null) {
+        } else if (macroreplacement[(args[0])] != null) {
             dec = 1;
             rep = Matcher.quoteReplacement(macroreplacement.Get(args[0]));
             code = code.replaceAll("#1", rep);

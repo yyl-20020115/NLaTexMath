@@ -59,10 +59,10 @@ public class StyleAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        int sstyle = env.getStyle();
-        env.setStyle(style);
+        int sstyle = env.Style;
+        env.        Style = style;
         Box box = at.CreateBox(env);
-        env.setStyle(sstyle);
+        env.        Style = sstyle;
         return box;
     }
 }

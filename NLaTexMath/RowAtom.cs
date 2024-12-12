@@ -140,9 +140,9 @@ public class RowAtom : Atom , Row {
 
     public override Box CreateBox(TeXEnvironment env) {
         TeXFont tf = env.TeXFont;
-        HorizontalBox hBox = new HorizontalBox(env.getColor(), env.getBackground());
+        HorizontalBox hBox = new HorizontalBox(env.Color, env.Background);
         int position = 0;
-        env.reset();
+        env.Reset();
 
         // convert atoms to boxes and Add to the horizontal box
         for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();) {
@@ -196,7 +196,7 @@ public class RowAtom : Atom , Row {
                     CharFont l = atom.getCharFont(tf), r = ((CharSymbol) next).GetCharFont(tf);
                     CharFont lig = tf.getLigature(l, r);
                     if (lig == null) {
-                        kern = tf.getKern(l, r, env.getStyle());
+                        kern = tf.getKern(l, r, env.Style);
                         it.previous();
                         position--;
                         break; // iterator remains unchanged (no ligature!)
@@ -232,7 +232,9 @@ public class RowAtom : Atom , Row {
             hBox.Add(b);
 
             // set last used fontId (for next atom)
-            env.setLastFontId(b.LastFontId);
+            env.
+            // set last used fontId (for next atom)
+            LastFontId = b.LastFontId;
 
             // insert kern
             if (Math.Abs(kern) > TeXFormula.PREC) {

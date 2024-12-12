@@ -68,14 +68,14 @@ public class CharAtom(char c, string textStyle, bool mathMode) : CharSymbol
     {
         if (textStyle == null)
         {
-            string ts = env.getTextStyle();
+            string ts = env.TextStyle;
             if (ts != null)
             {
                 textStyle = ts;
             }
         }
-        bool smallCap = env.getSmallCap();
-        Char ch = GetChar(env.TeXFont, env.getStyle(), smallCap);
+        bool smallCap = env.SmallCap;
+        Char ch = GetChar(env.TeXFont, env.Style, smallCap);
         Box box = new CharBox(ch);
         if (smallCap && char.IsLower(c))
         {

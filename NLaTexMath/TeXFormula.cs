@@ -754,7 +754,7 @@ public class TeXFormula
             }
 
             if (interLineUnit != null) {
-                te.setInterline(interLineUnit, interLineSpacing);
+                te.SetInterline(interLineUnit, interLineSpacing);
             }
 
             Box box = createBox(te);
@@ -763,10 +763,10 @@ public class TeXFormula
                 HorizontalBox hb;
                 if (interLineUnit != null) {
                     float il = interLineSpacing * SpaceAtom.getFactor(interLineUnit, te);
-                    Box b = BreakFormula.split(box, te.getTextwidth(), il);
-                    hb = new HorizontalBox(b, isMaxWidth ? b.Width : te.getTextwidth(), align);
+                    Box b = BreakFormula.split(box, te.GetTextwidth(), il);
+                    hb = new HorizontalBox(b, isMaxWidth ? b.Width : te.GetTextwidth(), align);
                 } else {
-                    hb = new HorizontalBox(box, isMaxWidth ? box.Width : te.getTextwidth(), align);
+                    hb = new HorizontalBox(box, isMaxWidth ? box.Width : te.GetTextwidth(), align);
                 }
                 ti = new TeXIcon(hb, size, trueValues);
             } else {

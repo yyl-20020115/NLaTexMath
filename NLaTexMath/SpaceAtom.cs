@@ -192,7 +192,7 @@ public class SpaceAtom : Atom
         if (blankSpace)
         {
             if (blankType == 0)
-                return new StrutBox(env.getSpace(), 0, 0, 0);
+                return new StrutBox(env.Space, 0, 0, 0);
             else
             {
                 int bl = blankType < 0 ? -blankType : blankType;
@@ -229,63 +229,63 @@ public class SpaceAtom : Atom
 
     class EM : UnitConversion
     {//EM
-        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getEM(env.getStyle());
+        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getEM(env.Style);
     }
     class EX : UnitConversion
     {//EX
-        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getXHeight(env.getStyle(), env.getLastFontId());
+        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getXHeight(env.Style, env.LastFontId);
     }
     class PIXEL : UnitConversion
     {//PIXEL
-        public float getPixelConversion(TeXEnvironment env) => 1 / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => 1 / env.Size;
     }
     class BP : UnitConversion
     {//BP (or PostScript point)
-        public float getPixelConversion(TeXEnvironment env) => TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class PICA : UnitConversion
     {//PICA
-        public float getPixelConversion(TeXEnvironment env) => (12 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => (12 * TeXFormula.PIXELS_PER_POINT) / env.Size;
     }
     class MU : UnitConversion
     {//MU
         public float getPixelConversion(TeXEnvironment env)
         {
             TeXFont tf = env.TeXFont;
-            return tf.getQuad(env.getStyle(), tf.getMuFontId()) / 18;
+            return tf.getQuad(env.Style, tf.getMuFontId()) / 18;
         }
     }
     class CM : UnitConversion
     {//CM
-        public float getPixelConversion(TeXEnvironment env) => 28.346456693f * TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => 28.346456693f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class MM : UnitConversion
     {//MM
-        public float getPixelConversion(TeXEnvironment env) => 2.8346456693f * TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => 2.8346456693f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class IN : UnitConversion
     {//IN
-        public float getPixelConversion(TeXEnvironment env) => 72 * TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => 72 * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class SP : UnitConversion
     {//SP
-        public float getPixelConversion(TeXEnvironment env) => 65536 * TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => 65536 * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class PT : UnitConversion
     {//PT (or Standard Anglo-American point)
-        public float getPixelConversion(TeXEnvironment env) => .9962640099f * TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => .9962640099f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class DD : UnitConversion
     {//DD
-        public float getPixelConversion(TeXEnvironment env) => 1.0660349422f * TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => 1.0660349422f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class CC : UnitConversion
     {//CC
-        public float getPixelConversion(TeXEnvironment env) => 12.7924193070f * TeXFormula.PIXELS_PER_POINT / env.getSize();
+        public float getPixelConversion(TeXEnvironment env) => 12.7924193070f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class X8 : UnitConversion
     {//X8
-        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getDefaultRuleThickness(env.getStyle());
+        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getDefaultRuleThickness(env.Style);
     }
     private static readonly UnitConversion[] unitConversions = [
         new EM(),

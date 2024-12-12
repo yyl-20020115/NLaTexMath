@@ -69,10 +69,10 @@ public class DefaultTeXFontParser
         public void parse(XElement el, char ch, FontInfo info);
     }
 
-    private class ExtensionParser : CharChildParser
+    public class ExtensionParser : CharChildParser
     {
 
-        ExtensionParser()
+        public ExtensionParser()
         {
             // avoid generation of access class
         }
@@ -96,9 +96,9 @@ public class DefaultTeXFontParser
         }
     }
 
-    private class KernParser : CharChildParser
+    public class KernParser : CharChildParser
     {
-        KernParser()
+        public KernParser()
         {
             // avoid generation of access class
         }
@@ -115,10 +115,10 @@ public class DefaultTeXFontParser
         }
     }
 
-    private class LigParser : CharChildParser
+    public class LigParser : CharChildParser
     {
 
-        LigParser()
+        public LigParser()
         {
             // avoid generation of access class
         }
@@ -134,10 +134,10 @@ public class DefaultTeXFontParser
         }
     }
 
-    private class NextLargerParser : CharChildParser
+    public class NextLargerParser : CharChildParser
     {
 
-        NextLargerParser()
+        public NextLargerParser()
         {
             // avoid generation of access class
         }
@@ -340,7 +340,7 @@ public class DefaultTeXFontParser
         return fi;
     }
 
-    protected void parseExtraPath()
+    public void parseExtraPath()
     {
         XElement syms = (XElement)root.getElementsByTagName("TeXSymbols").item(0);
         if (syms != null)
@@ -473,7 +473,7 @@ public class DefaultTeXFontParser
                 {
                     if (_base == null)
                     {
-                        map = factory.newDocumentBuilder().parse(DefaultTeXFontParser..getResourceAsStream(include)).getDocumentElement();
+                        map = factory.newDocumentBuilder().parse(DefaultTeXFontParser.getResourceAsStream(include)).getDocumentElement();
                     }
                     else
                     {
@@ -532,7 +532,7 @@ public class DefaultTeXFontParser
                 XElement mapping = (XElement)list[i];
                 // get range name and check if it's valid
                 string code = getAttrValueAndCheckIfNotNull("code", mapping);
-                object codeMapping = rangeTypeMappings.Get(code);
+                object codeMapping = rangeTypeMappings[(code)];
                 if (codeMapping == null) // unknown range name
                     throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle",
                                                         "code", "Contains an unknown \"range name\" '" + code
@@ -540,14 +540,14 @@ public class DefaultTeXFontParser
                 // get mapped style and check if it exists
                 string textStyleName = getAttrValueAndCheckIfNotNull("textStyle",
                                        mapping);
-                object styleMapping = parsedTextStyles.Get(textStyleName);
+                object styleMapping = parsedTextStyles[(textStyleName)];
                 if (styleMapping == null) // unknown text style
                     throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle",
                                                         "textStyle", "Contains an unknown text style '"
                                                         + textStyleName + "'!");
                 // now check if the range is defined within the mapped text style
-                CharFont[] charFonts = parsedTextStyles.Get(textStyleName);
-                int index = ((int)codeMapping).intValue();
+                CharFont[] charFonts = parsedTextStyles[(textStyleName)];
+                int index = ((int)codeMapping);
                 if (charFonts[index] == null) // range not defined
                     throw new XMLResourceParseException(RESOURCE_NAME
                                                         + ": the default text style mapping '" + textStyleName
@@ -577,7 +577,7 @@ public class DefaultTeXFontParser
                 string name = ((Attr)list[i]).getName();
                 // set float value (if valid)
                 res.Add(name, new float(getFloatAndCheck(name, parameters)));
-            }
+            } 
             return res;
         }
     }
@@ -644,7 +644,7 @@ public class DefaultTeXFontParser
                     int ch = getIntAndCheck("start", mapRange);
                     // get required string attribute and check if it's a known range
                     string code = getAttrValueAndCheckIfNotNull("code", mapRange);
-                    object codeMapping = rangeTypeMappings.Get(code);
+                    object codeMapping = rangeTypeMappings[(code)];
                     if (codeMapping == null)
                         throw new XMLResourceParseException(RESOURCE_NAME,
                                                             "MapRange", "code",

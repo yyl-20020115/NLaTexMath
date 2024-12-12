@@ -43,9 +43,8 @@
  *
  */
 
-namespace NLaTexMath.cache
+namespace NLaTexMath.cache;
+
+public class AffineTransform
 {
-    internal class AffineTransform
-    {
-    }
 }

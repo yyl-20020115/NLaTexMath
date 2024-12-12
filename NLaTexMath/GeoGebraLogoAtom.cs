@@ -55,7 +55,7 @@ public class GeoGebraLogoAtom : Atom {
     public override int RightType => TeXConstants.TYPE_ORDINARY;
 
     public override Box CreateBox(TeXEnvironment env) {
-        CharBox o = new CharBox(env.TeXFont.getDefaultChar('o', env.getStyle()));
-        return new GeoGebraLogoBox(o.width, o.height);
+        CharBox o = new CharBox(env.TeXFont.getDefaultChar('o', env.Style));
+        return new GeoGebraLogoBox(o.Width, o.Height);
     }
 }

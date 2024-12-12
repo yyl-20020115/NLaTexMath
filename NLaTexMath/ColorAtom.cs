@@ -104,11 +104,11 @@ public class ColorAtom : Atom, Row
     public override Box CreateBox(TeXEnvironment env)
     {
         env.isColored = true;
-        TeXEnvironment copy = env.copy();
+        TeXEnvironment copy = env.Copy();
         if (background != null)
-            copy.setBackground(background);
+            copy.            Background = background;
         if (color != null)
-            copy.setColor(color);
+            copy.            Color = color;
         return elements.CreateBox(copy);
     }
 
@@ -199,7 +199,7 @@ public class ColorAtom : Atom, Row
                     }
                 }
 
-                Color c = Colors.Get(s.ToLower());
+                Color c = Colors[(s.ToLower())];
                 if (c != null)
                 {
                     return c;
@@ -233,7 +233,7 @@ public class ColorAtom : Atom, Row
         Colors.Add("green", Color.Green);
         Colors.Add("blue", Color.Blue);
         Colors.Add("cyan", Color.Cyan);
-        Colors.Add("magenta", Color.Magenta);
+        Colors.Add("magenta", Color.Magenta); 
         Colors.Add("yellow", Color.Yellow);
         Colors.Add("greenyellow", convColor(0.15f, 0f, 0.69f, 0f));
         Colors.Add("goldenrod", convColor(0f, 0.10f, 0.84f, 0f));

@@ -163,7 +163,7 @@ public class MatrixAtom : Atom {
         TeXParser tp;
         List<int> lposition = new ();
         while (pos < len) {
-            ch = opt.charAt(pos);
+            ch = opt[pos];
             switch (ch) {
             case 'l' :
                 lposition.Add(TeXConstants.ALIGN_LEFT);
@@ -177,7 +177,7 @@ public class MatrixAtom : Atom {
             case '|' :
                 int nb = 1;
                 while (++pos < len) {
-                    ch = opt.charAt(pos);
+                    ch = opt[pos];
                     if (ch != '|') {
                         pos--;
                         break;
@@ -190,11 +190,11 @@ public class MatrixAtom : Atom {
             case '@' :
                 pos++;
                 tf = new TeXFormula();
-                tp = new TeXParser(isPartial, opt.Substring(pos), tf, false);
+                tp = new TeXParser(isPartial, opt.ToString()[pos..], tf, false);
                 Atom at = tp.getArgument();
                 matrix.col++;
                 for (int j = 0; j < matrix.row; j++) {
-                    matrix.array[j].Add(lposition.Count, at);
+                    matrix.array[j].Insert(lposition.Count, at);
                 }
 
                 lposition.Add(TeXConstants.ALIGN_NONE);
@@ -245,7 +245,7 @@ public class MatrixAtom : Atom {
         int col = matrix.col;
         Box[] arr = new Box[col + 1];
         Box Align, AlignSep, Hsep;
-        float h, w = env.getTextwidth();
+        float h, w = env.GetTextwidth();
         int i;
 
         if (type == ALIGNED || type == ALIGNEDAT) {
@@ -372,11 +372,11 @@ public class MatrixAtom : Atom {
         float[] lineHeight = new float[row];
         float[] rowWidth = new float[col];
         float matW = 0;
-        float drt = env.TeXFont.getDefaultRuleThickness(env.getStyle());
+        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
 
         if (type == SMALLMATRIX) {
-            env = env.copy();
-            env.setStyle(TeXConstants.STYLE_SCRIPT);
+            env = env.Copy();
+            env.            Style = TeXConstants.STYLE_SCRIPT;
         }
 
         List<MulticolumnAtom> listMulti = [];
@@ -488,7 +488,7 @@ public class MatrixAtom : Atom {
                     }
                     break;
                 case TeXConstants.TYPE_INTERTEXT :
-                    float f = env.getTextwidth();
+                    float f = env.GetTextwidth();
                     f = f == float.PositiveInfinity ? rowWidth[j] : f;
                     hb = new HorizontalBox(boxarr[i][j], f, TeXConstants.ALIGN_LEFT);
                     j = col - 1;
@@ -524,7 +524,7 @@ public class MatrixAtom : Atom {
         vb.Add(vsep_ext_bot.CreateBox(env));
         totalHeight = vb.Height + vb.Depth;
 
-        float axis = env.TeXFont.getAxisHeight(env.getStyle());
+        float axis = env.TeXFont.getAxisHeight(env.Style);
         vb.        Height = totalHeight / 2 + axis;
         vb.        Depth = totalHeight / 2 - axis;
 

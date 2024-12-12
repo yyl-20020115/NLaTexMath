@@ -119,7 +119,7 @@ public class GraphicsAtom : Atom {
             w = image.getWidth(c);
             h = image.getHeight(c);
             bimage = new Bitmap(w, h, Bitmap.TYPE_INT_ARGB);
-            Graphics g2d = bimage.createGraphics();
+            Graphics g2d = bimage.createGraphics(); 
             g2d.drawImage(image, 0, 0, null);
             g2d.dispose();
         }
@@ -134,7 +134,7 @@ public class GraphicsAtom : Atom {
                 env.isColored = true;
                 float width = w * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
                 float height = h * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
-                return new GraphicsBox(bimage, width, height, env.getSize(), interp);
+                return new GraphicsBox(bimage, width, height, env.Size, interp);
             }
         }
 

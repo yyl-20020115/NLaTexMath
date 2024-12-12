@@ -53,7 +53,7 @@ public class DoubleFramedAtom(Atom Base) : FBoxAtom(Base)
     public override Box CreateBox(TeXEnvironment env)
     {
         Box bbase = base.CreateBox(env);
-        float drt = env.TeXFont.getDefaultRuleThickness(env.getStyle());
+        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
         float space = INTERSPACE * SpaceAtom.getFactor(TeXConstants.UNIT_EM, env);
         float sspace = 1.5f * drt + 0.5f * SpaceAtom.getFactor(TeXConstants.UNIT_POINT, env);
         return new FramedBox(new FramedBox(bbase, 0.75f * drt, space), 1.5f * drt, sspace);

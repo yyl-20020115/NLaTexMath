@@ -63,7 +63,7 @@ public class VCenteredAtom : Atom {
         Box b = atom.CreateBox(env);
 
         float total = b.Height + b.Depth, axis = env.TeXFont
-                      .getAxisHeight(env.getStyle());
+                      .getAxisHeight(env.Style);
 
         // center on axis
         b.

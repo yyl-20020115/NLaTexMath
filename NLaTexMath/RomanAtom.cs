@@ -59,7 +59,7 @@ public class RomanAtom : Atom {
     public override Box CreateBox(TeXEnvironment env) {
         Box box;
         if (_base != null) {
-            env = env.copy(env.TeXFont.copy());
+            env = env.Copy(env.TeXFont.copy());
             env.            TeXFont.setRoman(true);
             box = _base.CreateBox(env);
         } else {

@@ -60,7 +60,7 @@ public class DelimiterFactory
             return symbol.CreateBox(env);
 
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
         Char c = tf.getChar(symbol.getName(), style);
         int i;
 
@@ -88,7 +88,7 @@ public class DelimiterFactory
     public static Box create(string symbol, TeXEnvironment env, float minHeight)
     {
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
         Char c = tf.getChar(symbol, style);
 
         // start with smallest character
@@ -113,7 +113,7 @@ public class DelimiterFactory
             VerticalBox vBox = new VerticalBox();
             Extension ext = tf.getExtension(c, style); // extension info
 
-            if (ext.hasTop())
+            if (ext.HasTop)
             { // insert top part
                 c = ext.Top;
                 vBox.Add(new CharBox(c));
@@ -137,7 +137,7 @@ public class DelimiterFactory
             CharBox rep = new CharBox(c);
             while (vBox.Height + vBox.Depth <= minHeight)
             {
-                if (ext.hasTop() && ext.HasBottom)
+                if (ext.HasTop && ext.HasBottom)
                 {
                     vBox.Add(1, rep);
                     if (middle)

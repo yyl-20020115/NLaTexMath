@@ -68,7 +68,7 @@ public class FcscoreBox : Box {
 
     public override void Draw(Graphics g2, float x, float y) {
         AffineTransform transf = g2.getTransform();
-        Stroke oldStroke = g2.getStroke();
+        Stroke oldStroke = g2.getStroke(); 
 
         double sx = transf.getScaleX();
         double sy = transf.getScaleY();

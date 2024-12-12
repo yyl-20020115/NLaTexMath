@@ -180,7 +180,7 @@ public class GlueSettingsParser {
                     object r = typeMappings[(right)];
                     object st = styleMappings[(styleName)];
                     object val = glueTypeMappings[(type)];
-                    // throw exception if unknown value set
+                    // throw exception if unknown value set 
                     checkMapping(l, "Glue", "lefttype", left);
                     checkMapping(r, "Glue", "righttype", right);
                     checkMapping(val, "Glue", "gluetype", type);

@@ -55,8 +55,8 @@ public class IJAtom(bool upper) : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        CharBox I = new CharBox(env.TeXFont.getChar(upper ? 'I' : 'i', "mathnormal", env.getStyle()));
-        CharBox J = new CharBox(env.TeXFont.getChar(upper ? 'J' : 'j', "mathnormal", env.getStyle()));
+        CharBox I = new CharBox(env.TeXFont.getChar(upper ? 'I' : 'i', "mathnormal", env.Style));
+        CharBox J = new CharBox(env.TeXFont.getChar(upper ? 'J' : 'j', "mathnormal", env.Style));
         HorizontalBox hb = new HorizontalBox(I);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.065f, 0, 0).CreateBox(env));
         hb.Add(J);

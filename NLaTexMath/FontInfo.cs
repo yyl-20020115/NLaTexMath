@@ -182,17 +182,17 @@ public class FontInfo {
         else
             return new CharFont(((char) obj).charValue(), fontId);
     }
-
+     
     public float[] getMetrics(char c) {
         if (unicode == null)
             return metrics[c];
-        return metrics[unicode.Get(c)];
+        return metrics[unicode[(c)]];
     }
 
     public CharFont getNextLarger(char ch) {
         if (unicode == null)
             return nextLarger[ch];
-        return nextLarger[unicode.Get(ch)];
+        return nextLarger[unicode[(ch)]];
     }
 
     public float getQuad(float factor) {
@@ -249,7 +249,7 @@ public class FontInfo {
             unicode.Add(ch, s);
             nextLarger[s] = new CharFont(larger, fontLarger);
         } else
-            nextLarger[unicode.Get(ch)] = new CharFont(larger, fontLarger);
+            nextLarger[unicode[(ch)]] = new CharFont(larger, fontLarger);
     }
 
     public void setSkewChar(char c) {

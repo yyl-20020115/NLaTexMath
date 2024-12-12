@@ -85,7 +85,7 @@ public class GeoGebraLogoBox : Box {
         g2.setStroke(oldS);
         g2.setTransform(oldAt);
         g2.setColor(oldC);
-    }
+    } 
 
     private static void drawCircle(Graphics g2, float x, float y) {
         g2.setColor(blue);

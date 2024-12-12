@@ -53,7 +53,7 @@ namespace NLaTexMath
         {
         }
 
-        internal bool Get(int v)
+        internal bool Get(int v) 
         {
             throw new NotImplementedException();
         }

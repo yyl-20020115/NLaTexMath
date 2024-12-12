@@ -126,7 +126,7 @@ public class FencedAtom : Atom
         TeXFont tf = env.TeXFont;
         Box content = _base.CreateBox(env);
         float shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXConstants.UNIT_POINT, env);
-        float axis = tf.getAxisHeight(env.getStyle());
+        float axis = tf.getAxisHeight(env.Style);
         float delta = Math.Max(content.Height - axis, content.Depth + axis);
         float minHeight = Math.Max((delta / 500) * DELIMITER_FACTOR, 2 * delta - shortfall);
 

@@ -58,7 +58,7 @@ public class OgonekAtom(Atom _base) : Atom
         Box b = _base.CreateBox(env);
         VerticalBox vb = new VerticalBox();
         vb.Add(b);
-        Char ch = env.TeXFont.getChar("ogonek", env.getStyle());
+        Char ch = env.TeXFont.getChar("ogonek", env.Style);
         float italic = ch.getItalic();
         Box ogonek = new CharBox(ch);
         Box y;

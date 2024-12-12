@@ -90,7 +90,7 @@ public class HorizontalBox : Box {
         // basic horizontal box
     }
 
-    public HorizontalBox(Color fg, Color bg): base(fg, bg)
+    public HorizontalBox(Color? fg, Color? bg): base(fg, bg)
     {
         ;
     }
@@ -111,7 +111,7 @@ public class HorizontalBox : Box {
               box.markForDEBUG = java.awt.Color.BLUE;
               }*/
 
-            box.Draw(g2, xPos, y + box.shift);
+            box.Draw(g2, xPos, y + box.Shift);
             xPos += box.Width;
         }
         EndDraw(g2);
@@ -133,8 +133,8 @@ public class HorizontalBox : Box {
         //curPos += b.getWidth();
         //width = Math.Max(width, curPos);
         width += b.Width;
-        height = Math.Max((Children.Count == 0 ? float.NegativeInfinity : height), b.height - b.shift);
-        depth = Math.Max((Children.Count == 0 ? float.NegativeInfinity : depth), b.depth + b.shift);
+        height = Math.Max((Children.Count == 0 ? float.NegativeInfinity : height), b.Height - b.Shift);
+        depth = Math.Max((Children.Count == 0 ? float.NegativeInfinity : depth), b.Depth + b.Shift);
     }
 
     public override int LastFontId

@@ -100,7 +100,7 @@ public class BigOperatorAtom : Atom {
 
     public override Box CreateBox(TeXEnvironment env) {
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
 
         Box y;
         float delta;
@@ -151,9 +151,9 @@ public class BigOperatorAtom : Atom {
             // limits
             Box x = null, z = null;
             if (over != null)
-                x = over.CreateBox(env.supStyle());
+                x = over.CreateBox(env.SupStyle);
             if (under != null)
-                z = under.CreateBox(env.subStyle());
+                z = under.CreateBox(env.SubStyle);
 
             // make boxes equally wide
             float maxWidth = Math.Max(Math.Max(x == null ? 0 : x.Width, y

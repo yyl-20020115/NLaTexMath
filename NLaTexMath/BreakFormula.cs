@@ -72,13 +72,13 @@ public class BreakFormula
         HorizontalBox second = null;
         Stack<Position> positions = new Stack<Position>();
         float w = -1;
-        while (hbox.width > width && (w = canBreak(positions, hbox, width)) != hbox.width)
+        while (hbox.Width > width && (w = canBreak(positions, hbox, width)) != hbox.Width)
         {
             Position pos = positions.Pop();
             HorizontalBox[] hboxes = pos.hbox.Split(pos.index - 1);
             first = hboxes[0];
             second = hboxes[1];
-            while (positions.Count!=0)
+            while (positions.Count!=0) 
             {
                 pos = positions.Pop();
                 hboxes = pos.hbox.SplitRemove(pos.index);
@@ -119,7 +119,7 @@ public class BreakFormula
         for (int i = 0; i < children.Count; i++)
         {
             Box box = children[i];
-            cumWidth[i + 1] = cumWidth[i] + box.width;
+            cumWidth[i + 1] = cumWidth[i] + box.Width;
             if (cumWidth[i + 1] > width)
             {
                 int pos = getBreakPosition(hbox, i);
@@ -127,7 +127,7 @@ public class BreakFormula
                 {
                     Stack<Position> newStack = new Stack<Position>();
                     float w = canBreak(newStack, (HorizontalBox)box, width - cumWidth[i]);
-                    if (w != box.width && (cumWidth[i] + w <= width || pos == -1))
+                    if (w != box.Width && (cumWidth[i] + w <= width || pos == -1))
                     {
                         stack.Push(new Position(i - 1, hbox));
                         stack.addAll(newStack);

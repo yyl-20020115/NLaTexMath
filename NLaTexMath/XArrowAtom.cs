@@ -60,10 +60,10 @@ public class XArrowAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        Box O = over != null ? over.CreateBox(env.supStyle()) : new StrutBox(0, 0, 0, 0);
-        Box U = under != null ? under.CreateBox(env.subStyle()) : new StrutBox(0, 0, 0, 0);
-        Box oside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).CreateBox(env.supStyle());
-        Box uside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).CreateBox(env.subStyle());
+        Box O = over != null ? over.CreateBox(env.SupStyle) : new StrutBox(0, 0, 0, 0);
+        Box U = under != null ? under.CreateBox(env.SubStyle) : new StrutBox(0, 0, 0, 0);
+        Box oside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).CreateBox(env.SupStyle);
+        Box uside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).CreateBox(env.SubStyle);
         Box sep = new SpaceAtom(TeXConstants.UNIT_MU, 0, 2f, 0).CreateBox(env);
         float width = Math.Max(O.Width + 2 * oside.Width, U.Width + 2 * uside.Width);
         Box arrow = XLeftRightArrowFactory.Create(left, env, width);

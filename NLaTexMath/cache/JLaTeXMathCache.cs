@@ -239,7 +239,7 @@ public  class JLaTeXMathCache {
         WeakReference<CachedImage> img = new WeakReference<CachedImage>(new CachedImage(image, cached), queue);
 
         if (cache.Length >= max) {
-            Reference<CachedImage> soft;
+            WeakReference<CachedImage> soft;
             while ((soft = queue.poll()) != null) {
                 CachedImage ci = (CachedImage) soft.Get();
                 if (ci != null) {
@@ -256,7 +256,7 @@ public  class JLaTeXMathCache {
                 cache.remove(c);
             }
         }
-        cache.Add(cached, img);
+        cache.TryAdd(cached, img);
 
         return img;
     }
@@ -283,7 +283,7 @@ public  class JLaTeXMathCache {
         public int depth;
         public Color fgcolor;
 
-        CachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor) {
+        public CachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor) {
             this.f = f;
             this.style = style;
             this.type = type;

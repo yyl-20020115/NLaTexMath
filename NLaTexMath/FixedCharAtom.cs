@@ -61,7 +61,7 @@ public class FixedCharAtom : CharSymbol
     public override Box CreateBox(TeXEnvironment env)
     {
         TeXFont tf = env.TeXFont;
-        Char c = tf.getChar(cf, env.getStyle());
+        Char c = tf.getChar(cf, env.Style);
         return new CharBox(c);
     }
 

@@ -70,7 +70,7 @@ public class NthRoot : Atom {
         // first create a simple square root construction
 
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
         // calculate minimum clearance clr
         float clr, drt = tf.getDefaultRuleThickness(style);
         if (style < TeXConstants.STYLE_TEXT)
@@ -80,9 +80,9 @@ public class NthRoot : Atom {
         clr = drt + Math.Abs(clr) / 4 ;
 
         // cramped style for the formula under the root sign
-        Box bs = _base.CreateBox(env.crampStyle());
+        Box bs = _base.CreateBox(env.CrampStyle());
         HorizontalBox b = new HorizontalBox(bs);
-        b.Add(new SpaceAtom(TeXConstants.UNIT_MU, 1, 0, 0).CreateBox(env.crampStyle()));
+        b.Add(new SpaceAtom(TeXConstants.UNIT_MU, 1, 0, 0).CreateBox(env.CrampStyle()));
         // create root sign
         float totalH = b.Height + b.Depth;
         Box rootSign = DelimiterFactory.create(sqrtSymbol, env, totalH + clr + drt);
@@ -106,7 +106,7 @@ public class NthRoot : Atom {
         else { // nthRoot, not a simple square root
 
             // create box from root
-            Box r = root.CreateBox(env.rootStyle());
+            Box r = root.CreateBox(env.RootStyle);
 
             // shift root up
             float bottomShift = FACTOR * (squareRoot.Height + squareRoot.Depth);

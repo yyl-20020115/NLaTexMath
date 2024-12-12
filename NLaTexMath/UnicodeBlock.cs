@@ -44,13 +44,12 @@
  *
  */
 
-namespace NLaTexMath
+namespace NLaTexMath;
+
+public class UnicodeBlock
 {
-    public class UnicodeBlock
-    {
-        public static readonly UnicodeBlock GREEK;
-        public static readonly UnicodeBlock GREEK_EXTENDED;
-        public static readonly UnicodeBlock CYRILLIC;
-        internal static UnicodeBlock BASIC_LATIN;
-    }
+    public static readonly UnicodeBlock GREEK;
+    public static readonly UnicodeBlock GREEK_EXTENDED;
+    public static readonly UnicodeBlock CYRILLIC;
+    public static UnicodeBlock BASIC_LATIN;
 }

@@ -238,7 +238,7 @@ public class TeXFormulaParser
             checkNullValue(value, type);
             if (value.Length == 1)
             {
-                return new char(value[0]);
+                return value[0];
             }
             else
             {

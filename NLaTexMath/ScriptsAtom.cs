@@ -85,7 +85,7 @@ public class ScriptsAtom : Atom {
             return b;
         else {
             TeXFont tf = env.TeXFont;
-            int style = env.getStyle();
+            int style = env.Style;
 
             if (base.TypeLimits == TeXConstants.SCRIPT_LIMITS || (_base.TypeLimits == TeXConstants.SCRIPT_NORMAL && style == TeXConstants.STYLE_DISPLAY))
                 return new UnderOverAtom(new UnderOverAtom(_base, subscript, TeXConstants.UNIT_POINT, 0.3f, true, false),
@@ -98,7 +98,7 @@ public class ScriptsAtom : Atom {
             if (lastFontId == TeXFont.NO_FONT)
                 lastFontId = tf.getMuFontId();
 
-            TeXEnvironment subStyle = env.subStyle(), supStyle = env.supStyle();
+            TeXEnvironment subStyle = env.SubStyle, supStyle = env.SupStyle;
 
             // set delta and preliminary shift-up and shift-down values
             float delta = 0, shiftUp, shiftDown;
@@ -106,9 +106,9 @@ public class ScriptsAtom : Atom {
             // TODO: use polymorphism?
             if (_base is AccentedAtom) { // special case :
                 // accent. This positions superscripts better next to the accent!
-                Box box = ((AccentedAtom)_base)._base.CreateBox(env.crampStyle());
-                shiftUp = box.Height - tf.getSupDrop(supStyle.getStyle());
-                shiftDown = box.Depth + tf.getSubDrop(subStyle.getStyle());
+                Box box = ((AccentedAtom)_base)._base.CreateBox(env.CrampStyle());
+                shiftUp = box.Height - tf.getSupDrop(supStyle.Style);
+                shiftDown = box.Depth + tf.getSubDrop(subStyle.Style);
             } else if (_base is SymbolAtom
                        && base.Type == TeXConstants.TYPE_BIG_OPERATOR) { // single big operator symbol
                 Char c = tf.getChar(((SymbolAtom)_base).getName(), style);
@@ -119,7 +119,7 @@ public class ScriptsAtom : Atom {
 
                 x.
                 Shift = -(x.Height + x.Depth) / 2
-                           - env.TeXFont.getAxisHeight(env.getStyle());
+                           - env.TeXFont.getAxisHeight(env.Style);
                 hor = new HorizontalBox(x);
 
                 // include delta in width or not?
@@ -128,8 +128,8 @@ public class ScriptsAtom : Atom {
                 if (delta > TeXFormula.PREC && subscript == null)
                     hor.Add(new StrutBox(delta, 0, 0, 0));
 
-                shiftUp = hor.Height - tf.getSupDrop(supStyle.getStyle());
-                shiftDown = hor.Depth + tf.getSubDrop(subStyle.getStyle());
+                shiftUp = hor.Height - tf.getSupDrop(supStyle.Style);
+                shiftDown = hor.Depth + tf.getSubDrop(subStyle.Style);
             } else if (_base is CharSymbol) {
                 shiftUp = shiftDown = 0;
                 CharFont cf = ((CharSymbol)_base).GetCharFont(tf);
@@ -141,8 +141,8 @@ public class ScriptsAtom : Atom {
                     delta = 0;
                 }
             } else {
-                shiftUp = b.Height - tf.getSupDrop(supStyle.getStyle());
-                shiftDown = b.Depth + tf.getSubDrop(subStyle.getStyle());
+                shiftUp = b.Height - tf.getSupDrop(supStyle.Style);
+                shiftDown = b.Depth + tf.getSubDrop(subStyle.Style);
             }
 
             if (superscript == null) { // only subscript
@@ -168,7 +168,7 @@ public class ScriptsAtom : Atom {
                 float p;
                 if (style == TeXConstants.STYLE_DISPLAY)
                     p = tf.getSup1(style);
-                else if (env.crampStyle().getStyle() == style)
+                else if (env.CrampStyle().Style == style)
                     p = tf.getSup3(style);
                 else
                     p = tf.getSup2(style);

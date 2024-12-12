@@ -137,10 +137,10 @@ public class AccentedAtom : Atom {
 
     public override Box CreateBox(TeXEnvironment env) {
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
 
         // set _base in cramped style
-        Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env.crampStyle()));
+        Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env.CrampStyle()));
 
         float u = b.Width;
         float s = 0;
@@ -169,7 +169,7 @@ public class AccentedAtom : Atom {
         float italic = ch.getItalic();
         Box cb = new CharBox(ch);
         if (acc)
-            cb = accent.CreateBox(changeSize ? env.subStyle() : env);
+            cb = accent.CreateBox(changeSize ? env.SubStyle : env);
 
         if (Math.Abs(italic) > TeXFormula.PREC) {
             y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));

@@ -58,7 +58,7 @@ public class LaTeXAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        env = env.copy(env.TeXFont.copy());
+        env = env.Copy(env.TeXFont.copy());
         env.TeXFont.setRoman(true);
         float sc = env.TeXFont.getScaleFactor();
 
@@ -77,7 +77,7 @@ public class LaTeXAtom : Atom
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.35f * sc, 0, 0).CreateBox(env));
         float f = new SpaceAtom(TeXConstants.UNIT_EX, 0.45f * sc, 0, 0).CreateBox(env).Width;
         float f1 = new SpaceAtom(TeXConstants.UNIT_EX, 0.5f * sc, 0, 0).CreateBox(env).Width;
-        CharBox A = new CharBox(env.TeXFont.getChar('A', "mathnormal", env.supStyle().getStyle()));
+        CharBox A = new CharBox(env.TeXFont.getChar('A', "mathnormal", env.SupStyle.Style));
         A.        Shift = -f;
         hb.Add(A);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).CreateBox(env));

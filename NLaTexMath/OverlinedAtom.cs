@@ -60,11 +60,11 @@ public class OverlinedAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        float drt = env.TeXFont.getDefaultRuleThickness(env.getStyle());
+        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
 
         // cramp the style of the formula to be overlined and create vertical box
         Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env
-                 .crampStyle()));
+                 .CrampStyle()));
         OverBar ob = new OverBar(b, 3 * drt, drt);
 
         // baseline vertical box = baseline box b

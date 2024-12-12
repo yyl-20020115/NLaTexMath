@@ -79,7 +79,7 @@ public class FBoxAtom : Atom
     public override Box CreateBox(TeXEnvironment env)
     {
         Box bbase = _base.CreateBox(env);
-        float drt = env.TeXFont.getDefaultRuleThickness(env.getStyle());
+        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
         float space = INTERSPACE * SpaceAtom.getFactor(TeXConstants.UNIT_EM, env);
         if (bg == null)
         {

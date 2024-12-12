@@ -80,7 +80,7 @@ public class CharBox : Box {
         italic = 0;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) { 
         DrawDebug(g2, x, y);
         AffineTransform at = g2.getTransform();
         g2.translate(x, y);

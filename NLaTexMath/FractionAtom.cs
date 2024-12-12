@@ -197,7 +197,7 @@ public class FractionAtom : Atom {
 
     public override Box CreateBox(TeXEnvironment env) {
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
         // set thickness to default if default value should be used
         float drt = tf.getDefaultRuleThickness(style);
         if (noDefault)
@@ -208,9 +208,9 @@ public class FractionAtom : Atom {
 
         // create equal width boxes (in appropriate styles)
         Box num = (numerator == null ? new StrutBox(0, 0, 0, 0) : numerator
-                   .CreateBox(env.numStyle()));
+                   .CreateBox(env.NumStyle));
         Box denom = (denominator == null ? new StrutBox(0, 0, 0, 0) : denominator
-                     .CreateBox(env.denomStyle()));
+                     .CreateBox(env.DenomStyle()));
 
         if (num.Width < denom.Width)
             num = new HorizontalBox(num, denom.Width, numAlign);

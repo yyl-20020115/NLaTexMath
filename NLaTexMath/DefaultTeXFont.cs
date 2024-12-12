@@ -70,7 +70,7 @@ public class DefaultTeXFont : TeXFont {
     private static Dictionary<string, CharFont> symbolMappings;
     private static FontInfo[] fontInfo = new FontInfo[0];
     private static Dictionary<string, float> parameters;
-    private static Dictionary<string, double> generalSettings;
+    private static Dictionary<string, ValueType> generalSettings;
 
     private static bool magnificationEnable = true;
 
@@ -108,7 +108,7 @@ public class DefaultTeXFont : TeXFont {
         generalSettings.Add("textfactor", 1);
 
         // check if mufontid exists
-        int muFontId = generalSettings.Get(DefaultTeXFontParser.MUFONTID_ATTR).intValue();
+        int muFontId = (int)generalSettings[(DefaultTeXFontParser.MUFONTID_ATTR)];
         if (muFontId < 0 || muFontId >= fontInfo.Length || fontInfo[muFontId] == null)
             throw new XMLResourceParseException(
                 DefaultTeXFontParser.RESOURCE_NAME,
@@ -280,7 +280,7 @@ public class DefaultTeXFont : TeXFont {
     }
 
     public Char getChar(char c, string textStyle, int style)  {
-        object mapping = textStyleMappings.Get(textStyle);
+        object mapping = textStyleMappings[(textStyle)];
         if (mapping == null) // text style mapping not found
             throw new TextStyleMappingNotFoundException(textStyle);
         else
@@ -321,9 +321,9 @@ public class DefaultTeXFont : TeXFont {
     }
 
     public Char getChar(string symbolName, int style)  {
-        object obj = symbolMappings.Get(symbolName);
+        object obj = symbolMappings[(symbolName)];
         if (obj == null) {// no symbol mapping found!
-            throw new SymbolMappingNotFoundException(symbolName);
+            throw new SymbolMappingNotFoundException(symbolName); 
         } else {
             return getChar((CharFont) obj, style);
         }
@@ -398,7 +398,7 @@ public class DefaultTeXFont : TeXFont {
     }
 
     public int getMuFontId() {
-        return generalSettings.Get(DefaultTeXFontParser.MUFONTID_ATTR).intValue();
+        return (int)generalSettings[(DefaultTeXFontParser.MUFONTID_ATTR)];
     }
 
     public Char getNextLarger(Char c, int style) {
@@ -439,7 +439,7 @@ public class DefaultTeXFont : TeXFont {
     }
 
     public float getSpace(int style) {
-        int spaceFontId = generalSettings.Get(DefaultTeXFontParser.SPACEFONTID_ATTR).intValue();
+        int spaceFontId = (int)generalSettings[DefaultTeXFontParser.SPACEFONTID_ATTR];
         FontInfo info = fontInfo[spaceFontId];
         return info.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
     }
@@ -556,21 +556,21 @@ public class DefaultTeXFont : TeXFont {
     }
 
     private static float getParameter(string parameterName) {
-        object param = parameters.Get(parameterName);
+        var param = parameters[(parameterName)];
         if (param == null)
             return 0;
         else
-            return ((float) param).floatValue();
+            return ((float) param);
     }
 
     public static float getSizeFactor(int style) {
         if (style < TeXConstants.STYLE_TEXT)
             return 1;
         else if (style < TeXConstants.STYLE_SCRIPT)
-            return generalSettings.get("textfactor").floatValue();
+            return (float)generalSettings[("textfactor")];
         else if (style < TeXConstants.STYLE_SCRIPT_SCRIPT)
-            return generalSettings.get("scriptfactor").floatValue();
+            return (float)generalSettings[("scriptfactor")];
         else
-            return generalSettings[("scriptscriptfactor")].floatValue();
+            return (float)generalSettings[("scriptscriptfactor")];
     }
 }

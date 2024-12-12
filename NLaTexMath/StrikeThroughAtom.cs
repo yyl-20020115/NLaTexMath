@@ -58,7 +58,7 @@ public class StrikeThroughAtom : Atom {
 
     public override Box CreateBox(TeXEnvironment env) {
         TeXFont tf = env.TeXFont;
-        int style = env.getStyle();
+        int style = env.Style;
         float axis = tf.getAxisHeight(style);
         float drt = tf.getDefaultRuleThickness(style);
         Box b = at.CreateBox(env);

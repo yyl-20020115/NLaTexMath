@@ -54,8 +54,8 @@ public class tcaronAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        CharBox A = new CharBox(env.TeXFont.getChar("textapos", env.getStyle()));
-        CharBox t = new CharBox(env.TeXFont.getChar('t', "mathnormal", env.getStyle()));
+        CharBox A = new CharBox(env.TeXFont.getChar("textapos", env.Style));
+        CharBox t = new CharBox(env.TeXFont.getChar('t', "mathnormal", env.Style));
         HorizontalBox hb = new HorizontalBox(t);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.3f, 0, 0).CreateBox(env));
         hb.Add(A);
