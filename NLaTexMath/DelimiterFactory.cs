@@ -70,7 +70,7 @@ public class DelimiterFactory
         if (i <= size && !tf.hasNextLarger(c))
         {
             CharBox A = new CharBox(tf.getChar('A', "mathnormal", style));
-            Box b = create(symbol.getName(), env, size * (A.getHeight() + A.getDepth()));
+            Box b = create(symbol.getName(), env, size * (A.Height + A.Depth));
             return b;
         }
 
@@ -135,7 +135,7 @@ public class DelimiterFactory
             // insert repeatable part until tall enough
             c = ext.Repeat;
             CharBox rep = new CharBox(c);
-            while (vBox.getHeight() + vBox.getDepth() <= minHeight)
+            while (vBox.Height + vBox.Depth <= minHeight)
             {
                 if (ext.hasTop() && ext.HasBottom)
                 {

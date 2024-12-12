@@ -60,11 +60,9 @@ public class StrutBox : Box {
         shift = s;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) {
         // no visual effect
     }
 
-    public override int getLastFontId() {
-        return TeXFont.NO_FONT;
-    }
+    public override int LastFontId => TeXFont.NO_FONT;
 }

@@ -78,19 +78,19 @@ public class PredefinedTeXFormulaParser {
     public void Parse(Dictionary<string,string> predefinedTeXFormulas) {
         // get required string attribute
         string enabledAll = getAttrValueAndCheckIfNotNull("enabled", root);
-        if ("true".equals(enabledAll)) { // parse formula's
+        if ("true"==(enabledAll)) { // parse formula's
             // iterate all "Font"-elements
-            NodeList list = root.getElementsByTagName(this.type);
-            for (int i = 0; i < list.getLength(); i++) {
-                XElement formula = (XElement)list.item(i);
+            List<XNode> list = root.getElementsByTagName(this.type);
+            for (int i = 0; i < list.Count; i++) {
+                XElement formula = (XElement)list[i];
                 // get required string attribute
                 string enabled = getAttrValueAndCheckIfNotNull("enabled", formula);
-                if ("true".equals (enabled)) { // parse this formula
+                if ("true"== (enabled)) { // parse this formula
                     // get required string attribute
                     string name = getAttrValueAndCheckIfNotNull("name", formula);
 
                     // parse and build the formula and Add it to the table
-                    if ("TeXFormula".equals(this.type))
+                    if ("TeXFormula"==(this.type))
                         predefinedTeXFormulas.Add(name, (TeXFormula) new TeXFormulaParser(name, formula, this.type).parse());
                     else
                         predefinedTeXFormulas.Add(name, (MacroInfo) new TeXFormulaParser(name, formula, this.type).parse());
@@ -101,9 +101,9 @@ public class PredefinedTeXFormulaParser {
 
     private static string getAttrValueAndCheckIfNotNull(string attrName,
             XElement element){
-        string attrValue = element.GetAttribute(attrName);
-        if (attrValue==(""))
-            throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(),
+        string attrValue = element.Attribute(attrName)?.Value??"";
+        if (attrValue=="")
+            throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName,
                                                 attrName, null);
         return attrValue;
     }

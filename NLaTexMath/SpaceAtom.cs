@@ -163,7 +163,7 @@ public class SpaceAtom : Atom
         }
 
         int i = 0;
-        for (; i < lgth.Length && !Character.isLetter(lgth.charAt(i)); i++) ;
+        for (; i < lgth.Length && !char.IsLetter(lgth[i]); i++) ;
         float f = 0;
         try
         {
@@ -206,7 +206,7 @@ public class SpaceAtom : Atom
                 else
                     b = Glue.Get(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_BIG_OPERATOR, env);
                 if (blankType < 0)
-                    b.negWidth();
+                    b.NegWidth();
                 return b;
             }
         }

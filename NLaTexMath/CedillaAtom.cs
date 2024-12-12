@@ -74,13 +74,13 @@ public class CedillaAtom : Atom
             y = cedilla;
         }
 
-        Box ce = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_CENTER);
+        Box ce = new HorizontalBox(y, b.Width, TeXConstants.ALIGN_CENTER);
         float x = 0.4f * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
         vb.Add(new StrutBox(0, -x, 0, 0));
         vb.Add(ce);
-        float f = vb.getHeight() + vb.getDepth();
-        vb.setHeight(b.getHeight());
-        vb.setDepth(f - b.getHeight());
+        float f = vb.Height + vb.Depth;
+        vb.        Height = b.Height;
+        vb.        Depth = f - b.Height;
         return vb;
     }
 }

@@ -65,8 +65,8 @@ public class XArrowAtom : Atom {
         Box oside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).CreateBox(env.supStyle());
         Box uside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).CreateBox(env.subStyle());
         Box sep = new SpaceAtom(TeXConstants.UNIT_MU, 0, 2f, 0).CreateBox(env);
-        float width = Math.Max(O.getWidth() + 2 * oside.getWidth(), U.getWidth() + 2 * uside.getWidth());
-        Box arrow = XLeftRightArrowFactory.create(left, env, width);
+        float width = Math.Max(O.Width + 2 * oside.Width, U.Width + 2 * uside.Width);
+        Box arrow = XLeftRightArrowFactory.Create(left, env, width);
 
         Box ohb = new HorizontalBox(O, width, TeXConstants.ALIGN_CENTER);
         Box uhb = new HorizontalBox(U, width, TeXConstants.ALIGN_CENTER);
@@ -78,12 +78,12 @@ public class XArrowAtom : Atom {
         vb.Add(sep);
         vb.Add(uhb);
 
-        float h = vb.getHeight() + vb.getDepth();
-        float d = sep.getHeight() + sep.getDepth() + uhb.getHeight() + uhb.getDepth();
-        vb.setDepth(d);
-        vb.setHeight(h - d);
+        float h = vb.Height + vb.Depth;
+        float d = sep.Height + sep.Depth + uhb.Height + uhb.Depth;
+        vb.        Depth = d;
+        vb.        Height = h - d;
 
-        HorizontalBox hb = new HorizontalBox(vb, vb.getWidth() + 2*sep.getHeight(), TeXConstants.ALIGN_CENTER);
+        HorizontalBox hb = new HorizontalBox(vb, vb.Width + 2*sep.Height, TeXConstants.ALIGN_CENTER);
         return hb;
     }
 }

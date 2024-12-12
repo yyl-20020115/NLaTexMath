@@ -58,7 +58,7 @@ public class HorizontalBox : Box {
 
     public HorizontalBox(Box b, float w, int alignment) {
         if (w != float.PositiveInfinity) {
-            float rest = w - b.getWidth();
+            float rest = w - b.Width;
             if (rest > 0) {
                 if (alignment == TeXConstants.ALIGN_CENTER || alignment == TeXConstants.ALIGN_NONE) {
                     StrutBox s = new StrutBox(rest / 2, 0, 0, 0);
@@ -102,19 +102,19 @@ public class HorizontalBox : Box {
         return b;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
-        startDraw(g2, x, y);
+    public override void Draw(Graphics g2, float x, float y) {
+        StartDraw(g2, x, y);
         float xPos = x;
-        foreach (Box box in children) {
+        foreach (Box box in Children) {
             /*int i = children.IndexOf(box);
               if (breakPositions != null && breakPositions.IndexOf(i) != -1) {
               box.markForDEBUG = java.awt.Color.BLUE;
               }*/
 
-            box.draw(g2, xPos, y + box.shift);
-            xPos += box.getWidth();
+            box.Draw(g2, xPos, y + box.shift);
+            xPos += box.Width;
         }
-        endDraw(g2);
+        EndDraw(g2);
     }
 
     public  void Add(Box b) {
@@ -132,24 +132,28 @@ public class HorizontalBox : Box {
         // \left(\!\!\!\begin{array}{c}n\\\\r\end{array}\!\!\!\right)+123
         //curPos += b.getWidth();
         //width = Math.Max(width, curPos);
-        width += b.getWidth();
-        height = Math.Max((children.Count == 0 ? float.NegativeInfinity : height), b.height - b.shift);
-        depth = Math.Max((children.Count == 0 ? float.NegativeInfinity : depth), b.depth + b.shift);
+        width += b.Width;
+        height = Math.Max((Children.Count == 0 ? float.NegativeInfinity : height), b.height - b.shift);
+        depth = Math.Max((Children.Count == 0 ? float.NegativeInfinity : depth), b.depth + b.shift);
     }
 
-    public override int getLastFontId() {
-        // iterate from the last child box to the first untill a font id is found
-        // that's not equal to NO_FONT
-        int fontId = TeXFont.NO_FONT;
-        //for (ListIterator<Box> it = children.listIterator(children.Count); fontId == TeXFont.NO_FONT && it.hasPrevious();)
-        //    fontId = ((Box) it.previous()).getLastFontId();
-        for(int i = children.Count - 1; i >= 0; i--)
+    public override int LastFontId
+    {
+        get
         {
-            fontId = children[i].getLastFontId();
-            if (fontId == TeXFont.NO_FONT)
-                break;
+            // iterate from the last child box to the first untill a font id is found
+            // that's not equal to NO_FONT
+            int fontId = TeXFont.NO_FONT;
+            //for (ListIterator<Box> it = children.listIterator(children.Count); fontId == TeXFont.NO_FONT && it.hasPrevious();)
+            //    fontId = ((Box) it.previous()).getLastFontId();
+            for (int i = Children.Count - 1; i >= 0; i--)
+            {
+                fontId = Children[i].LastFontId;
+                if (fontId == TeXFont.NO_FONT)
+                    break;
+            }
+            return fontId;
         }
-        return fontId;
     }
 
     public void addBreakPosition(int pos) {
@@ -169,11 +173,11 @@ public class HorizontalBox : Box {
         HorizontalBox hb1 = cloneBox();
         HorizontalBox hb2 = cloneBox();
         for (int i = 0; i <= position; i++) {
-            hb1.Add(children[(i)]);
+            hb1.Add(Children[(i)]);
         }
 
-        for (int i = position + shift; i < children.Count; i++) {
-            hb2.Add(children[(i)]);
+        for (int i = position + shift; i < Children.Count; i++) {
+            hb2.Add(Children[(i)]);
         }
 
         if (breakPositions != null) {

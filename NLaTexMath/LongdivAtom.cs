@@ -68,7 +68,7 @@ public class LongdivAtom : VRowAtom {
                     Append(new UnderlinedAtom(ra));
                 }
             } else if (i == 1) {
-                string div = Long.ToString(divisor);
+                string div =(divisor.ToString());
                 SymbolAtom rparen = SymbolAtom.Get(TeXFormula.symbolMappings[')']);
                 Atom big = new BigDelimiterAtom(rparen, 1);
                 Atom ph = new PhantomAtom(big, false, true, true);
@@ -96,7 +96,7 @@ public class LongdivAtom : VRowAtom {
         List<string> vec = new ();
         long q = dividend / divisor;
         vec.Add(q.ToString());
-        vec.Add(Long.ToString(dividend));
+        vec.Add((dividend.ToString()));
 
         while (q != 0) {
             double p = (double) Math.Floor(Math.Log10((double) q));

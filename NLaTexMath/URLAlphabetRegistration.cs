@@ -44,7 +44,7 @@
  */
 
 namespace NLaTexMath;
-
+ 
 
 public class URLAlphabetRegistration : AlphabetRegistration {
 
@@ -72,21 +72,21 @@ public class URLAlphabetRegistration : AlphabetRegistration {
             Uri[] urls = { url };
             language = language.ToLower();
             string name = "NLaTexMath." + language
-                          + "." + Character.ToString(Character.toUpperCase(language[0]))
+                          + "." + char.ToString(char.toUpperCase(language[0]))
                           + language.substring(1, language.Length) + "Registration";
 
             try
             {
                 ClassLoader loader = new URLClassLoader(urls);
-                pack = (AlphabetRegistration)Class.forName(name, true, loader).newInstance();
+                pack = (AlphabetRegistration)Type.forName(name, true, loader).newInstance();
             }
-            catch (ClassNotFoundException e)
+            catch (TypeNotFoundException e)
             {
-                throw new AlphabetRegistrationException("Class at " + url + " cannot be got.");
+                throw new AlphabetRegistrationException("Type at " + url + " cannot be got.");
             }
             catch (Exception e)
             {
-                throw new AlphabetRegistrationException("Problem in loading the class at " + url + " :\n" + e.getMessage());
+                throw new AlphabetRegistrationException("Problem in loading the class at " + url + " :\n" + e.Message);
             }
             return pack;
         }

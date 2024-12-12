@@ -68,9 +68,9 @@ public class SmashedAtom : Atom {
     public override Box CreateBox(TeXEnvironment env) {
         Box b = at.CreateBox(env);
         if (h)
-            b.setHeight(0);
+            b.            Height = 0;
         if (d)
-            b.setDepth(0);
+            b.            Depth = 0;
         return b;
     }
 }

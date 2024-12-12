@@ -124,8 +124,8 @@ public class VRowAtom : Atom {
             for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();) {
                 Box b = it.next().createBox(env);
                 boxes.Add(b);
-                if (maxWidth < b.getWidth()) {
-                    maxWidth = b.getWidth();
+                if (maxWidth < b.Width) {
+                    maxWidth = b.Width;
                 }
             }
             Box interline = new StrutBox(0, env.getInterline(), 0, 0);
@@ -150,15 +150,16 @@ public class VRowAtom : Atom {
             }
         }
 
-        vb.setShift(-raise.CreateBox(env).getWidth());
+        vb.
+        Shift = -raise.CreateBox(env).Width;
         if (vtop) {
-            float t = vb.getSize() == 0 ? 0 : vb.children.getFirst().getHeight();
-            vb.setHeight(t);
-            vb.setDepth(vb.getDepth() + vb.getHeight() - t);
+            float t = vb.getSize() == 0 ? 0 : vb.Children.First().Height;
+            vb.            Height = t;
+            vb.            Depth = vb.Depth + vb.Height - t;
         } else {
-            float t = vb.getSize() == 0 ? 0 : vb.children.getLast().getDepth();
-            vb.setHeight(vb.getDepth() + vb.getHeight() - t);
-            vb.setDepth(t);
+            float t = vb.getSize() == 0 ? 0 : vb.Children.Last().Depth;
+            vb.            Height = vb.Depth + vb.Height - t;
+            vb.            Depth = t;
         }
 
         return vb;

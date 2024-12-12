@@ -55,21 +55,21 @@ public class XLeftRightArrowFactory {
     private static readonly Atom LEFT = SymbolAtom.Get("leftarrow");
     private static readonly Atom RIGHT = SymbolAtom.Get("rightarrow");
 
-    public static Box create(bool left, TeXEnvironment env, float width) {
+    public static Box Create(bool left, TeXEnvironment env, float width) {
         Box arr = left ? LEFT.CreateBox(env) : RIGHT.CreateBox(env);
-        float h = arr.getHeight();
-        float d = arr.getDepth();
+        float h = arr.Height;
+        float d = arr.Depth;
 
-        float swidth = arr.getWidth();
+        float swidth = arr.Width;
         if (width <= swidth) {
-            arr.setDepth(d / 2);
+            arr.            Depth = d / 2;
             return arr;
         }
 
         Box minus = new SmashedAtom(MINUS, "").CreateBox(env);
         Box kern = new SpaceAtom(TeXConstants.UNIT_MU, -4f, 0, 0).CreateBox(env);
-        float mwidth = minus.getWidth() + kern.getWidth();
-        swidth += kern.getWidth();
+        float mwidth = minus.Width + kern.Width;
+        swidth += kern.Width;
         HorizontalBox hb = new HorizontalBox();
         float w;
         for (w = 0; w < width - swidth - mwidth; w += mwidth) {
@@ -77,7 +77,7 @@ public class XLeftRightArrowFactory {
             hb.Add(kern);
         }
 
-        float sf = (width - swidth - w) / minus.getWidth();
+        float sf = (width - swidth - w) / minus.Width;
 
         hb.Add(new SpaceAtom(TeXConstants.UNIT_MU, -2f * sf, 0, 0).CreateBox(env));
         hb.Add(new ScaleAtom(MINUS, sf, 1).CreateBox(env));
@@ -90,28 +90,29 @@ public class XLeftRightArrowFactory {
             hb.Add(arr);
         }
 
-        hb.setDepth(d / 2);
-        hb.setHeight(h);
+        hb.
+        Depth = d / 2;
+        hb.        Height = h;
 
         return hb;
     }
 
-    public static Box create(TeXEnvironment env, float width) {
+    public static Box Create(TeXEnvironment env, float width) {
         Box left = LEFT.CreateBox(env);
         Box right = RIGHT.CreateBox(env);
-        float swidth = left.getWidth() + right.getWidth();
+        float swidth = left.Width + right.Width;
 
         if (width < swidth) {
             HorizontalBox hb2 = new HorizontalBox(left);
-            hb2.Add(new StrutBox(-Math.Min(swidth - width, left.getWidth()), 0, 0, 0));
+            hb2.Add(new StrutBox(-Math.Min(swidth - width, left.Width), 0, 0, 0));
             hb2.Add(right);
             return hb2;
         }
 
         Box minus = new SmashedAtom(MINUS, "").CreateBox(env);
         Box kern = new SpaceAtom(TeXConstants.UNIT_MU, -3.4f, 0, 0).CreateBox(env);
-        float mwidth = minus.getWidth() + kern.getWidth();
-        swidth += 2 * kern.getWidth();
+        float mwidth = minus.Width + kern.Width;
+        swidth += 2 * kern.Width;
 
         HorizontalBox hb = new HorizontalBox();
         float w;
@@ -120,7 +121,7 @@ public class XLeftRightArrowFactory {
             hb.Add(kern);
         }
 
-        hb.Add(new ScaleBox(minus, (width - swidth - w) / minus.getWidth(), 1));
+        hb.Add(new ScaleBox(minus, (width - swidth - w) / minus.Width, 1));
 
         hb.Add(0, kern);
         hb.Add(0, left);

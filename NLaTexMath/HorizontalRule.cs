@@ -80,7 +80,7 @@ public class HorizontalRule : Box {
         shift = s;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) {
         Color old = g2.getColor();
         if (color != null)
             g2.setColor(color);
@@ -93,7 +93,5 @@ public class HorizontalRule : Box {
         g2.setColor(old);
     }
 
-    public override int getLastFontId() {
-        return TeXFont.NO_FONT;
-    }
+    public override int LastFontId => TeXFont.NO_FONT;
 }

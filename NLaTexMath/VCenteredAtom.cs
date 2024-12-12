@@ -62,11 +62,13 @@ public class VCenteredAtom : Atom {
     public override Box CreateBox(TeXEnvironment env) {
         Box b = atom.CreateBox(env);
 
-        float total = b.getHeight() + b.getDepth(), axis = env.TeXFont
+        float total = b.Height + b.Depth, axis = env.TeXFont
                       .getAxisHeight(env.getStyle());
 
         // center on axis
-        b.setShift(-(total / 2) - axis);
+        b.
+        // center on axis
+        Shift = -(total / 2) - axis;
 
         // put in horizontal box, so shifting will be vertically!
         return new HorizontalBox(b);

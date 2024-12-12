@@ -76,30 +76,28 @@ public class FramedBox : Box {
         this.bg = bg;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) {
         Stroke st = g2.getStroke();
         g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         float th = thickness / 2;
         if (bg != null) {
             Color prev = g2.getColor();
             g2.setColor(bg);
-            g2.fill(new Rectangle2D(x + th, y - height + th, width - thickness, height + depth - thickness));
+            g2.fill(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
             g2.setColor(prev);
         }
         if (line != null) {
             Color prev = g2.getColor();
             g2.setColor(line);
-            g2.draw(new Rectangle2D(x + th, y - height + th, width - thickness, height + depth - thickness));
+            g2.draw(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
             g2.setColor(prev);
         } else {
-            g2.draw(new Rectangle2D(x + th, y - height + th, width - thickness, height + depth - thickness));
+            g2.draw(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
         }
         //drawDebug(g2, x, y);
         g2.setStroke(st);
-        box.draw(g2, x + space + thickness, y);
+        box.Draw(g2, x + space + thickness, y);
     }
 
-    public override int getLastFontId() {
-        return box.getLastFontId();
-    }
+    public override int LastFontId => box.LastFontId;
 }

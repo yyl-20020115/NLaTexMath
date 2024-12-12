@@ -46,6 +46,8 @@
 
 /* Modified by Calixte Denizet to handle the case where several ligatures occure*/
 
+using NLaTexMath.dynamic;
+
 namespace NLaTexMath;
 
 /**
@@ -104,7 +106,7 @@ public class RowAtom : Atom , Row {
     }
 
     public Atom getLastAtom() {
-        if (elements.Length != 0) {
+        if (elements.Count != 0) {
             return elements.removeLast();
         }
 
@@ -224,13 +226,13 @@ public class RowAtom : Atom , Row {
                 CharBox cb = (CharBox) b;
                 cb.addItalicCorrectionToWidth();
             }
-            if (markAdded || (at is CharAtom && Character.isDigit(((CharAtom) at).Character))) {
-                hBox.addBreakPosition(hBox.children.Length);
+            if (markAdded || (at is CharAtom && char.IsDigit(((CharAtom) at).Character))) {
+                hBox.addBreakPosition(hBox.Children.Count);
             }
             hBox.Add(b);
 
             // set last used fontId (for next atom)
-            env.setLastFontId(b.getLastFontId());
+            env.setLastFontId(b.LastFontId);
 
             // insert kern
             if (Math.Abs(kern) > TeXFormula.PREC) {
@@ -253,18 +255,12 @@ public class RowAtom : Atom , Row {
     }
 
     public int getLeftType() {
-        if (elements.Length == 0) {
+        if (elements.Count == 0) {
             return TeXConstants.TYPE_ORDINARY;
         } else {
             return (elements[0]).LeftType;
         }
     }
 
-    public int getRightType() {
-        if (elements.Length == 0) {
-            return TeXConstants.TYPE_ORDINARY;
-        } else {
-            return (elements.Get(elements.Length - 1)).getRightType();
-        }
-    }
+    public int RightType => elements.Count == 0 ? TeXConstants.TYPE_ORDINARY : elements[^1].RightType;
 }

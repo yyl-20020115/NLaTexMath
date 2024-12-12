@@ -57,13 +57,13 @@ public class ParseOption {
         }
         StringTokenizer tokens = new StringTokenizer(options, ",");
         while (tokens.hasMoreTokens()) {
-            string tok = tokens.nextToken().trim();
+            string tok = tokens.nextToken().Trim();
             string[] optarg = tok.split("=");
             if (optarg != null) {
                 if (optarg.Length == 2) {
-                    map.Add(optarg[0].trim(), optarg[1].trim());
+                    map.Add(optarg[0].Trim(), optarg[1].Trim());
                 } else if (optarg.Length == 1) {
-                    map.Add(optarg[0].trim(), null);
+                    map.Add(optarg[0].Trim(), null);
                 }
             }
         }

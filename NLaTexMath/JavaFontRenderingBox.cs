@@ -52,7 +52,7 @@ using System.Drawing;
  */
 public class JavaFontRenderingBox : Box {
 
-    private static readonly Graphics TEMPGRAPHIC = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).createGraphics();
+    private static readonly Graphics TEMPGRAPHIC = new Bitmap(1, 1, Bitmap.TYPE_INT_ARGB).createGraphics();
 
     //TODO:
     private static Font font = null;// new Font("Serif", Font.PLAIN, 10);
@@ -84,7 +84,7 @@ public class JavaFontRenderingBox : Box {
         }
 
         this.text = new TextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
-        Rectangle2D rect = text.getBounds();
+        RectangleF rect = text.getBounds();
         this.height = (float) (-rect.getY() * size / 10);
         this.depth = (float) (rect.getHeight() * size / 10) - this.height;
         this.width = (float) ((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
@@ -100,8 +100,8 @@ public class JavaFontRenderingBox : Box {
         font = new Font(name, Font.PLAIN, 10);
     }
 
-    public override void draw(Graphics g2, float x, float y) {
-        drawDebug(g2, x, y);
+    public override void Draw(Graphics g2, float x, float y) {
+        DrawDebug(g2, x, y);
         g2.translate(x, y);
         g2.scale(0.1 * size, 0.1 * size);
         text.draw(g2, 0, 0);
@@ -109,7 +109,5 @@ public class JavaFontRenderingBox : Box {
         g2.translate(-x, -y);
     }
 
-    public override int getLastFontId() {
-        return 0;
-    }
+    public override int LastFontId => 0;
 }

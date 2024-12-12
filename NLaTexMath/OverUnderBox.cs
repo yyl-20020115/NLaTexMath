@@ -86,54 +86,52 @@ public class OverUnderBox : Box {
         this.over = over;
 
         // calculate metrics of the box
-        width = b.getWidth();
+        width = b.Width;
         height = b.height
-                 + (over ? d.getWidth() : 0)
+                 + (over ? d.Width : 0)
                  + (over && script != null ? script.height + script.depth + kern : 0);
         depth = b.depth
-                + (over ? 0 : d.getWidth())
+                + (over ? 0 : d.Width)
                 + (!over && script != null ? script.height + script.depth + kern : 0);
     }
 
-    public override void draw(Graphics g2, float x, float y) {
-        drawDebug(g2, x, y);
-        _base.draw(g2, x, y);
+    public override void Draw(Graphics g2, float x, float y) {
+        DrawDebug(g2, x, y);
+        _base.Draw(g2, x, y);
 
-        float yVar = y - base.height - del.getWidth();
-        del.setDepth(del.getHeight() + del.getDepth());
-        del.setHeight(0);
+        float yVar = y - base.height - del.Width;
+        del.        Depth = del.Height + del.Depth;
+        del.        Height = 0;
         if (over) { // draw delimiter and script above base box
             double transX = x + (del.height + del.depth) * 0.75, transY = yVar;
             AffineTransform oldAt = g2.getTransform();
             g2.translate(transX, transY);
             g2.rotate(Math.PI / 2);
-            del.draw(g2, 0, 0);
+            del.Draw(g2, 0, 0);
             g2.setTransform(oldAt);
 
             // draw superscript
             if (script != null) {
-                script.draw(g2, x, yVar - kern - script.depth);
+                script.Draw(g2, x, yVar - kern - script.depth);
             }
         }
 
         yVar = y + base.depth;
         if (!over) { // draw delimiter and script under base box
-            double transX = x + (del.getHeight() + del.depth) * 0.75, transY = yVar;
+            double transX = x + (del.Height + del.depth) * 0.75, transY = yVar;
             AffineTransform oldAt = g2.getTransform();
             g2.translate(transX, transY);
             g2.rotate(Math.PI / 2);
-            del.draw(g2, 0, 0);
+            del.Draw(g2, 0, 0);
             g2.setTransform(oldAt);
-            yVar += del.getWidth();
+            yVar += del.Width;
 
             // draw subscript
             if (script != null) {
-                script.draw(g2, x, yVar + kern + script.height);
+                script.Draw(g2, x, yVar + kern + script.height);
             }
         }
     }
 
-    public override int getLastFontId() {
-        return _base.getLastFontId();
-    }
+    public override int LastFontId => _base.LastFontId;
 }

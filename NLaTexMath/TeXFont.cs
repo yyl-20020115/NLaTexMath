@@ -54,7 +54,7 @@ namespace NLaTexMath;
  */
 public interface TeXFont {
 
-    public static readonly int NO_FONT = -1;
+    public const int   NO_FONT = -1;
 
     /**
      * Derives a new {@link TeXFont} object with the given point size

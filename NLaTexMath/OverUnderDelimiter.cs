@@ -87,7 +87,7 @@ public class OverUnderDelimiter : Atom
     public override Box CreateBox(TeXEnvironment env)
     {
         Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));
-        Box del = DelimiterFactory.create(symbol.getName(), env, b.getWidth());
+        Box del = DelimiterFactory.create(symbol.getName(), env, b.Width);
 
         Box scriptBox = null;
         if (script != null)
@@ -97,26 +97,26 @@ public class OverUnderDelimiter : Atom
 
         // create centered horizontal box if smaller than maximum width
         float max = getMaxWidth(b, del, scriptBox);
-        if (max - b.getWidth() > TeXFormula.PREC)
+        if (max - b.Width > TeXFormula.PREC)
         {
             b = new HorizontalBox(b, max, TeXConstants.ALIGN_CENTER);
         }
 
         del = new VerticalBox(del, max, TeXConstants.ALIGN_CENTER);
-        if (scriptBox != null && max - scriptBox.getWidth() > TeXFormula.PREC)
+        if (scriptBox != null && max - scriptBox.Width > TeXFormula.PREC)
         {
             scriptBox = new HorizontalBox(scriptBox, max, TeXConstants.ALIGN_CENTER);
         }
 
-        return new OverUnderBox(b, del, scriptBox, kern.CreateBox(env).getHeight(), over);
+        return new OverUnderBox(b, del, scriptBox, kern.CreateBox(env).Height, over);
     }
 
     private static float getMaxWidth(Box b, Box del, Box script)
     {
-        float max = Math.Max(b.getWidth(), del.getHeight() + del.getDepth());
+        float max = Math.Max(b.Width, del.Height + del.Depth);
         if (script != null)
         {
-            max = Math.Max(max, script.getWidth());
+            max = Math.Max(max, script.Width);
         }
 
         return max;

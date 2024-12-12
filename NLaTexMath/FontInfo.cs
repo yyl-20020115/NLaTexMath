@@ -56,7 +56,7 @@ public class FontInfo {
     /**
      * Maximum number of character codes in a TeX font.
      */
-    public static readonly int NUMBER_OF_CHAR_CODES = 256;
+    public const int   NUMBER_OF_CHAR_CODES = 256;
 
     private static Dictionary<int, FontInfo> fonts = [];
 
@@ -106,11 +106,11 @@ public class FontInfo {
     private int ssId;
     private int ttId;
     private int itId;
-    protected readonly string boldVersion;
-    protected readonly string romanVersion;
-    protected readonly string ssVersion;
-    protected readonly string ttVersion;
-    protected readonly string itVersion;
+    public readonly string boldVersion;
+    public readonly string romanVersion;
+    public readonly string ssVersion;
+    public readonly string ttVersion;
+    public readonly string itVersion;
 
     public FontInfo(int fontId, object _base, string path, string fontName, int unicode, float xHeight, float space, float quad, string boldVersion, string romanVersion, string ssVersion, string ttVersion, string itVersion) {
         this.fontId = fontId;
@@ -180,7 +180,7 @@ public class FontInfo {
         if (obj == null)
             return null;
         else
-            return new CharFont(((Character) obj).charValue(), fontId);
+            return new CharFont(((char) obj).charValue(), fontId);
     }
 
     public float[] getMetrics(char c) {
@@ -223,22 +223,22 @@ public class FontInfo {
         if (unicode == null)
             extensions[ch] = ext;
         else if (!unicode.ContainsKey(ch)) {
-            char s = (char)unicode.Length;
+            char s = (char)unicode.Count;
             unicode.Add(ch, s);
             extensions[s] = ext;
         } else
-            extensions[unicode.Get(ch)] = ext;
+            extensions[unicode[(ch)]] = ext;
     }
 
     public void setMetrics(char c, float[] arr) {
         if (unicode == null)
             metrics[c] = arr;
         else if (!unicode.ContainsKey(c)) {
-            char s = (char)unicode.Length;
+            char s = (char)unicode.Count;
             unicode.Add(c, s);
             metrics[s] = arr;
         } else
-            metrics[unicode.Get(c)] = arr;
+            metrics[unicode[(c)]] = arr;
     }
 
     public void setNextLarger(char ch, char larger, int fontLarger) {
@@ -312,7 +312,7 @@ public class FontInfo {
     }
 
     public static Font getFont(int id) {
-        return fonts.Get(id).getFont();
+        return fonts[(id)].getFont();
     }
 }
 

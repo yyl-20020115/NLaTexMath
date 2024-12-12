@@ -122,21 +122,21 @@ public class UnderOverAtom : Atom {
         // create boxes in right style and calculate maximum width
         Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));
         Box o = null, u = null;
-        float max = b.getWidth();
+        float max = b.Width;
         if (over != null) {
             o = over.CreateBox(overScriptSize ? env.subStyle() : env);
-            max = Math.Max(max, o.getWidth());
+            max = Math.Max(max, o.Width);
         }
         if (under != null) {
             u = under.CreateBox(underScriptSize ? env.subStyle() : env);
-            max = Math.Max(max, u.getWidth());
+            max = Math.Max(max, u.Width);
         }
 
         // create vertical box
         VerticalBox vBox = new VerticalBox();
 
         // last font used by the base (for Mspace atoms following)
-        env.setLastFontId(b.getLastFontId());
+        env.setLastFontId(b.LastFontId);
 
         // overscript + space
         if (over != null) {
@@ -151,7 +151,7 @@ public class UnderOverAtom : Atom {
 
         // calculate future height of the vertical box (to make sure that the base
         // stays on the baseline!)
-        float h = vBox.getHeight() + vBox.getDepth() - c.getDepth();
+        float h = vBox.Height + vBox.Depth - c.Depth;
 
         // underscript + space
         if (under != null) {
@@ -161,13 +161,15 @@ public class UnderOverAtom : Atom {
         }
 
         // set height and depth
-        vBox.setDepth(vBox.getHeight() + vBox.getDepth() - h);
-        vBox.setHeight(h);
+        vBox.
+        // set height and depth
+        Depth = vBox.Height + vBox.Depth - h;
+        vBox.        Height = h;
         return vBox;
     }
 
     private static Box changeWidth(Box b, float maxWidth) {
-        return b != null && Math.Abs(maxWidth - b.getWidth()) > TeXFormula.PREC
+        return b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
             ? new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER)
             : b;
     }

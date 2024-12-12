@@ -62,10 +62,10 @@ public class StrikeThroughAtom : Atom {
         float axis = tf.getAxisHeight(style);
         float drt = tf.getDefaultRuleThickness(style);
         Box b = at.CreateBox(env);
-        HorizontalRule rule = new HorizontalRule(drt, b.getWidth(), -axis + drt, false);
+        HorizontalRule rule = new HorizontalRule(drt, b.Width, -axis + drt, false);
         HorizontalBox hb = new HorizontalBox();
         hb.Add(b);
-        hb.Add(new StrutBox(-b.getWidth(), 0, 0, 0));
+        hb.Add(new StrutBox(-b.Width, 0, 0, 0));
         hb.Add(rule);
 
         return hb;

@@ -60,15 +60,15 @@ public class HdotsforAtom : MulticolumnAtom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        Box sp = new StrutBox(coeff * thin.CreateBox(env).getWidth(), 0, 0, 0);
+        Box sp = new StrutBox(coeff * thin.CreateBox(env).Width, 0, 0, 0);
         HorizontalBox db = new HorizontalBox(sp);
         db.Add(ldotp.CreateBox(env));
         db.Add(sp);
         Box b;
         if (w != 0) {
-            float dw = db.getWidth();
+            float dw = db.Width;
             b = new HorizontalBox(db);
-            while (b.getWidth() < w) {
+            while (b.Width < w) {
                 b.Add(db);
             }
             b = new HorizontalBox(b, w, TeXConstants.ALIGN_CENTER);
@@ -76,7 +76,7 @@ public class HdotsforAtom : MulticolumnAtom {
             b = db;
         }
 
-        b.type = TeXConstants.TYPE_MULTICOLUMN;
+        b.Type = TeXConstants.TYPE_MULTICOLUMN;
         return b;
     }
 }

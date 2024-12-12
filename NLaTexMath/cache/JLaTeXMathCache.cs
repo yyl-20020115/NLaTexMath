@@ -55,7 +55,7 @@ namespace NLaTexMath.cache;
 public  class JLaTeXMathCache {
 
     private static readonly AffineTransform identity = new AffineTransform();
-    private static ConcurrentDictionary<CachedTeXFormula, WeakReference<CachedImage>> cache = new (128);
+    private static ConcurrentDictionary<CachedTeXFormula, WeakReference<CachedImage>> cache = new ();
     private static int max = int.MaxValue;
     private static Queue<CachedImage> queue = new Queue<CachedImage>();
 
@@ -229,9 +229,9 @@ public  class JLaTeXMathCache {
 
     private static WeakReference<CachedImage> makeImage(CachedTeXFormula cached)  {
         TeXFormula formula = new TeXFormula(cached.f);
-        TeXIcon icon = formula.createTeXIcon(cached.style, cached.size, cached.type, cached.fgcolor);
+        TeXIcon icon = formula.CreateTeXIcon(cached.style, cached.size, cached.type, cached.fgcolor);
         icon.setInsets(new Insets(cached.inset, cached.inset, cached.inset, cached.inset));
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Bitmap image = new Bitmap(icon.getIconWidth(), icon.getIconHeight(), Bitmap.TYPE_INT_ARGB);
         Graphics g2 = image.createGraphics();
         icon.paintIcon(null, g2, 0, 0);
         g2.dispose();
@@ -304,7 +304,7 @@ public  class JLaTeXMathCache {
         public bool equals(object o) {
             if (o != null && o is CachedTeXFormula) {
                 CachedTeXFormula c = (CachedTeXFormula) o;
-                bool b = (c.f.equals(f) && c.style == style && c.type == type && c.size == size && c.inset == inset && c.fgcolor.equals(fgcolor));
+                bool b = (c.f==(f) && c.style == style && c.type == type && c.size == size && c.inset == inset && c.fgcolor==(fgcolor));
                 if (b) {
                     if (c.width == -1) {
                         c.width = width;

@@ -57,8 +57,8 @@ public class OvalBox : FramedBox {
         ;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
-        box.draw(g2, x + space + thickness, y);
+    public override void Draw(Graphics g2, float x, float y) {
+        box.Draw(g2, x + space + thickness, y);
         Stroke st = g2.getStroke();
         g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         float th = thickness / 2;
@@ -68,7 +68,5 @@ public class OvalBox : FramedBox {
         g2.setStroke(st);
     }
 
-    public override int getLastFontId() {
-        return box.getLastFontId();
-    }
+    public override int LastFontId => box.LastFontId;
 }

@@ -53,8 +53,8 @@ public class IddotsAtom : Atom {
     public IddotsAtom() { }
 
     public override Box CreateBox(TeXEnvironment env) {
-        Box ldots = TeXFormula.get("ldots").root.CreateBox(env);
-        float w = ldots.getWidth();
+        Box ldots = TeXFormula.Get("ldots").root.CreateBox(env);
+        float w = ldots.Width;
         Box dot = SymbolAtom.Get("ldotp").CreateBox(env);
         HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.ALIGN_RIGHT);
         HorizontalBox hb2 = new HorizontalBox(dot, w, TeXConstants.ALIGN_CENTER);
@@ -67,9 +67,9 @@ public class IddotsAtom : Atom {
         vb.Add(pt4);
         vb.Add(hb3);
 
-        float h = vb.getHeight() + vb.getDepth();
-        vb.setHeight(h);
-        vb.setDepth(0);
+        float h = vb.Height + vb.Depth;
+        vb.        Height = h;
+        vb.        Depth = 0;
 
         return vb;
     }

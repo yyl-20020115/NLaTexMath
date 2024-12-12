@@ -57,7 +57,7 @@ public class AccentedAtom : Atom {
     private bool changeSize = true;
 
     // _base atom
-    protected Atom _base = null;
+    public Atom _base = null;
     protected Atom underbase = null;
 
     public AccentedAtom(Atom _base, Atom accent){
@@ -142,7 +142,7 @@ public class AccentedAtom : Atom {
         // set _base in cramped style
         Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env.crampStyle()));
 
-        float u = b.getWidth();
+        float u = b.Width;
         float s = 0;
         if (underbase is CharSymbol)
             s = tf.getSkew(((CharSymbol) underbase).GetCharFont(tf), style);
@@ -159,7 +159,7 @@ public class AccentedAtom : Atom {
 
         // calculate delta
         float ec = -SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
-        float delta = acc ? ec : Math.Min(b.getHeight(), tf.getXHeight(style, ch.getFontCode()));
+        float delta = acc ? ec : Math.Min(b.Height, tf.getXHeight(style, ch.getFontCode()));
 
         // create vertical box
         VerticalBox vBox = new VerticalBox();
@@ -178,26 +178,26 @@ public class AccentedAtom : Atom {
             y = cb;
 
         // if diff > 0, center accent, otherwise center _base
-        float diff = (u - y.getWidth()) / 2;
-        y.setShift(s + (diff > 0 ? diff : 0));
+        float diff = (u - y.Width) / 2;
+        y.        Shift = s + (diff > 0 ? diff : 0);
         if (diff < 0)
-            b = new HorizontalBox(b, y.getWidth(), TeXConstants.ALIGN_CENTER);
+            b = new HorizontalBox(b, y.Width, TeXConstants.ALIGN_CENTER);
         vBox.Add(y);
 
         // kern
-        vBox.Add(new StrutBox(0, changeSize ? -delta : -b.getHeight(), 0, 0));
+        vBox.Add(new StrutBox(0, changeSize ? -delta : -b.Height, 0, 0));
         // _base
         vBox.Add(b);
 
         // set height and depth vertical box
-        float total = vBox.getHeight() + vBox.getDepth(), d = b.getDepth();
-        vBox.setDepth(d);
-        vBox.setHeight(total - d);
+        float total = vBox.Height + vBox.Depth, d = b.Depth;
+        vBox.        Depth = d;
+        vBox.        Height = total - d;
 
         if (diff < 0) {
             HorizontalBox hb = new HorizontalBox(new StrutBox(diff, 0, 0, 0));
             hb.Add(vBox);
-            hb.setWidth(u);
+            hb.            Width = u;
             return hb;
         }
 

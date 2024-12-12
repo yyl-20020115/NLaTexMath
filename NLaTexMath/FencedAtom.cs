@@ -117,8 +117,8 @@ public class FencedAtom : Atom
      */
     private static void center(Box box, float axis)
     {
-        float h = box.getHeight(), total = h + box.getDepth();
-        box.setShift(-(total / 2 - h) - axis);
+        float h = box.Height, total = h + box.Depth;
+        box.        Shift = -(total / 2 - h) - axis;
     }
 
     public override Box CreateBox(TeXEnvironment env)
@@ -127,7 +127,7 @@ public class FencedAtom : Atom
         Box content = _base.CreateBox(env);
         float shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXConstants.UNIT_POINT, env);
         float axis = tf.getAxisHeight(env.getStyle());
-        float delta = Math.Max(content.getHeight() - axis, content.getDepth() + axis);
+        float delta = Math.Max(content.Height - axis, content.Depth + axis);
         float minHeight = Math.Max((delta / 500) * DELIMITER_FACTOR, 2 * delta - shortfall);
 
         // construct box

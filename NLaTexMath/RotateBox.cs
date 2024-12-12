@@ -53,18 +53,18 @@ using System.Drawing;
 public class RotateBox : Box
 {
 
-    public static readonly int BL = 0;
-    public static readonly int BC = 1;
-    public static readonly int BR = 2;
-    public static readonly int TL = 3;
-    public static readonly int TC = 4;
-    public static readonly int TR = 5;
-    public static readonly int BBL = 6;
-    public static readonly int BBR = 7;
-    public static readonly int BBC = 8;
-    public static readonly int CL = 9;
-    public static readonly int CC = 10;
-    public static readonly int CR = 11;
+    public const int   BL = 0;
+    public const int   BC = 1;
+    public const int   BR = 2;
+    public const int   TL = 3;
+    public const int   TC = 4;
+    public const int   TR = 5;
+    public const int   BBL = 6;
+    public const int   BBR = 7;
+    public const int   BBC = 8;
+    public const int   CL = 9;
+    public const int   CC = 10;
+    public const int   CR = 11;
 
     protected double angle = 0;
     private Box box;
@@ -93,14 +93,16 @@ public class RotateBox : Box
         depth = -ymin - shiftY;
     }
 
-    public RotateBox(Box b, double angle, Point origin)
+    public RotateBox(Box b, double angle, PointF origin)
+        : this(b, angle, origin.X, origin.Y)
     {
-        this(b, angle, origin.X, origin.Y);
+        ;
     }
 
     public RotateBox(Box b, double angle, int option)
+        : this(b, angle, calculateShift(b, option))
     {
-        this(b, angle, calculateShift(b, option));
+        ;
     }
 
     public static int getOrigin(string option)
@@ -227,20 +229,17 @@ public class RotateBox : Box
         return p;
     }
 
-    public override void draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g2, float x, float y)
     {
-        drawDebug(g2, x, y);
-        box.drawDebug(g2, x, y, true);
+        DrawDebug(g2, x, y);
+        box.DrawDebug(g2, x, y, true);
         y -= shiftY;
         x += shiftX - xmin;
         g2.rotate(-angle, x, y);
-        box.draw(g2, x, y);
-        box.drawDebug(g2, x, y, true);
+        box.Draw(g2, x, y);
+        box.DrawDebug(g2, x, y, true);
         g2.rotate(angle, x, y);
     }
 
-    public override int getLastFontId()
-    {
-        return box.getLastFontId();
-    }
+    public override int LastFontId => box.LastFontId;
 }

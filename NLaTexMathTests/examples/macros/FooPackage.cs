@@ -87,7 +87,7 @@ public class FooPackage {
         }
 
         public Box createBox(TeXEnvironment env) {
-            return new MyBox((int) f, new SpaceAtom(TeXConstants.UNIT_POINT, f, 0, 0).CreateBox(env).getWidth(), filled);
+            return new MyBox((int) f, new SpaceAtom(TeXConstants.UNIT_POINT, f, 0, 0).CreateBox(env).Width, filled);
         }
     }
 
@@ -119,8 +119,6 @@ public class FooPackage {
             g2.setTransform(oldAt);
         }
 
-        public override int getLastFontId() {
-            return 0;
-        }
+        public override int LastFontId => 0;
     }
 }

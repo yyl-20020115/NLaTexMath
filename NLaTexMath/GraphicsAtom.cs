@@ -65,7 +65,7 @@ public class GraphicsAtom : Atom {
 
     public GraphicsAtom(string path, string option) {
         File f = new File(path);
-        if (!f.exists()) {
+        if (!f.Exists()) {
             try {
                 Uri url = new Uri(path);
                 image = Toolkit.getDefaultToolkit().getImage(url);
@@ -118,7 +118,7 @@ public class GraphicsAtom : Atom {
         if (image != null) {
             w = image.getWidth(c);
             h = image.getHeight(c);
-            bimage = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+            bimage = new Bitmap(w, h, Bitmap.TYPE_INT_ARGB);
             Graphics g2d = bimage.createGraphics();
             g2d.drawImage(image, 0, 0, null);
             g2d.dispose();

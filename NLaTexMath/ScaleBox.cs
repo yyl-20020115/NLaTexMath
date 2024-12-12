@@ -57,8 +57,8 @@ public class ScaleBox : Box {
 
     public ScaleBox(Box b, double xscl, double yscl) {
         this.box = b;
-        this.xscl = (Double.isNaN(xscl) || Double.isInfinite(xscl)) ? 0 : xscl;
-        this.yscl = (Double.isNaN(yscl) || Double.isInfinite(yscl)) ? 0 : yscl;
+        this.xscl = (Double.IsNaN(xscl) || Double.IsInfinity(xscl)) ? 0 : xscl;
+        this.yscl = (Double.IsNaN(yscl) || Double.IsInfinity(yscl)) ? 0 : yscl;
         width = b.width * (float) Math.Abs(this.xscl);
         height = this.yscl > 0 ? b.height * (float) this.yscl : -b.depth * (float) this.yscl;
         depth = this.yscl > 0 ? b.depth * (float) this.yscl : -b.height * (float) this.yscl;
@@ -70,19 +70,17 @@ public class ScaleBox : Box {
         ;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
-        drawDebug(g2, x, y);
+    public override void Draw(Graphics g2, float x, float y) {
+        DrawDebug(g2, x, y);
         if (xscl != 0 && yscl != 0) {
             float dec = xscl < 0 ? width : 0;
             g2.translate(x + dec, y);
             g2.scale(xscl, yscl);
-            box.draw(g2, 0, 0);
+            box.Draw(g2, 0, 0);
             g2.scale(1 / xscl, 1 / yscl);
             g2.translate(-x - dec, -y);
         }
     }
 
-    public override int getLastFontId() {
-        return box.getLastFontId();
-    }
+    public override int LastFontId => box.LastFontId;
 }

@@ -93,7 +93,7 @@ public class ScriptsAtom : Atom {
 
             HorizontalBox hor = new HorizontalBox(b);
 
-            int lastFontId = b.getLastFontId();
+            int lastFontId = b.LastFontId;
             // if no last font found (whitespace box), use default "mu font"
             if (lastFontId == TeXFont.NO_FONT)
                 lastFontId = tf.getMuFontId();
@@ -106,9 +106,9 @@ public class ScriptsAtom : Atom {
             // TODO: use polymorphism?
             if (_base is AccentedAtom) { // special case :
                 // accent. This positions superscripts better next to the accent!
-                Box box = ((AccentedAtom)_base)._base.createBox(env.crampStyle());
-                shiftUp = box.getHeight() - tf.getSupDrop(supStyle.getStyle());
-                shiftDown = box.getDepth() + tf.getSubDrop(subStyle.getStyle());
+                Box box = ((AccentedAtom)_base)._base.CreateBox(env.crampStyle());
+                shiftUp = box.Height - tf.getSupDrop(supStyle.getStyle());
+                shiftDown = box.Depth + tf.getSubDrop(subStyle.getStyle());
             } else if (_base is SymbolAtom
                        && base.Type == TeXConstants.TYPE_BIG_OPERATOR) { // single big operator symbol
                 Char c = tf.getChar(((SymbolAtom)_base).getName(), style);
@@ -117,8 +117,9 @@ public class ScriptsAtom : Atom {
                     c = tf.getNextLarger(c, style);
                 Box x = new CharBox(c);
 
-                x.setShift(-(x.getHeight() + x.getDepth()) / 2
-                           - env.TeXFont.getAxisHeight(env.getStyle()));
+                x.
+                Shift = -(x.Height + x.Depth) / 2
+                           - env.TeXFont.getAxisHeight(env.getStyle());
                 hor = new HorizontalBox(x);
 
                 // include delta in width or not?
@@ -127,8 +128,8 @@ public class ScriptsAtom : Atom {
                 if (delta > TeXFormula.PREC && subscript == null)
                     hor.Add(new StrutBox(delta, 0, 0, 0));
 
-                shiftUp = hor.getHeight() - tf.getSupDrop(supStyle.getStyle());
-                shiftDown = hor.getDepth() + tf.getSubDrop(subStyle.getStyle());
+                shiftUp = hor.Height - tf.getSupDrop(supStyle.getStyle());
+                shiftDown = hor.Depth + tf.getSubDrop(subStyle.getStyle());
             } else if (_base is CharSymbol) {
                 shiftUp = shiftDown = 0;
                 CharFont cf = ((CharSymbol)_base).GetCharFont(tf);
@@ -140,23 +141,24 @@ public class ScriptsAtom : Atom {
                     delta = 0;
                 }
             } else {
-                shiftUp = b.getHeight() - tf.getSupDrop(supStyle.getStyle());
-                shiftDown = b.getDepth() + tf.getSubDrop(subStyle.getStyle());
+                shiftUp = b.Height - tf.getSupDrop(supStyle.getStyle());
+                shiftDown = b.Depth + tf.getSubDrop(subStyle.getStyle());
             }
 
             if (superscript == null) { // only subscript
                 Box x = subscript.CreateBox(subStyle);
                 // calculate and set shift amount
-                x.setShift(Math.Max(Math.Max(shiftDown, tf.getSub1(style)), x.getHeight() - 4 * Math.Abs(tf.getXHeight(style, lastFontId)) / 5));
+                x.                // calculate and set shift amount
+                Shift = Math.Max(Math.Max(shiftDown, tf.getSub1(style)), x.Height - 4 * Math.Abs(tf.getXHeight(style, lastFontId)) / 5);
                 hor.Add(x);
                 hor.Add(deltaSymbol);
 
                 return hor;
             } else {
                 Box x = superscript.CreateBox(supStyle);
-                float msiz = x.getWidth();
+                float msiz = x.Width;
                 if (subscript != null && align == TeXConstants.ALIGN_RIGHT) {
-                    msiz = Math.Max(msiz, subscript.CreateBox(subStyle).getWidth());
+                    msiz = Math.Max(msiz, subscript.CreateBox(subStyle).Width);
                 }
 
                 HorizontalBox sup = new HorizontalBox(x, msiz, align);
@@ -170,11 +172,11 @@ public class ScriptsAtom : Atom {
                     p = tf.getSup3(style);
                 else
                     p = tf.getSup2(style);
-                shiftUp = Math.Max(Math.Max(shiftUp, p), x.getDepth()
+                shiftUp = Math.Max(Math.Max(shiftUp, p), x.Depth
                                    + Math.Abs(tf.getXHeight(style, lastFontId)) / 4);
 
                 if (subscript == null) { // only superscript
-                    sup.setShift(-shiftUp);
+                    sup.                    Shift = -shiftUp;
                     hor.Add(sup);
                 } else { // both superscript and subscript
                     Box y = subscript.CreateBox(subStyle);
@@ -185,8 +187,8 @@ public class ScriptsAtom : Atom {
                     shiftDown = Math.Max(shiftDown, tf.getSub2(style));
                     // position both sub- and superscript
                     float drt = tf.getDefaultRuleThickness(style);
-                    float interSpace = shiftUp - x.getDepth() + shiftDown
-                                       - y.getHeight(); // space between sub- en
+                    float interSpace = shiftUp - x.Depth + shiftDown
+                                       - y.Height; // space between sub- en
                     // superscript
                     if (interSpace < 4 * drt) { // too small
                         shiftUp += 4 * drt - interSpace;
@@ -194,7 +196,7 @@ public class ScriptsAtom : Atom {
                         // above
                         // baseline
                         float psi = 4 * Math.Abs(tf.getXHeight(style, lastFontId))
-                                    / 5 - (shiftUp - x.getDepth());
+                                    / 5 - (shiftUp - x.Depth);
 
                         if (psi > 0) {
                             shiftUp += psi;
@@ -204,14 +206,14 @@ public class ScriptsAtom : Atom {
                     // create total box
 
                     VerticalBox vBox = new VerticalBox();
-                    sup.setShift(delta);
+                    sup.                    Shift = delta;
                     vBox.Add(sup);
                     // recalculate interspace
-                    interSpace = shiftUp - x.getDepth() + shiftDown - y.getHeight();
+                    interSpace = shiftUp - x.Depth + shiftDown - y.Height;
                     vBox.Add(new StrutBox(0, interSpace, 0, 0));
                     vBox.Add(sub);
-                    vBox.setHeight(shiftUp + x.getHeight());
-                    vBox.setDepth(shiftDown + y.getDepth());
+                    vBox.                    Height = shiftUp + x.Height;
+                    vBox.                    Depth = shiftDown + y.Depth;
                     hor.Add(vBox);
                 }
                 hor.Add(deltaSymbol);

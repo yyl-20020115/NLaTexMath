@@ -59,7 +59,7 @@ public class DefaultTeXFont : TeXFont {
     /**
      * No extension part for that kind (TOP,MID,REP or BOT)
      */
-    public static readonly int NONE = -1;
+    public const int   NONE = -1;
 
     public readonly static int NUMBERS = 0;
     public readonly static int CAPITALS = 1;
@@ -74,12 +74,12 @@ public class DefaultTeXFont : TeXFont {
 
     private static bool magnificationEnable = true;
 
-    public static readonly int TOP = 0, MID = 1, REP = 2, BOT = 3;
+    public const int   TOP = 0, MID = 1, REP = 2, BOT = 3;
 
-    public static readonly int WIDTH = 0, HEIGHT = 1, DEPTH = 2, IT = 3;
+    public const int   WIDTH = 0, HEIGHT = 1, DEPTH = 2, IT = 3;
 
-    public static List<UnicodeBlock> loadedAlphabets = new List<UnicodeBlock>();
-    public static Dictionary<UnicodeBlock, AlphabetRegistration> registeredAlphabets = new HashMap<Character.UnicodeBlock, AlphabetRegistration>();
+    public static List<UnicodeBlock> loadedAlphabets = [];
+    public static Dictionary<UnicodeBlock, AlphabetRegistration> registeredAlphabets = [];
 
     protected float factor = 1f;
 
@@ -92,7 +92,7 @@ public class DefaultTeXFont : TeXFont {
     static DefaultTeXFont() {
         DefaultTeXFontParser parser = new DefaultTeXFontParser();
         //load LATIN block
-        loadedAlphabets.Add(Character.UnicodeBlock.of('a'));
+        loadedAlphabets.Add(UnicodeBlock.of('a'));
         // fonts + font descriptions
         fontInfo = parser.parseFontDescriptions(fontInfo);
         // general font parameters
@@ -210,7 +210,7 @@ public class DefaultTeXFont : TeXFont {
     }
 
     public static void registerAlphabet(AlphabetRegistration reg) {
-        Character.UnicodeBlock[] blocks = reg.UnicodeBlocks;
+        UnicodeBlock[] blocks = reg.UnicodeBlocks;
         for (int i = 0; i < blocks.Length; i++) {
             registeredAlphabets.Add(blocks[i], reg);
         }
@@ -571,6 +571,6 @@ public class DefaultTeXFont : TeXFont {
         else if (style < TeXConstants.STYLE_SCRIPT_SCRIPT)
             return generalSettings.get("scriptfactor").floatValue();
         else
-            return generalSettings.get("scriptscriptfactor").floatValue();
+            return generalSettings[("scriptscriptfactor")].floatValue();
     }
 }

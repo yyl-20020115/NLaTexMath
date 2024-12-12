@@ -86,10 +86,10 @@ public class MacroInfo {
         Type[] args = [typeof(TeXParser), typeof(string[])];
 
         try {
-            object pack = Packages.Get(className);
+            object pack = Packages[className];
             if (pack == null) {
-                Type cl = Class.forName(className);
-                pack = cl.getConstructor(new Class[0]).newInstance(new object[0]);
+                Type cl = Type.forName(className);
+                pack = cl.getConstructor(new Type[0]).newInstance(new object[0]);
                 Packages.Add(className, pack);
             }
             this.pack = pack;
@@ -107,9 +107,9 @@ public class MacroInfo {
 
         try
         {
-            object pack = Packages.Get(className);
+            object pack = Packages[className];
             if (pack == null) {
-                Type cl = Class.forName(className);
+                Type cl = Type.forName(className);
                 pack = cl.getConstructor(new Class[0]).newInstance(new object[0]);
                 Packages.Add(className, pack);
             }

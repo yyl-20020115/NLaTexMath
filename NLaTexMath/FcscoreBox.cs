@@ -66,7 +66,7 @@ public class FcscoreBox : Box {
         this.thickness = thickness;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) {
         AffineTransform transf = g2.getTransform();
         Stroke oldStroke = g2.getStroke();
 
@@ -106,7 +106,5 @@ public class FcscoreBox : Box {
         g2.setStroke(oldStroke);
     }
 
-    public override int getLastFontId() {
-        return TeXFont.NO_FONT;
-    }
+    public override int LastFontId => TeXFont.NO_FONT;
 }

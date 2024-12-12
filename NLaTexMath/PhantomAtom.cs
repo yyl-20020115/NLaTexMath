@@ -69,13 +69,13 @@ public class PhantomAtom : Atom , Row {
 
     public override Box CreateBox(TeXEnvironment env) {
         Box res = elements.CreateBox(env);
-        return new StrutBox((w ? res.getWidth() : 0), (h ? res.getHeight() : 0),
-                            (d ? res.getDepth() : 0), res.getShift());
+        return new StrutBox((w ? res.Width : 0), (h ? res.Height : 0),
+                            (d ? res.Depth : 0), res.Shift);
     }
 
     public override int LeftType => elements.getLeftType();
 
-    public override int RightType => elements.getRightType();
+    public override int RightType => elements.RightType;
 
     public void SetPreviousAtom(Dummy prev) {
         elements.SetPreviousAtom(prev);

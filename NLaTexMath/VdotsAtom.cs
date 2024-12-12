@@ -60,10 +60,10 @@ public class VdotsAtom : Atom {
         vb.Add(dot);
         vb.Add(b);
         vb.Add(dot);
-        float d = vb.getDepth();
-        float h = vb.getHeight();
-        vb.setDepth(0);
-        vb.setHeight(d + h);
+        float d = vb.Depth;
+        float h = vb.Height;
+        vb.        Depth = 0;
+        vb.        Height = d + h;
 
         return vb;
     }

@@ -66,7 +66,7 @@ public class FooPackageTest {
         latex += "\\end{array}";
 
         TeXFormula formula = new TeXFormula(latex);
-        TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
+        TeXIcon icon = formula.CreateTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
         icon.setInsets(new Insets(5, 5, 5, 5));
 
         BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),

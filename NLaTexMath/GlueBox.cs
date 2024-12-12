@@ -63,10 +63,10 @@ public class GlueBox : Box
         this.shrink = shrink;
     }
 
-    public override void draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g2, float x, float y)
     {
         // no visible effect
     }
 
-    public override int getLastFontId() => TeXFont.NO_FONT;
+    public override int LastFontId => TeXFont.NO_FONT;
 }

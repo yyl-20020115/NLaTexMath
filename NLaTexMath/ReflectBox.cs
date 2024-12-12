@@ -62,16 +62,14 @@ public class ReflectBox : Box {
         shift = b.shift;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
-        drawDebug(g2, x, y);
+    public override void Draw(Graphics g2, float x, float y) {
+        DrawDebug(g2, x, y);
         g2.translate(x, y);
         g2.scale(-1, 1);
-        box.draw(g2, -width, 0);
+        box.Draw(g2, -width, 0);
         g2.scale(-1, 1);
         g2.translate(-x, -y);
     }
 
-    public override int getLastFontId() {
-        return box.getLastFontId();
-    }
+    public override int LastFontId => box.LastFontId;
 }

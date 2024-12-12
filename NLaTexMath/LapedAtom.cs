@@ -59,17 +59,17 @@ public class LapedAtom(Atom at, char type) : Atom
         Box b = at.CreateBox(env);
         VerticalBox vb = new VerticalBox();
         vb.Add(b);
-        vb.setWidth(0);
+        vb.        Width = 0;
         switch (type)
         {
             case 'l':
-                b.setShift(-b.getWidth());
+                b.                Shift = -b.Width;
                 break;
             case 'r':
-                b.setShift(0);
+                b.                Shift = 0;
                 break;
             default:
-                b.setShift(-b.getWidth() / 2);
+                b.                Shift = -b.Width / 2;
                 break;
         }
 

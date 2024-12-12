@@ -55,7 +55,7 @@ public class OverBar : VerticalBox {
     public OverBar(Box b, float kern, float thickness) {
         // construct vertical box
         Add(new StrutBox(0, thickness, 0, 0));
-        Add(new HorizontalRule(thickness, b.getWidth(), 0));
+        Add(new HorizontalRule(thickness, b.Width, 0));
         Add(new StrutBox(0, kern, 0, 0));
         Add(b);
     }

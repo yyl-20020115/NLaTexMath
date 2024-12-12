@@ -68,8 +68,10 @@ public class OverlinedAtom : Atom {
         OverBar ob = new OverBar(b, 3 * drt, drt);
 
         // baseline vertical box = baseline box b
-        ob.setDepth(b.getDepth());
-        ob.setHeight(b.getHeight() + 5 * drt);
+        ob.
+        // baseline vertical box = baseline box b
+        Depth = b.Depth;
+        ob.        Height = b.Height + 5 * drt;
 
         return ob;
     }

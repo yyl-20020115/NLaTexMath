@@ -64,10 +64,10 @@ public class BigDelimiterAtom : Atom
     {
         Box b = DelimiterFactory.Create(delim, env, size);
         HorizontalBox hbox = new HorizontalBox();
-        float h = b.getHeight();
-        float total = h + b.getDepth();
+        float h = b.Height;
+        float total = h + b.Depth;
         float axis = env.TeXFont.getAxisHeight(env.getStyle());
-        b.setShift(-total / 2 + h - axis);
+        b.        Shift = -total / 2 + h - axis;
         hbox.Add(b);
         return hbox;
     }

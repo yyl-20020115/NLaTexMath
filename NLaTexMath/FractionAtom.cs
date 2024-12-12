@@ -212,10 +212,10 @@ public class FractionAtom : Atom {
         Box denom = (denominator == null ? new StrutBox(0, 0, 0, 0) : denominator
                      .CreateBox(env.denomStyle()));
 
-        if (num.getWidth() < denom.getWidth())
-            num = new HorizontalBox(num, denom.getWidth(), numAlign);
+        if (num.Width < denom.Width)
+            num = new HorizontalBox(num, denom.Width, numAlign);
         else
-            denom = new HorizontalBox(denom, num.getWidth(), denomAlign);
+            denom = new HorizontalBox(denom, num.Width, denomAlign);
 
         // calculate default shift amounts
         float shiftUp, shiftDown;
@@ -246,8 +246,8 @@ public class FractionAtom : Atom {
 
             // adjust shift amounts
             delta = thickness / 2;
-            float kern1 = shiftUp - num.getDepth() - (axis + delta), kern2 = axis
-                          - delta - (denom.getHeight() - shiftDown);
+            float kern1 = shiftUp - num.Depth - (axis + delta), kern2 = axis
+                          - delta - (denom.Height - shiftDown);
             float delta1 = clr - kern1, delta2 = clr - kern2;
             if (delta1 > 0) {
                 shiftUp += delta1;
@@ -260,7 +260,7 @@ public class FractionAtom : Atom {
 
             // fill vertical box
             vBox.Add(new StrutBox(0, kern1, 0, 0));
-            vBox.Add(new HorizontalRule(thickness, num.getWidth(), 0));
+            vBox.Add(new HorizontalRule(thickness, num.Width, 0));
             vBox.Add(new StrutBox(0, kern2, 0, 0));
         } else { // WITHOUT fraction rule
             // clearance clr
@@ -270,8 +270,8 @@ public class FractionAtom : Atom {
                 clr = 3 * drt;
 
             // adjust shift amounts
-            float kern = shiftUp - num.getDepth()
-                         - (denom.getHeight() - shiftDown);
+            float kern = shiftUp - num.Depth
+                         - (denom.Height - shiftDown);
             delta = (clr - kern) / 2;
             if (delta > 0) {
                 shiftUp += delta;
@@ -285,12 +285,12 @@ public class FractionAtom : Atom {
 
         // finish vertical box
         vBox.Add(denom);
-        vBox.setHeight(shiftUp + num.getHeight());
-        vBox.setDepth(shiftDown + denom.getDepth());
+        vBox.        Height = shiftUp + num.Height;
+        vBox.        Depth = shiftDown + denom.Depth;
 
         // \nulldelimiterspace is set by default to 1.2pt = 0.12em)
-        float f = new SpaceAtom(TeXConstants.UNIT_EM, 0.12f, 0, 0).CreateBox(env).getWidth();
+        float f = new SpaceAtom(TeXConstants.UNIT_EM, 0.12f, 0, 0).CreateBox(env).Width;
 
-        return new HorizontalBox(vBox, vBox.getWidth() + 2 * f, TeXConstants.ALIGN_CENTER);
+        return new HorizontalBox(vBox, vBox.Width + 2 * f, TeXConstants.ALIGN_CENTER);
     }
 }

@@ -77,7 +77,7 @@ public class VerticalBox : Box {
 
     public void Add(Box b) {
         base.Add(b);
-        if (children.Count == 1) {
+        if (Children.Count == 1) {
             height = b.height;
             depth = b.depth;
         } else
@@ -86,7 +86,7 @@ public class VerticalBox : Box {
     }
 
     public  void Add(Box b, float interline) {
-        if (children.Count >= 1) {
+        if (Children.Count >= 1) {
             Add(new StrutBox(0, interline, 0, 0));
         }
         Add(b);
@@ -108,27 +108,31 @@ public class VerticalBox : Box {
         recalculateWidth(b);
     }
 
-    public override void draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) {
         float yPos = y - height;
-        foreach(Box b in children) {
-            yPos += b.getHeight();
-            b.draw(g2, x + b.getShift() - leftMostPos, yPos);
-            yPos += b.getDepth();
+        foreach(Box b in Children) {
+            yPos += b.Height;
+            b.Draw(g2, x + b.Shift - leftMostPos, yPos);
+            yPos += b.Depth;
         }
     }
 
     public int getSize() {
-        return children.Count;
+        return Children.Count;
     }
 
-    public override int getLastFontId() {
-        // iterate from the last child box (the lowest) to the first (the highest)
-        // untill a font id is found that's not equal to NO_FONT
-        int fontId = TeXFont.NO_FONT;
-        for (ListIterator<Box> it = children.listIterator(children.Length); fontId == TeXFont.NO_FONT
-                && it.hasPrevious();)
-            fontId = it.previous().getLastFontId();
+    public override int LastFontId
+    {
+        get
+        {
+            // iterate from the last child box (the lowest) to the first (the highest)
+            // untill a font id is found that's not equal to NO_FONT
+            int fontId = TeXFont.NO_FONT;
+            for (ListIterator<Box> it = Children.listIterator(Children.Count); fontId == TeXFont.NO_FONT
+                    && it.hasPrevious();)
+                fontId = it.previous().getLastFontId();
 
-        return fontId;
+            return fontId;
+        }
     }
 }

@@ -58,10 +58,10 @@ public class TextCircledAtom : Atom {
 
     public override Box CreateBox(TeXEnvironment env) {
         Box circle = SymbolAtom.Get("bigcirc").CreateBox(env);
-        circle.setShift(-0.07f * SpaceAtom.getFactor(TeXConstants.UNIT_EX, env));
+        circle.        Shift = -0.07f * SpaceAtom.getFactor(TeXConstants.UNIT_EX, env);
         Box box = at.CreateBox(env);
-        HorizontalBox hb = new HorizontalBox(box, circle.getWidth(), TeXConstants.ALIGN_CENTER);
-        hb.Add(new StrutBox(-hb.getWidth(), 0, 0, 0));
+        HorizontalBox hb = new HorizontalBox(box, circle.Width, TeXConstants.ALIGN_CENTER);
+        hb.Add(new StrutBox(-hb.Width, 0, 0, 0));
         hb.Add(circle);
         return hb;
     }

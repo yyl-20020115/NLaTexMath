@@ -84,9 +84,8 @@ public class TeXIcon {
      * @param b the formula box to be painted
      * @param size the point size
      */
-    protected TeXIcon(Box b, float size) : this(b, size, false)
+    public TeXIcon(Box b, float size) : this(b, size, false)
     {
-       ;
     }
 
     protected TeXIcon(Box b, float size, bool trueValues) {
@@ -164,7 +163,7 @@ public class TeXIcon {
     public void setIconWidth(int width, int alignment) {
         float diff = width - getIconWidth();
         if (diff > 0)
-            box = new HorizontalBox(box, box.getWidth() + diff, alignment);
+            box = new HorizontalBox(box, box.Width + diff, alignment);
     }
 
     /**
@@ -186,14 +185,14 @@ public class TeXIcon {
      * Get the total height of the TeXIcon. This also includes the insets.
      */
     public int getIconHeight() {
-        return ((int) ((box.getHeight()) * size + 0.99 + insets.top)) +  ((int) ((box.getDepth()) * size + 0.99 + insets.bottom));
+        return ((int) ((box.Height) * size + 0.99 + insets.top)) +  ((int) ((box.Depth) * size + 0.99 + insets.bottom));
     }
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
     public int getIconDepth() {
-        return (int) (box.getDepth() * size + 0.99 + insets.bottom);
+        return (int) (box.Depth * size + 0.99 + insets.bottom);
     }
 
     /**
@@ -201,18 +200,18 @@ public class TeXIcon {
      */
 
     public int getIconWidth() {
-        return (int) (box.getWidth() * size + 0.99 + insets.left + insets.right);
+        return (int) (box.Width * size + 0.99 + insets.left + insets.right);
     }
 
     public float getTrueIconHeight() {
-        return (box.getHeight() + box.getDepth()) * size;
+        return (box.Height + box.Depth) * size;
     }
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
     public float getTrueIconDepth() {
-        return box.getDepth() * size;
+        return box.Depth * size;
     }
 
     /**
@@ -220,12 +219,12 @@ public class TeXIcon {
      */
 
     public float getTrueIconWidth() {
-        return box.getWidth() * size;
+        return box.Width * size;
     }
 
     public float getBaseLine() {
-        return (float)( (box.getHeight() * size + 0.99 + insets.top) /
-                        ((box.getHeight() + box.getDepth()) * size + 0.99 + insets.top + insets.bottom));
+        return (float)( (box.Height * size + 0.99 + insets.top) /
+                        ((box.Height + box.Depth) * size + 0.99 + insets.top + insets.bottom));
     }
 
     public Box getBox() {
@@ -260,7 +259,7 @@ public class TeXIcon {
         }
 
         // draw formula box
-        box.draw(g2, (x + insets.left) / size, (y + insets.top) / size+ box.getHeight());
+        box.Draw(g2, (x + insets.left) / size, (y + insets.top) / size+ box.Height);
 
         // restore graphics settings
         g2.setRenderingHints(oldHints);

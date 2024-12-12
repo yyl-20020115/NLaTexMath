@@ -156,8 +156,8 @@ public class BigOperatorAtom : Atom {
                 z = under.CreateBox(env.subStyle());
 
             // make boxes equally wide
-            float maxWidth = Math.Max(Math.Max(x == null ? 0 : x.getWidth(), y
-                                               .getWidth()), z == null ? 0 : z.getWidth());
+            float maxWidth = Math.Max(Math.Max(x == null ? 0 : x.Width, y
+                                               .Width), z == null ? 0 : z.Width);
             x = ChangeWidth(x, maxWidth);
             y = ChangeWidth(y, maxWidth);
             z = ChangeWidth(z, maxWidth);
@@ -171,13 +171,13 @@ public class BigOperatorAtom : Atom {
             // over
             if (over != null) {
                 vBox.Add(new StrutBox(0, bigop5, 0, 0));
-                x.setShift(delta / 2);
+                x.                Shift = delta / 2;
                 vBox.Add(x);
                 kern = Math.Max(tf.getBigOpSpacing1(style), tf
                                 .getBigOpSpacing3(style)
-                                - x.getDepth());
+                                - x.Depth);
                 vBox.Add(new StrutBox(0, kern, 0, 0));
-                xh = vBox.getHeight() + vBox.getDepth();
+                xh = vBox.Height + vBox.Depth;
             }
 
             // _base
@@ -187,19 +187,19 @@ public class BigOperatorAtom : Atom {
             if (under != null) {
                 float k = Math.Max(tf.getBigOpSpacing2(style), tf
                                    .getBigOpSpacing4(style)
-                                   - z.getHeight());
+                                   - z.Height);
                 vBox.Add(new StrutBox(0, k, 0, 0));
-                z.setShift(-delta / 2);
+                z.                Shift = -delta / 2;
                 vBox.Add(z);
                 vBox.Add(new StrutBox(0, bigop5, 0, 0));
             }
 
             // set height and depth vertical box and return it
-            float h = y.getHeight(), total = vBox.getHeight() + vBox.getDepth();
+            float h = y.Height, total = vBox.Height + vBox.Depth;
             if (x != null)
-                h += bigop5 + kern + x.getHeight() + x.getDepth();
-            vBox.setHeight(h);
-            vBox.setDepth(total - h);
+                h += bigop5 + kern + x.Height + x.Depth;
+            vBox.            Height = h;
+            vBox.            Depth = total - h;
 
             if (bbase != null) {
                 HorizontalBox hb = new HorizontalBox(bbase.CreateBox(env));
@@ -217,7 +217,7 @@ public class BigOperatorAtom : Atom {
      * Centers the given box in a new box that has the given width
      */
     private static Box ChangeWidth(Box b, float maxWidth) 
-        => b != null && Math.Abs(maxWidth - b.getWidth()) > TeXFormula.PREC
+        => b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
             ? new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER)
             : b;
 }

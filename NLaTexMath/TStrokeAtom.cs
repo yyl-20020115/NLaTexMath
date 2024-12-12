@@ -67,10 +67,10 @@ public class TStrokeAtom : Atom {
             y.Add(B);
         } else
             y = B;
-        Box b = new HorizontalBox(y, T.getWidth(), TeXConstants.ALIGN_CENTER);
+        Box b = new HorizontalBox(y, T.Width, TeXConstants.ALIGN_CENTER);
         VerticalBox vb = new VerticalBox();
         vb.Add(T);
-        vb.Add(new StrutBox(0, -0.5f * T.getHeight(), 0, 0));
+        vb.Add(new StrutBox(0, -0.5f * T.Height, 0, 0));
         vb.Add(b);
         return vb;
     }

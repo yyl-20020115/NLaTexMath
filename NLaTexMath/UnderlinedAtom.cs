@@ -69,12 +69,15 @@ class UnderlinedAtom : Atom {
         VerticalBox vBox = new VerticalBox();
         vBox.Add(b);
         vBox.Add(new StrutBox(0, 3 * drt, 0, 0));
-        vBox.Add(new HorizontalRule(drt, b.getWidth(), 0));
+        vBox.Add(new HorizontalRule(drt, b.Width, 0));
 
         // baseline vertical box = baseline box b
         // there's also an invisible strut of height drt under the rule
-        vBox.setDepth(b.getDepth() + 5 * drt);
-        vBox.setHeight(b.getHeight());
+        vBox.
+        // baseline vertical box = baseline box b
+        // there's also an invisible strut of height drt under the rule
+        Depth = b.Depth + 5 * drt;
+        vBox.        Height = b.Height;
 
         return vBox;
     }

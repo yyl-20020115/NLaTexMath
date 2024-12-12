@@ -53,7 +53,7 @@ namespace NLaTexMath;
  */
 public class GlueSettingsParser {
 
-    private static readonly string RESOURCE_NAME = "GlueSettings.xml";
+    private const string RESOURCE_NAME = "GlueSettings.xml";
 
     private  Dictionary<string,int> typeMappings = [];
     private  Dictionary<string,int> glueTypeMappings = [];
@@ -90,9 +90,9 @@ public class GlueSettingsParser {
         int defaultIndex = -1;
         int index = 0;
         if (types != null) { // element present
-            var list = types.getElementsByTagName("GlueType");
-            for (int i = 0; i < list.getLength(); i++) {
-                XElement type = (XElement)list.item(i);
+            var list = types.getElementsByTagName("GlueType").ToList();
+            for (int i = 0; i < list.Count; i++) {
+                XElement type = (XElement)list[i];
                 // retrieve required attribute value, throw exception if not set
                 string name = getAttrValueAndCheckIfNotNull("name", type);
                 Glue glue = createGlue(type, name);
@@ -130,8 +130,8 @@ public class GlueSettingsParser {
             double val = 0; // default value if attribute not present
             string attrVal = null;
             try {
-                attrVal = type.getAttribute(names[i]);
-                if (!attrVal.equals("")) // attribute present
+                attrVal = type.Attribute(names[i])?.Value??"";
+                if (attrVal!=("")) // attribute present
                     val = Double.parseDouble(attrVal);
             } catch (Exception e) {
                 throw new XMLResourceParseException(RESOURCE_NAME, "GlueType",
@@ -158,28 +158,28 @@ public class GlueSettingsParser {
     }
 
     public int[][][] createGlueTable(){
-        int size = typeMappings.Length;
-        int[][][] table = new int[size][size][styleMappings.Length];
+        int size = typeMappings.Count;
+        int[][][] table = new int[size][size][styleMappings.Count];
         XElement glueTable = (XElement)root.getElementsByTagName("GlueTable").item(0);
         if (glueTable != null) { // element present
             // iterate all the "Glue"-elements
-            NodeList list = glueTable.getElementsByTagName("Glue");
-            for (int i = 0; i < list.getLength(); i++) {
-                XElement glue = (XElement)list.item(i);
+            List<XNode> list = glueTable.getElementsByTagName("Glue");
+            for (int i = 0; i < list.Count; i++) {
+                XElement glue = (XElement)list[i];
                 // retrieve required attribute values and throw exception if they're not set
                 string left = getAttrValueAndCheckIfNotNull("lefttype", glue);
                 string right = getAttrValueAndCheckIfNotNull("righttype", glue);
                 string type = getAttrValueAndCheckIfNotNull("gluetype", glue);
                 // iterate all the "Style"-elements
-                NodeList listG = glue.getElementsByTagName("Style");
-                for (int j = 0; j < listG.getLength(); j++) {
-                    XElement style = (XElement)listG.item(j);
+                List<XNode> listG = glue.getElementsByTagName("Style");
+                for (int j = 0; j < listG.Count; j++) {
+                    XElement style = (XElement)listG[(j)];
                     string styleName = getAttrValueAndCheckIfNotNull("name", style);
                     // retrieve mappings
-                    object l = typeMappings.Get(left);
-                    object r = typeMappings.Get(right);
-                    object st = styleMappings.Get(styleName);
-                    object val = glueTypeMappings.Get(type);
+                    object l = typeMappings[(left)];
+                    object r = typeMappings[(right)];
+                    object st = styleMappings[(styleName)];
+                    object val = glueTypeMappings[(type)];
                     // throw exception if unknown value set
                     checkMapping(l, "Glue", "lefttype", left);
                     checkMapping(r, "Glue", "righttype", right);
@@ -202,9 +202,9 @@ public class GlueSettingsParser {
 
     private static string getAttrValueAndCheckIfNotNull(string attrName,
             XElement element){
-        string attrValue = element.getAttribute(attrName);
-        if (attrValue.equals(""))
-            throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(),
+        string attrValue = element.Attribute(attrName)?.Value??"";
+        if (attrValue==(""))
+            throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName,
                                                 attrName, null);
         return attrValue;
     }

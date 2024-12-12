@@ -75,9 +75,9 @@ public class RaiseAtom : Atom {
     public override Box CreateBox(TeXEnvironment env) {
         Box bbox = _base.CreateBox(env);
         if (runit == -1) {
-            bbox.setShift(0);
+            bbox.            Shift = 0;
         } else {
-            bbox.setShift(-r * SpaceAtom.getFactor(runit, env));
+            bbox.            Shift = -r * SpaceAtom.getFactor(runit, env);
         }
 
         if (hunit == -1) {
@@ -85,11 +85,11 @@ public class RaiseAtom : Atom {
         }
 
         HorizontalBox hbox = new HorizontalBox(bbox);
-        hbox.setHeight(h * SpaceAtom.getFactor(hunit, env));
+        hbox.        Height = h * SpaceAtom.getFactor(hunit, env);
         if (dunit == -1) {
-            hbox.setDepth(0);
+            hbox.            Depth = 0;
         } else {
-            hbox.setDepth(d * SpaceAtom.getFactor(dunit, env));
+            hbox.            Depth = d * SpaceAtom.getFactor(dunit, env);
         }
 
         return hbox;

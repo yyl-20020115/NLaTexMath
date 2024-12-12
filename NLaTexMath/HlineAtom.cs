@@ -74,7 +74,7 @@ public class HlineAtom : Atom
         Box b = new HorizontalRule(drt, width, shift, false);
         VerticalBox vb = new VerticalBox();
         vb.Add(b);
-        vb.type = TeXConstants.TYPE_HLINE;
+        vb.Type = TeXConstants.TYPE_HLINE;
         return vb;
     }
 }

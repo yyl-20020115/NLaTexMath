@@ -50,7 +50,7 @@ public class CyrillicRegistration : AlphabetRegistration {
     public CyrillicRegistration() {
     }
 
-    public UnicodeBlock[] UnicodeBlocks => [NLaTexMath.UnicodeBlock.CYRILLIC];
+    public UnicodeBlock[] UnicodeBlocks => [UnicodeBlock.CYRILLIC];
 
     public object Package => this;
 

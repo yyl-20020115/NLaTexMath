@@ -184,7 +184,7 @@ public class SymbolAtom : CharSymbol {
             if (style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c))
                 c = tf.getNextLarger(c, style);
             cb = new CharBox(c);
-            cb.setShift(-(cb.getHeight() + cb.getDepth()) / 2 - env.TeXFont.getAxisHeight(env.getStyle()));
+            cb.            Shift = -(cb.Height + cb.Depth) / 2 - env.TeXFont.getAxisHeight(env.getStyle());
             float delta = c.getItalic();
             HorizontalBox hb = new HorizontalBox(cb);
             if (delta > TeXFormula.PREC)

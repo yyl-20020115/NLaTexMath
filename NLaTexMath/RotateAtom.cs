@@ -48,52 +48,67 @@ namespace NLaTexMath;
 /**
  * An atom representing a rotated Atom.
  */
-public class RotateAtom : Atom {
-
+public class RotateAtom : Atom
+{
     private Atom _base;
     private double angle;
     private int option = -1;
     private int xunit, yunit;
     private float x, y;
 
-    public RotateAtom(Atom _base, string angle, string option) {
+    public RotateAtom(Atom _base, string angle, string option)
+    {
         this.Type = _base.Type;
         this._base = _base;
-        this.angle = Double.parseDouble(angle);
+        this.angle = double.TryParse(angle, out var v) ? v : 0;
         this.option = RotateBox.getOrigin(option);
     }
 
-    public RotateAtom(Atom _base, double angle, string option) {
+    public RotateAtom(Atom _base, double angle, string option)
+    {
         this.Type = _base.Type;
         this._base = _base;
         this.angle = angle;
         Dictionary<string, string> map = ParseOption.ParseMap(option);
-        if (map.TryGetValue("origin", out string? value)) {
+        if (map.TryGetValue("origin", out string? value))
+        {
             this.option = RotateBox.getOrigin(value);
-        } else {
-            if (map.TryGetValue("x", out string? value1)) {
+        }
+        else
+        {
+            if (map.TryGetValue("x", out string? value1))
+            {
                 float[] xinfo = SpaceAtom.getLength(value1);
-                this.xunit = (int) xinfo[0];
-                this.X = xinfo[1];
-            } else {
-                this.xunit = TeXConstants.UNIT_POINT;
-                this.X = 0;
+                this.xunit = (int)xinfo[0];
+                this.x = xinfo[1];
             }
-            if (map.TryGetValue("y", out string? value2)) {
+            else
+            {
+                this.xunit = TeXConstants.UNIT_POINT;
+                this.x = 0;
+            }
+            if (map.TryGetValue("y", out string? value2))
+            {
                 float[] yinfo = SpaceAtom.getLength(value2);
-                this.yunit = (int) yinfo[0];
-                this.Y = yinfo[1];
-            } else {
+                this.yunit = (int)yinfo[0];
+                this.y = yinfo[1];
+            }
+            else
+            {
                 this.yunit = TeXConstants.UNIT_POINT;
-                this.Y = 0;
+                this.y = 0;
             }
         }
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        if (option != -1) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        if (option != -1)
+        {
             return new RotateBox(_base.CreateBox(env), angle, option);
-        } else {
+        }
+        else
+        {
             return new RotateBox(_base.CreateBox(env), angle, x * SpaceAtom.getFactor(xunit, env), y * SpaceAtom.getFactor(yunit, env));
         }
     }

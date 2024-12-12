@@ -81,17 +81,17 @@ public class TeXSymbolParser {
     public Dictionary<string,SymbolAtom> readSymbols(){
         Dictionary<string,SymbolAtom> res = new ();
         // iterate all "symbol"-elements
-        NodeList list = root.getElementsByTagName("Symbol");
-        for (int i = 0; i < list.getLength(); i++) {
-            XElement symbol = (XElement)list.item(i);
+        List<XNode> list = root.getElementsByTagName("Symbol");
+        for (int i = 0; i < list.Count; i++) {
+            XElement symbol = (XElement)list[i];
             // retrieve and check required attributes
             string name = getAttrValueAndCheckIfNotNull("name", symbol), type = getAttrValueAndCheckIfNotNull(
                               TYPE_ATTR, symbol);
             // retrieve optional attribute
-            string del = symbol.getAttribute(DELIMITER_ATTR);
+            string del = symbol.Attribute(DELIMITER_ATTR)?.Value??"";
             bool isDelimiter = (del != null && del=="true");
             // check if type is known
-            object typeVal = typeMappings.Get(type);
+            var typeVal = typeMappings[(type)];
             if (typeVal == null) // unknown type
                 throw new XMLResourceParseException(RESOURCE_NAME, "Symbol",
                                                     "type", "has an unknown value '" + type + "'!");
@@ -115,9 +115,9 @@ public class TeXSymbolParser {
 
     private static string getAttrValueAndCheckIfNotNull(string attrName,
             XElement element){
-        string attrValue = element.getAttribute(attrName);
+        string attrValue = element.Attribute(attrName)?.Value??"";
         if (attrValue=="")
-            throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(),
+            throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName,
                                                 attrName, null);
         return attrValue;
     }

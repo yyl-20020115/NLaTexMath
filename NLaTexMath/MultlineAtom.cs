@@ -51,9 +51,9 @@ namespace NLaTexMath;
 public class MultlineAtom : Atom {
 
     public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
-    public static readonly int MULTLINE = 0;
-    public static readonly int GATHER = 1;
-    public static readonly int GATHERED = 2;
+    public const int   MULTLINE = 0;
+    public const int   GATHER = 1;
+    public const int   GATHERED = 2;
 
     private ArrayOfAtoms column;
     private int type;
@@ -104,9 +104,9 @@ public class MultlineAtom : Atom {
             vb.Add(new HorizontalBox(at.CreateBox(env), tw, alignment));
         }
 
-        float height = vb.getHeight() + vb.getDepth();
-        vb.setHeight(height / 2);
-        vb.setDepth(height / 2);
+        float height = vb.Height + vb.Depth;
+        vb.        Height = height / 2;
+        vb.        Depth = height / 2;
 
         return vb;
     }

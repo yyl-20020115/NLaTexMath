@@ -84,7 +84,7 @@ public class GraphicsBox : Box {
         }
     }
 
-    public override void draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) {
         AffineTransform oldAt = g2.getTransform();
         object oldKey = null;
         if (interp != null) {
@@ -100,7 +100,5 @@ public class GraphicsBox : Box {
         }
     }
 
-    public override int getLastFontId() {
-        return 0;
-    }
+    public override int LastFontId => 0;
 }

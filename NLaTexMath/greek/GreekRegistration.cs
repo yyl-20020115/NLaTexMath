@@ -33,7 +33,7 @@ public class GreekRegistration : AlphabetRegistration {
     public GreekRegistration() {
     }
 
-    public UnicodeBlock[] UnicodeBlocks => [ NLaTexMath.UnicodeBlock.GREEK, UnicodeBlock.GREEK_EXTENDED ];
+    public UnicodeBlock[] UnicodeBlocks => [ UnicodeBlock.GREEK, UnicodeBlock.GREEK_EXTENDED ];
 
     public object Package => this;
 

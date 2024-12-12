@@ -23,10 +23,10 @@ public static class Images
                 {
                     var ca = imgA.GetPixel(x, y);
                     var cb = imgB.GetPixel(x, y);
-                    double variance = sqr(ca.R - cb.R) //
-                                      + sqr(ca.B - cb.B) //
-                                      + sqr(ca.G - cb.G) //
-                                      + sqr(ca.A - cb.A);
+                    double variance = Square(ca.R - cb.R) //
+                                      + Square(ca.B - cb.B) //
+                                      + Square(ca.G - cb.G) //
+                                      + Square(ca.A - cb.A);
                     mse += variance;
                 }
             }
@@ -38,6 +38,6 @@ public static class Images
         }
     }
 
-    private static double sqr(double x) => x * x;
+    private static double Square(double x) => x * x;
 
 }

@@ -58,14 +58,14 @@ public class MatrixAtom : Atom {
     public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
     public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
 
-    public static readonly int ARRAY = 0;
-    public static readonly int MATRIX = 1;
-    public static readonly int ALIGN = 2;
-    public static readonly int ALIGNAT = 3;
-    public static readonly int FLALIGN = 4;
-    public static readonly int SMALLMATRIX = 5;
-    public static readonly int ALIGNED = 6;
-    public static readonly int ALIGNEDAT = 7;
+    public const int   ARRAY = 0;
+    public const int   MATRIX = 1;
+    public const int   ALIGN = 2;
+    public const int   ALIGNAT = 3;
+    public const int   FLALIGN = 4;
+    public const int   SMALLMATRIX = 5;
+    public const int   ALIGNED = 6;
+    public const int   ALIGNEDAT = 7;
 
     private static readonly Box nullBox = new StrutBox(0, 0, 0, 0);
 
@@ -185,16 +185,16 @@ public class MatrixAtom : Atom {
                         nb++;
                     }
                 }
-                vlines.Add(lposition.Length, new VlineAtom(nb));
+                vlines.Add(lposition.Count, new VlineAtom(nb));
                 break;
             case '@' :
                 pos++;
                 tf = new TeXFormula();
-                tp = new TeXParser(isPartial, opt.substring(pos), tf, false);
+                tp = new TeXParser(isPartial, opt.Substring(pos), tf, false);
                 Atom at = tp.getArgument();
                 matrix.col++;
                 for (int j = 0; j < matrix.row; j++) {
-                    matrix.array.Get(j).Add(lposition.Length, at);
+                    matrix.array[j].Add(lposition.Count, at);
                 }
 
                 lposition.Add(TeXConstants.ALIGN_NONE);
@@ -204,7 +204,7 @@ public class MatrixAtom : Atom {
             case '*' :
                 pos++;
                 tf = new TeXFormula();
-                tp = new TeXParser(isPartial, opt.substring(pos), tf, false);
+                tp = new TeXParser(isPartial, opt.Substring(pos), tf, false);
                 string[] args = tp.getOptsArgs(2, 0);
                 pos += tp.getPos();
                 int nrep =  int.parseInt(args[1]);
@@ -226,12 +226,12 @@ public class MatrixAtom : Atom {
             pos++;
         }
 
-        for (int j = lposition.Length; j < matrix.col; j++) {
+        for (int j = lposition.Count; j < matrix.col; j++) {
             lposition.Add(TeXConstants.ALIGN_CENTER);
         }
 
-        if (lposition.Length != 0) {
-            int[] tab = lposition.toArray(new int[0]);
+        if (lposition.Count != 0) {
+            int[] tab = lposition.ToArray();
             position = new int[tab.Length];
             for (int i = 0; i < tab.Length; i++) {
                 position[i] = tab[i];
@@ -294,7 +294,7 @@ public class MatrixAtom : Atom {
             //Align env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft \medskip el_rgt hsep ... hsep elem hsep
             Align = align.CreateBox(env);
             if (w != float.PositiveInfinity) {
-                h = Math.Max((w - width - (col / 2) * Align.getWidth()) / (float) Math.floor((col + 3)/ 2), 0);
+                h = Math.Max((w - width - (col / 2) * Align.Width) / (float) Math.floor((col + 3)/ 2), 0);
                 AlignSep = new StrutBox(h, 0.0f, 0.0f, 0.0f);
             } else {
                 AlignSep = hsep.CreateBox(env);
@@ -336,7 +336,7 @@ public class MatrixAtom : Atom {
             //flalign env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft \medskip el_rgt hsep ... hsep elem hsep
             Align = align.CreateBox(env);
             if (w != float.PositiveInfinity) {
-                h = Math.Max((w - width - (col / 2) * Align.getWidth()) / (float) Math.floor((col - 1)/ 2), 0);
+                h = Math.Max((w - width - (col / 2) * Align.Width) / (float) Math.floor((col - 1)/ 2), 0);
                 AlignSep = new StrutBox(h, 0.0f, 0.0f, 0.0f);
             } else {
                 AlignSep = hsep.CreateBox(env);
@@ -379,7 +379,7 @@ public class MatrixAtom : Atom {
             env.setStyle(TeXConstants.STYLE_SCRIPT);
         }
 
-        List<MulticolumnAtom> listMulti = new ArrayList<MulticolumnAtom>();
+        List<MulticolumnAtom> listMulti = [];
 
         for (int i = 0; i < row; i++) {
             lineDepth[i] = 0;
@@ -387,21 +387,21 @@ public class MatrixAtom : Atom {
             for (int j = 0; j < col; j++) {
                 Atom at = null;
                 try {
-                    at = matrix.array[i].Get(j);
+                    at = matrix.array[i][j];
                 } catch (Exception e) {
                     //The previous atom was an intertext atom
                     //position[j - 1] = -1;
-                    boxarr[i][j - 1].type = TeXConstants.TYPE_INTERTEXT;
+                    boxarr[i][j - 1].Type = TeXConstants.TYPE_INTERTEXT;
                     j = col - 1;
                 }
 
                 boxarr[i][j] = (at == null) ? nullBox : at.CreateBox(env);
 
-                lineDepth[i] = Math.Max(boxarr[i][j].getDepth(), lineDepth[i]);
-                lineHeight[i] = Math.Max(boxarr[i][j].getHeight(), lineHeight[i]);
+                lineDepth[i] = Math.Max(boxarr[i][j].Depth, lineDepth[i]);
+                lineHeight[i] = Math.Max(boxarr[i][j].Height, lineHeight[i]);
 
-                if (boxarr[i][j].type != TeXConstants.TYPE_MULTICOLUMN) {
-                    rowWidth[j] = Math.Max(boxarr[i][j].getWidth(), rowWidth[j]);
+                if (boxarr[i][j].Type != TeXConstants.TYPE_MULTICOLUMN) {
+                    rowWidth[j] = Math.Max(boxarr[i][j].Width, rowWidth[j]);
                 } else {
                     ((MulticolumnAtom) at).SetRowColumn(i, j);
                     listMulti.Add((MulticolumnAtom) at);
@@ -409,7 +409,7 @@ public class MatrixAtom : Atom {
             }
         }
 
-        for (int i = 0; i < listMulti.Length; i++) {
+        for (int i = 0; i < listMulti.Count; i++) {
             MulticolumnAtom multi = listMulti[i];
             int c = multi.Col;
             int r = multi.Row;
@@ -418,8 +418,8 @@ public class MatrixAtom : Atom {
             for (int j = c; j < c + n; j++) {
                 w += rowWidth[j];
             }
-            if (boxarr[r][c].getWidth() > w) {
-                float extraW = (boxarr[r][c].getWidth() - w) / n;
+            if (boxarr[r][c].Width > w) {
+                float extraW = (boxarr[r][c].Width - w) / n;
                 for (int j = c; j < c + n; j++) {
                     rowWidth[j] += extraW;
                 }
@@ -432,9 +432,9 @@ public class MatrixAtom : Atom {
         Box[] Hsep = getColumnSep(env, matW);
 
         for (int j = 0; j < col + 1; j++) {
-            matW += Hsep[j].getWidth();
-            if (vlines.Get(j) != null) {
-                matW += vlines.Get(j).getWidth(env);
+            matW += Hsep[j].Width;
+            if (vlines[j] != null) {
+                matW += vlines[j].getWidth(env);
             }
         }
 
@@ -446,16 +446,16 @@ public class MatrixAtom : Atom {
         for (int i = 0; i < row; i++) {
             HorizontalBox hb = new HorizontalBox();
             for (int j = 0; j < col; j++) {
-                switch (boxarr[i][j].type) {
+                switch (boxarr[i][j].Type) {
                 case -1 :
                 case TeXConstants.TYPE_MULTICOLUMN :
                     if (j == 0) {
                         if (vlines[0] != null) {
                             VlineAtom vat = vlines[0];
-                            vat.setHeight(lineHeight[i] + lineDepth[i] + Vsep.getHeight());
-                            vat.setShift(lineDepth[i] + Vsep.getHeight() / 2);
+                            vat.setHeight(lineHeight[i] + lineDepth[i] + Vsep.Height);
+                            vat.setShift(lineDepth[i] + Vsep.Height / 2);
                             Box vatBox = vat.CreateBox(env);
-                            hb.Add(new HorizontalBox(vatBox, Hsep[0].getWidth() + vatBox.getWidth(), TeXConstants.ALIGN_LEFT));
+                            hb.Add(new HorizontalBox(vatBox, Hsep[0].Width + vatBox.Width, TeXConstants.ALIGN_LEFT));
                         } else {
                             hb.Add(Hsep[0]);
                         }
@@ -463,25 +463,25 @@ public class MatrixAtom : Atom {
 
                     bool lastVline = true;
 
-                    if (boxarr[i][j].type == -1) {
+                    if (boxarr[i][j].Type == -1) {
                         hb.Add(new HorizontalBox(boxarr[i][j], rowWidth[j], position[j]));
                     } else {
                         Box b = generateMulticolumn(env, Hsep, rowWidth, i, j);
-                        MulticolumnAtom matom = (MulticolumnAtom) matrix.array[i].Get(j);
+                        MulticolumnAtom matom = (MulticolumnAtom) matrix.array[i][j];
                         j += matom.GetSkipped() - 1;
                         hb.Add(b);
                         lastVline = matom.HasRightVline();
                     }
 
-                    if (lastVline && vlines.Get(j + 1) != null) {
-                        VlineAtom vat = vlines.Get(j + 1);
-                        vat.setHeight(lineHeight[i] + lineDepth[i] + Vsep.getHeight());
-                        vat.setShift(lineDepth[i] + Vsep.getHeight() / 2);
+                    if (lastVline && vlines[(j + 1)] != null) {
+                        VlineAtom vat = vlines[(j + 1)];
+                        vat.setHeight(lineHeight[i] + lineDepth[i] + Vsep.Height);
+                        vat.setShift(lineDepth[i] + Vsep.Height / 2);
                         Box vatBox = vat.CreateBox(env);
                         if (j < col - 1) {
-                            hb.Add(new HorizontalBox(vatBox, Hsep[j + 1].getWidth() + vatBox.getWidth(), TeXConstants.ALIGN_CENTER));
+                            hb.Add(new HorizontalBox(vatBox, Hsep[j + 1].Width + vatBox.Width, TeXConstants.ALIGN_CENTER));
                         } else {
-                            hb.Add(new HorizontalBox(vatBox, Hsep[j + 1].getWidth() + vatBox.getWidth(), TeXConstants.ALIGN_RIGHT));
+                            hb.Add(new HorizontalBox(vatBox, Hsep[j + 1].Width + vatBox.Width, TeXConstants.ALIGN_RIGHT));
                         }
                     } else {
                         hb.Add(Hsep[j + 1]);
@@ -494,13 +494,13 @@ public class MatrixAtom : Atom {
                     j = col - 1;
                     break;
                 case TeXConstants.TYPE_HLINE :
-                    HlineAtom at = (HlineAtom) matrix.array[i].Get(j);
+                    HlineAtom at = (HlineAtom) matrix.array[i][j];
                     at.SetWidth(matW);
-                    if (i >= 1 && matrix.array.Get(i - 1).Get(j) is HlineAtom) {
+                    if (i >= 1 && matrix.array[i - 1][j] is HlineAtom) {
                         hb.Add(new StrutBox(0, 2 * drt, 0, 0));
-                        at.SetShift(-Vsep.getHeight() / 2 + drt);
+                        at.SetShift(-Vsep.Height / 2 + drt);
                     } else {
-                        at.SetShift(-Vsep.getHeight() / 2);
+                        at.SetShift(-Vsep.Height / 2);
                     }
 
                     hb.Add(at.CreateBox(env));
@@ -509,9 +509,9 @@ public class MatrixAtom : Atom {
                 }
             }
 
-            if (boxarr[i][0].type != TeXConstants.TYPE_HLINE) {
-                hb.setHeight(lineHeight[i]);
-                hb.setDepth(lineDepth[i]);
+            if (boxarr[i][0].Type != TeXConstants.TYPE_HLINE) {
+                hb.                Height = lineHeight[i];
+                hb.                Depth = lineDepth[i];
                 vb.Add(hb);
 
                 if (i < row - 1)
@@ -522,29 +522,29 @@ public class MatrixAtom : Atom {
         }
 
         vb.Add(vsep_ext_bot.CreateBox(env));
-        totalHeight = vb.getHeight() + vb.getDepth();
+        totalHeight = vb.Height + vb.Depth;
 
         float axis = env.TeXFont.getAxisHeight(env.getStyle());
-        vb.setHeight(totalHeight / 2 + axis);
-        vb.setDepth(totalHeight / 2 - axis);
+        vb.        Height = totalHeight / 2 + axis;
+        vb.        Depth = totalHeight / 2 - axis;
 
         return vb;
     }
 
     private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep, float[] rowWidth, int i, int j) {
         float w = 0;
-        MulticolumnAtom mca = (MulticolumnAtom) matrix.array[i].Get(j);
+        MulticolumnAtom mca = (MulticolumnAtom) matrix.array[i][j];
         int k, n = mca.GetSkipped();
         for (k = j; k < j + n - 1; k++) {
-            w += rowWidth[k] + Hsep[k + 1].getWidth();
-            if (vlines.Get(k + 1) != null) {
-                w += vlines.Get(k + 1).getWidth(env);
+            w += rowWidth[k] + Hsep[k + 1].Width;
+            if (vlines[(k + 1)] != null) {
+                w += vlines[(k + 1)].getWidth(env);
             }
         }
         w += rowWidth[k];
 
         Box b = mca.CreateBox(env);
-        float bw = b.getWidth();
+        float bw = b.Width;
         if (bw > w) {
             // It isn't a good idea but for the moment I have no other solution !
             w = 0;

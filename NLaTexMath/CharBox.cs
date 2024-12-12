@@ -80,8 +80,8 @@ public class CharBox : Box {
         italic = 0;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
-        drawDebug(g2, x, y);
+    public override void Draw(Graphics g2, float x, float y) {
+        DrawDebug(g2, x, y);
         AffineTransform at = g2.getTransform();
         g2.translate(x, y);
         Font font = FontInfo.getFont(cf.fontId);
@@ -100,9 +100,7 @@ public class CharBox : Box {
         g2.setTransform(at);
     }
 
-    public override int getLastFontId() {
-        return cf.fontId;
-    }
+    public override int LastFontId => cf.fontId;
 
     public override string ToString() {
         return base.ToString() + "=" + cf.c;

@@ -92,7 +92,7 @@ public class TeXFormulaParser
             else
             {
                 // parse arguments
-                NodeList args = el.getElementsByTagName("Argument");
+                List<XNode> args = el.getElementsByTagName("Argument");
                 // get argument classes and values
                 Type[] argClasses = getArgumentClasses(args);
                 object[] argValues = getArgumentValues(args);
@@ -126,9 +126,9 @@ public class TeXFormulaParser
             // get required string attribute
             string name = getAttrValueAndCheckIfNotNull("name", el);
             // parse arguments
-            NodeList args = el.getElementsByTagName("Argument");
+            List<XNode> args = el.getElementsByTagName("Argument");
             // get argument classes and values
-            Type [] argClasses = getArgumentClasses(args);
+            Type[] argClasses = getArgumentClasses(args);
             object[] argValues = getArgumentValues(args);
             // create TeXFormula object
             //string code = "TeXFormula.predefinedTeXFormulasAsString.Add(\"%s\", \"%s\");";
@@ -162,14 +162,14 @@ public class TeXFormulaParser
             // get required string attribute
             string name = getAttrValueAndCheckIfNotNull("name", el);
             // parse arguments
-            NodeList args = el.getElementsByTagName("Argument");
+            List<XNode> args = el.getElementsByTagName("Argument");
             // get argument classes and values
-            Type [] argClasses = getArgumentClasses(args);
+            Type[] argClasses = getArgumentClasses(args);
             object[] argValues = getArgumentValues(args);
             // create TeXFormula object
             try
             {
-                MacroInfo f = MacroInfo..getConstructor(argClasses).newInstance(argValues);
+                MacroInfo f = MacroInfo.getConstructor(argClasses).newInstance(argValues);
                 // succesfully created, so Add to "temporary formula's"-hashtable
                 tempCommands.Add(name, f);
             }
@@ -238,7 +238,7 @@ public class TeXFormulaParser
             checkNullValue(value, type);
             if (value.Length == 1)
             {
-                return new Character(value[0]);
+                return new char(value[0]);
             }
             else
             {
@@ -261,13 +261,13 @@ public class TeXFormulaParser
         public object parseValue(string value, string type)
         {
             checkNullValue(value, type);
-            if ("true".equals(value))
+            if ("true" == (value))
             {
-                return Boolean.TRUE;
+                return true;
             }
-            else if ("false".equals(value))
+            else if ("false" == (value))
             {
-                return Boolean.FALSE;
+                return false;
             }
             else
             {
@@ -292,7 +292,7 @@ public class TeXFormulaParser
             checkNullValue(value, type);
             try
             {
-                int val = int.parseInt(value);
+                int val = int.TryParse(value, out var v) ? v : 0;
                 return new float(val);
             }
             catch (Exception e)
@@ -423,7 +423,7 @@ public class TeXFormulaParser
             try
             {
                 // return Color constant (if present)
-                return Color..getDeclaredField(value).Get(null);
+                return Color.getDeclaredField(value).Get(null);
             }
             catch (Exception e)
             {
@@ -436,15 +436,15 @@ public class TeXFormulaParser
         }
     }
 
-    private static readonly string ARG_VAL_ATTR = "value", RETURN_EL = "Return",
+    private const string ARG_VAL_ATTR = "value", RETURN_EL = "Return",
                                 ARG_OBJ_ATTR = "formula";
 
-    private static Dictionary<string, Type> classMappings = new ();
+    private static Dictionary<string, Type> classMappings = new();
 
-    private Dictionary<string, ArgumentValueParser> argValueParsers = new ();
-    private Dictionary<string, ActionParser> actionParsers = new ();
-    private Dictionary<string, TeXFormula> tempFormulas = new ();
-    private Dictionary<string, MacroInfo> tempCommands = new ();
+    private Dictionary<string, ArgumentValueParser> argValueParsers = new();
+    private Dictionary<string, ActionParser> actionParsers = new();
+    private Dictionary<string, TeXFormula> tempFormulas = new();
+    private Dictionary<string, MacroInfo> tempCommands = new();
 
     private object result = new object();
 
@@ -452,7 +452,7 @@ public class TeXFormulaParser
 
     private XElement formula;
 
-    private static readonly int COMMAND = 0, TEXFORMULA = 1;
+    private const int COMMAND = 0, TEXFORMULA = 1;
     private int type;
 
     static TeXFormulaParser()
@@ -472,10 +472,10 @@ public class TeXFormulaParser
     {
         formulaName = name;
         this.formula = formula;
-        this.type = "Command".equals(type) ? COMMAND : TEXFORMULA;
+        this.type = "Command" == (type) ? COMMAND : TEXFORMULA;
 
         // action parsers
-        if ("Command".equals(type))
+        if ("Command" == (type))
             actionParsers.Add("CreateCommand", new CreateCommandParser());
         else
             actionParsers.Add("CreateTeXFormula", new CreateTeXFormulaParser());
@@ -497,14 +497,14 @@ public class TeXFormulaParser
     public object parse()
     {
         // parse and execute actions
-        NodeList list = formula.getChildNodes();
-        for (int i = 0; i < list.getLength(); i++)
+        List<XNode> list = formula.getChildNodes();
+        for (int i = 0; i < list.Count; i++)
         {
-            Node node = list.item(i);
-            if (node.getNodeType() != Node.TEXT_NODE)
+            XNode node = list[i];
+            if (node.NodeType != XNode.TEXT_NODE)
             {
                 XElement el = (XElement)node;
-                ActionParser p = actionParsers.Get(el.getTagName());
+                ActionParser p = actionParsers[(el.Name.LocalName)];
                 if (p != null)
                 {// ignore unknown elements
                     p.parse(el);
@@ -516,15 +516,15 @@ public class TeXFormulaParser
 
     private object[] getArgumentValues(List<XNode> args)
     {
-        object[] res = new object[args.getLength()];
+        object[] res = new object[args.Count];
         int i = 0;
-        for (int j = 0; j < args.getLength(); j++)
+        for (int j = 0; j < args.Count; j++)
         {
             XElement arg = (XElement)args.item(j);
             // get required string attribute
             string type = getAttrValueAndCheckIfNotNull("type", arg);
             // get value, not present means a nullpointer
-            string value = arg.getAttribute(ARG_VAL_ATTR);
+            string value = arg.Attribute(ARG_VAL_ATTR)?.Value ?? "";
             // parse value, hashtable will certainly contain a parser for the class type,
             // because the class types have been checked before!
             res[i] = argValueParsers.Get(type).parseValue(value, type);
@@ -535,15 +535,15 @@ public class TeXFormulaParser
 
     private static Type[] getArgumentClasses(List<XNode> args)
     {
-        Type [] res = new Type[args.getLength()];
+        Type[] res = new Type[args.Count];
         int i = 0;
-        for (int j = 0; j < args.getLength(); j++)
+        for (int j = 0; j < args.Count; j++)
         {
             XElement arg = (XElement)args.item(j);
             // get required string attribute
             string type = getAttrValueAndCheckIfNotNull("type", arg);
             // find class mapping
-            object cl = classMappings.Get(type);
+            object cl = classMappings[(type)];
             if (cl == null)
             {// no class mapping found
                 throw new XMLResourceParseException(
@@ -552,7 +552,7 @@ public class TeXFormulaParser
             }
             else
             {
-                res[i] = (Type) cl;
+                res[i] = (Type)cl;
             }
             i++;
         }
@@ -561,7 +561,8 @@ public class TeXFormulaParser
 
     private static void checkNullValue(string value, string type)
     {
-        if (value == "") {
+        if (value == "")
+        {
             throw new XMLResourceParseException(
                 PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
                 ARG_VAL_ATTR, "is required for an argument of type '" + type
@@ -572,10 +573,11 @@ public class TeXFormulaParser
     private static string getAttrValueAndCheckIfNotNull(string attrName,
             XElement element)
     {
-        string attrValue = element.getAttribute(attrName);
-        if (attrValue == "") {
+        string attrValue = element.Attribute(attrName)?.Value ?? "";
+        if (attrValue == "")
+        {
             throw new XMLResourceParseException(
-                PredefinedTeXFormulaParser.RESOURCE_NAME, element.getTagName(),
+                PredefinedTeXFormulaParser.RESOURCE_NAME, element.Name.LocalName,
                 attrName, null);
         }
         return attrValue;

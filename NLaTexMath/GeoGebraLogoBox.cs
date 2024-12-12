@@ -65,7 +65,7 @@ public class GeoGebraLogoBox : Box {
         this.shift = 0;
     }
 
-    public override void draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y) {
         AffineTransform oldAt = g2.getTransform();
         Color oldC = g2.getColor();
         Stroke oldS = g2.getStroke();
@@ -96,7 +96,5 @@ public class GeoGebraLogoBox : Box {
         g2.translate(-x, -y);
     }
 
-    public override int getLastFontId() {
-        return 0;
-    }
+    public override int LastFontId => 0;
 }

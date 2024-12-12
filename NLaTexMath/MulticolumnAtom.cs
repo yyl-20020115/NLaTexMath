@@ -144,7 +144,7 @@ public class MulticolumnAtom : Atom
     public override Box CreateBox(TeXEnvironment env)
     {
         Box b = w == 0 ? cols.CreateBox(env) : new HorizontalBox(cols.CreateBox(env), w, align);
-        b.type = TeXConstants.TYPE_MULTICOLUMN;
+        b.Type = TeXConstants.TYPE_MULTICOLUMN;
         return b;
     }
 }

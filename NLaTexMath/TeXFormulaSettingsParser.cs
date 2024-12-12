@@ -58,8 +58,8 @@ public class TeXFormulaSettingsParser {
 
     private XElement root;
 
-    public TeXFormulaSettingsParser(){
-        this(GlueSettingsParser..getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME);
+    public TeXFormulaSettingsParser()
+        :this(GlueSettingsParser..getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME) { 
     }
 
     public TeXFormulaSettingsParser(Stream file, string name){
@@ -86,23 +86,23 @@ public class TeXFormulaSettingsParser {
     }
 
     private static void addToMap(List<XNode> mapList, string[] tableMath, string[] tableText){
-        for (int i = 0; i < mapList.getLength(); i++) {
-            XElement map = (XElement) mapList.item(i);
-            string ch = map.getAttribute("char");
-            string symbol = map.getAttribute("symbol");
-            string text = map.getAttribute("text");
+        for (int i = 0; i < mapList.Count; i++) {
+            XElement map = (XElement) mapList[i];
+            string ch = map.Attribute("char")?.Value??"";
+            string symbol = map.Attribute("symbol")?.Value??"";
+            string text = map.Attribute("text")?.Value ?? "";
             // both attributes are required!
             if (ch=="") {
-                throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char", null);
+                throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName, "char", null);
             } else if (symbol=="") {
-                throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "symbol", null);
+                throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName, "symbol", null);
             }
 
             if (ch.Length == 1) {// valid element found
                 tableMath[ch[0]] =  symbol;
             } else {
                 // only single-character mappings allowed, ignore others
-                throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char", "must have a value that Contains exactly 1 character!");
+                throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName, "char", "must have a value that Contains exactly 1 character!");
             }
 
             if (tableText != null && text!="") {
@@ -112,23 +112,23 @@ public class TeXFormulaSettingsParser {
     }
 
     private static void addFormulaToMap(List<XNode> mapList, string[] tableMath, string[] tableText){
-        for (int i = 0; i < mapList.getLength(); i++) {
-            XElement map = (XElement)mapList.item(i);
-            string ch = map.getAttribute("char");
-            string formula = map.getAttribute("formula");
-            string text = map.getAttribute("text");
+        for (int i = 0; i < mapList.Count; i++) {
+            XElement map = (XElement)mapList[i];
+            string ch = map.Attribute("char")?.Value??"";
+            string formula = map.Attribute("formula")?.Value??"";
+            string text = map.Attribute("text")?.Value??"";
             // both attributes are required!
             if (ch=="")
-                throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(),
+                throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName,
                                                     "char", null);
             else if (formula=="")
-                throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(),
+                throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName,
                                                     "formula", null);
             if (ch.Length == 1) {// valid element found
                 tableMath[ch[0]] = formula;
             } else
                 // only single-character mappings allowed, ignore others
-                throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(),
+                throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName,
                                                     "char",
                                                     "must have a value that Contains exactly 1 character!");
 

@@ -84,17 +84,19 @@ public class NthRoot : Atom {
         HorizontalBox b = new HorizontalBox(bs);
         b.Add(new SpaceAtom(TeXConstants.UNIT_MU, 1, 0, 0).CreateBox(env.crampStyle()));
         // create root sign
-        float totalH = b.getHeight() + b.getDepth();
+        float totalH = b.Height + b.Depth;
         Box rootSign = DelimiterFactory.create(sqrtSymbol, env, totalH + clr + drt);
 
         // Add half the excess to clr
-        float delta = rootSign.getDepth() - (totalH + clr);
+        float delta = rootSign.Depth - (totalH + clr);
         clr += delta / 2;
 
         // create total box
-        rootSign.setShift(-(b.getHeight() + clr));
-        OverBar ob = new OverBar(b, clr, rootSign.getHeight());
-        ob.setShift(-(b.getHeight() + clr + drt));
+        rootSign.
+        // create total box
+        Shift = -(b.Height + clr);
+        OverBar ob = new OverBar(b, clr, rootSign.Height);
+        ob.        Shift = -(b.Height + clr + drt);
         HorizontalBox squareRoot = new HorizontalBox(rootSign);
         squareRoot.Add(ob);
 
@@ -107,15 +109,15 @@ public class NthRoot : Atom {
             Box r = root.CreateBox(env.rootStyle());
 
             // shift root up
-            float bottomShift = FACTOR * (squareRoot.getHeight() + squareRoot.getDepth());
-            r.setShift(squareRoot.getDepth() - r.getDepth() - bottomShift);
+            float bottomShift = FACTOR * (squareRoot.Height + squareRoot.Depth);
+            r.            Shift = squareRoot.Depth - r.Depth - bottomShift;
 
             // negative kern
             Box negativeKern = new SpaceAtom(TeXConstants.UNIT_MU, -10f, 0, 0).CreateBox(env);
 
             // arrange both boxes together with the negative kern
             Box res = new HorizontalBox();
-            float pos = r.getWidth() + negativeKern.getWidth();
+            float pos = r.Width + negativeKern.Width;
             if (pos < 0)
                 res.Add(new StrutBox(-pos, 0, 0, 0));
 

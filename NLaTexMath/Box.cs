@@ -75,49 +75,49 @@ public abstract class Box {
      * be used. If it has no parent, the foreground color of the component on which it
      * will be painted, will be used.
      */
-    protected Color foreground;
+    protected Color? foreground;
 
     /**
      * The background color of the whole box. Child boxes can paint a background on top of
      * this background. If it's null, no background will be painted.
      */
-    protected Color background;
+    protected Color? background;
 
-    private Color prevColor; // used temporarily in startDraw and endDraw
+    private Color? prevColor; // used temporarily in startDraw and endDraw
 
     /**
      * The width of this box, i.e. the value that will be used for further
      * calculations.
      */
-    public float width = 0;
+    protected float width = 0;
 
     /**
      * The height of this box, i.e. the value that will be used for further
      * calculations.
      */
-    public float height = 0;
+    protected float height = 0;
 
     /**
      * The depth of this box, i.e. the value that will be used for further
      * calculations.
      */
-    public float depth = 0;
+    protected float depth = 0;
 
     /**
      * The shift amount: the meaning depends on the particular kind of box
      * (up, down, left, right)
      */
-    public float shift = 0;
+    protected float shift = 0;
 
-    public int type = -1;
+    private int type = -1;
 
     /**
      * List of child boxes
      */
-    public List<Box> children = [];
-    protected Box parent;
-    protected Box elderParent;
-    protected Color markForDEBUG;
+    public List<Box> Children = [];
+    protected Box? parent;
+    protected Box? elderParent;
+    protected Color? markForDEBUG;
 
     /**
      * Inserts the given box at the end of the list of child boxes.
@@ -125,7 +125,7 @@ public abstract class Box {
      * @param b the box to be inserted
      */
     public void Add(Box b) {
-        children.Add(b);
+        Children.Add(b);
         b.parent = this;
         b.elderParent = elderParent;
     }
@@ -137,7 +137,7 @@ public abstract class Box {
      * @param b the box to be inserted
      */
     public void Add(int pos, Box b) {
-        children.Insert(pos, b);
+        Children.Insert(pos, b);
         b.parent = this;
         b.elderParent = elderParent;
     }
@@ -146,9 +146,8 @@ public abstract class Box {
      * Creates an empty box (no children) with all dimensions set to 0 and no
      * foreground and background color set (default values will be used: null)
      */
-    protected Box(): this(new Color(), new Color())
+    protected Box(): this(null,null)
     {
-        ;
     }
 
     /**
@@ -158,102 +157,65 @@ public abstract class Box {
      * @param fg the foreground color
      * @param bg the background color
      */
-    protected Box(Color fg, Color bg) {
+    protected Box(Color? fg, Color? bg) {
         foreground = fg;
         background = bg;
+        this.prevColor = fg;
     }
 
-    public void setParent(Box parent) {
-        this.parent = parent;
-    }
+    public Box? Parent { get => parent; set => this.parent = value; }
 
-    public Box getParent() {
-        return parent;
-    }
-
-    public void setElderParent(Box elderParent) {
-        this.elderParent = elderParent;
-    }
-
-    public Box getElderParent() {
-        return elderParent;
-    }
+    public Box? ElderParent { get => elderParent; set => this.elderParent = value; }
 
     /**
      * Get the width of this box.
      *
      * @return the width of this box
      */
-    public float getWidth() {
-        return width;
-    }
+    /**
+ * Set the width for this box.
+ *
+ * @param w the width
+ */
+    public float Width { get => width; set => width = value; }
 
-    public void negWidth() {
-        width = -width;
-    }
+    public void NegWidth() => width = -width;
 
     /**
      * Get the height of this box.
      *
      * @return the height of this box
      */
-    public float getHeight() {
-        return height;
-    }
+    /**
+ * Set the height for this box.
+ *
+ * @param h the height
+ */
+    public float Height { get => height; set => height = value; }
 
     /**
      * Get the depth of this box.
      *
      * @return the depth of this box
      */
-    public float getDepth() {
-        return depth;
-    }
+    /**
+ * Set the depth for this box.
+ *
+ * @param d the depth
+ */
+    public float Depth { get => depth; set => depth = value; }
 
     /**
      * Get the shift amount for this box.
      *
      * @return the shift amount
      */
-    public float getShift() {
-        return shift;
-    }
-
     /**
-     * Set the width for this box.
-     *
-     * @param w the width
-     */
-    public void setWidth(float w) {
-        width = w;
-    }
-
-    /**
-     * Set the depth for this box.
-     *
-     * @param d the depth
-     */
-    public void setDepth(float d) {
-        depth = d;
-    }
-
-    /**
-     * Set the height for this box.
-     *
-     * @param h the height
-     */
-    public void setHeight(float h) {
-        height = h;
-    }
-
-    /**
-     * Set the shift amount for this box.
-     *
-     * @param s the shift amount
-     */
-    public void setShift(float s) {
-        shift = s;
-    }
+ * Set the shift amount for this box.
+ *
+ * @param s the shift amount
+ */
+    public float Shift { get => shift; set => shift = value; }
 
     /**
      * Paints this box at the given coordinates using the given graphics context.
@@ -262,14 +224,15 @@ public abstract class Box {
      * @param x the x-coordinate
      * @param y the y-coordinate
      */
-    public abstract void draw(Graphics g2, float x, float y);
+    public abstract void Draw(Graphics g2, float x, float y);
 
     /**
      * Get the id of the font that will be used the last when this box will be painted.
      *
      * @return the id of the last font that will be used.
      */
-    public abstract int getLastFontId();
+    public abstract int LastFontId { get; }
+    public int Type { get => type; set => type = value; }
 
     /**
      * Stores the old color setting, draws the background of the box (if not null)
@@ -279,28 +242,28 @@ public abstract class Box {
      * @param x the x-coordinate
      * @param y the y-coordinate
      */
-    protected void startDraw(Graphics g2, float x, float y) {
+    protected void StartDraw(Graphics g2, float x, float y) {
         // old color
         prevColor = g2.getColor();
         if (background != null) { // draw background
             g2.setColor(background);
-            g2.fill(new Rectangle2D(x, y - height, width, height + depth));
+            g2.fill(new RectangleF(x, y - height, width, height + depth));
         }
         if (foreground == null) {
             g2.setColor(prevColor); // old foreground color
         } else {
             g2.setColor(foreground); // overriding foreground color
         }
-        drawDebug(g2, x, y);
+        DrawDebug(g2, x, y);
     }
 
-    protected void drawDebug(Graphics g2, float x, float y, bool showDepth) {
+    protected void DrawDebug(Graphics g2, float x, float y, bool showDepth) {
         if (DEBUG) {
             Stroke st = g2.getStroke();
             if (markForDEBUG != null) {
                 Color c = g2.getColor();
                 g2.setColor(markForDEBUG);
-                g2.fill(new Rectangle2D(x, y - height, width, height + depth));
+                g2.fill(new RectangleF(x, y - height, width, height + depth));
                 g2.setColor(c);
             }
             g2.setStroke(new BasicStroke((float) (Math.Abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
@@ -308,18 +271,18 @@ public abstract class Box {
                 x += width;
                 width = -width;
             }
-            g2.draw(new Rectangle2D(x, y - height, width, height + depth));
+            g2.draw(new RectangleF(x, y - height, width, height + depth));
             if (showDepth) {
                 Color c = g2.getColor();
                 g2.setColor(Color.RED);
                 if (depth > 0) {
-                    g2.fill(new Rectangle2D(x, y, width, depth));
+                    g2.fill(new RectangleF(x, y, width, depth));
                     g2.setColor(c);
-                    g2.draw(new Rectangle2D(x, y, width, depth));
+                    g2.draw(new RectangleF(x, y, width, depth));
                 } else if (depth < 0) {
-                    g2.fill(new Rectangle2D(x, y + depth, width, -depth));
+                    g2.fill(new RectangleF(x, y + depth, width, -depth));
                     g2.setColor(c);
-                    g2.draw(new Rectangle2D(x, y + depth, width, -depth));
+                    g2.draw(new RectangleF(x, y + depth, width, -depth));
                 } else {
                     g2.setColor(c);
                 }
@@ -328,9 +291,9 @@ public abstract class Box {
         }
     }
 
-    protected void drawDebug(Graphics g2, float x, float y) {
+    protected void DrawDebug(Graphics g2, float x, float y) {
         if (DEBUG) {
-            drawDebug(g2, x, y, true);
+            DrawDebug(g2, x, y, true);
         }
     }
 
@@ -339,7 +302,7 @@ public abstract class Box {
      *
      * @param g2 the graphics (2D) context
      */
-    protected void endDraw(Graphics g2) {
+    protected void EndDraw(Graphics g2) {
         g2.setColor(prevColor);
         
     }

@@ -70,12 +70,12 @@ public class OgonekAtom(Atom _base) : Atom
         else
             y = ogonek;
 
-        Box og = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_RIGHT);
-        vb.Add(new StrutBox(0, -ogonek.getHeight(), 0, 0));
+        Box og = new HorizontalBox(y, b.Width, TeXConstants.ALIGN_RIGHT);
+        vb.Add(new StrutBox(0, -ogonek.Height, 0, 0));
         vb.Add(og);
-        float f = vb.getHeight() + vb.getDepth();
-        vb.setHeight(b.getHeight());
-        vb.setDepth(f - b.getHeight());
+        float f = vb.Height + vb.Depth;
+        vb.        Height = b.Height;
+        vb.        Depth = f - b.Height;
         return vb;
     }
 }

@@ -59,7 +59,7 @@ public class UnderscoreAtom : Atom {
     public override Box CreateBox(TeXEnvironment env) {
         float drt = env.TeXFont.getDefaultRuleThickness(env.getStyle());
         HorizontalBox hb = new HorizontalBox(s.CreateBox(env));
-        hb.Add(new HorizontalRule(drt, w.CreateBox(env).getWidth(), 0));
+        hb.Add(new HorizontalRule(drt, w.CreateBox(env).Width, 0));
         return hb;
     }
 }

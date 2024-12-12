@@ -67,31 +67,31 @@ public class UnderOverArrowAtom : Atom {
 
     public override Box CreateBox(TeXEnvironment env) {
         Box b = _base != null ? _base.CreateBox(env) : new StrutBox(0, 0, 0, 0);
-        float sep = new SpaceAtom(TeXConstants.UNIT_POINT, 1f, 0, 0).CreateBox(env).getWidth();
+        float sep = new SpaceAtom(TeXConstants.UNIT_POINT, 1f, 0, 0).CreateBox(env).Width;
         Box arrow;
 
         if (dble) {
-            arrow = XLeftRightArrowFactory.create(env, b.getWidth());
+            arrow = XLeftRightArrowFactory.Create(env, b.Width);
             sep = 4 * sep;
         } else {
-            arrow = XLeftRightArrowFactory.create(left, env, b.getWidth());
+            arrow = XLeftRightArrowFactory.Create(left, env, b.Width);
             sep = -sep;
         }
 
         VerticalBox vb = new VerticalBox();
         if (over) {
             vb.Add(arrow);
-            vb.Add(new HorizontalBox(b, arrow.getWidth(), TeXConstants.ALIGN_CENTER));
-            float h = vb.getDepth() + vb.getHeight();
-            vb.setDepth(b.getDepth());
-            vb.setHeight(h - b.getDepth());
+            vb.Add(new HorizontalBox(b, arrow.Width, TeXConstants.ALIGN_CENTER));
+            float h = vb.Depth + vb.Height;
+            vb.            Depth = b.Depth;
+            vb.            Height = h - b.Depth;
         } else {
-            vb.Add(new HorizontalBox(b, arrow.getWidth(), TeXConstants.ALIGN_CENTER));
+            vb.Add(new HorizontalBox(b, arrow.Width, TeXConstants.ALIGN_CENTER));
             vb.Add(new StrutBox(0, sep, 0, 0));
             vb.Add(arrow);
-            float h = vb.getDepth() + vb.getHeight();
-            vb.setDepth(h - b.getHeight());
-            vb.setHeight(b.getHeight());
+            float h = vb.Depth + vb.Height;
+            vb.            Depth = h - b.Height;
+            vb.            Height = b.Height;
         }
 
         return vb;

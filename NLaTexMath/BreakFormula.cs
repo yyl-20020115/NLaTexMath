@@ -103,7 +103,7 @@ public class BreakFormula
     private static Box split(VerticalBox vbox, float width, float interline)
     {
         VerticalBox newBox = new VerticalBox();
-        foreach (Box box in vbox.children)
+        foreach (Box box in vbox.Children)
         {
             newBox.Add(split(box, width, interline));
         }
@@ -113,7 +113,7 @@ public class BreakFormula
 
     private static float canBreak(Stack<Position> stack, HorizontalBox hbox, float width)
     {
-        List<Box> children = hbox.children;
+        List<Box> children = hbox.Children;
         float[] cumWidth = new float[children.Count + 1];
         cumWidth[0] = 0;
         for (int i = 0; i < children.Count; i++)
