@@ -72,9 +72,9 @@ public class GraphicsBox : Box
         shift = 0;
         interp = interpolation switch
         {
-            BILINEAR => (object)RenderingHints.VALUE_INTERPOLATION_BILINEAR,
-            NEAREST_NEIGHBOR => (object)RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR,
-            BICUBIC => (object)RenderingHints.VALUE_INTERPOLATION_BICUBIC,
+            //BILINEAR => (object)RenderingHints.VALUE_INTERPOLATION_BILINEAR,
+            //NEAREST_NEIGHBOR => (object)RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR,
+            //BICUBIC => (object)RenderingHints.VALUE_INTERPOLATION_BICUBIC,
             _ => null,
         };
     }

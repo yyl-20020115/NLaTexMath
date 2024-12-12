@@ -149,7 +149,7 @@ public class TeXFormula
         {
             throw new ResourceParseException(file, e);
         }
-        addSymbolMappings(_in, file);
+        AddSymbolMappings(_in, file);
     }
 
     public static void AddSymbolMappings(Stream _in, string name)
@@ -242,7 +242,7 @@ public class TeXFormula
     {
         this.jlmXMLMap = map;
         parser = new TeXParser(s, this);
-        parser.parse();
+        parser.Parse();
     }
 
     /**
@@ -260,7 +260,7 @@ public class TeXFormula
     {
         this.textStyle = null;
         parser = new TeXParser(s, this, firstpass);
-        parser.parse();
+        parser.Parse();
     }
 
     /*
@@ -271,14 +271,14 @@ public class TeXFormula
     {
         this.textStyle = textStyle;
         parser = new TeXParser(s, this);
-        parser.parse();
+        parser.Parse();
     }
 
     public TeXFormula(string s, string textStyle, bool firstpass, bool space)
     {
         this.textStyle = textStyle;
         parser = new TeXParser(s, this, firstpass, space);
-        parser.parse();
+        parser.Parse();
     }
 
     /**
@@ -327,13 +327,13 @@ public class TeXFormula
         {
             try
             {
-                parser.parse();
+                parser.Parse();
             }
             catch (Exception e) { }
         }
         else
         {
-            parser.parse();
+            parser.Parse();
         }
     }
 
@@ -351,7 +351,7 @@ public class TeXFormula
         {
             try
             {
-                parser.parse();
+                parser.Parse();
             }
             catch (Exception e)
             {
@@ -363,7 +363,7 @@ public class TeXFormula
         }
         else
         {
-            parser.parse();
+            parser.Parse();
         }
     }
 
@@ -377,7 +377,7 @@ public class TeXFormula
         {
             try
             {
-                parser.parse();
+                parser.Parse();
             }
             catch (Exception e)
             {
@@ -389,7 +389,7 @@ public class TeXFormula
         }
         else
         {
-            parser.parse();
+            parser.Parse();
         }
     }
 
@@ -431,7 +431,7 @@ public class TeXFormula
         TeXParser parser = new TeXParser(true, formula, f);
         try
         {
-            parser.parse();
+            parser.Parse();
         }
         catch (Exception e)
         {
@@ -462,7 +462,7 @@ public class TeXFormula
     {
         parser.Reset(ltx);
         if (ltx != null && ltx.Length != 0)
-            parser.parse();
+            parser.Parse();
     }
 
     /**
@@ -529,7 +529,7 @@ public class TeXFormula
         if (s != null && s.Length != 0)
         {
             TeXParser tp = new TeXParser(isPartial, s, this);
-            tp.parse();
+            tp.Parse();
         }
         return this;
     }

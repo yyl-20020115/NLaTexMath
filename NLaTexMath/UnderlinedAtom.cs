@@ -53,11 +53,11 @@ public class UnderlinedAtom : Atom
 {
 
     // the base to be underlined
-    private readonly Atom _base;
+    private readonly Atom Base;
 
     public UnderlinedAtom(Atom f)
     {
-        _base = f;
+        Base = f;
         Type = TeXConstants.TYPE_ORDINARY; // for spacing rules
     }
 
@@ -66,7 +66,7 @@ public class UnderlinedAtom : Atom
         float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
 
         // create formula box in same style
-        Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));
+        Box b = (Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env));
 
         // create vertical box
         var vBox = new VerticalBox();

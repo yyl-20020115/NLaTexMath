@@ -51,11 +51,11 @@ namespace NLaTexMath;
 public class TStrokeAtom(bool upper) : Atom
 {
 
-    private bool upper = upper;
+    private readonly bool upper = upper;
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Char ch = env.TeXFont.GetChar("bar", env.Style);
+        var ch = env.TeXFont.GetChar("bar", env.Style);
         float italic = ch.Italic;
         var T = new CharBox(env.TeXFont.GetChar(upper ? 'T' : 't', "mathnormal", env.Style));
         var B = new CharBox(ch);

@@ -85,7 +85,7 @@ public class VRowAtom : Atom
         raise = new SpaceAtom(unit, r, 0, 0);
     }
 
-    public Atom GetLastAtom()
+    public Atom getLastAtom()
     {
         Atom? a = elements.LastOrDefault();
         elements.RemoveAt(elements.Count-1);

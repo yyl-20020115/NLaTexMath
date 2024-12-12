@@ -50,25 +50,25 @@ namespace NLaTexMath;
  */
 public class UnderOverArrowAtom : Atom
 {
-    private Atom _base;
+    private Atom Base;
     private bool over, left = false, dble = false;
 
     public UnderOverArrowAtom(Atom _base, bool left, bool over)
     {
-        this._base = _base;
+        this.Base = _base;
         this.left = left;
         this.over = over;
     }
 
     public UnderOverArrowAtom(Atom _base, bool over)
     {
-        this._base = _base;
+        this.Base = _base;
         this.over = over;
         this.dble = true;
     }
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = _base != null ? _base.CreateBox(env) : new StrutBox(0, 0, 0, 0);
+        Box b = Base != null ? Base.CreateBox(env) : new StrutBox(0, 0, 0, 0);
         float sep = new SpaceAtom(TeXConstants.UNIT_POINT, 1f, 0, 0).CreateBox(env).Width;
         Box arrow;
 

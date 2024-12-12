@@ -71,10 +71,10 @@ public class TeXSymbolParser
     {
         try
         {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringElementContentWhitespace(true);
-            factory.setIgnoringComments(true);
-            root = factory.newDocumentBuilder().parse(file).getDocumentElement();
+            //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            //factory.setIgnoringElementContentWhitespace(true);
+            //factory.setIgnoringComments(true);
+            root = XDocument.Load(file).Root;
             // set possible valid symbol type mappings
             SetTypeMappings();
         }

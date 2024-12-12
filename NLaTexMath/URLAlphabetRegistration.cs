@@ -60,7 +60,7 @@ public class URLAlphabetRegistration : AlphabetRegistration
         this.blocks = blocks;
     }
 
-    public static void register(Uri url, string language, UnicodeBlock[] blocks)
+    public static void Register(Uri url, string language, UnicodeBlock[] blocks)
     {
         DefaultTeXFont.RegisterAlphabet(new URLAlphabetRegistration(url, language, blocks));
     }
@@ -77,19 +77,19 @@ public class URLAlphabetRegistration : AlphabetRegistration
                           + "." + char.ToString(char.ToUpper(language[0]))
                           + language[1..] + "Registration";
 
-            try
-            {
-                ClassLoader loader = new URLClassLoader(urls);
-                pack = (AlphabetRegistration)Type.forName(name, true, loader).newInstance();
-            }
-            catch (TypeNotFoundException e)
-            {
-                throw new AlphabetRegistrationException("Type at " + url + " cannot be got.");
-            }
-            catch (Exception e)
-            {
-                throw new AlphabetRegistrationException("Problem in loading the class at " + url + " :\n" + e.Message);
-            }
+            //try
+            //{
+            //    ClassLoader loader = new URLClassLoader(urls);
+            //    pack = (AlphabetRegistration)Type.forName(name, true, loader).newInstance();
+            //}
+            //catch (TypeNotFoundException e)
+            //{
+            //    throw new AlphabetRegistrationException("Type at " + url + " cannot be got.");
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new AlphabetRegistrationException("Problem in loading the class at " + url + " :\n" + e.Message);
+            //}
             return pack;
         }
     }

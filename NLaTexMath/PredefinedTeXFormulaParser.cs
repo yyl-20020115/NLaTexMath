@@ -99,9 +99,9 @@ public class PredefinedTeXFormulaParser
 
                     // parse and build the formula and Add it to the table
                     if ("TeXFormula" == (this.type))
-                        predefinedTeXFormulas.Add(name, (TeXFormula)new TeXFormulaParser(name, formula, this.type).parse());
+                        predefinedTeXFormulas.Add(name, (TeXFormula)new TeXFormulaParser(name, formula, this.type).Parse());
                     else
-                        predefinedTeXFormulas.Add(name, (MacroInfo)new TeXFormulaParser(name, formula, this.type).parse());
+                        predefinedTeXFormulas.Add(name, (MacroInfo)new TeXFormulaParser(name, formula, this.type).Parse());
                 }
             }
         }

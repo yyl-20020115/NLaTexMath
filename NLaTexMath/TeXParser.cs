@@ -122,7 +122,7 @@ public class TeXParser
 
     public static bool isLoading = false;
 
-    private static readonly HashSet<string> unparsedContents = new HashSet<string>(6);
+    private static readonly HashSet<string> unparsedContents = new(6);
     static TeXParser()
     {
         unparsedContents.Add("jlmDynamic");
@@ -156,7 +156,7 @@ public class TeXParser
     : this(parseString, formula, false)
     {
         this.isPartial = isPartial;
-        firstpass();
+        Firstpass();
     }
 
     /**
@@ -178,7 +178,7 @@ public class TeXParser
             this.pos = 0;
             if (_firstpass)
             {
-                firstpass();
+                Firstpass();
             }
         }
         else
@@ -278,7 +278,7 @@ public class TeXParser
      */
     public void Reset(string latex)
     {
-        parseString = new StringBuilder(latex);
+        parseString = new (latex);
         len = parseString.Length;
         formula.root = null;
         pos = 0;
@@ -290,7 +290,7 @@ public class TeXParser
         atIsLetter = 0;
         arrayMode = false;
         ignoreWhiteSpace = true;
-        firstpass();
+        Firstpass();
     }
 
     /** Return true if we get a partial formula
@@ -307,7 +307,7 @@ public class TeXParser
 
     /** Get the last atom of the current formula
      */
-    public Atom getLastAtom()
+    public Atom GetLastAtom()
     {
         Atom at = formula.root;
         if (at is RowAtom atom)
@@ -318,7 +318,7 @@ public class TeXParser
 
     /** Get the atom represented by the current formula
      */
-    public Atom getFormulaAtom()
+    public Atom GetFormulaAtom()
     {
         Atom at = formula.root;
         formula.root = null;
@@ -327,61 +327,61 @@ public class TeXParser
 
     /** Put an atom in the current formula
      */
-    public void addAtom(Atom at)
+    public void AddAtom(Atom at)
     {
         formula.Add(at);
     }
 
     /** Indicate if the character @ can be used in the command's name
      */
-    public void makeAtLetter()
+    public void MakeAtLetter()
     {
         atIsLetter++;
     }
 
     /** Indicate if the character @ can be used in the command's name
      */
-    public void makeAtOther()
+    public void MakeAtOther()
     {
         atIsLetter--;
     }
 
     /** Return a bool indicating if the character @ is considered as a letter or not
      */
-    public bool isAtLetter()
+    public bool IsAtLetter()
     {
         return (atIsLetter != 0);
     }
 
     /** Return a bool indicating if the parser is used to parse an array or not
      */
-    public bool isArrayMode()
+    public bool IsArrayMode()
     {
         return arrayMode;
     }
 
-    public void setArrayMode(bool arrayMode)
+    public void SetArrayMode(bool arrayMode)
     {
         this.arrayMode = arrayMode;
     }
 
     /** Return a bool indicating if the parser must ignore white spaces
      */
-    public bool isIgnoreWhiteSpace()
+    public bool IsIgnoreWhiteSpace()
     {
         return ignoreWhiteSpace;
     }
 
     /** Return a bool indicating if the parser is in math mode
      */
-    public bool isMathMode()
+    public bool IsMathMode()
     {
         return ignoreWhiteSpace;
     }
 
     /** Return the current position in the parsed string
      */
-    public int getPos()
+    public int GetPos()
     {
         return pos;
     }
@@ -390,18 +390,18 @@ public class TeXParser
      * @param n the number of character to be rewinded
      * @return the new position in the parsed string
      */
-    public int rewind(int n)
+    public int Rewind(int n)
     {
         pos -= n;
         return pos;
     }
 
-    public string getStringFromCurrentPos()
+    public string GetStringFromCurrentPos()
     {
-        return parseString.Substring(pos);
+        return parseString.ToString()[pos..];
     }
 
-    public void finish()
+    public void Finish()
     {
         pos = parseString.Length;
     }
@@ -409,14 +409,14 @@ public class TeXParser
     /** Add a new row when the parser is in array mode
      * @ if the parser is not in array mode
      */
-    public void addRow()
+    public void AddRow()
     {
         if (!arrayMode)
             throw new ParseException("You can Add a row only in array mode !");
         ((ArrayOfAtoms)formula).AddRow();
     }
 
-    private void firstpass()
+    private void Firstpass()
     {
         if (len != 0)
         {
@@ -491,7 +491,7 @@ public class TeXParser
                                 try
                                 {
                                     string[] optarg = getOptsArgs(mac.nbArgs - 1, 0);
-                                    string grp = getGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
+                                    string grp = GetGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
                                     string expr = "{\\makeatletter \\" + args[1] + "@env";
                                     for (int i = 1; i <= mac.nbArgs - 1; i++)
                                         expr += "{" + optarg[i] + "}";
@@ -710,7 +710,7 @@ public class TeXParser
     /** Parse the input string
      * @ if an error is encountered during parsing
      */
-    public void parse()
+    public void Parse()
     {
         if (len != 0)
         {
@@ -758,7 +758,7 @@ public class TeXParser
                                 pos++;
                             }
 
-                            formula.Add(new MathAtom(new TeXFormula(this, getDollarGroup(DOLLAR), false).root, style));
+                            formula.Add(new MathAtom(new TeXFormula(this, GetDollarGroup(DOLLAR), false).root, style));
                             if (doubleDollar)
                             {
                                 if (parseString[pos] == DOLLAR)
@@ -769,7 +769,7 @@ public class TeXParser
                         }
                         break;
                     case ESCAPE:
-                        Atom at = processEscape();
+                        Atom at = ProcessEscape();
                         formula.Add(at);
                         if (arrayMode && at is HlineAtom)
                         {
@@ -781,7 +781,7 @@ public class TeXParser
                         }
                         break;
                     case L_GROUP:
-                        Atom atom = getArgument();
+                        Atom atom = GetArgument();
                         if (atom != null)
                         {
                             atom.Type = TeXConstants.TYPE_ORDINARY;
@@ -795,12 +795,12 @@ public class TeXParser
                             throw new ParseException("Found a closing '" + R_GROUP + "' without an opening '" + L_GROUP + "'!");
                         return;
                     case SUPER_SCRIPT:
-                        formula.Add(getScripts(ch));
+                        formula.Add(GetScripts(ch));
                         break;
                     case SUB_SCRIPT:
                         if (ignoreWhiteSpace)
                         {
-                            formula.Add(getScripts(ch));
+                            formula.Add(GetScripts(ch));
                         }
                         else
                         {
@@ -821,40 +821,40 @@ public class TeXParser
                     case PRIME:
                         if (ignoreWhiteSpace)
                         {
-                            formula.Add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.Get("prime")));
+                            formula.Add(new CumulativeScriptsAtom(GetLastAtom(), null, SymbolAtom.Get("prime")));
                         }
                         else
                         {
-                            formula.Add(convertCharacter(PRIME, true));
+                            formula.Add(ConvertCharacter(PRIME, true));
                         }
                         pos++;
                         break;
                     case BACKPRIME:
                         if (ignoreWhiteSpace)
                         {
-                            formula.Add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.Get("backprime")));
+                            formula.Add(new CumulativeScriptsAtom(GetLastAtom(), null, SymbolAtom.Get("backprime")));
                         }
                         else
                         {
-                            formula.Add(convertCharacter(BACKPRIME, true));
+                            formula.Add(ConvertCharacter(BACKPRIME, true));
                         }
                         pos++;
                         break;
                     case DQUOTE:
                         if (ignoreWhiteSpace)
                         {
-                            formula.Add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.Get("prime")));
-                            formula.Add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.Get("prime")));
+                            formula.Add(new CumulativeScriptsAtom(GetLastAtom(), null, SymbolAtom.Get("prime")));
+                            formula.Add(new CumulativeScriptsAtom(GetLastAtom(), null, SymbolAtom.Get("prime")));
                         }
                         else
                         {
-                            formula.Add(convertCharacter(PRIME, true));
-                            formula.Add(convertCharacter(PRIME, true));
+                            formula.Add(ConvertCharacter(PRIME, true));
+                            formula.Add(ConvertCharacter(PRIME, true));
                         }
                         pos++;
                         break;
                     default:
-                        formula.Add(convertCharacter(ch, false));
+                        formula.Add(ConvertCharacter(ch, false));
                         pos++;
                         break;
                 }
@@ -867,10 +867,10 @@ public class TeXParser
         }
     }
 
-    private Atom getScripts(char f)
+    private Atom GetScripts(char f)
     {
         pos++;
-        Atom first = getArgument();
+        Atom first = GetArgument();
         Atom second = null;
         char s = '\0';
 
@@ -885,13 +885,13 @@ public class TeXParser
         else if (f == SUB_SCRIPT && s == SUPER_SCRIPT)
         {
             pos++;
-            second = getArgument();
+            second = GetArgument();
         }
         else if (f == SUPER_SCRIPT && s == SUB_SCRIPT)
         {
             pos++;
             second = first;
-            first = getArgument();
+            first = GetArgument();
         }
         else if (f == SUPER_SCRIPT && s != SUB_SCRIPT)
         {
@@ -941,7 +941,7 @@ public class TeXParser
      * @return the enclosed contents
      * @ if the contents are badly enclosed
      */
-    public string getDollarGroup(char openclose)
+    public string GetDollarGroup(char openclose)
     {
         int spos = pos;
         char ch;
@@ -1016,16 +1016,16 @@ public class TeXParser
      * @return the enclosed contents
      * @ if the contents are badly enclosed
      */
-    public string getGroup(string open, string close)
+    public string GetGroup(string open, string close)
     {
         int group = 1;
         int ol = open.Length, cl = close.Length;
-        bool lastO = isValidCharacterInCommand(open[ol - 1]);
-        bool lastC = isValidCharacterInCommand(close[cl - 1]);
+        bool lastO = IsValidCharacterInCommand(open[ol - 1]);
+        bool lastC = IsValidCharacterInCommand(close[cl - 1]);
         int oc = 0, cc = 0;
         int startC = 0;
         char prev = '\0';
-        StringBuilder buf = new StringBuilder();
+        var buf = new StringBuilder();
 
         while (pos < len && group != 0)
         {
@@ -1039,7 +1039,7 @@ public class TeXParser
                     buf.Append(' ');
                 }
                 c = parseString[(--pos)];
-                if (isValidCharacterInCommand(prev) && isValidCharacterInCommand(c))
+                if (IsValidCharacterInCommand(prev) && IsValidCharacterInCommand(c))
                 {
                     oc = cc = 0;
                 }
@@ -1067,7 +1067,7 @@ public class TeXParser
 
                 if (oc == ol)
                 {
-                    if (!lastO || !isValidCharacterInCommand(c1))
+                    if (!lastO || !IsValidCharacterInCommand(c1))
                     {
                         group++;
                     }
@@ -1076,7 +1076,7 @@ public class TeXParser
 
                 if (cc == cl)
                 {
-                    if (!lastC || !isValidCharacterInCommand(c1))
+                    if (!lastC || !IsValidCharacterInCommand(c1))
                     {
                         group--;
                     }
@@ -1118,9 +1118,9 @@ public class TeXParser
      * @return the corresponding atom
      * @ if the argument is incorrect
      */
-    public Atom getArgument()
+    public Atom GetArgument()
     {
-        skipWhiteSpace();
+        SkipWhiteSpace();
         char ch;
         if (pos < len)
         {
@@ -1137,7 +1137,7 @@ public class TeXParser
             this.formula = tf;
             pos++;
             group++;
-            parse();
+            Parse();
             this.formula = sformula;
             if (this.formula.root == null)
             {
@@ -1150,21 +1150,21 @@ public class TeXParser
 
         if (ch == ESCAPE)
         {
-            Atom _at = processEscape();
+            Atom _at = ProcessEscape();
             if (insertion)
             {
                 insertion = false;
-                return getArgument();
+                return GetArgument();
             }
             return _at;
         }
 
-        Atom at = convertCharacter(ch, true);
+        Atom at = ConvertCharacter(ch, true);
         pos++;
         return at;
     }
 
-    public string getOverArgument()
+    public string GetOverArgument()
     {
         if (pos == len)
             return null;
@@ -1232,7 +1232,7 @@ public class TeXParser
         return str;
     }
 
-    public float[] getLength()
+    public float[] GetLength()
     {
         if (pos == len)
             return null;
@@ -1240,15 +1240,15 @@ public class TeXParser
         int spos;
         char ch = '\0';
 
-        skipWhiteSpace();
+        SkipWhiteSpace();
         spos = pos;
         while (pos < len && ch != ' ')
         {
             ch = parseString[pos++];
         }
-        skipWhiteSpace();
+        SkipWhiteSpace();
 
-        return SpaceAtom.getLength(parseString.substring(spos, pos - 1));
+        return SpaceAtom.GetLength(parseString.substring(spos, pos - 1));
     }
 
     /** Convert a character in the corresponding atom in using the file TeXFormulaSettings.xml for non-alphanumeric characters
@@ -1256,7 +1256,7 @@ public class TeXParser
      * @return the corresponding atom
      * @ if the character is unknown
      */
-    public Atom convertCharacter(char c, bool oneChar)
+    public Atom ConvertCharacter(char c, bool oneChar)
     {
         if (ignoreWhiteSpace)
         {// The Unicode Greek letters in math mode are not drawn with the Greek font
@@ -1270,10 +1270,10 @@ public class TeXParser
             }
         }
 
-        c = convertToRomanNumber(c);
+        c = ConvertToRomanNumber(c);
         if (((c < '0' || c > '9') && (c < 'a' || c > 'z') && (c < 'A' || c > 'Z')))
         {
-            UnicodeBlock block = UnicodeBlock.of(c);
+            UnicodeBlock block = UnicodeBlock.Of(c);
             if (!isLoading && !DefaultTeXFont.loadedAlphabets.Contains(block))
             {
                 DefaultTeXFont.AddAlphabet(DefaultTeXFont.registeredAlphabets[block]);
@@ -1299,7 +1299,7 @@ public class TeXParser
                     while (pos < len)
                     {
                         c = parseString[(pos)];
-                        if (!UnicodeBlock.of(c) == (block))
+                        if (UnicodeBlock.Of(c) != (block))
                         {
                             end = --pos;
                             break;
@@ -1406,7 +1406,7 @@ public class TeXParser
         return com;
     }
 
-    private Atom processEscape()
+    private Atom ProcessEscape()
     {
         spos = pos;
         string command = getCommand();
@@ -1443,7 +1443,7 @@ public class TeXParser
         }
     }
 
-    private void insert(int beg, int end, string formula)
+    private void Insert(int beg, int end, string formula)
     {
         parseString.Replace(beg, end, formula);
         len = parseString.Length;
@@ -1472,7 +1472,7 @@ public class TeXParser
                 {
                     for (; j < nbArgs + 11; j++)
                     {
-                        skipWhiteSpace();
+                        SkipWhiteSpace();
                         args[j] = getGroup(L_BRACK, R_BRACK);
                     }
                 }
@@ -1483,7 +1483,7 @@ public class TeXParser
             }
 
             //We get the first argument
-            skipWhiteSpace();
+            SkipWhiteSpace();
             try
             {
                 args[1] = getGroup(L_GROUP, R_GROUP);
@@ -1507,7 +1507,7 @@ public class TeXParser
                 {
                     for (; j < nbArgs + 11; j++)
                     {
-                        skipWhiteSpace();
+                        SkipWhiteSpace();
                         args[j] = getGroup(L_BRACK, R_BRACK);
                     }
                 }
@@ -1520,7 +1520,7 @@ public class TeXParser
             //We get the next arguments
             for (int i = 2; i <= nbArgs; i++)
             {
-                skipWhiteSpace();
+                SkipWhiteSpace();
                 try
                 {
                     args[i] = getGroup(L_GROUP, R_GROUP);
@@ -1541,7 +1541,7 @@ public class TeXParser
 
             if (ignoreWhiteSpace)
             {
-                skipWhiteSpace();
+                SkipWhiteSpace();
             }
         }
         return args;
@@ -1557,7 +1557,7 @@ public class TeXParser
     {
         if (command == "left")
         {
-            return getGroup("\\left", "\\right");
+            return GetGroup("\\left", "\\right");
         }
 
         MacroInfo mac = MacroInfo.Commands[(command)];
@@ -1613,7 +1613,7 @@ public class TeXParser
         if (NewCommandMacro.IsMacro(command))
         {
             string ret = (string)mac.Invoke(this, args);
-            insert(spos, pos, ret);
+            Insert(spos, pos, ret);
             return null;
         }
 
@@ -1656,12 +1656,12 @@ public class TeXParser
      * @param ch character to test
      * @return the validity of the character
      */
-    public bool isValidCharacterInCommand(char ch)
+    public bool IsValidCharacterInCommand(char ch)
     {
         return char.IsLetter(ch) || (atIsLetter != 0 && ch == '@');
     }
 
-    private void skipWhiteSpace()
+    private void SkipWhiteSpace()
     {
         char c;
         while (pos < len)
@@ -1681,7 +1681,7 @@ public class TeXParser
     /**
      * The aim of this method is to convert foreign number into roman ones !
      */
-    private static char convertToRomanNumber(char c)
+    private static char ConvertToRomanNumber(char c)
     {
         if (c == 0x66b)
         {//Arabic dot

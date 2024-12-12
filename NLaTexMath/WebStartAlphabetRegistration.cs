@@ -43,6 +43,9 @@
  *
  */
 
+using NLaTexMath.cyrillic;
+using NLaTexMath.greek;
+
 namespace NLaTexMath;
 
 public class WebStartAlphabetRegistration : AlphabetRegistration
@@ -81,4 +84,7 @@ public class WebStartAlphabetRegistration : AlphabetRegistration
 
     public string TeXFontFileName 
         => reg.TeXFontFileName;
+
+    public UnicodeBlock[] JLM_GREEK { get; private set; }
+    public UnicodeBlock[] JLM_CYRILLIC { get; private set; }
 }

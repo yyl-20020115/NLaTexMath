@@ -55,20 +55,18 @@ using System.Xml.Linq;
 public class TeXFormulaParser
 {
 
-    private interface ActionParser
+    public interface ActionParser
     { // NOPMD
         public void Parse(XElement el);
     }
 
     private interface ArgumentValueParser
     { // NOPMD
-        public object ParseValue(string value, string type)
-        ;
+        public object ParseValue(string value, string type);
     }
 
     public class MethodInvocationParser : ActionParser
     {
-
         public MethodInvocationParser()
         {
             // avoids creation of special accessor type
@@ -80,8 +78,7 @@ public class TeXFormulaParser
             string methodName = getAttrValueAndCheckIfNotNull("name", el);
             string objectName = getAttrValueAndCheckIfNotNull(ARG_OBJ_ATTR, el);
             // check if temporary TeXFormula exists
-            object o = tempFormulas.Get(objectName);
-            if (o == null)
+            if (!tempFormulas.TryGetValue(objectName, out var o))
             {// doesn't exist
                 throw new XMLResourceParseException(
                     PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
@@ -95,7 +92,7 @@ public class TeXFormulaParser
                 List<XNode> args = el.getElementsByTagName("Argument");
                 // get argument classes and values
                 Type[] argClasses = getArgumentClasses(args);
-                object[] argValues = getArgumentValues(args);
+                object[] argValues = GetArgumentValues(args);
                 // invoke method
                 try
                 {
@@ -113,10 +110,10 @@ public class TeXFormulaParser
         }
     }
 
-    private class CreateTeXFormulaParser : ActionParser
+    public class CreateTeXFormulaParser : ActionParser
     {
 
-        CreateTeXFormulaParser()
+        public CreateTeXFormulaParser()
         {
             // avoids creation of special accessor type
         }
@@ -129,7 +126,7 @@ public class TeXFormulaParser
             List<XNode> args = el.getElementsByTagName("Argument");
             // get argument classes and values
             Type[] argClasses = getArgumentClasses(args);
-            object[] argValues = getArgumentValues(args);
+            object[] argValues = GetArgumentValues(args);
             // create TeXFormula object
             //string code = "TeXFormula.predefinedTeXFormulasAsString.Add(\"%s\", \"%s\");";
             //System._out.println(string.format(code, formulaName, argValues[0]));
@@ -149,10 +146,10 @@ public class TeXFormulaParser
         }
     }
 
-    private class CreateCommandParser : ActionParser
+    public class CreateCommandParser : ActionParser
     {
 
-        CreateCommandParser()
+        public CreateCommandParser()
         {
             // avoids creation of special accessor type
         }
@@ -165,7 +162,7 @@ public class TeXFormulaParser
             List<XNode> args = el.getElementsByTagName("Argument");
             // get argument classes and values
             Type[] argClasses = getArgumentClasses(args);
-            object[] argValues = getArgumentValues(args);
+            object[] argValues = GetArgumentValues(args);
             // create TeXFormula object
             try
             {
@@ -173,7 +170,7 @@ public class TeXFormulaParser
                 // succesfully created, so Add to "temporary formula's"-hashtable
                 tempCommands.Add(name, f);
             }
-            catch (IllegalArgumentException e)
+            catch (Exception e)
             {
                 string err = "IllegalArgumentException:\n";
                 err += "ClassLoader to load this class (TeXFormulaParser): " + this.GetType().getClassLoader() + "\n";
@@ -200,20 +197,20 @@ public class TeXFormulaParser
         }
     }
 
-    private class FloatValueParser : ArgumentValueParser
+    public class FloatValueParser : ArgumentValueParser
     {
 
-        FloatValueParser()
+        public FloatValueParser()
         {
             // avoids creation of special accessor type
         }
 
         public object ParseValue(string value, string type)
         {
-            checkNullValue(value, type);
+            CheckNullValue(value, type);
             try
             {
-                return new float(float.parseFloat(value));
+                return float.TryParse(value, out var v) ? v : 0;
             }
             catch (Exception e)
             {
@@ -225,17 +222,17 @@ public class TeXFormulaParser
         }
     }
 
-    private class CharValueParser : ArgumentValueParser
+    public class CharValueParser : ArgumentValueParser
     {
 
-        CharValueParser()
+        public CharValueParser()
         {
             // avoids creation of special accessor type
         }
 
         public object ParseValue(string value, string type)
         {
-            checkNullValue(value, type);
+            CheckNullValue(value, type);
             if (value.Length == 1)
             {
                 return value[0];
@@ -250,17 +247,17 @@ public class TeXFormulaParser
         }
     }
 
-    private class BooleanValueParser : ArgumentValueParser
+    public class BooleanValueParser : ArgumentValueParser
     {
 
-        BooleanValueParser()
+        public BooleanValueParser()
         {
             // avoids creation of special accessor type
         }
 
         public object ParseValue(string value, string type)
         {
-            checkNullValue(value, type);
+            CheckNullValue(value, type);
             if ("true" == (value))
             {
                 return true;
@@ -279,21 +276,21 @@ public class TeXFormulaParser
         }
     }
 
-    private class IntValueParser : ArgumentValueParser
+    public class IntValueParser : ArgumentValueParser
     {
 
-        IntValueParser()
+        public IntValueParser()
         {
             // avoids creation of special accessor type
         }
 
         public object ParseValue(string value, string type)
         {
-            checkNullValue(value, type);
+            CheckNullValue(value, type);
             try
             {
                 int val = int.TryParse(value, out var v) ? v : 0;
-                return new float(val);
+                return (val);
             }
             catch (Exception e)
             {
@@ -305,10 +302,10 @@ public class TeXFormulaParser
         }
     }
 
-    private class ReturnParser : ActionParser
+    public class ReturnParser : ActionParser
     {
 
-        ReturnParser()
+        public ReturnParser()
         {
             // avoids creation of special accessor type
         }
@@ -333,10 +330,10 @@ public class TeXFormulaParser
         }
     }
 
-    private class StringValueParser : ArgumentValueParser
+    public class StringValueParser : ArgumentValueParser
     {
 
-        StringValueParser()
+        public StringValueParser()
         {
             // avoids creation of special accessor type
         }
@@ -347,10 +344,10 @@ public class TeXFormulaParser
         }
     }
 
-    private class TeXFormulaValueParser : ArgumentValueParser
+    public class TeXFormulaValueParser : ArgumentValueParser
     {
 
-        TeXFormulaValueParser()
+        public TeXFormulaValueParser()
         {
             // avoids creation of special accessor type
         }
@@ -380,21 +377,21 @@ public class TeXFormulaParser
         }
     }
 
-    private class TeXConstantsValueParser : ArgumentValueParser
+    public class TeXConstantsValueParser : ArgumentValueParser
     {
 
-        TeXConstantsValueParser()
+        public TeXConstantsValueParser()
         {
             // avoids creation of special accessor type
         }
 
         public object ParseValue(string value, string type)
         {
-            checkNullValue(value, type);
+            CheckNullValue(value, type);
             try
             {
                 // get constant value (if present)
-                int constant = TeXConstants..getDeclaredField(value).getInt(
+                int constant = TeXConstants.getDeclaredField(value).getInt(
                                    null);
                 // return constant integer value
                 return int.valueOf(constant);
@@ -409,17 +406,17 @@ public class TeXFormulaParser
         }
     }
 
-    private class ColorConstantValueParser : ArgumentValueParser
+    public class ColorConstantValueParser : ArgumentValueParser
     {
 
-        ColorConstantValueParser()
+        public ColorConstantValueParser()
         {
             // avoids creation of special accessor type
         }
 
         public object ParseValue(string value, string type)
         {
-            checkNullValue(value, type);
+            CheckNullValue(value, type);
             try
             {
                 // return Color constant (if present)
@@ -436,8 +433,7 @@ public class TeXFormulaParser
         }
     }
 
-    private const string ARG_VAL_ATTR = "value", RETURN_EL = "Return",
-                                ARG_OBJ_ATTR = "formula";
+    private const string ARG_VAL_ATTR = "value", RETURN_EL = "Return", ARG_OBJ_ATTR = "formula";
 
     private static Dictionary<string, Type> classMappings = new();
 
@@ -494,14 +490,14 @@ public class TeXFormulaParser
         argValueParsers.Add("ColorConstant", new ColorConstantValueParser());
     }
 
-    public object parse()
+    public object Parse()
     {
         // parse and execute actions
-        List<XNode> list = formula.getChildNodes();
+        List<XNode> list = formula.Nodes().ToList();
         for (int i = 0; i < list.Count; i++)
         {
             XNode node = list[i];
-            if (node.NodeType != XNode.TEXT_NODE)
+            if (node.NodeType != System.Xml.XmlNodeType.Text)
             {
                 XElement el = (XElement)node;
                 ActionParser p = actionParsers[(el.Name.LocalName)];
@@ -514,20 +510,20 @@ public class TeXFormulaParser
         return result;
     }
 
-    private object[] getArgumentValues(List<XNode> args)
+    private object[] GetArgumentValues(List<XNode> args)
     {
         object[] res = new object[args.Count];
         int i = 0;
         for (int j = 0; j < args.Count; j++)
         {
-            XElement arg = (XElement)args.item(j);
+            var arg = (XElement)args[(j)];
             // get required string attribute
             string type = getAttrValueAndCheckIfNotNull("type", arg);
             // get value, not present means a nullpointer
             string value = arg.Attribute(ARG_VAL_ATTR)?.Value ?? "";
             // parse value, hashtable will certainly contain a parser for the class type,
             // because the class types have been checked before!
-            res[i] = argValueParsers.Get(type).parseValue(value, type);
+            res[i] = argValueParsers[(type)].ParseValue(value, type);
             i++;
         }
         return res;
@@ -539,7 +535,7 @@ public class TeXFormulaParser
         int i = 0;
         for (int j = 0; j < args.Count; j++)
         {
-            XElement arg = (XElement)args.item(j);
+            XElement arg = (XElement)args[(j)];
             // get required string attribute
             string type = getAttrValueAndCheckIfNotNull("type", arg);
             // find class mapping
@@ -559,7 +555,7 @@ public class TeXFormulaParser
         return res;
     }
 
-    private static void checkNullValue(string value, string type)
+    private static void CheckNullValue(string value, string type)
     {
         if (value == "")
         {
@@ -570,16 +566,13 @@ public class TeXFormulaParser
         }
     }
 
-    private static string getAttrValueAndCheckIfNotNull(string attrName,
-            XElement element)
+    private static string getAttrValueAndCheckIfNotNull(string attrName, XElement element)
     {
-        string attrValue = element.Attribute(attrName)?.Value ?? "";
-        if (attrValue == "")
-        {
-            throw new XMLResourceParseException(
+        var attrValue = element.Attribute(attrName)?.Value ?? "";
+        return attrValue == ""
+            ? throw new XMLResourceParseException(
                 PredefinedTeXFormulaParser.RESOURCE_NAME, element.Name.LocalName,
-                attrName, null);
-        }
-        return attrValue;
+                attrName, null)
+            : attrValue;
     }
 }

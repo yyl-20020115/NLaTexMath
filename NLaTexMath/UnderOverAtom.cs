@@ -54,7 +54,7 @@ namespace NLaTexMath;
 public class UnderOverAtom : Atom
 {
     // base, underscript and overscript
-    private readonly Atom _base;
+    private readonly Atom Base;
     private readonly Atom under;
     private readonly Atom over;
 
@@ -77,7 +77,7 @@ public class UnderOverAtom : Atom
         // check if unit is valid
         SpaceAtom.CheckUnit(underOverUnit);
         // units valid
-        this._base = _base;
+        this.Base = _base;
 
         if (over)
         {
@@ -112,7 +112,7 @@ public class UnderOverAtom : Atom
         SpaceAtom.CheckUnit(overUnit);
 
         // units valid
-        this._base = _base;
+        this.Base = _base;
         this.under = under;
         this.underUnit = underUnit;
         this.underSpace = underSpace;
@@ -126,7 +126,7 @@ public class UnderOverAtom : Atom
     public override Box CreateBox(TeXEnvironment env)
     {
         // create boxes in right style and calculate maximum width
-        Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));
+        Box b = (Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env));
         Box o = null, u = null;
         float max = b.Width;
         if (over != null)
@@ -150,13 +150,13 @@ public class UnderOverAtom : Atom
         // overscript + space
         if (over != null)
         {
-            vBox.Add(changeWidth(o, max));
+            vBox.Add(ChangeWidth(o, max));
             // unit will be valid (checked in constructor)
             vBox.Add(new SpaceAtom(overUnit, 0, overSpace, 0).CreateBox(env));
         }
 
         // base
-        Box c = changeWidth(b, max);
+        Box c = ChangeWidth(b, max);
         vBox.Add(c);
 
         // calculate future height of the vertical box (to make sure that the base
@@ -168,7 +168,7 @@ public class UnderOverAtom : Atom
         {
             // unit will be valid (checked in constructor)
             vBox.Add(new SpaceAtom(overUnit, 0, underSpace, 0).CreateBox(env));
-            vBox.Add(changeWidth(u, max));
+            vBox.Add(ChangeWidth(u, max));
         }
 
         // set height and depth
@@ -178,7 +178,7 @@ public class UnderOverAtom : Atom
         return vBox;
     }
 
-    private static Box changeWidth(Box b, float maxWidth) 
+    private static Box ChangeWidth(Box b, float maxWidth) 
         => b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
             ? new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER)
             : b

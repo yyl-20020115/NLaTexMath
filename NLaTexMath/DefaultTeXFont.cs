@@ -94,7 +94,7 @@ public class DefaultTeXFont : TeXFont
     {
         DefaultTeXFontParser parser = new ();
         //load LATIN block
-        loadedAlphabets.Add(UnicodeBlock.of('a'));
+        loadedAlphabets.Add(UnicodeBlock.Of('a'));
         // fonts + font descriptions
         fontInfo = parser.ParseFontDescriptions(fontInfo);
         // general font parameters

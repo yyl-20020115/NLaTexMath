@@ -208,7 +208,7 @@ public class MatrixAtom : Atom
                     pos++;
                     tf = new TeXFormula();
                     tp = new TeXParser(isPartial, opt.ToString()[pos..], tf, false);
-                    Atom at = tp.getArgument();
+                    Atom at = tp.GetArgument();
                     matrix.col++;
                     for (int j = 0; j < matrix.row; j++)
                     {
@@ -216,7 +216,7 @@ public class MatrixAtom : Atom
                     }
 
                     lposition.Add(TeXConstants.ALIGN_NONE);
-                    pos += tp.getPos();
+                    pos += tp.GetPos();
                     pos--;
                     break;
                 case '*':
@@ -224,7 +224,7 @@ public class MatrixAtom : Atom
                     tf = new TeXFormula();
                     tp = new TeXParser(isPartial, opt.ToString()[pos..], tf, false);
                     string[] args = tp.getOptsArgs(2, 0);
-                    pos += tp.getPos();
+                    pos += tp.GetPos();
                     int nrep = int.TryParse(args[1], out var v) ? v : 0;
                     string str = "";
                     for (int j = 0; j < nrep; j++)

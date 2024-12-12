@@ -54,7 +54,7 @@ public class UnicodeBlock
     public static readonly UnicodeBlock CYRILLIC;
     public static readonly UnicodeBlock BASIC_LATIN;
 
-    public static UnicodeBlock of(char v)
+    public static UnicodeBlock Of(char v)
     {
         throw new NotImplementedException();
     }

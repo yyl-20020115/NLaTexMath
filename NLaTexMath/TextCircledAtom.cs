@@ -51,7 +51,7 @@ namespace NLaTexMath;
 public class TextCircledAtom(Atom atom) : Atom
 {
 
-    private Atom Base = atom;
+    private readonly Atom Base = atom;
 
     public override Box CreateBox(TeXEnvironment env)
     {
