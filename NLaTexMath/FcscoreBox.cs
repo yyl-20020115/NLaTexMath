@@ -49,14 +49,16 @@ using System.Drawing;
 /**
  * A box representing glue.
  */
-public class FcscoreBox : Box {
+public class FcscoreBox : Box
+{
 
-    private int N;
-    private bool strike;
-    private float space;
-    private float thickness;
+    private readonly int N;
+    private readonly bool strike;
+    private readonly float space;
+    private readonly float thickness;
 
-    public FcscoreBox(int N, float h, float thickness, float space, bool strike) {
+    public FcscoreBox(int N, float h, float thickness, float space, bool strike)
+    {
         this.N = N;
         this.width = N * (thickness + space) + 2 * space;
         this.height = h;
@@ -66,7 +68,8 @@ public class FcscoreBox : Box {
         this.thickness = thickness;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y)
+    {
         //AffineTransform transf = g2.getTransform();
         //Stroke oldStroke = g2.getStroke(); 
 

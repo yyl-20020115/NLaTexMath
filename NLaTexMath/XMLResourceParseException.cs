@@ -52,23 +52,21 @@ public class XMLResourceParseException : ResourceParseException
      * Attribute problem
      */
     public XMLResourceParseException(string resourceName, string elementName, string attributeName, string msg)
-        : base(resourceName + ": invalid <" + elementName
-              + ">-element found: attribute '" + attributeName + "' "
-              + (msg ?? "is required!")) { }
+        : base($"{resourceName}: invalid <{elementName}>-element found: attribute '{attributeName}' {msg ?? "is required!"}")
+    { }
 
     /*
      * Attribute problem
      */
     public XMLResourceParseException(string resourceName, string elementName, string attributeName, string msg, Exception e)
-        : base(resourceName + ": invalid <" + elementName
-              + ">-element found: attribute '" + attributeName + "' "
-              + (msg ?? "is required!"), e) { }
+        : base($"{resourceName}: invalid <{elementName}>-element found: attribute '{attributeName}' {msg ?? "is required!"}", e)
+    { }
     /*
      * required element missing
      */
     public XMLResourceParseException(string resourceName, string elementName)
-        : base(resourceName + ": the required <" + elementName
-              + ">-element is not found!") { }
+        : base($"{resourceName}: the required <{elementName}>-element is not found!")
+    { }
     /*
      * JDOMException or IOException
      */

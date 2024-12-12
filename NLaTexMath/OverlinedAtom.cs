@@ -51,7 +51,6 @@ namespace NLaTexMath;
  */
 public class OverlinedAtom : Atom
 {
-
     // base atom to be overlined
     private readonly Atom Base;
 
@@ -66,8 +65,7 @@ public class OverlinedAtom : Atom
         float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
 
         // cramp the style of the formula to be overlined and create vertical box
-        Box b = Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env
-                 .CrampStyle());
+        Box b = Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env.CrampStyle());
         OverBar ob = new(b, 3 * drt, drt)
         {
             // baseline vertical box = baseline box b

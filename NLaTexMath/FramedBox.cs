@@ -51,7 +51,8 @@ namespace NLaTexMath;
 /**
  * A box representing a rotated box.
  */
-public class FramedBox : Box {
+public class FramedBox : Box
+{
 
     public Box box;
     public float thickness;
@@ -59,7 +60,8 @@ public class FramedBox : Box {
     private Color? line;
     private Color? bg;
 
-    public FramedBox(Box box, float thickness, float space) {
+    public FramedBox(Box box, float thickness, float space)
+    {
         this.box = box;
         this.width = box.Width + 2 * thickness + 2 * space;
         this.height = box.Height + thickness + space;
@@ -69,13 +71,14 @@ public class FramedBox : Box {
         this.space = space;
     }
 
-    public FramedBox(Box box, float thickness, float space, Color? line, Color? bg): this(box, thickness, space)
+    public FramedBox(Box box, float thickness, float space, Color? line, Color? bg) : this(box, thickness, space)
     {
         this.line = line;
         this.bg = bg;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y)
+    {
         //Stroke st = g2.getStroke();
         //g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         //float th = thickness / 2;

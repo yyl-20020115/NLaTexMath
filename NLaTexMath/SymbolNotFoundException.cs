@@ -53,5 +53,4 @@ namespace NLaTexMath;
  */
 public class SymbolNotFoundException(string name) 
     : JMathTeXException("There's no symbol with the name '" + name + "' defined in '"
-              + TeXSymbolParser.RESOURCE_NAME + "'!") {
-}
+              + TeXSymbolParser.RESOURCE_NAME + "'!") { }

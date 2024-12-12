@@ -52,13 +52,14 @@ namespace NLaTexMath;
 /**
  * A box representing a single character.
  */
-public class CharBox : Box {
+public class CharBox : Box
+{
 
     private readonly CharFont cf;
     private readonly float size;
     private float italic;
 
-    private readonly char[] arr = new char[1];
+    //private readonly char[] _array = new char[1];
 
     /**
      * Create a new CharBox that will represent the character defined by the given
@@ -66,7 +67,8 @@ public class CharBox : Box {
      *
      * @param c a Char-object containing the character's font information.
      */
-    public CharBox(Char c) {
+    public CharBox(Char c)
+    {
         cf = c.CharFont;
         size = c.Metrics.Size;
         width = c.Width;
@@ -75,12 +77,14 @@ public class CharBox : Box {
         italic = c.Italic;
     }
 
-    public void AddItalicCorrectionToWidth() {
+    public void AddItalicCorrectionToWidth()
+    {
         width += italic;
         italic = 0;
     }
 
-    public override void Draw(Graphics g2, float x, float y) { 
+    public override void Draw(Graphics g2, float x, float y)
+    {
         DrawDebug(g2, x, y);
         //TODO:
         //AffineTransform at = g2.getTransform();
@@ -103,5 +107,5 @@ public class CharBox : Box {
 
     public override int LastFontId => cf.fontId;
 
-    public override string ToString() => base.ToString() + "=" + cf.c;
+    public override string ToString() => $"{base.ToString()}={cf.c}";
 }

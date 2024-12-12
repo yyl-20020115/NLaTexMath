@@ -51,5 +51,6 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class InvalidAtomTypeException(string msg) : JMathTeXException(msg) {
+public class InvalidAtomTypeException(string msg) : JMathTeXException(msg)
+{
 }

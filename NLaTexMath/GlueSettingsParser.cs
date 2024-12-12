@@ -173,10 +173,10 @@ public class GlueSettingsParser
 
     public Glue[] GlueTypes => glueTypes;
 
-    public int[][][] CreateGlueTable()
+    public int[,,] CreateGlueTable()
     {
         int size = typeMappings.Count;
-        int[][][] table = new int[size][size][styleMappings.Count];
+        int[,,] table = new int[size, size, styleMappings.Count];
         XElement glueTable = (XElement)root.getElementsByTagName("GlueTable").item(0);
         if (glueTable != null)
         { // element present

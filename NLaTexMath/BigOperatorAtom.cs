@@ -110,7 +110,7 @@ public class BigOperatorAtom : Atom
         Atom Base = _base;
         if (_base is TypedAtom)
         {
-            Atom at = ((TypedAtom)_base).getBase();
+            Atom at = ((TypedAtom)_base).GetBase();
             if (at is RowAtom atom && atom.lookAtLastAtom && _base.TypeLimits != TeXConstants.SCRIPT_LIMITS)
             {
                 _base = atom.GetLastAtom();

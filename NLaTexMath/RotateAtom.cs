@@ -69,7 +69,7 @@ public class RotateAtom : Atom
         this.Type = _base.Type;
         this.Base = _base;
         this.angle = angle;
-        Dictionary<string, string> map = ParseOption.ParseMap(option);
+        var map = ParseOption.ParseMap(option);
         if (map.TryGetValue("origin", out string? value))
         {
             this.option = RotateBox.GetOrigin(value);

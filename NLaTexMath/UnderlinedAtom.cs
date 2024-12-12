@@ -49,35 +49,38 @@ namespace NLaTexMath;
 /**
  * An atom representing another atom with a line under it.
  */
-class UnderlinedAtom : Atom {
+public class UnderlinedAtom : Atom
+{
 
     // the base to be underlined
     private readonly Atom _base;
 
-    public UnderlinedAtom(Atom f) {
+    public UnderlinedAtom(Atom f)
+    {
         _base = f;
         Type = TeXConstants.TYPE_ORDINARY; // for spacing rules
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
 
         // create formula box in same style
         Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));
 
         // create vertical box
-        VerticalBox vBox = new VerticalBox();
+        var vBox = new VerticalBox();
         vBox.Add(b);
         vBox.Add(new StrutBox(0, 3 * drt, 0, 0));
         vBox.Add(new HorizontalRule(drt, b.Width, 0));
 
         // baseline vertical box = baseline box b
         // there's also an invisible strut of height drt under the rule
-        vBox.
+
         // baseline vertical box = baseline box b
         // there's also an invisible strut of height drt under the rule
-        Depth = b.Depth + 5 * drt;
-        vBox.        Height = b.Height;
+        vBox.Depth = b.Depth + 5 * drt;
+        vBox.Height = b.Height;
 
         return vBox;
     }

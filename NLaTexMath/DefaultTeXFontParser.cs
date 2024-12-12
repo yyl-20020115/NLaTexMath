@@ -317,7 +317,7 @@ public class DefaultTeXFontParser
         return res.toArray(fi);
     }
 
-    public FontInfo[] parseFontDescriptions(FontInfo[] fi)
+    public FontInfo[] ParseFontDescriptions(FontInfo[] fi)
     {
         XElement fontDescriptions = (XElement)root.getElementsByTagName("FontDescriptions").item(0);
         if (fontDescriptions != null)
@@ -454,7 +454,7 @@ public class DefaultTeXFontParser
         }
     }
 
-    public Dictionary<string, CharFont> parseSymbolMappings()
+    public Dictionary<string, CharFont> ParseSymbolMappings()
     {
         Dictionary<string, CharFont> res = new ();
         XElement symbolMappings = (XElement)root.getElementsByTagName("SymbolMappings").item(0);
@@ -516,7 +516,7 @@ public class DefaultTeXFontParser
         }
     }
 
-    public string[] parseDefaultTextStyleMappings()
+    public string[] ParseDefaultTextStyleMappings()
     {
         string[] res = new string[4];
         XElement defaultTextStyleMappings = (XElement)root
@@ -561,7 +561,7 @@ public class DefaultTeXFontParser
         return res;
     }
 
-    public Dictionary<string, float> parseParameters()
+    public Dictionary<string, float> ParseParameters()
     {
         Dictionary<string, float> res = new ();
         XElement parameters = (XElement)root.getElementsByTagName("Parameters").item(0);
@@ -582,7 +582,7 @@ public class DefaultTeXFontParser
         }
     }
 
-    public Dictionary<string, int> parseGeneralSettings()
+    public Dictionary<string, int> ParseGeneralSettings()
     {
         Dictionary<string, int> res = new ();
         // TODO: must this be 'Number' ?
@@ -596,16 +596,16 @@ public class DefaultTeXFontParser
             res.Add(MUFONTID_ATTR, Font_ID.IndexOf(getAttrValueAndCheckIfNotNull(MUFONTID_ATTR, generalSettings))); // autoboxing
             res.Add(SPACEFONTID_ATTR, Font_ID.IndexOf(getAttrValueAndCheckIfNotNull(SPACEFONTID_ATTR, generalSettings))); // autoboxing
                                                                                                                           // set required float values (if valid)
-            res.Add("scriptfactor", getFloatAndCheck("scriptfactor",
+            res.Add("scriptfactor", GetFloatAndCheck("scriptfactor",
                     generalSettings)); // autoboxing
-            res.Add("scriptscriptfactor", getFloatAndCheck(
+            res.Add("scriptscriptfactor", GetFloatAndCheck(
                         "scriptscriptfactor", generalSettings)); // autoboxing
 
         }
         return res;
     }
 
-    public Dictionary<string, CharFont[]> parseTextStyleMappings()
+    public Dictionary<string, CharFont[]> ParseTextStyleMappings()
     {
         return parsedTextStyles;
     }

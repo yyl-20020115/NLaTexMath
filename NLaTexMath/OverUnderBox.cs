@@ -56,7 +56,7 @@ public class OverUnderBox : Box
 {
 
     // base, delimiter and script atom
-    private readonly Box _base;
+    private readonly Box Base;
     private readonly Box del;
     private readonly Box script;
 
@@ -81,7 +81,7 @@ public class OverUnderBox : Box
      */
     public OverUnderBox(Box b, Box d, Box script, float kern, bool over)
     {
-        _base = b;
+        Base = b;
         del = d;
         this.script = script;
         this.kern = kern;
@@ -136,5 +136,5 @@ public class OverUnderBox : Box
         //}
     }
 
-    public override int LastFontId => _base.LastFontId;
+    public override int LastFontId => Base.LastFontId;
 }

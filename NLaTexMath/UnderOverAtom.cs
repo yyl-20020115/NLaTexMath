@@ -51,8 +51,8 @@ namespace NLaTexMath;
  * by a kern and in a smaller size depending on "overScriptSize" and/or an atom under
  * it (if not null) seperated by a kern and in a smaller size depending on "underScriptSize"
  */
-public class UnderOverAtom : Atom {
-
+public class UnderOverAtom : Atom
+{
     // base, underscript and overscript
     private readonly Atom _base;
     private readonly Atom under;
@@ -72,13 +72,15 @@ public class UnderOverAtom : Atom {
     private readonly bool overScriptSize;
 
     public UnderOverAtom(Atom _base, Atom underOver, int underOverUnit,
-                         float underOverSpace, bool underOverScriptSize, bool over) {
+                         float underOverSpace, bool underOverScriptSize, bool over)
+    {
         // check if unit is valid
         SpaceAtom.CheckUnit(underOverUnit);
         // units valid
         this._base = _base;
 
-        if (over) {
+        if (over)
+        {
             this.under = null;
             this.underSpace = 0.0f;
             this.underUnit = 0;
@@ -87,7 +89,9 @@ public class UnderOverAtom : Atom {
             this.overUnit = underOverUnit;
             this.overSpace = underOverSpace;
             this.overScriptSize = underOverScriptSize;
-        } else {
+        }
+        else
+        {
             this.under = underOver;
             this.underUnit = underOverUnit;
             this.underSpace = underOverSpace;
@@ -101,7 +105,8 @@ public class UnderOverAtom : Atom {
 
     public UnderOverAtom(Atom _base, Atom under, int underUnit, float underSpace,
                          bool underScriptSize, Atom over, int overUnit, float overSpace,
-                         bool overScriptSize){
+                         bool overScriptSize)
+    {
         // check if units are valid
         SpaceAtom.CheckUnit(underUnit);
         SpaceAtom.CheckUnit(overUnit);
@@ -118,30 +123,33 @@ public class UnderOverAtom : Atom {
         this.overScriptSize = overScriptSize;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         // create boxes in right style and calculate maximum width
         Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));
         Box o = null, u = null;
         float max = b.Width;
-        if (over != null) {
+        if (over != null)
+        {
             o = over.CreateBox(overScriptSize ? env.SubStyle : env);
             max = Math.Max(max, o.Width);
         }
-        if (under != null) {
+        if (under != null)
+        {
             u = under.CreateBox(underScriptSize ? env.SubStyle : env);
             max = Math.Max(max, u.Width);
         }
 
         // create vertical box
-        VerticalBox vBox = new VerticalBox();
+        var vBox = new VerticalBox();
 
         // last font used by the base (for Mspace atoms following)
-        env.
         // last font used by the base (for Mspace atoms following)
-        LastFontId = b.LastFontId;
+        env.LastFontId = b.LastFontId;
 
         // overscript + space
-        if (over != null) {
+        if (over != null)
+        {
             vBox.Add(changeWidth(o, max));
             // unit will be valid (checked in constructor)
             vBox.Add(new SpaceAtom(overUnit, 0, overSpace, 0).CreateBox(env));
@@ -156,27 +164,23 @@ public class UnderOverAtom : Atom {
         float h = vBox.Height + vBox.Depth - c.Depth;
 
         // underscript + space
-        if (under != null) {
+        if (under != null)
+        {
             // unit will be valid (checked in constructor)
             vBox.Add(new SpaceAtom(overUnit, 0, underSpace, 0).CreateBox(env));
             vBox.Add(changeWidth(u, max));
         }
 
         // set height and depth
-        vBox.
         // set height and depth
-        Depth = vBox.Height + vBox.Depth - h;
-        vBox.        Height = h;
+        vBox.Depth = vBox.Height + vBox.Depth - h;
+        vBox.Height = h;
         return vBox;
     }
 
-    private static Box changeWidth(Box b, float maxWidth) {
-        return b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
+    private static Box changeWidth(Box b, float maxWidth) 
+        => b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
             ? new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER)
-            : b;
-    }
-
-    public override int LeftType => base.LeftType;
-
-    public override int RightType => base.RightType;
+            : b
+        ;
 }

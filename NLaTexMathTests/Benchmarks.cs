@@ -1,31 +1,32 @@
 using NLaTexMath;
+using System.Drawing;
 
 namespace org.scilab.forge.jlatexmath;
 public class Benchmarks {
 
     private static readonly String LATEX_1 = createLatex1();
 
-    public BufferedImage parseAndRenderLatex() {
+    public Bitmap ParseAndRenderLatex() {
         TeXFormula formula = new TeXFormula(LATEX_1);
-        TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
+        TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
                        .build();
-        icon.setInsets(new Insets(5, 5, 5, 5));
+        icon.        Insets = new Insets(5, 5, 5, 5);
 
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
+        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
                                                 BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
+        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
         JLabel jl = new JLabel();
         jl.setForeground(new Color(0, 0, 0));
-        icon.paintIcon(jl, g2, 0, 0);
+        icon.PaintIcon(jl, g2, 0, 0);
         // must return the image to avoid dead code elimination
         return image;
     }
 
     private static String createLatex1() {
         // taken from Example2
-        String latex = "\\begin{array}{l}";
+        var latex = "\\begin{array}{l}";
         latex += "\\forall\\varepsilon\\in\\mathbb{R}_+^*\\ \\exists\\eta>0\\ |x-x_0|\\leq\\eta\\Longrightarrow|f(x)-f(x_0)|\\leq\\varepsilon\\\\";
         latex += "\\det\\begin{bmatrix}a_{11}&a_{12}&\\cdots&a_{1n}\\\\a_{21}&\\ddots&&\\vdots\\\\\\vdots&&\\ddots&\\vdots\\\\a_{n1}&\\cdots&\\cdots&a_{nn}\\end{bmatrix}\\overset{\\mathrm{def}}{=}\\sum_{\\sigma\\in\\mathfrak{S}_n}\\varepsilon(\\sigma)\\prod_{k=1}^n a_{k\\sigma(k)}\\\\";
         latex += "\\sideset{_\\alpha^\\beta}{_\\gamma^\\delta}{\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}}\\\\";

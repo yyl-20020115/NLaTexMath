@@ -58,7 +58,7 @@ public class RomanAtom(Atom Base) : Atom
         if (Base != null)
         {
             env = env.Copy(env.TeXFont.Copy());
-            env.TeXFont.SetRoman(true);
+            env.TeXFont.            Roman = true;
             box = Base.CreateBox(env);
         }
         else

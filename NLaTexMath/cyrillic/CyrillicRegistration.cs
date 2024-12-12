@@ -45,9 +45,10 @@
 
 namespace NLaTexMath.cyrillic;
 
-public class CyrillicRegistration : AlphabetRegistration {
-
-    public CyrillicRegistration() {
+public class CyrillicRegistration : AlphabetRegistration
+{
+    public CyrillicRegistration()
+    {
     }
 
     public UnicodeBlock[] UnicodeBlocks => [UnicodeBlock.CYRILLIC];

@@ -49,20 +49,23 @@ namespace NLaTexMath;
  * Responsible for creating a box containing a delimiter symbol that exists
  * in different sizes.
  */
-public class XLeftRightArrowFactory {
+public class XLeftRightArrowFactory
+{
 
     private static readonly Atom MINUS = SymbolAtom.Get("minus");
     private static readonly Atom LEFT = SymbolAtom.Get("leftarrow");
     private static readonly Atom RIGHT = SymbolAtom.Get("rightarrow");
 
-    public static Box Create(bool left, TeXEnvironment env, float width) {
+    public static Box Create(bool left, TeXEnvironment env, float width)
+    {
         Box arr = left ? LEFT.CreateBox(env) : RIGHT.CreateBox(env);
         float h = arr.Height;
         float d = arr.Depth;
 
         float swidth = arr.Width;
-        if (width <= swidth) {
-            arr.            Depth = d / 2;
+        if (width <= swidth)
+        {
+            arr.Depth = d / 2;
             return arr;
         }
 
@@ -72,7 +75,8 @@ public class XLeftRightArrowFactory {
         swidth += kern.Width;
         HorizontalBox hb = new HorizontalBox();
         float w;
-        for (w = 0; w < width - swidth - mwidth; w += mwidth) {
+        for (w = 0; w < width - swidth - mwidth; w += mwidth)
+        {
             hb.Add(minus);
             hb.Add(kern);
         }
@@ -82,27 +86,32 @@ public class XLeftRightArrowFactory {
         hb.Add(new SpaceAtom(TeXConstants.UNIT_MU, -2f * sf, 0, 0).CreateBox(env));
         hb.Add(new ScaleAtom(MINUS, sf, 1).CreateBox(env));
 
-        if (left) {
+        if (left)
+        {
             hb.Add(0, new SpaceAtom(TeXConstants.UNIT_MU, -3.5f, 0, 0).CreateBox(env));
             hb.Add(0, arr);
-        } else {
+        }
+        else
+        {
             hb.Add(new SpaceAtom(TeXConstants.UNIT_MU, -2f * sf - 2f, 0, 0).CreateBox(env));
             hb.Add(arr);
         }
 
         hb.
         Depth = d / 2;
-        hb.        Height = h;
+        hb.Height = h;
 
         return hb;
     }
 
-    public static Box Create(TeXEnvironment env, float width) {
+    public static Box Create(TeXEnvironment env, float width)
+    {
         Box left = LEFT.CreateBox(env);
         Box right = RIGHT.CreateBox(env);
         float swidth = left.Width + right.Width;
 
-        if (width < swidth) {
+        if (width < swidth)
+        {
             HorizontalBox hb2 = new HorizontalBox(left);
             hb2.Add(new StrutBox(-Math.Min(swidth - width, left.Width), 0, 0, 0));
             hb2.Add(right);
@@ -116,7 +125,8 @@ public class XLeftRightArrowFactory {
 
         HorizontalBox hb = new HorizontalBox();
         float w;
-        for (w = 0; w < width - swidth - mwidth; w += mwidth) {
+        for (w = 0; w < width - swidth - mwidth; w += mwidth)
+        {
             hb.Add(minus);
             hb.Add(kern);
         }

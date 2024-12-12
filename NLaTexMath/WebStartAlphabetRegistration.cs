@@ -45,15 +45,16 @@
 
 namespace NLaTexMath;
 
-public class WebStartAlphabetRegistration : AlphabetRegistration {
-
+public class WebStartAlphabetRegistration : AlphabetRegistration
+{
     private readonly UnicodeBlock[] blocks;
     private AlphabetRegistration reg;
 
     private WebStartAlphabetRegistration(UnicodeBlock[] blocks) => this.blocks = blocks;
 
-    public static void Register(UnicodeBlock[] blocks) {
-        DefaultTeXFont.registerAlphabet(new WebStartAlphabetRegistration(blocks));
+    public static void Register(UnicodeBlock[] blocks)
+    {
+        DefaultTeXFont.RegisterAlphabet(new WebStartAlphabetRegistration(blocks));
     }
 
     public UnicodeBlock[] UnicodeBlocks => blocks;
@@ -78,5 +79,6 @@ public class WebStartAlphabetRegistration : AlphabetRegistration {
         }
     }
 
-    public string TeXFontFileName => reg.TeXFontFileName;
+    public string TeXFontFileName 
+        => reg.TeXFontFileName;
 }

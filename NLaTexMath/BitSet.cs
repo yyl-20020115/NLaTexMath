@@ -45,22 +45,21 @@
  */
 
 
-namespace NLaTexMath
+namespace NLaTexMath;
+
+public class BitSet
 {
-    internal class BitSet
+    public BitSet(int v)
     {
-        public BitSet(int v)
-        {
-        }
+    }
 
-        internal bool Get(int v) 
-        {
-            throw new NotImplementedException();
-        }
+    internal bool Get(int v)
+    {
+        throw new NotImplementedException();
+    }
 
-        internal void Set(int tYPE_BINARY_OPERATOR)
-        {
-            throw new NotImplementedException();
-        }
+    internal void Set(int tYPE_BINARY_OPERATOR)
+    {
+        throw new NotImplementedException();
     }
 }

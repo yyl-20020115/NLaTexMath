@@ -54,9 +54,9 @@ namespace NLaTexMath.dynamic;
 public class DynamicAtom : Atom
 {
 
-    private static ExternalConverterFactory ecFactory;
+    private static ExternalConverterFactory? ecFactory;
     private ExternalConverter converter;
-    private TeXFormula formula = new TeXFormula();
+    private TeXFormula formula = new();
     private string externalCode;
     private bool insert;
     private bool refreshed;

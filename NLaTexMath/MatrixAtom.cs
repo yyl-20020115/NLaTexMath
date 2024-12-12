@@ -53,11 +53,11 @@ using System.Text;
 public class MatrixAtom : Atom
 {
 
-    public static SpaceAtom hsep = new SpaceAtom(TeXConstants.UNIT_EM, 1f, 0.0f, 0.0f);
-    public static SpaceAtom semihsep = new SpaceAtom(TeXConstants.UNIT_EM, 0.5f, 0.0f, 0.0f);
-    public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1f, 0.0f);
-    public static SpaceAtom vsep_ext_top = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
-    public static SpaceAtom vsep_ext_bot = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
+    public static SpaceAtom hsep = new (TeXConstants.UNIT_EM, 1f, 0.0f, 0.0f);
+    public static SpaceAtom semihsep = new (TeXConstants.UNIT_EM, 0.5f, 0.0f, 0.0f);
+    public static SpaceAtom vsep_in = new (TeXConstants.UNIT_EX, 0.0f, 1f, 0.0f);
+    public static SpaceAtom vsep_ext_top = new (TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
+    public static SpaceAtom vsep_ext_bot = new (TeXConstants.UNIT_EX, 0.0f, 0.4f, 0.0f);
 
     public const int ARRAY = 0;
     public const int MATRIX = 1;
@@ -77,7 +77,7 @@ public class MatrixAtom : Atom
     private bool isPartial;
     private bool spaceAround;
 
-    private static SpaceAtom align = new SpaceAtom(TeXConstants.MEDMUSKIP);
+    private static SpaceAtom align = new (TeXConstants.MEDMUSKIP);
 
     /**
      * Creates an empty matrix
@@ -520,7 +520,7 @@ public class MatrixAtom : Atom
 
         for (int i = 0; i < row; i++)
         {
-            HorizontalBox hb = new HorizontalBox();
+            var hb = new HorizontalBox();
             for (int j = 0; j < col; j++)
             {
                 switch (boxarr[i, j].Type)

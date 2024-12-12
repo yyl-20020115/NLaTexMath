@@ -117,7 +117,7 @@ public class MacroInfo
             if (pack == null)
             {
                 Type cl = Type.forName(className);
-                pack = cl.getConstructor(new Class[0]).newInstance(new object[0]);
+                pack = cl.getConstructor(new Type[0]).newInstance(new object[0]);
                 Packages.Add(className, pack);
             }
             this.pack = pack;
@@ -143,7 +143,7 @@ public class MacroInfo
         catch (Exception e)
         {
             var th = e.InnerException;
-            throw new ParseException($"Problem with command {args[0]} at position {tp.getLine()}:{tp.getCol()}\n{th?.Message??""}");
+            throw new ParseException($"Problem with command {args[0]} at position {tp.Line}:{tp.Col}\n{th?.Message??""}");
         }
     }
 }

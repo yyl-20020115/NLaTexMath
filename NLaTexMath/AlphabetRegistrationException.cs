@@ -48,5 +48,6 @@ namespace NLaTexMath;
 /**
  * Signals that an error occured while registering an alphabet
  */
-public class AlphabetRegistrationException(string str) : Exception(str) {
+public class AlphabetRegistrationException(string str) : Exception(str)
+{
 }

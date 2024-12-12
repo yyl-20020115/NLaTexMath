@@ -50,30 +50,33 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example7 {
-    public static void main(String[] args)  {
-
-        String latex = "\\mbox{abc abc abc abc abc abc abc abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc}\\\\1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1";
+public class Example7
+{
+    public static void main(String[] args)
+    {
+        var latex = "\\mbox{abc abc abc abc abc abc abc abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc}\\\\1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1";
         TeXFormula formula = new TeXFormula(latex);
-        formula.setDEBUG(true);
+        formula.SetDEBUG(true);
 
         // Note: Old interface for creating icons:
         //TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 30, TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT, TeXConstants.UNIT_CM, 0.5f);
         // Note: New interface using builder pattern (inner class):
         TeXIcon icon = new TeXFormula.TeXIconBuilder()
-                       .setStyle(TeXConstants.STYLE_DISPLAY)
-                       .setSize(30)
-                       .setWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
+                       .SetStyle(TeXConstants.STYLE_DISPLAY)
+                       .SetSize(30)
+                       .SetWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
                        .setInterLineSpacing(TeXConstants.UNIT_CM, 0.5f)
                        .build();
 
 
-        icon.setInsets(new Insets(5, 5, 5, 5));
+        icon.
 
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Insets = new Insets(5, 5, 5, 5);
+
+        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(0,0,icon.getIconWidth(),icon.getIconHeight());
+        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
         JLabel jl = new JLabel();
         jl.setForeground(new Color(0, 0, 0));
         icon.paintIcon(jl, g2, 0, 0);

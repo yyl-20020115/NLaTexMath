@@ -48,20 +48,16 @@ namespace NLaTexMath;
 /**
  * An atom representing a typewriter atom.
  */
-public class TtAtom : Atom {
+public class TtAtom(Atom _base) : Atom
+{
+    private readonly Atom _base = _base;
 
-    private Atom _base;
-
-    public TtAtom(Atom _base) {
-        this._base = _base;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         env = env.Copy(env.TeXFont.Copy());
-        env.        TeXFont.SetTt(true);
+        env.TeXFont.Tt = true;
         Box box = _base.CreateBox(env);
-        env.        TeXFont.SetTt(false);
+        env.TeXFont.Tt = false;
         return box;
     }
-
 }

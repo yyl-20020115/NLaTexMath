@@ -12,7 +12,7 @@ public static class LaTeXGenerator
     {
         var tf = new TeXFormula(formula);
         var ti = tf.CreateTeXIcon(TeXConstants.STYLE_DISPLAY, 40);
-        var bitmap = new Bitmap(ti.getIconWidth(), ti.getIconHeight());
+        var bitmap = new Bitmap(ti.GetIconWidth(), ti.GetIconHeight());
 
         using var g2d = Graphics.FromImage(bitmap);
 

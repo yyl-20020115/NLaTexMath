@@ -50,7 +50,6 @@ namespace NLaTexMath;
  */
 public class StyleAtom(int style, Atom _base) : Atom
 {
-
     private readonly int style = style;
     private readonly Atom Base = _base;
 

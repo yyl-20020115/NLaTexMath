@@ -45,7 +45,8 @@
 
 namespace NLaTexMath;
 
-public interface AlphabetRegistration {
+public interface AlphabetRegistration
+{
 
     public static readonly UnicodeBlock[] JLM_GREEK = [UnicodeBlock.GREEK, UnicodeBlock.GREEK_EXTENDED];
     public static readonly UnicodeBlock[] JLM_CYRILLIC = [UnicodeBlock.CYRILLIC];

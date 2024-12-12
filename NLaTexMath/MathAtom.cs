@@ -56,7 +56,7 @@ public class MathAtom(Atom _base, int style) : Atom
     public override Box CreateBox(TeXEnvironment env)
     {
         env = env.Copy(env.TeXFont.Copy());
-        env.TeXFont.SetRoman(false);
+        env.TeXFont.Roman = false;
         int sstyle = env.Style;
         env.Style = style;
         Box box = Base.CreateBox(env);

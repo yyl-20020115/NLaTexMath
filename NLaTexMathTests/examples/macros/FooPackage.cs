@@ -48,55 +48,60 @@ using System.Drawing;
 
 namespace org.scilab.forge.jlatexmath.examples.macros;
 
-public class FooPackage {
+public class FooPackage
+{
 
     /*
      * The macro fooA is equivalent to \newcommand{\fooA}[2]{\frac{\textcolor{red}{#2}}{#1}}
      */
-    public Atom fooA_macro(TeXParser tp, String[] args)  {
-        return new TeXFormula("\\frac{\\textcolor{red}{" + args[2] + "}}{" + args[1] + "}").root;
-    }
+    public Atom FooA_macro(TeXParser tp, String[] args) => new TeXFormula("\\frac{\\textcolor{red}{" + args[2] + "}}{" + args[1] + "}").root;
 
-    public Atom fooB_macro(TeXParser tp, String[] args)  {
-        float f = Float.parseFloat(args[1]);
+    public Atom FooB_macro(TeXParser tp, String[] args)
+    {
+        float f = float.TryParse(args[1],out var v)?v:0;
         return new MyAtom(f);
     }
 
-    public Atom fooC_macro(TeXParser tp, String[] args)  {
-        float f = Float.parseFloat(args[1]);
-        return new MyAtom(f, args[2].length() != 0);
+    public Atom FooC_macro(TeXParser tp, String[] args)
+    {
+        float f = float.TryParse(args[1], out var v) ? v : 0;
+        return new MyAtom(f, args[2].Length != 0);
     }
 
-    public Atom fooD_macro(TeXParser tp, String[] args)  {
-        float f = Float.parseFloat(args[1]);
-        return new MyAtom(f, args[2].length() == 0);
+    public Atom FooD_macro(TeXParser tp, String[] args)
+    {
+        float f = float.TryParse(args[1], out var v) ? v : 0;
+        return new MyAtom(f, args[2].Length == 0);
     }
 
-    public class MyAtom : Atom {
+    public class MyAtom : Atom
+    {
 
         public float f;
         public bool filled = false;
 
-        public MyAtom(float f) {
+        public MyAtom(float f)
+        {
             this.f = f;
         }
 
-        public MyAtom(float f, boolean filled) {
+        public MyAtom(float f, bool filled)
+        {
             this.f = f;
             this.filled = filled;
         }
 
-        public Box createBox(TeXEnvironment env) {
-            return new MyBox((int) f, new SpaceAtom(TeXConstants.UNIT_POINT, f, 0, 0).CreateBox(env).Width, filled);
-        }
+        public override Box CreateBox(TeXEnvironment env) => new MyBox((int)f, new SpaceAtom(TeXConstants.UNIT_POINT, f, 0, 0).CreateBox(env).Width, filled);
     }
 
-    public class MyBox : Box {
+    public class MyBox : Box
+    {
 
         public bool filled;
         public int r;
 
-        public MyBox(int r, float f, bool filled) {
+        public MyBox(int r, float f, bool filled)
+        {
             this.r = r;
             this.filled = filled;
             this.width = f;
@@ -104,19 +109,23 @@ public class FooPackage {
             this.depth = f / 2;
         }
 
-        public void draw(Graphics g2, float x, float y) {
-            Color old = g2.getColor();
-            g2.setColor(Color.RED);
-            AffineTransform oldAt = g2.getTransform();
-            g2.translate(x, y - height);
-            g2.scale(Math.abs(1 / oldAt.getScaleX()), Math.abs(1 / oldAt.getScaleY()));
-            if (filled) {
-                g2.fillOval(0, 0, r, r);
-            } else {
-                g2.drawOval(0, 0, r, r);
-            }
-            g2.setColor(old);
-            g2.setTransform(oldAt);
+        public override void Draw(Graphics g2, float x, float y)
+        {
+            //Color old = g2.getColor();
+            //g2.setColor(Color.RED);
+            //AffineTransform oldAt = g2.getTransform();
+            //g2.translate(x, y - height);
+            //g2.scale(Math.abs(1 / oldAt.getScaleX()), Math.abs(1 / oldAt.getScaleY()));
+            //if (filled)
+            //{
+            //    g2.fillOval(0, 0, r, r);
+            //}
+            //else
+            //{
+            //    g2.drawOval(0, 0, r, r);
+            //}
+            //g2.setColor(old);
+            //g2.setTransform(oldAt);
         }
 
         public override int LastFontId => 0;

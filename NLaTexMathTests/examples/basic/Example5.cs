@@ -51,11 +51,11 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example5 {
-
-    public static void main(String[] args) {
-
-        String latex = "\\begin{array}{|c|l|||r|c|}";
+public class Example5
+{
+    public static void main(String[] args)
+    {
+        var latex = "\\begin{array}{|c|l|||r|c|}";
         latex += "\\hline";
         latex += "\\text{Matrix}&\\multicolumn{2}{|c|}{\\text{Multicolumns}}&\\text{Font sizes commands}\\cr";
         latex += "\\hline";

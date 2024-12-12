@@ -53,5 +53,6 @@ public class RuleAtom(int wunit, float width, int hunit, float height, int runit
     private readonly int wunit = wunit, hunit = hunit, runit = runit;
     private readonly float w = width, h = height, r = raise;
 
-    public override Box CreateBox(TeXEnvironment env) => new HorizontalRule(h * SpaceAtom.GetFactor(hunit, env), w * SpaceAtom.GetFactor(wunit, env), r * SpaceAtom.GetFactor(runit, env));
+    public override Box CreateBox(TeXEnvironment env)
+        => new HorizontalRule(h * SpaceAtom.GetFactor(hunit, env), w * SpaceAtom.GetFactor(wunit, env), r * SpaceAtom.GetFactor(runit, env));
 }

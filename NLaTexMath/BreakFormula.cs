@@ -49,36 +49,23 @@ namespace NLaTexMath;
 public class BreakFormula
 {
 
-    public static Box split(Box box, float width, float interline)
-    {
-        if (box is HorizontalBox)
-        {
-            return split((HorizontalBox)box, width, interline);
-        }
-        else if (box is VerticalBox)
-        {
-            return split((VerticalBox)box, width, interline);
-        }
-        else
-        {
-            return box;
-        }
-    }
+    public static Box Split(Box box, float width, float interline)
+        => box is HorizontalBox hbox ? Split(hbox, width, interline) : box is VerticalBox vbox ? Split(vbox, width, interline) : box;
 
-    public static Box split(HorizontalBox hbox, float width, float interline)
+    public static Box Split(HorizontalBox hbox, float width, float interline)
     {
-        VerticalBox vbox = new VerticalBox();
+        var vbox = new VerticalBox();
         HorizontalBox first;
         HorizontalBox second = null;
-        Stack<Position> positions = new Stack<Position>();
+        var positions = new Stack<Position>();
         float w = -1;
-        while (hbox.Width > width && (w = canBreak(positions, hbox, width)) != hbox.Width)
+        while (hbox.Width > width && (w = CanBreak(positions, hbox, width)) != hbox.Width)
         {
             Position pos = positions.Pop();
             HorizontalBox[] hboxes = pos.hbox.Split(pos.index - 1);
             first = hboxes[0];
             second = hboxes[1];
-            while (positions.Count!=0) 
+            while (positions.Count != 0)
             {
                 pos = positions.Pop();
                 hboxes = pos.hbox.SplitRemove(pos.index);
@@ -100,18 +87,18 @@ public class BreakFormula
         return hbox;
     }
 
-    private static Box split(VerticalBox vbox, float width, float interline)
+    private static Box Split(VerticalBox vbox, float width, float interline)
     {
-        VerticalBox newBox = new VerticalBox();
-        foreach (Box box in vbox.Children)
+        var newBox = new VerticalBox();
+        foreach (var box in vbox.Children)
         {
-            newBox.Add(split(box, width, interline));
+            newBox.Add(Split(box, width, interline));
         }
 
         return newBox;
     }
 
-    private static float canBreak(Stack<Position> stack, HorizontalBox hbox, float width)
+    private static float CanBreak(Stack<Position> stack, HorizontalBox hbox, float width)
     {
         List<Box> children = hbox.Children;
         float[] cumWidth = new float[children.Count + 1];
@@ -122,15 +109,19 @@ public class BreakFormula
             cumWidth[i + 1] = cumWidth[i] + box.Width;
             if (cumWidth[i + 1] > width)
             {
-                int pos = getBreakPosition(hbox, i);
-                if (box is HorizontalBox)
+                int pos = GetBreakPosition(hbox, i);
+                if (box is HorizontalBox _hbox)
                 {
-                    Stack<Position> newStack = new Stack<Position>();
-                    float w = canBreak(newStack, (HorizontalBox)box, width - cumWidth[i]);
+                    Stack<Position> newStack = new();
+                    float w = CanBreak(newStack, _hbox, width - cumWidth[i]);
                     if (w != box.Width && (cumWidth[i] + w <= width || pos == -1))
                     {
                         stack.Push(new Position(i - 1, hbox));
-                        stack.addAll(newStack);
+                        //stack.addAll(newStack);
+                        foreach (var s in newStack)
+                        {
+                            stack.Push(s);
+                        }
                         return cumWidth[i] + w;
                     }
                 }
@@ -143,10 +134,10 @@ public class BreakFormula
             }
         }
 
-        return hbox.width;
+        return hbox.Width;
     }
 
-    private static int getBreakPosition(HorizontalBox hb, int i)
+    private static int GetBreakPosition(HorizontalBox hb, int i)
     {
         if (hb.breakPositions == null)
         {
@@ -174,16 +165,10 @@ public class BreakFormula
         return hb.breakPositions[(pos - 1)];
     }
 
-    public class Position
+    public class Position(int index, HorizontalBox hbox)
     {
 
-        public int index;
-        public HorizontalBox hbox;
-
-        public Position(int index, HorizontalBox hbox)
-        {
-            this.index = index;
-            this.hbox = hbox;
-        }
+        public int index = index;
+        public HorizontalBox hbox = hbox;
     }
 }

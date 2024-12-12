@@ -52,10 +52,11 @@ namespace NLaTexMath.cache;
  * Class to cache generated image from formulas
  * @author Calixte DENIZET
  */
-public  class JLaTeXMathCache {
+public class JLaTeXMathCache
+{
 
     private static readonly AffineTransform identity = new AffineTransform();
-    private static ConcurrentDictionary<CachedTeXFormula, WeakReference<CachedImage>> cache = new ();
+    private static ConcurrentDictionary<CachedTeXFormula, WeakReference<CachedImage>> cache = new();
     private static int max = int.MaxValue;
     private static Queue<CachedImage> queue = new Queue<CachedImage>();
 
@@ -65,10 +66,11 @@ public  class JLaTeXMathCache {
      * Set max size. Take care the cache will be reinitialized
      * @param max the max size
      */
-    public static void setMaxCachedObjects(int max) {
+    public static void SetMaxCachedObjects(int max)
+    {
         JLaTeXMathCache.max = Math.Max(max, 1);
         cache.Clear();
-        cache = new (JLaTeXMathCache.max);
+        cache = new(JLaTeXMathCache.max);
     }
 
     /**
@@ -78,11 +80,13 @@ public  class JLaTeXMathCache {
      * @param inset the inset to Add on the top, bottom, left and right
      * @return an array of length 3 containing width, height and depth
      */
-    public static int[] getCachedTeXFormulaDimensions(string f, int style, int type, int size, int inset, Color fgcolor)   {
+    public static int[] GetCachedTeXFormulaDimensions(string f, int style, int type, int size, int inset, Color fgcolor)
+    {
         return getCachedTeXFormulaDimensions(new CachedTeXFormula(f, style, type, size, inset, fgcolor));
     }
 
-    public static int[] getCachedTeXFormulaDimensions(string f, int style, int size, int inset)   {
+    public static int[] GetCachedTeXFormulaDimensions(string f, int style, int size, int inset)
+    {
         return getCachedTeXFormulaDimensions(f, style, 0, size, inset, null);
     }
 
@@ -90,17 +94,20 @@ public  class JLaTeXMathCache {
      * @param o an object to identify the image in the cache
      * @return an array of length 3 containing width, height and depth
      */
-    public static int[] getCachedTeXFormulaDimensions(object o)   {
-        if (o == null || !(o is CachedTeXFormula)) {
-            return new int[] {0, 0, 0};
+    public static int[] getCachedTeXFormulaDimensions(object o, int style)
+    {
+        if (o == null || !(o is CachedTeXFormula))
+        {
+            return new int[] { 0, 0, 0 };
         }
-        CachedTeXFormula cached = (CachedTeXFormula) o;
+        CachedTeXFormula cached = (CachedTeXFormula)o;
         WeakReference<CachedImage> img = cache.Get(cached);
-        if (img == null || img.Get() == null) {
+        if (img == null || img.Get() == null)
+        {
             img = makeImage(cached);
         }
 
-        return new int[] {cached.width, cached.height, cached.depth};
+        return new int[] { cached.width, cached.height, cached.depth };
     }
 
     /**
@@ -111,25 +118,29 @@ public  class JLaTeXMathCache {
      * @param inset the inset to Add on the top, bottom, left and right
      * @return the key in the map
      */
-    public static object getCachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor)   {
+    public static object getCachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor)
+    {
         CachedTeXFormula cached = new CachedTeXFormula(f, style, type, size, inset, fgcolor);
         WeakReference<CachedImage> img = cache.Get(cached);
-        if (img == null || img.Get() == null) {
+        if (img == null || img.Get() == null)
+        {
             img = makeImage(cached);
         }
 
         return cached;
     }
 
-    public static object getCachedTeXFormula(string f, int style, int size, int inset)   {
+    public static object getCachedTeXFormula(string f, int style, int size, int inset)
+    {
         return getCachedTeXFormula(f, style, 0, size, inset, null);
     }
 
     /**
      * Clear the cache
      */
-    public static void clearCache() {
-        cache.clear();
+    public static void ClearCache()
+    {
+        cache.Clear();
     }
 
     /**
@@ -139,11 +150,13 @@ public  class JLaTeXMathCache {
      * @param size the size of font
      * @param inset the inset to Add on the top, bottom, left and right
      */
-    public static void removeCachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor)   {
-        cache.remove(new CachedTeXFormula(f, style, type, size, inset, fgcolor));
+    public static void RemoveCachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor)
+    {
+        cache.Remove(new CachedTeXFormula(f, style, type, size, inset, fgcolor));
     }
 
-    public static void removeCachedTeXFormula(string f, int style, int size, int inset)   {
+    public static void removeCachedTeXFormula(string f, int style, int size, int inset)
+    {
         removeCachedTeXFormula(f, style, 0, size, inset, null);
     }
 
@@ -151,9 +164,11 @@ public  class JLaTeXMathCache {
      * Remove a formula from the cache. Take care, remove the object o, invalidate it !
      * @param o an object to identify the image in the cache
      */
-    public static void removeCachedTeXFormula(object o)   {
-        if (o != null && o is CachedTeXFormula) {
-            cache.remove((CachedTeXFormula) o);
+    public static void removeCachedTeXFormula(object o)
+    {
+        if (o != null && o is CachedTeXFormula)
+        {
+            cache.remove((CachedTeXFormula)o);
         }
     }
 
@@ -165,12 +180,14 @@ public  class JLaTeXMathCache {
      * @param inset the inset to Add on the top, bottom, left and right
      * @return the key in the map
      */
-    public static object paintCachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor, Graphics g)   {
+    public static object PaintCachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor, Graphics g)
+    {
         return paintCachedTeXFormula(new CachedTeXFormula(f, style, type, size, inset, fgcolor), g);
     }
 
-    public static object paintCachedTeXFormula(string f, int style, int size, int inset, Graphics g)   {
-        return paintCachedTeXFormula(f, style, 0, size, inset, null, g);
+    public static object PaintCachedTeXFormula(string f, int style, int size, int inset, Graphics g)
+    {
+        return PaintCachedTeXFormula(f, style, 0, size, inset, null, g);
     }
 
     /**
@@ -179,13 +196,16 @@ public  class JLaTeXMathCache {
      * @param g the graphics where to paint the image
      * @return the key in the map
      */
-    public static object paintCachedTeXFormula(object o, Graphics g)   {
-        if (o == null || !(o is CachedTeXFormula)) {
+    public static object paintCachedTeXFormula(object o, Graphics g)
+    {
+        if (o == null || !(o is CachedTeXFormula))
+        {
             return null;
         }
-        CachedTeXFormula cached = (CachedTeXFormula) o;
+        CachedTeXFormula cached = (CachedTeXFormula)o;
         WeakReference<CachedImage> img = cache.Get(cached);
-        if (img == null || img.Get() == null) {
+        if (img == null || img.Get() == null)
+        {
             img = makeImage(cached);
         }
         g.drawImage(img.Get().image, identity, null);
@@ -201,11 +221,13 @@ public  class JLaTeXMathCache {
      * @param inset the inset to Add on the top, bottom, left and right
      * @return the cached image
      */
-    public static Image getCachedTeXFormulaImage(string f, int style, int type, int size, int inset, Color fgcolor)  {
-        return getCachedTeXFormulaImage(new CachedTeXFormula(f, style, type, size, inset, fgcolor));
+    public static Image getCachedTeXFormulaImage(string f, int style, int type, int size, int inset, Color fgcolor)
+    {
+        return GetCachedTeXFormulaImage(new CachedTeXFormula(f, style, type, size, inset, fgcolor));
     }
 
-    public static Image getCachedTeXFormulaImage(string f, int style, int size, int inset)  {
+    public static Image getCachedTeXFormulaImage(string f, int style, int size, int inset)
+    {
         return getCachedTeXFormulaImage(f, style, 0, size, inset, null);
     }
 
@@ -214,46 +236,55 @@ public  class JLaTeXMathCache {
      * @param o an object to identify the image in the cache
      * @return the cached image
      */
-    public static Image getCachedTeXFormulaImage(object o)  {
-        if (o == null || !(o is CachedTeXFormula)) {
+    public static Image GetCachedTeXFormulaImage(object o)
+    {
+        if (o == null || !(o is CachedTeXFormula))
+        {
             return null;
         }
-        CachedTeXFormula cached = (CachedTeXFormula) o;
+        CachedTeXFormula cached = (CachedTeXFormula)o;
         WeakReference<CachedImage> img = cache.Get(cached);
-        if (img == null || img.Get() == null) {
+        if (img == null || img.Get() == null)
+        {
             img = makeImage(cached);
         }
 
         return img.Get().image;
     }
 
-    private static WeakReference<CachedImage> makeImage(CachedTeXFormula cached)  {
+    private static WeakReference<CachedImage> makeImage(CachedTeXFormula cached)
+    {
         TeXFormula formula = new TeXFormula(cached.f);
         TeXIcon icon = formula.CreateTeXIcon(cached.style, cached.size, cached.type, cached.fgcolor);
-        icon.setInsets(new Insets(cached.inset, cached.inset, cached.inset, cached.inset));
-        Bitmap image = new Bitmap(icon.getIconWidth(), icon.getIconHeight(), Bitmap.TYPE_INT_ARGB);
+        icon.        Insets = new Insets(cached.inset, cached.inset, cached.inset, cached.inset);
+        Bitmap image = new Bitmap(icon.GetIconWidth(), icon.GetIconHeight(), Bitmap.TYPE_INT_ARGB);
         Graphics g2 = image.createGraphics();
-        icon.paintIcon(null, g2, 0, 0);
+        icon.PaintIcon(null, g2, 0, 0);
         g2.dispose();
-        cached.setDimensions(icon.getIconWidth(), icon.getIconHeight(), icon.getIconDepth());
+        cached.SetDimensions(icon.GetIconWidth(), icon.GetIconHeight(), icon.GetIconDepth());
         WeakReference<CachedImage> img = new WeakReference<CachedImage>(new CachedImage(image, cached), queue);
 
-        if (cache.Length >= max) {
-            WeakReference<CachedImage> soft; 
-            while ((soft = queue.poll()) != null) {
-                CachedImage ci = (CachedImage) soft.Get();
-                if (ci != null) {
+        if (cache.Length >= max)
+        {
+            WeakReference<CachedImage> soft;
+            while ((soft = queue.poll()) != null)
+            {
+                CachedImage ci = (CachedImage)soft.Get();
+                if (ci != null)
+                {
                     cache.remove(ci.cachedTf);
                 }
             }
             Iterator<CachedTeXFormula> iter = cache.keySet().iterator();
-            if (iter.hasNext()) {
+            if (iter.hasNext())
+            {
                 CachedTeXFormula c = iter.next();
                 WeakReference<CachedImage> cachedImage = cache.Get(c);
-                if (cachedImage != null) {
-                    cachedImage.clear();
+                if (cachedImage != null)
+                {
+                    cachedImage.Clear();
                 }
-                cache.remove(c);
+                cache.Remove(c);
             }
         }
         cache.TryAdd(cached, img);
@@ -261,38 +292,33 @@ public  class JLaTeXMathCache {
         return img;
     }
 
-    private class CachedImage {
+    private class CachedImage
+    {
 
         Image image;
         CachedTeXFormula cachedTf;
 
-        CachedImage(Image image, CachedTeXFormula cachedTf) {
+        CachedImage(Image image, CachedTeXFormula cachedTf)
+        {
             this.image = image;
             this.cachedTf = cachedTf;
         }
     }
-    public class CachedTeXFormula {
+    public class CachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor)
+    {
 
-        public string f;
-        public int style;
-        public int type;
-        public int size;
-        public int inset;
+        public string f = f;
+        public int style = style;
+        public int type = type;
+        public int size = size;
+        public int inset = inset;
         public int width = -1;
         public int height;
         public int depth;
-        public Color fgcolor;
+        public Color fgcolor = fgcolor;
 
-        public CachedTeXFormula(string f, int style, int type, int size, int inset, Color fgcolor) {
-            this.f = f;
-            this.style = style;
-            this.type = type;
-            this.size = size;
-            this.inset = inset;
-            this.fgcolor = fgcolor;
-        }
-
-        void setDimensions(int width, int height, int depth) {
+        void SetDimensions(int width, int height, int depth)
+        {
             this.width = width;
             this.height = height;
             this.depth = depth;
@@ -301,16 +327,22 @@ public  class JLaTeXMathCache {
         /**
          * {@inheritDoc}
          */
-        public bool equals(object o) {
-            if (o != null && o is CachedTeXFormula) {
-                CachedTeXFormula c = (CachedTeXFormula) o;
-                bool b = (c.f==(f) && c.style == style && c.type == type && c.size == size && c.inset == inset && c.fgcolor==(fgcolor));
-                if (b) {
-                    if (c.width == -1) {
+        public bool Equals(object o)
+        {
+            if (o != null && o is CachedTeXFormula formula)
+            {
+                CachedTeXFormula c = formula;
+                bool b = (c.f == (f) && c.style == style && c.type == type && c.size == size && c.inset == inset && c.fgcolor == (fgcolor));
+                if (b)
+                {
+                    if (c.width == -1)
+                    {
                         c.width = width;
                         c.height = height;
                         c.depth = depth;
-                    } else if (width == -1) {
+                    }
+                    else if (width == -1)
+                    {
                         width = c.width;
                         height = c.height;
                         depth = c.depth;
@@ -326,8 +358,9 @@ public  class JLaTeXMathCache {
         /**
          * {@inheritDoc}
          */
-        public int hashCode() {
-            return f.hashCode();
+        public int GetHashCode()
+        {
+            return f.GetHashCode();
         }
     }
 }

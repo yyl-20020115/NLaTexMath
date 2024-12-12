@@ -76,8 +76,5 @@ public class PhantomAtom(Atom el) : Atom, Row
 
     public override int RightType => elements.RightType;
 
-    public void SetPreviousAtom(Dummy prev)
-    {
-        elements.SetPreviousAtom(prev);
-    }
+    public void SetPreviousAtom(Dummy prev) => elements.SetPreviousAtom(prev);
 }

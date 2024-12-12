@@ -54,7 +54,6 @@ namespace NLaTexMath;
  **/
 public class PredefMacros
 {
-
     static PredefMacros()
     {
         NewEnvironmentMacro.AddNewEnvironment("array", "\\array@@env{#1}{", "}", 1);
@@ -120,12 +119,12 @@ public class PredefMacros
 
     public static Atom fcscore_macro(TeXParser tp, string[] args)
     {
-        int n = int.parseInt(args[1]);
+        int n = int.TryParse(args[1], out var v) ? v : 0;
         if (n > 5)
         {
             int q = n / 5;
             int r = n % 5;
-            RowAtom rat = new RowAtom();
+            var rat = new RowAtom();
             for (int i = 0; i < q; i++)
             {
                 rat.Add(new FcscoreAtom(5));
@@ -140,7 +139,7 @@ public class PredefMacros
         }
     }
 
-    public static Atom longdiv_macro(TeXParser tp, string[] args)
+    public static Atom Longdiv_macro(TeXParser tp, string[] args)
     {
         try
         {
@@ -154,47 +153,47 @@ public class PredefMacros
         }
     }
 
-    public static Atom st_macro(TeXParser tp, string[] args)
+    public static Atom St_macro(TeXParser tp, string[] args)
     {
         return new StrikeThroughAtom(new TeXFormula(tp, args[1], false).root);
     }
 
     public static Atom Braket_macro(TeXParser tp, string[] args)
     {
-        string str = args[1].replaceAll("\\|", "\\\\middle\\\\vert ");
+        string str = args[1].Replace("\\|", "\\\\middle\\\\vert ");
         return new TeXFormula(tp, "\\left\\langle " + str + "\\right\\rangle").root;
     }
 
     public static Atom Set_macro(TeXParser tp, string[] args)
     {
-        string str = args[1].replaceFirst("\\|", "\\\\middle\\\\vert ");
+        string str = args[1].ReplaceFirst("\\|", "\\\\middle\\\\vert ");
         return new TeXFormula(tp, "\\left\\{" + str + "\\right\\}").root;
     }
 
-    public static Atom spATbreve_macro(TeXParser tp, string[] args)
+    public static Atom SpATbreve_macro(TeXParser tp, string[] args)
     {
         VRowAtom vra = new VRowAtom(new TeXFormula("\\displaystyle\\!\\breve{}").root);
-        vra.setRaise(TeXConstants.UNIT_EX, 0.6f);
+        vra.SetRaise(TeXConstants.UNIT_EX, 0.6f);
 
         return new SmashedAtom(vra, null);
     }
 
-    public static Atom spAThat_macro(TeXParser tp, string[] args)
+    public static Atom SpAThat_macro(TeXParser tp, string[] args)
     {
         VRowAtom vra = new VRowAtom(new TeXFormula("\\displaystyle\\widehat{}").root);
-        vra.setRaise(TeXConstants.UNIT_EX, 0.6f);
+        vra.SetRaise(TeXConstants.UNIT_EX, 0.6f);
 
         return new SmashedAtom(vra, null);
     }
 
-    public static Atom hvspace_macro(TeXParser tp, string[] args)
+    public static Atom Hvspace_macro(TeXParser tp, string[] args)
     {
         int i;
         for (i = 0; i < args[1].Length && !char.IsLetter(args[1][i]); i++) ;
         float f = 0;
         try
         {
-            f = float.parseFloat(args[1].Substring(0, i));
+            f = float.TryParse(args[1][..i], out var v) ? v : 0;
         }
         catch (Exception e)
         {
@@ -213,7 +212,7 @@ public class PredefMacros
 
         if (unit == -1)
         {
-            throw new ParseException("Unknown unit \"" + args[1].Substring(i) + "\" !");
+            throw new ParseException($"Unknown unit \"{args[1][i..]}\" !");
         }
 
         return args[0][0] == 'h' ? new SpaceAtom(unit, f, 0, 0) : new SpaceAtom(unit, 0, f, 0);
@@ -229,12 +228,12 @@ public class PredefMacros
         return new LapedAtom(new TeXFormula(tp, args[1]).root, args[0].charAt(4));
     }
 
-    public static Atom includegraphics_macro(TeXParser tp, string[] args)
+    public static Atom Includegraphics_macro(TeXParser tp, string[] args)
     {
         return new GraphicsAtom(args[1], args[2]);
     }
 
-    public static Atom rule_macro(TeXParser tp, string[] args)
+    public static Atom Rule_macro(TeXParser tp, string[] args)
     {
         float[] winfo = SpaceAtom.GetLength(args[1]);
         if (winfo.Length == 1)
@@ -257,7 +256,7 @@ public class PredefMacros
     }
 
     /* Thanks to Juan Enrique Escobar Robles for this macro */
-    public static Atom cfrac_macro(TeXParser tp, string[] args)
+    public static Atom Cfrac_macro(TeXParser tp, string[] args)
     {
         int alig = TeXConstants.ALIGN_CENTER;
         if ("r" == (args[3]))
@@ -280,7 +279,7 @@ public class PredefMacros
         return rat;
     }
 
-    public static Atom frac_macro(TeXParser tp, string[] args)
+    public static Atom Frac_macro(TeXParser tp, string[] args)
     {
         TeXFormula num = new TeXFormula(tp, args[1], false);
         TeXFormula denom = new TeXFormula(tp, args[2], false);
@@ -311,11 +310,11 @@ public class PredefMacros
             shiftL = -0.24f;
             shiftR = -0.24f;
             slash = new VRowAtom(new ScaleAtom(SymbolAtom.Get("textfractionsolidus"), 1.25, 0.65));
-            ((VRowAtom)slash).setRaise(TeXConstants.UNIT_EX, 0.4f);
+            ((VRowAtom)slash).SetRaise(TeXConstants.UNIT_EX, 0.4f);
         }
 
         VRowAtom snum = new VRowAtom(new ScaleAtom(num.root, scaleX, scaleY));
-        snum.setRaise(TeXConstants.UNIT_EX, raise1);
+        snum.SetRaise(TeXConstants.UNIT_EX, raise1);
         RowAtom at = new RowAtom(snum);
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, shiftL, 0f, 0f));
         at.Add(slash);
@@ -708,9 +707,9 @@ public class PredefMacros
     {
         TeXFormula tf = new TeXFormula();
         tf.Add(new PhantomAtom(new TeXFormula(tp, args[3]).root, false, true, true));
-        tf.Append(tp.getIsPartial(), args[1]);
+        tf.Append(tp.IsPartial, args[1]);
         tf.Add(new SpaceAtom(TeXConstants.UNIT_MU, -0.3f, 0f, 0f));
-        tf.Append(tp.getIsPartial(), args[3] + "\\nolimits" + args[2]);
+        tf.Append(tp.IsPartial, args[3] + "\\nolimits" + args[2]);
         return new TypedAtom(TeXConstants.TYPE_ORDINARY, TeXConstants.TYPE_ORDINARY, tf.root);
     }
 
@@ -900,7 +899,7 @@ public class PredefMacros
             ArrayOfAtoms array = new ArrayOfAtoms();
             array.Add(tp.formula.root);
             array.AddRow();
-            TeXParser parser = new TeXParser(tp.getIsPartial(), tp.getStringFromCurrentPos(), array, false, tp.isIgnoreWhiteSpace());
+            TeXParser parser = new TeXParser(tp.IsPartial, tp.getStringFromCurrentPos(), array, false, tp.isIgnoreWhiteSpace());
             parser.parse();
             array.CheckDimensions();
             tp.finish();
@@ -934,19 +933,19 @@ public class PredefMacros
     public static Atom smallmatrixATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
-        return new MatrixAtom(tp.getIsPartial(), array, MatrixAtom.SMALLMATRIX);
+        return new MatrixAtom(tp.IsPartial, array, MatrixAtom.SMALLMATRIX);
     }
 
     public static Atom matrixATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
-        return new MatrixAtom(tp.getIsPartial(), array, MatrixAtom.MATRIX);
+        return new MatrixAtom(tp.IsPartial, array, MatrixAtom.MATRIX);
     }
 
     public static Atom multicolumn_macro(TeXParser tp, string[] args)
@@ -973,34 +972,34 @@ public class PredefMacros
     public static Atom arrayATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[2], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[2], array, false);
         parser.parse();
         array.CheckDimensions();
-        return new MatrixAtom(tp.getIsPartial(), array, args[1], true);
+        return new MatrixAtom(tp.IsPartial, array, args[1], true);
     }
 
     public static Atom alignATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
-        return new MatrixAtom(tp.getIsPartial(), array, MatrixAtom.ALIGN);
+        return new MatrixAtom(tp.IsPartial, array, MatrixAtom.ALIGN);
     }
 
     public static Atom flalignATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
-        return new MatrixAtom(tp.getIsPartial(), array, MatrixAtom.FLALIGN);
+        return new MatrixAtom(tp.IsPartial, array, MatrixAtom.FLALIGN);
     }
 
     public static Atom alignatATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[2], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[2], array, false);
         parser.parse();
         array.CheckDimensions();
         int n = int.parseInt(args[1]);
@@ -1009,37 +1008,37 @@ public class PredefMacros
             throw new ParseException("Bad number of equations in alignat environment !");
         }
 
-        return new MatrixAtom(tp.getIsPartial(), array, MatrixAtom.ALIGNAT);
+        return new MatrixAtom(tp.IsPartial, array, MatrixAtom.ALIGNAT);
     }
 
     public static Atom alignedATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
-        return new MatrixAtom(tp.getIsPartial(), array, MatrixAtom.ALIGNED);
+        return new MatrixAtom(tp.IsPartial, array, MatrixAtom.ALIGNED);
     }
 
     public static Atom alignedatATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[2], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[2], array, false);
         parser.parse();
         array.CheckDimensions();
-        int n = int.TryParse(args[1],out var v)?v:0;
+        int n = int.TryParse(args[1], out var v) ? v : 0;
         if (array.col != 2 * n)
         {
             throw new ParseException("Bad number of equations in alignedat environment !");
         }
 
-        return new MatrixAtom(tp.getIsPartial(), array, MatrixAtom.ALIGNEDAT);
+        return new MatrixAtom(tp.IsPartial, array, MatrixAtom.ALIGNEDAT);
     }
 
     public static Atom multlineATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
         if (array.col > 1)
@@ -1051,13 +1050,13 @@ public class PredefMacros
             return null;
         }
 
-        return new MultlineAtom(tp.getIsPartial(), array, MultlineAtom.MULTLINE);
+        return new MultlineAtom(tp.IsPartial, array, MultlineAtom.MULTLINE);
     }
 
     public static Atom gatherATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
         if (array.col > 1)
@@ -1069,13 +1068,13 @@ public class PredefMacros
             return null;
         }
 
-        return new MultlineAtom(tp.getIsPartial(), array, MultlineAtom.GATHER);
+        return new MultlineAtom(tp.IsPartial, array, MultlineAtom.GATHER);
     }
 
     public static Atom gatheredATATenv_macro(TeXParser tp, string[] args)
     {
         ArrayOfAtoms array = new ArrayOfAtoms();
-        TeXParser parser = new TeXParser(tp.getIsPartial(), args[1], array, false);
+        TeXParser parser = new TeXParser(tp.IsPartial, args[1], array, false);
         parser.parse();
         array.CheckDimensions();
         if (array.col > 1)
@@ -1087,7 +1086,7 @@ public class PredefMacros
             return null;
         }
 
-        return new MultlineAtom(tp.getIsPartial(), array, MultlineAtom.GATHERED);
+        return new MultlineAtom(tp.IsPartial, array, MultlineAtom.GATHERED);
     }
 
     public static Atom shoveright_macro(TeXParser tp, string[] args)
@@ -1616,7 +1615,7 @@ public class PredefMacros
         VRowAtom vra = new VRowAtom(SymbolAtom.Get("equals"));
         vra.Add(new SpaceAtom(TeXConstants.UNIT_MU, 0f, 1.5f, 0f));
         vra.Add(SymbolAtom.Get("sim"));
-        vra.setRaise(TeXConstants.UNIT_MU, -1f);
+        vra.SetRaise(TeXConstants.UNIT_MU, -1f);
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, vra);
     }
 
@@ -1924,7 +1923,7 @@ public class PredefMacros
         RowAtom ra = new RowAtom(new SpaceAtom(TeXConstants.UNIT_EX, -0.1f, 0f, 0f));
         ra.Add(SymbolAtom.Get("bar"));
         VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
-        vra.setRaise(TeXConstants.UNIT_EX, -0.1f);
+        vra.SetRaise(TeXConstants.UNIT_EX, -0.1f);
         RowAtom at = new RowAtom(vra);
         at.Add(new RomanAtom(new CharAtom('h', tp.formula.textStyle)));
         return at;
@@ -1935,7 +1934,7 @@ public class PredefMacros
         RowAtom ra = new RowAtom(new SpaceAtom(TeXConstants.UNIT_EX, 0.28f, 0f, 0f));
         ra.Add(SymbolAtom.Get("textendash"));
         VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
-        vra.setRaise(TeXConstants.UNIT_EX, 0.55f);
+        vra.SetRaise(TeXConstants.UNIT_EX, 0.55f);
         RowAtom at = new RowAtom(vra);
         at.Add(new RomanAtom(new CharAtom('H', tp.formula.textStyle)));
         return at;
@@ -1946,7 +1945,7 @@ public class PredefMacros
         RowAtom ra = new RowAtom(new SpaceAtom(TeXConstants.UNIT_EX, 0.25f, 0f, 0f));
         ra.Add(SymbolAtom.Get("bar"));
         VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
-        vra.setRaise(TeXConstants.UNIT_EX, -0.1f);
+        vra.SetRaise(TeXConstants.UNIT_EX, -0.1f);
         RowAtom at = new RowAtom(vra);
         at.Add(new RomanAtom(new CharAtom('d', tp.formula.textStyle)));
         return at;
@@ -1957,7 +1956,7 @@ public class PredefMacros
         RowAtom ra = new RowAtom(new SpaceAtom(TeXConstants.UNIT_EX, -0.1f, 0f, 0f));
         ra.Add(SymbolAtom.Get("bar"));
         VRowAtom vra = new VRowAtom(new LapedAtom(ra, 'r'));
-        vra.setRaise(TeXConstants.UNIT_EX, -0.55f);
+        vra.SetRaise(TeXConstants.UNIT_EX, -0.55f);
         RowAtom at = new RowAtom(vra);
         at.Add(new RomanAtom(new CharAtom('D', tp.formula.textStyle)));
         return at;

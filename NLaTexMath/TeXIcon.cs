@@ -61,7 +61,8 @@ using System.Drawing;
  *
  * @author Kurt Vermeulen
  */
-public class TeXIcon {
+public class TeXIcon
+{
 
     private static readonly Color defaultColor = new();
 
@@ -70,7 +71,7 @@ public class TeXIcon {
 
     private Box box;
 
-    private  float size;
+    private float size;
 
     private Insets insets = new Insets(0, 0, 0, 0);
 
@@ -88,23 +89,29 @@ public class TeXIcon {
     {
     }
 
-    protected TeXIcon(Box b, float size, bool trueValues) {
+    protected TeXIcon(Box b, float size, bool trueValues)
+    {
         box = b;
 
-        if (defaultSize != -1) {
+        if (defaultSize != -1)
+        {
             size = defaultSize;
         }
 
-        if (magFactor != 0) {
+        if (magFactor != 0)
+        {
             this.size = size * Math.Abs(magFactor);
-        } else {
+        }
+        else
+        {
             this.size = size;
         }
 
         /* I Add this little value because it seems that tftopl calculates badly
            the height and the depth of certains characters.
         */
-        if (!trueValues) {
+        if (!trueValues)
+        {
             insets.top += (int)(0.18f * size);
             insets.bottom += (int)(0.18f * size);
             insets.left += (int)(0.18f * size);
@@ -112,7 +119,8 @@ public class TeXIcon {
         }
     }
 
-    public void setForeground(Color fg) {
+    public void SetForeground(Color fg)
+    {
         this.fg = fg;
     }
 
@@ -121,9 +129,12 @@ public class TeXIcon {
      *
      * @return the insets
      */
-    public Insets getInsets() {
-        return insets;
-    }
+    /**
+ * Set the insets of the TeXIcon.
+ *
+ * @param insets the insets
+ */
+    public Insets Insets { get => insets; set => SetInsets(value, false); }
 
     /**
      * Set the insets of the TeXIcon.
@@ -131,23 +142,16 @@ public class TeXIcon {
      * @param insets the insets
      * @param trueValues true to force the true values
      */
-    public void setInsets(Insets insets, bool trueValues) {
+    public void SetInsets(Insets insets, bool trueValues)
+    {
         this.insets = insets;
-        if (!trueValues) {
+        if (!trueValues)
+        {
             this.insets.top += (int)(0.18f * size);
             this.insets.bottom += (int)(0.18f * size);
             this.insets.left += (int)(0.18f * size);
             this.insets.right += (int)(0.18f * size);
         }
-    }
-
-    /**
-     * Set the insets of the TeXIcon.
-     *
-     * @param insets the insets
-     */
-    public void setInsets(Insets insets) {
-        setInsets(insets, false);
     }
 
     /**
@@ -160,8 +164,9 @@ public class TeXIcon {
      * @param width the new width of the TeXIcon
      * @param alignment a horizontal alignment constant: LEFT, RIGHT or CENTER
      */
-    public void setIconWidth(int width, int alignment) {
-        float diff = width - getIconWidth();
+    public void SetIconWidth(int width, int alignment)
+    {
+        float diff = width - GetIconWidth();
         if (diff > 0)
             box = new HorizontalBox(box, box.Width + diff, alignment);
     }
@@ -175,8 +180,9 @@ public class TeXIcon {
      * @param height the new height of the TeXIcon
      * @param alignment a vertical alignment constant: TOP, BOTTOM or CENTER
      */
-    public void setIconHeight(int height, int alignment) {
-        float diff = height - getIconHeight();
+    public void SetIconHeight(int height, int alignment)
+    {
+        float diff = height - GetIconHeight();
         if (diff > 0)
             box = new VerticalBox(box, diff, alignment);
     }
@@ -184,33 +190,38 @@ public class TeXIcon {
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public int getIconHeight() {
-        return ((int) ((box.Height) * size + 0.99 + insets.top)) +  ((int) ((box.Depth) * size + 0.99 + insets.bottom));
+    public int GetIconHeight()
+    {
+        return ((int)((box.Height) * size + 0.99 + insets.top)) + ((int)((box.Depth) * size + 0.99 + insets.bottom));
     }
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public int getIconDepth() {
-        return (int) (box.Depth * size + 0.99 + insets.bottom);
+    public int GetIconDepth()
+    {
+        return (int)(box.Depth * size + 0.99 + insets.bottom);
     }
 
     /**
      * Get the total width of the TeXIcon. This also includes the insets.
      */
 
-    public int getIconWidth() {
-        return (int) (box.Width * size + 0.99 + insets.left + insets.right);
+    public int GetIconWidth()
+    {
+        return (int)(box.Width * size + 0.99 + insets.left + insets.right);
     }
 
-    public float getTrueIconHeight() {
+    public float GetTrueIconHeight()
+    {
         return (box.Height + box.Depth) * size;
     }
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public float getTrueIconDepth() {
+    public float GetTrueIconDepth()
+    {
         return box.Depth * size;
     }
 
@@ -218,52 +229,58 @@ public class TeXIcon {
      * Get the total width of the TeXIcon. This also includes the insets.
      */
 
-    public float getTrueIconWidth() {
+    public float GetTrueIconWidth()
+    {
         return box.Width * size;
     }
 
-    public float getBaseLine() {
-        return (float)( (box.Height * size + 0.99 + insets.top) /
+    public float GetBaseLine()
+    {
+        return (float)((box.Height * size + 0.99 + insets.top) /
                         ((box.Height + box.Depth) * size + 0.99 + insets.top + insets.bottom));
     }
 
-    public Box getBox() {
-        return box;
-    }
+    public Box Box => box;
 
     /**
      * Paint the {@link TeXFormula} that created this icon.
      */
-    public void paintIcon(Component c, Graphics g, int x, int y) {
-        Graphics g2 = (Graphics) g;
-        // copy graphics settings
-        RenderingHints oldHints = g2.getRenderingHints();
-        AffineTransform oldAt = g2.getTransform();
-        Color oldColor = g2.getColor();
+    public void PaintIcon(Component c, Graphics g, int x, int y)
+    {
+        //Graphics g2 = (Graphics)g;
+        //// copy graphics settings
+        //RenderingHints oldHints = g2.getRenderingHints();
+        //AffineTransform oldAt = g2.getTransform();
+        //Color oldColor = g2.getColor();
 
-        // new settings
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                            RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-                            RenderingHints.VALUE_RENDER_QUALITY);
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-                            RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        //// new settings
+        //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        //                    RenderingHints.VALUE_ANTIALIAS_ON);
+        //g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+        //                    RenderingHints.VALUE_RENDER_QUALITY);
+        //g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+        //                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        g2.scale(size, size); // the point size
-        if (fg != null) {
-            g2.setColor(fg);
-        } else if (c != null) {
-            g2.setColor(c.getForeground()); // foreground will be used as default painting color
-        } else {
-            g2.setColor(defaultColor);
-        }
+        //g2.scale(size, size); // the point size
+        //if (fg != null)
+        //{
+        //    g2.setColor(fg);
+        //}
+        //else if (c != null)
+        //{
+        //    g2.setColor(c.getForeground()); // foreground will be used as default painting color
+        //}
+        //else
+        //{
+        //    g2.setColor(defaultColor);
+        //}
 
-        // draw formula box
-        box.Draw(g2, (x + insets.left) / size, (y + insets.top) / size+ box.Height);
+        //// draw formula box
+        //box.Draw(g2, (x + insets.left) / size, (y + insets.top) / size + box.Height);
 
-        // restore graphics settings
-        g2.setRenderingHints(oldHints);
-        g2.setTransform(oldAt);
-        g2.setColor(oldColor);
+        //// restore graphics settings
+        //g2.setRenderingHints(oldHints);
+        //g2.setTransform(oldAt);
+        //g2.setColor(oldColor);
     }
 }

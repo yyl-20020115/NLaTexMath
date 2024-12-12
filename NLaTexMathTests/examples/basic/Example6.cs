@@ -50,10 +50,11 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example6 {
-    public static void main(String[] args)  {
-
-        String latex = "\\begin{array}{cc}";
+public class Example6
+{
+    public static void main(String[] args)
+    {
+        var latex = "\\begin{array}{cc}";
         latex += "\\fbox{\\text{A framed box with \\textdbend}}&\\shadowbox{\\text{A shadowed box}}\\cr";
         latex += "\\doublebox{\\text{A double framed box}}&\\ovalbox{\\text{An oval framed box}}\\cr";
         latex += "\\end{array}";
@@ -62,13 +63,13 @@ public class Example6 {
         // Note: Old interface for creating icons:
         //TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 30);
         // Note: New interface using builder pattern (inner class):
-        TeXIcon icon = new TeXFormula.TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(30).build();
-        icon.setInsets(new Insets(5, 5, 5, 5));
+        TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(30).build();
+        icon.Insets = new Insets(5, 5, 5, 5);
 
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(0,0,icon.getIconWidth(),icon.getIconHeight());
+        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
         JLabel jl = new JLabel();
         jl.setForeground(new Color(0, 0, 0));
         icon.paintIcon(jl, g2, 0, 0);

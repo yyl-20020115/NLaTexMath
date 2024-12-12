@@ -45,58 +45,69 @@
 namespace org.scilab.forge.jlatexmath.examples.basic;
 
 [TestClass]
-public class ExamplesTest {
+public class ExamplesTest
+{
 
     [TestMethod]
-    public void testExample1()  {
-        Example1.main(new String[0]);
-        check("Example1.png");
+    public void TestExample1()
+    {
+        Example1.main([]);
+        Check("Example1.png");
     }
 
     [TestMethod]
-    public void testExample2()  {
-        Example2.main(new String[0]);
-        check("Example2.png");
+    public void TestExample2()
+    {
+        Example2.main([]);
+        Check("Example2.png");
     }
 
     [TestMethod]
-    public void testExample3()  {
-        Example3.main(new String[0]);
-        check("Example3.png");
+    public void TestExample3()
+    {
+        Example3.main([]);
+        Check("Example3.png");
     }
 
     [TestMethod]
-    public void testExample4()  {
-        Example4.main(new String[0]);
-        check("Example4.png");
+    public void TestExample4()
+    {
+        Example4.main([]);
+        Check("Example4.png");
     }
 
     [TestMethod]
-    public void testExample5() {
-        Example5.main(new String[0]);
-        check("Example5.png");
+    public void TestExample5()
+    {
+        Example5.main([]);
+        Check("Example5.png");
     }
 
     [TestMethod]
-    public void testExample6()  {
-        Example6.main(new String[0]);
-        check("Example6.png");
+    public void TestExample6()
+    {
+        Example6.main([]);
+        Check("Example6.png");
     }
 
     [TestMethod]
-    public void testExample8()  {
-        Example8.main(new String[0]);
-        check("Example8.png");
+    public void TestExample8()
+    {
+        Example8.main([]);
+        Check("Example8.png");
     }
 
     [TestMethod]
-    public void testExample9()  {
-        Example9.main(new String[0]);
-        check("Example9.png");
+    public void TestExample9()
+    {
+        Example9.main([]);
+        Check("Example9.png");
     }
 
-    private static void check(String filename) {
-        try {
+    private static void Check(String filename)
+    {
+        try
+        {
             System._out.println("checking image " + filename);
             BufferedImage a = ImageIO.read(new File("src/test/resources/expected/" + filename));
             BufferedImage b = ImageIO.read(new File("target/" + filename));
@@ -111,8 +122,10 @@ public class ExamplesTest {
                 "distance=" + distance + " is above threshold=" + THRESHOLD
                 + ", images are probably significantly different, distance=" + distance,
                 distance <= THRESHOLD);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+        catch (IOException e)
+        {
+            throw (e);
         }
     }
 

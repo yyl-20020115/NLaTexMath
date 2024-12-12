@@ -45,12 +45,14 @@
 
 namespace NLaTexMath;
 
-public class ArrayOfAtoms : TeXFormula {
+public class ArrayOfAtoms : TeXFormula
+{
 
     public List<List<Atom>> array;
     public int col, row;
 
-    public ArrayOfAtoms() :base(){
+    public ArrayOfAtoms() : base()
+    {
         array = [];
         array.Add([]);
         row = 0;
@@ -62,9 +64,11 @@ public class ArrayOfAtoms : TeXFormula {
         root = null;
     }
 
-    public void AddCol(int n) {
+    public void AddCol(int n)
+    {
         array[(row)].Add(root);
-        for (int i = 1; i < n - 1; i++) {
+        for (int i = 1; i < n - 1; i++)
+        {
             array[(row)].Add(null);
         }
         root = null;
@@ -81,11 +85,14 @@ public class ArrayOfAtoms : TeXFormula {
 
     public int Cols => col;
 
-    public VRowAtom GetAsVRow() {
+    public VRowAtom GetAsVRow()
+    {
         var vr = new VRowAtom();
-        vr.        AddInterline = true;
-        foreach (List<Atom> r in array) {
-            foreach (Atom a in r) {
+        vr.AddInterline = true;
+        foreach (List<Atom> r in array)
+        {
+            foreach (Atom a in r)
+            {
                 vr.Append(a);
             }
         }
@@ -93,7 +100,8 @@ public class ArrayOfAtoms : TeXFormula {
         return vr;
     }
 
-    public void CheckDimensions() {
+    public void CheckDimensions()
+    {
         if (array.Last().Count != 0)
             AddRow();
         else if (root != null)
@@ -102,19 +110,24 @@ public class ArrayOfAtoms : TeXFormula {
         row = array.Count - 1;
         col = array[0].Count;
 
-        for (int i = 1; i < row; i++) {
-            if (array[i].Count > col) {
+        for (int i = 1; i < row; i++)
+        {
+            if (array[i].Count > col)
+            {
                 col = array[i].Count;
             }
         }
 
         /* Thanks to Juan Enrique Escobar Robles for this patch
            which let the user have empty columns */
-        for (int i = 0; i < row; i++) {
-            int  j = array[i].Count;
-            if (j != col && array[i][0] != null && array[i][0].Type != TeXConstants.TYPE_INTERTEXT) {
+        for (int i = 0; i < row; i++)
+        {
+            int j = array[i].Count;
+            if (j != col && array[i][0] != null && array[i][0].Type != TeXConstants.TYPE_INTERTEXT)
+            {
                 List<Atom> r = array[i];
-                for(; j < col; j++) {
+                for (; j < col; j++)
+                {
                     r.Add(null);
                 }
             }

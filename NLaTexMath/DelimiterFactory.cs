@@ -141,7 +141,7 @@ public class DelimiterFactory
                 {
                     vBox.Add(1, rep);
                     if (middle)
-                        vBox.Add(vBox.getSize() - 1, rep);
+                        vBox.Add(vBox.Size - 1, rep);
                 }
                 else if (ext.HasBottom)
                     vBox.Add(0, rep);

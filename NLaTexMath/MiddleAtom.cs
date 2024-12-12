@@ -48,10 +48,11 @@ namespace NLaTexMath;
 /**
  * An atom representing a middle atom which must be rounded by a left and right delimiter.
  */
-public class MiddleAtom(Atom _base) : Atom {
+public class MiddleAtom(Atom _base) : Atom
+{
 
     public readonly Atom Base = _base;
-    public readonly Box Box = new StrutBox(0, 0, 0, 0);
+    public Box Box = new StrutBox(0, 0, 0, 0);
 
     public override Box CreateBox(TeXEnvironment env) => Box;
 }

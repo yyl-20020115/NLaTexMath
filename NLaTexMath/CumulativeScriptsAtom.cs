@@ -72,6 +72,6 @@ public class CumulativeScriptsAtom : Atom
         }
     }
 
-    public override Box CreateBox(TeXEnvironment env) 
+    public override Box CreateBox(TeXEnvironment env)
         => new ScriptsAtom(Base, sub, sup).CreateBox(env);
 }

@@ -52,9 +52,8 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class InvalidDelimiterException : JMathTeXException {
-
-    
+public class InvalidDelimiterException : JMathTeXException
+{
     public InvalidDelimiterException(string symbolName) :
         base("The symbol with the name '" + symbolName
               + "' is not defined as a delimiter ("

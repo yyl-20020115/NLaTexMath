@@ -50,7 +50,8 @@ namespace NLaTexMath;
  * An common superclass for atoms that represent one single character
  * and access the font information.
  */
-public abstract class CharSymbol : Atom {
+public abstract class CharSymbol : Atom
+{
 
     /**
      * Mrow will mark certain CharSymbol atoms as a text symbol.
@@ -67,7 +68,8 @@ public abstract class CharSymbol : Atom {
     /**
      * Remove the mark so the atom remains unchanged (used by Dummy)
      */
-    public void RemoveMark() {
+    public void RemoveMark()
+    {
         textSymbol = false;
     }
 

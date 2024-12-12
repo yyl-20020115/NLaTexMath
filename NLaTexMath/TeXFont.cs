@@ -228,25 +228,11 @@ public interface TeXFont
 
     public bool HasSpace(int font);
 
-    public void SetBold(bool bold);
-
-    public bool GetBold();
-
-    public void SetRoman(bool rm);
-
-    public bool GetRoman();
-
-    public void SetTt(bool tt);
-
-    public bool GetTt();
-
-    public void SetIt(bool it);
-
-    public bool GetIt();
-
-    public void SetSs(bool ss);
-
-    public bool GetSs();
+    public bool Bold { get; set; }
+    public bool Roman { get; set; }
+    public bool Tt { get; set; }
+    public bool It { get; set; }
+    public bool Ss { get; set; }
 
     /**
      *

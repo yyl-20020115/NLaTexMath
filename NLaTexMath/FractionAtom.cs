@@ -185,8 +185,7 @@ public class FractionAtom : Atom
 
     // Checks if the alignment constant is valid.
     // If not, a default value will be used.
-    private int CheckAlignment(int align) => align == TeXConstants.ALIGN_LEFT ||
-                align == TeXConstants.ALIGN_RIGHT
+    private int CheckAlignment(int align) => align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT
             ? align
             : TeXConstants.ALIGN_CENTER;
 
@@ -223,10 +222,7 @@ public class FractionAtom : Atom
         else
         {
             shiftDown = tf.GetDenom2(style);
-            if (thickness > 0)
-                shiftUp = tf.GetNum2(style);
-            else
-                shiftUp = tf.GetNum3(style);
+            shiftUp = thickness > 0 ? tf.GetNum2(style) : tf.GetNum3(style);
         }
 
         // upper part of vertical box = numerator

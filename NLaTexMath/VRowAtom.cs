@@ -60,10 +60,7 @@ public class VRowAtom : Atom
     protected bool vtop = false;
     protected int halign = TeXConstants.ALIGN_NONE;
 
-    public VRowAtom()
-    {
-        // empty
-    }
+    public VRowAtom() { }
 
     public VRowAtom(Atom el)
     {
@@ -83,14 +80,16 @@ public class VRowAtom : Atom
 
     public bool Vtop { get => vtop; set => this.vtop = value; }
 
-    public void setRaise(int unit, float r)
+    public void SetRaise(int unit, float r)
     {
         raise = new SpaceAtom(unit, r, 0, 0);
     }
 
-    public Atom getLastAtom()
+    public Atom GetLastAtom()
     {
-        return elements.RemoveLast();
+        Atom? a = elements.LastOrDefault();
+        elements.RemoveAt(elements.Count-1);
+        return a;
     }
 
     public void Add(Atom el)
@@ -152,13 +151,13 @@ public class VRowAtom : Atom
         vb.Shift = -raise.CreateBox(env).Width;
         if (vtop)
         {
-            float t = vb.getSize() == 0 ? 0 : vb.Children.First().Height;
+            float t = vb.Size == 0 ? 0 : vb.Children.First().Height;
             vb.Height = t;
             vb.Depth = vb.Depth + vb.Height - t;
         }
         else
         {
-            float t = vb.getSize() == 0 ? 0 : vb.Children.Last().Depth;
+            float t = vb.Size == 0 ? 0 : vb.Children.Last().Depth;
             vb.Height = vb.Depth + vb.Height - t;
             vb.Depth = t;
         }

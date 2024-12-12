@@ -142,7 +142,6 @@ public class TeXParser
      */
     public TeXParser(string parseString, TeXFormula formula) : this(parseString, formula, true)
     {
-        ;
     }
 
     /**
@@ -156,7 +155,6 @@ public class TeXParser
     public TeXParser(bool isPartial, string parseString, TeXFormula formula)
     : this(parseString, formula, false)
     {
-        ;
         this.isPartial = isPartial;
         firstpass();
     }
@@ -201,7 +199,6 @@ public class TeXParser
     public TeXParser(string parseString, TeXFormula formula, bool firstpass)
     : this(false, parseString, formula, firstpass)
     {
-        ;
     }
 
     /**
@@ -216,7 +213,6 @@ public class TeXParser
     public TeXParser(bool isPartial, string parseString, ArrayOfAtoms aoa, bool firstpass)
     : this(isPartial, parseString, (TeXFormula)aoa, firstpass)
     {
-        ;
         arrayMode = true;
     }
 
@@ -232,7 +228,6 @@ public class TeXParser
     public TeXParser(bool isPartial, string parseString, ArrayOfAtoms aoa, bool firstpass, bool space)
     : this(isPartial, parseString, (TeXFormula)aoa, firstpass, space)
     {
-        ;
         arrayMode = true;
     }
 
@@ -247,7 +242,6 @@ public class TeXParser
     public TeXParser(string parseString, ArrayOfAtoms aoa, bool firstpass)
     : this(false, parseString, (TeXFormula)aoa, firstpass)
     {
-        ;
     }
 
     /**
@@ -262,7 +256,6 @@ public class TeXParser
     public TeXParser(bool isPartial, string parseString, TeXFormula formula, bool firstpass, bool space)
     : this(isPartial, parseString, formula, firstpass)
     {
-        ;
         this.ignoreWhiteSpace = space;
     }
 
@@ -277,14 +270,13 @@ public class TeXParser
     public TeXParser(string parseString, TeXFormula formula, bool firstpass, bool space)
     : this(false, parseString, formula, firstpass)
     {
-        ;
         this.ignoreWhiteSpace = space;
     }
 
     /**
      * Reset the parser with a new latex expression
      */
-    public void reset(string latex)
+    public void Reset(string latex)
     {
         parseString = new StringBuilder(latex);
         len = parseString.Length;
@@ -303,32 +295,23 @@ public class TeXParser
 
     /** Return true if we get a partial formula
      */
-    public bool getIsPartial()
-    {
-        return isPartial;
-    }
+    public bool IsPartial => isPartial;
 
     /** Get the number of the current line
      */
-    public int getLine()
-    {
-        return line;
-    }
+    public int Line => line;
 
     /** Get the number of the current column
      */
-    public int getCol()
-    {
-        return pos - col - 1;
-    }
+    public int Col => pos - col - 1;
 
     /** Get the last atom of the current formula
      */
     public Atom getLastAtom()
     {
         Atom at = formula.root;
-        if (at is RowAtom)
-            return ((RowAtom)at).GetLastAtom();
+        if (at is RowAtom atom)
+            return atom.GetLastAtom();
         formula.root = null;
         return at;
     }
@@ -500,7 +483,7 @@ public class TeXParser
                             {
                                 if (!isPartial)
                                 {
-                                    throw new ParseException("Unknown environment: " + args[1] + " at position " + getLine() + ":" + getCol());
+                                    throw new ParseException("Unknown environment: " + args[1] + " at position " + Line + ":" + Col);
                                 }
                             }
                             else
@@ -1293,7 +1276,7 @@ public class TeXParser
             UnicodeBlock block = UnicodeBlock.of(c);
             if (!isLoading && !DefaultTeXFont.loadedAlphabets.Contains(block))
             {
-                DefaultTeXFont.addAlphabet(DefaultTeXFont.registeredAlphabets[block]);
+                DefaultTeXFont.AddAlphabet(DefaultTeXFont.registeredAlphabets[block]);
             }
 
             string symbolName = TeXFormula.symbolMappings[c];
@@ -1301,9 +1284,9 @@ public class TeXParser
             {
                 TeXFormula.FontInfos fontInfos = null;
                 bool isLatin = UnicodeBlock.BASIC_LATIN == (block);
-                if ((isLatin && TeXFormula.isRegisteredBlock(UnicodeBlock.BASIC_LATIN)) || !isLatin)
+                if ((isLatin && TeXFormula.IsRegisteredBlock(UnicodeBlock.BASIC_LATIN)) || !isLatin)
                 {
-                    fontInfos = TeXFormula.getExternalFont(block);
+                    fontInfos = TeXFormula.GetExternalFont(block);
                 }
                 if (fontInfos != null)
                 {

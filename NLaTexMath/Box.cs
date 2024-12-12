@@ -249,64 +249,64 @@ public abstract class Box
     protected void StartDraw(Graphics g2, float x, float y)
     {
         // old color
-        prevColor = g2.getColor();
-        if (background != null)
-        { // draw background
-            g2.setColor(background);
-            g2.fill(new RectangleF(x, y - height, width, height + depth));
-        }
-        if (foreground == null)
-        {
-            g2.setColor(prevColor); // old foreground color
-        }
-        else
-        {
-            g2.setColor(foreground); // overriding foreground color
-        }
-        DrawDebug(g2, x, y);
+        //prevColor = g2.getColor();
+        //if (background != null)
+        //{ // draw background
+        //    g2.setColor(background);
+        //    g2.fill(new RectangleF(x, y - height, width, height + depth));
+        //}
+        //if (foreground == null)
+        //{
+        //    g2.setColor(prevColor); // old foreground color
+        //}
+        //else
+        //{
+        //    g2.setColor(foreground); // overriding foreground color
+        //}
+        //DrawDebug(g2, x, y);
     }
 
     protected void DrawDebug(Graphics g2, float x, float y, bool showDepth)
     {
         if (DEBUG)
         {
-            Stroke st = g2.getStroke();
-            if (markForDEBUG != null)
-            {
-                Color c = g2.getColor();
-                g2.setColor(markForDEBUG);
-                g2.fill(new RectangleF(x, y - height, width, height + depth));
-                g2.setColor(c);
-            }
-            g2.setStroke(new BasicStroke((float)(Math.Abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            if (width < 0)
-            {
-                x += width;
-                width = -width;
-            }
-            g2.draw(new RectangleF(x, y - height, width, height + depth));
-            if (showDepth)
-            {
-                Color c = g2.getColor();
-                g2.setColor(Color.Red);
-                if (depth > 0)
-                {
-                    g2.fill(new RectangleF(x, y, width, depth));
-                    g2.setColor(c);
-                    g2.draw(new RectangleF(x, y, width, depth));
-                }
-                else if (depth < 0)
-                {
-                    g2.fill(new RectangleF(x, y + depth, width, -depth));
-                    g2.setColor(c);
-                    g2.draw(new RectangleF(x, y + depth, width, -depth));
-                }
-                else
-                {
-                    g2.setColor(c);
-                }
-            }
-            g2.setStroke(st);
+            //Stroke st = g2.getStroke();
+            //if (markForDEBUG != null)
+            //{
+            //    Color c = g2.getColor();
+            //    g2.setColor(markForDEBUG);
+            //    g2.fill(new RectangleF(x, y - height, width, height + depth));
+            //    g2.setColor(c);
+            //}
+            //g2.setStroke(new BasicStroke((float)(Math.Abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+            //if (width < 0)
+            //{
+            //    x += width;
+            //    width = -width;
+            //}
+            //g2.draw(new RectangleF(x, y - height, width, height + depth));
+            //if (showDepth)
+            //{
+            //    Color c = g2.getColor();
+            //    g2.setColor(Color.Red);
+            //    if (depth > 0)
+            //    {
+            //        g2.fill(new RectangleF(x, y, width, depth));
+            //        g2.setColor(c);
+            //        g2.draw(new RectangleF(x, y, width, depth));
+            //    }
+            //    else if (depth < 0)
+            //    {
+            //        g2.fill(new RectangleF(x, y + depth, width, -depth));
+            //        g2.setColor(c);
+            //        g2.draw(new RectangleF(x, y + depth, width, -depth));
+            //    }
+            //    else
+            //    {
+            //        g2.setColor(c);
+            //    }
+            //}
+            //g2.setStroke(st);
         }
     }
 
@@ -325,7 +325,6 @@ public abstract class Box
      */
     protected void EndDraw(Graphics g2)
     {
-        g2.setColor(prevColor);
-
+        //g2.setColor(prevColor);
     }
 }

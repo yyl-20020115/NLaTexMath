@@ -51,15 +51,12 @@ namespace NLaTexMath;
  */
 public class LaTeXAtom : Atom
 {
-
-    public LaTeXAtom()
-    {
-    }
+    public LaTeXAtom() { }
 
     public override Box CreateBox(TeXEnvironment env)
     {
         env = env.Copy(env.TeXFont.Copy());
-        env.TeXFont.SetRoman(true);
+        env.TeXFont.Roman = true;
         float sc = env.TeXFont.GetScaleFactor();
 
         TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap[UnicodeBlock.BASIC_LATIN];
@@ -73,18 +70,18 @@ public class LaTeXAtom : Atom
             TeXFormula.externalFontMap.Add(UnicodeBlock.BASIC_LATIN, fontInfos);
         }
 
-        HorizontalBox hb = new HorizontalBox(rat.GetLastAtom().CreateBox(env));
+        var hb = new HorizontalBox(rat.GetLastAtom().CreateBox(env));
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.35f * sc, 0, 0).CreateBox(env));
         float f = new SpaceAtom(TeXConstants.UNIT_EX, 0.45f * sc, 0, 0).CreateBox(env).Width;
         float f1 = new SpaceAtom(TeXConstants.UNIT_EX, 0.5f * sc, 0, 0).CreateBox(env).Width;
-        CharBox A = new CharBox(env.TeXFont.GetChar('A', "mathnormal", env.SupStyle.Style));
-        A.        Shift = -f;
+        var A = new CharBox(env.TeXFont.GetChar('A', "mathnormal", env.SupStyle.Style));
+        A.Shift = -f;
         hb.Add(A);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).CreateBox(env));
         hb.Add(rat.GetLastAtom().CreateBox(env));
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).CreateBox(env));
         Box E = rat.GetLastAtom().CreateBox(env);
-        E.        Shift = f1;
+        E.Shift = f1;
         hb.Add(E);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).CreateBox(env));
         hb.Add(rat.GetLastAtom().CreateBox(env));

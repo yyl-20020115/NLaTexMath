@@ -51,8 +51,10 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class InvalidUnitException : JMathTeXException {
+public class InvalidUnitException : JMathTeXException
+{
     public InvalidUnitException() :
         base("The delimiter type was not valid! "
-              + "Use one of the unit constants from the class 'TeXConstants'."){ }
+              + "Use one of the unit constants from the class 'TeXConstants'.")
+    { }
 }

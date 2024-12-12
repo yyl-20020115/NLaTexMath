@@ -50,40 +50,54 @@ namespace NLaTexMath;
 /**
  * The string rendering is made in using Java Graphics.drawString.
  */
-public class JavaFontRenderingAtom(string str, int type) : Atom {
+public class JavaFontRenderingAtom(string str, int type) : Atom
+{
 
     private readonly string str = str;
     private readonly int type = type;
     private readonly TeXFormula.FontInfos? fontInfos;
 
-    public JavaFontRenderingAtom(string str, TeXFormula.FontInfos fontInfos): this(str, 0)
+    public JavaFontRenderingAtom(string str, TeXFormula.FontInfos fontInfos) : this(str, 0)
     {
         this.fontInfos = fontInfos;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        if (fontInfos == null) {
-            return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.Style));
-        } else {
-            DefaultTeXFont dtf = (DefaultTeXFont) env.TeXFont;
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        if (fontInfos == null)
+        {
+            return new JavaFontRenderingBox(str, type, DefaultTeXFont.GetSizeFactor(env.Style));
+        }
+        else
+        {
+            DefaultTeXFont dtf = (DefaultTeXFont)env.TeXFont;
             int type = dtf.isIt ? Font.ITALIC : Font.PLAIN;
             type = type | (dtf.isBold ? Font.BOLD : 0);
             bool kerning = dtf.isRoman;
             Font font;
-            if (dtf.isSs) {
-                if (fontInfos.sansserif == null) {
+            if (dtf.isSs)
+            {
+                if (fontInfos.sansserif == null)
+                {
                     font = new Font(fontInfos.serif, Font.PLAIN, 10);
-                } else {
+                }
+                else
+                {
                     font = new Font(fontInfos.sansserif, Font.PLAIN, 10);
                 }
-            } else {
-                if (fontInfos.serif == null) {
+            }
+            else
+            {
+                if (fontInfos.serif == null)
+                {
                     font = new Font(fontInfos.sansserif, Font.PLAIN, 10);
-                } else {
+                }
+                else
+                {
                     font = new Font(fontInfos.serif, Font.PLAIN, 10);
                 }
             }
-            return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.Style), font, kerning);
+            return new JavaFontRenderingBox(str, type, DefaultTeXFont.GetSizeFactor(env.Style), font, kerning);
         }
     }
 }

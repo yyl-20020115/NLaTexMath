@@ -71,7 +71,7 @@ public class SymbolAtom : CharSymbol
 
     static SymbolAtom()
     {
-        symbols = new TeXSymbolParser().readSymbols();
+        symbols = new TeXSymbolParser().ReadSymbols();
 
         // set valid symbol types
         validSymbolTypes = new BitSet(16);
@@ -142,7 +142,7 @@ public class SymbolAtom : CharSymbol
     public static void AddSymbolAtom(Stream _in, string name)
     {
         TeXSymbolParser tsp = new TeXSymbolParser(_in, name);
-        symbols.putAll(tsp.readSymbols());
+        symbols.putAll(tsp.ReadSymbols());
     }
 
     public static void AddSymbolAtom(SymbolAtom sym)
@@ -158,7 +158,7 @@ public class SymbolAtom : CharSymbol
      * @return a SymbolAtom representing the found symbol
      * @ if no symbol with the given name was found
      */
-    public static SymbolAtom Get(string name) 
+    public static SymbolAtom Get(string name)
         => !symbols.TryGetValue(name, out var v) ? throw new SymbolNotFoundException(name) : v;
 
     /**

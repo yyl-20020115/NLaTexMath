@@ -44,23 +44,25 @@
  */
 
 namespace NLaTexMath;
- 
 
-public class URLAlphabetRegistration : AlphabetRegistration {
+public class URLAlphabetRegistration : AlphabetRegistration
+{
 
     private Uri url;
     private string language;
     private AlphabetRegistration pack = null;
     private UnicodeBlock[] blocks;
 
-    private URLAlphabetRegistration(Uri url, string language, UnicodeBlock[] blocks) {
+    private URLAlphabetRegistration(Uri url, string language, UnicodeBlock[] blocks)
+    {
         this.url = url;
         this.language = language;
         this.blocks = blocks;
     }
 
-    public static void register(Uri url, string language, UnicodeBlock[] blocks) {
-        DefaultTeXFont.registerAlphabet(new URLAlphabetRegistration(url, language, blocks));
+    public static void register(Uri url, string language, UnicodeBlock[] blocks)
+    {
+        DefaultTeXFont.RegisterAlphabet(new URLAlphabetRegistration(url, language, blocks));
     }
 
     public UnicodeBlock[] UnicodeBlocks => blocks;
@@ -69,11 +71,11 @@ public class URLAlphabetRegistration : AlphabetRegistration {
     {
         get
         {
-            Uri[] urls = { url };
+            Uri[] urls = [url];
             language = language.ToLower();
             string name = "NLaTexMath." + language
-                          + "." + char.ToString(char.toUpperCase(language[0]))
-                          + language.substring(1, language.Length) + "Registration";
+                          + "." + char.ToString(char.ToUpper(language[0]))
+                          + language[1..] + "Registration";
 
             try
             {

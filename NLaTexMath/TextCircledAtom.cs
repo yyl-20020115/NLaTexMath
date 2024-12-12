@@ -48,13 +48,15 @@ namespace NLaTexMath;
 /**
  * An atom with representing an t with a caron.
  */
-public class TextCircledAtom(Atom atom) : Atom {
+public class TextCircledAtom(Atom atom) : Atom
+{
 
     private Atom Base = atom;
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box circle = SymbolAtom.Get("bigcirc").CreateBox(env);
-        circle.        Shift = -0.07f * SpaceAtom.GetFactor(TeXConstants.UNIT_EX, env);
+        circle.Shift = -0.07f * SpaceAtom.GetFactor(TeXConstants.UNIT_EX, env);
         Box box = Base.CreateBox(env);
         HorizontalBox hb = new HorizontalBox(box, circle.Width, TeXConstants.ALIGN_CENTER);
         hb.Add(new StrutBox(-hb.Width, 0, 0, 0));

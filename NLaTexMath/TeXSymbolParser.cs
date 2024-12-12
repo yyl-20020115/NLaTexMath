@@ -45,64 +45,72 @@
  */
 
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace NLaTexMath;
 
 /**
  * Parses TeX symbol definitions from an XML-file.
  */
-public class TeXSymbolParser {
+public class TeXSymbolParser
+{
 
     public static readonly string RESOURCE_NAME = "TeXSymbols.xml",
                                DELIMITER_ATTR = "del", TYPE_ATTR = "type";
 
-    private static Dictionary<string,int> typeMappings = [];
+    private static Dictionary<string, int> typeMappings = [];
 
     private XElement root;
 
-    public TeXSymbolParser(): this(TeXSymbolParser.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+    public TeXSymbolParser() : this(TeXSymbolParser.getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
         ;
     }
 
-    public TeXSymbolParser(Stream file, string name){
-        try {
+    public TeXSymbolParser(Stream file, string name)
+    {
+        try
+        {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringElementContentWhitespace(true);
             factory.setIgnoringComments(true);
             root = factory.newDocumentBuilder().parse(file).getDocumentElement();
             // set possible valid symbol type mappings
-            setTypeMappings();
-        } catch (Exception e) { // JDOMException or IOException
+            SetTypeMappings();
+        }
+        catch (Exception e)
+        { // JDOMException or IOException
             throw new XMLResourceParseException(name, e);
         }
     }
 
-    public Dictionary<string,SymbolAtom> readSymbols(){
-        Dictionary<string,SymbolAtom> res = new ();
+    public Dictionary<string, SymbolAtom> ReadSymbols()
+    {
+        Dictionary<string, SymbolAtom> res = new();
         // iterate all "symbol"-elements
-        List<XNode> list = root.getElementsByTagName("Symbol");
-        for (int i = 0; i < list.Count; i++) {
+        List<XElement> list = root.XPathSelectElements("Symbol").ToList();
+        for (int i = 0; i < list.Count; i++)
+        {
             XElement symbol = (XElement)list[i];
             // retrieve and check required attributes
-            string name = getAttrValueAndCheckIfNotNull("name", symbol), type = getAttrValueAndCheckIfNotNull(
+            string name = GetAttrValueAndCheckIfNotNull("name", symbol), type = GetAttrValueAndCheckIfNotNull(
                               TYPE_ATTR, symbol);
             // retrieve optional attribute
-            string del = symbol.Attribute(DELIMITER_ATTR)?.Value??"";
-            bool isDelimiter = (del != null && del=="true");
+            string del = symbol.Attribute(DELIMITER_ATTR)?.Value ?? "";
+            bool isDelimiter = (del != null && del == "true");
             // check if type is known
             var typeVal = typeMappings[(type)];
             if (typeVal == null) // unknown type
                 throw new XMLResourceParseException(RESOURCE_NAME, "Symbol",
                                                     "type", "has an unknown value '" + type + "'!");
             // Add symbol to the hash table
-            res.Add(name, new SymbolAtom(name, ((int) typeVal).intValue(),
-                                         isDelimiter));
+            res.Add(name, new SymbolAtom(name, ((int)typeVal), isDelimiter));
         }
         return res;
     }
 
-    private void setTypeMappings() {
+    private void SetTypeMappings()
+    {
         typeMappings.Add("ord", TeXConstants.TYPE_ORDINARY);
         typeMappings.Add("op", TeXConstants.TYPE_BIG_OPERATOR);
         typeMappings.Add("bin", TeXConstants.TYPE_BINARY_OPERATOR);
@@ -113,12 +121,10 @@ public class TeXSymbolParser {
         typeMappings.Add("acc", TeXConstants.TYPE_ACCENT);
     }
 
-    private static string getAttrValueAndCheckIfNotNull(string attrName,
-            XElement element){
-        string attrValue = element.Attribute(attrName)?.Value??"";
-        if (attrValue=="")
-            throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName,
-                                                attrName, null);
-        return attrValue;
+    private static string GetAttrValueAndCheckIfNotNull(string attrName,
+            XElement element)
+    {
+        string attrValue = element.Attribute(attrName)?.Value ?? "";
+        return attrValue == "" ? throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName, attrName, null) : attrValue;
     }
 }

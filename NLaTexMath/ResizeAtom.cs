@@ -61,8 +61,8 @@ public class ResizeAtom : Atom
         this.Type = _base.Type;
         this._base = _base;
         this.keepaspectratio = keepaspectratio;
-        float[] w = SpaceAtom.GetLength(ws == null ? "" : ws);
-        float[] h = SpaceAtom.GetLength(hs == null ? "" : hs);
+        float[] w = SpaceAtom.GetLength(ws ?? "");
+        float[] h = SpaceAtom.GetLength(hs ?? "");
         if (w.Length != 2)
         {
             this.wunit = -1;
@@ -81,16 +81,6 @@ public class ResizeAtom : Atom
             this.hunit = (int)h[0];
             this.h = h[1];
         }
-    }
-
-    public int getLeftType()
-    {
-        return base.LeftType;
-    }
-
-    public int getRightType()
-    {
-        return base.RightType;
     }
 
     public override Box CreateBox(TeXEnvironment env)

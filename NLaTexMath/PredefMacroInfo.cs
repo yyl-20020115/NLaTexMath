@@ -48,7 +48,8 @@ namespace NLaTexMath;
 /**
  * Class to load the predefined commands. Mainly wrote to avoid the use of the Java reflection.
  */
-public class PredefMacroInfo : MacroInfo {
+public class PredefMacroInfo : MacroInfo
+{
 
     private readonly int id;
 
@@ -56,529 +57,249 @@ public class PredefMacroInfo : MacroInfo {
 
     public PredefMacroInfo(int id, int nbArgs) : base(nbArgs) => this.id = id;
 
-    public object Invoke(TeXParser tp, string[] args) => invokeID(id, tp, args);
+    public object? Invoke(TeXParser tp, string[] args) => InvokeID(id, tp, args);
 
-    private static object invokeID( int id,  TeXParser tp,  string[] args){
-        try {
-            switch (id) {
-            case 0:
-                return PredefMacros.newcommand_macro(tp, args);
-            case 1:
-                return PredefMacros.renewcommand_macro(tp, args);
-            case 2:
-                return PredefMacros.rule_macro(tp, args);
-            case 3:
-            case 4:
-                return PredefMacros.hvspace_macro(tp, args);
-            case 5:
-            case 6:
-            case 7:
-                return PredefMacros.clrlap_macro(tp, args);
-            case 8:
-            case 9:
-            case 10:
-                return PredefMacros.mathclrlap_macro(tp, args);
-            case 11:
-                return PredefMacros.includegraphics_macro(tp, args);
-            case 12:
-                return PredefMacros.cfrac_macro(tp, args);
-            case 13:
-                return PredefMacros.frac_macro(tp, args);
-            case 14:
-                return PredefMacros.sfrac_macro(tp, args);
-            case 15:
-                return PredefMacros.genfrac_macro(tp, args);
-            case 16:
-                return PredefMacros.over_macro(tp, args);
-            case 17:
-                return PredefMacros.overwithdelims_macro(tp, args);
-            case 18:
-                return PredefMacros.atop_macro(tp, args);
-            case 19:
-                return PredefMacros.atopwithdelims_macro(tp, args);
-            case 20:
-                return PredefMacros.choose_macro(tp, args);
-            case 21:
-                return PredefMacros.underscore_macro(tp, args);
-            case 22:
-                return PredefMacros.mbox_macro(tp, args);
-            case 23:
-                return PredefMacros.text_macro(tp, args);
-            case 24:
-                return PredefMacros.intertext_macro(tp, args);
-            case 25:
-                return PredefMacros.binom_macro(tp, args);
-            case 26:
-                return PredefMacros.mathbf_macro(tp, args);
-            case 27:
-                return PredefMacros.bf_macro(tp, args);
-            case 28:
-                return PredefMacros.textstyle_macros(tp, args);
-            case 29:
-                return PredefMacros.textstyle_macros(tp, args);
-            case 30:
-                return PredefMacros.textstyle_macros(tp, args);
-            case 31:
-                return PredefMacros.mathit_macro(tp, args);
-            case 32:
-                return PredefMacros.it_macro(tp, args);
-            case 33:
-                return PredefMacros.mathrm_macro(tp, args);
-            case 34:
-                return PredefMacros.rm_macro(tp, args);
-            case 35:
-                return PredefMacros.textstyle_macros(tp, args);
-            case 36:
-                return PredefMacros.mathsf_macro(tp, args);
-            case 37:
-                return PredefMacros.sf_macro(tp, args);
-            case 38:
-                return PredefMacros.mathtt_macro(tp, args);
-            case 39:
-                return PredefMacros.tt_macro(tp, args);
-            case 40:
-            case 41:
-            case 42:
-            case 43:
-            case 44:
-            case 45:
-                return PredefMacros.textstyle_macros(tp, args);
-            case 46:
-            case 47:
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
-            case 53:
-            case 54:
-            case 55:
-            case 56:
-            case 57:
-                return PredefMacros.accentbis_macros(tp, args);
-            case 58:
-                return PredefMacros.T_macro(tp, args);
-            case 59:
-                return PredefMacros.accentbis_macros(tp, args);
-            case 60:
-                return PredefMacros.accent_macro(tp, args);
-            case 61:
-                return PredefMacros.grkaccent_macro(tp, args);
-            case 62:
-            case 63:
-            case 64:
-            case 65:
-            case 66:
-            case 67:
-            case 68:
-            case 69:
-            case 70:
-            case 71:
-            case 72:
-            case 73:
-            case 74:
-            case 75:
-                return PredefMacros.accent_macros(tp, args);
-            case 76:
-                return PredefMacros.nbsp_macro(tp, args);
-            case 77:
-                return PredefMacros.smallmatrixATATenv_macro(tp, args);
-            case 78:
-                return PredefMacros.matrixATATenv_macro(tp, args);
-            case 79:
-                return PredefMacros.overrightarrow_macro(tp, args);
-            case 80:
-                return PredefMacros.overleftarrow_macro(tp, args);
-            case 81:
-                return PredefMacros.overleftrightarrow_macro(tp, args);
-            case 82:
-                return PredefMacros.underrightarrow_macro(tp, args);
-            case 83:
-                return PredefMacros.underleftarrow_macro(tp, args);
-            case 84:
-                return PredefMacros.underleftrightarrow_macro(tp, args);
-            case 85:
-                return PredefMacros.xleftarrow_macro(tp, args);
-            case 86:
-                return PredefMacros.xrightarrow_macro(tp, args);
-            case 87:
-                return PredefMacros.underbrace_macro(tp, args);
-            case 88:
-                return PredefMacros.overbrace_macro(tp, args);
-            case 89:
-                return PredefMacros.underbrack_macro(tp, args);
-            case 90:
-                return PredefMacros.overbrack_macro(tp, args);
-            case 91:
-                return PredefMacros.underparen_macro(tp, args);
-            case 92:
-                return PredefMacros.overparen_macro(tp, args);
-            case 93:
-            case 94:
-                return PredefMacros.sqrt_macro(tp, args);
-            case 95:
-                return PredefMacros.overline_macro(tp, args);
-            case 96:
-                return PredefMacros.underline_macro(tp, args);
-            case 97:
-                return PredefMacros.mathop_macro(tp, args);
-            case 98:
-                return PredefMacros.mathpunct_macro(tp, args);
-            case 99:
-                return PredefMacros.mathord_macro(tp, args);
-            case 100:
-                return PredefMacros.mathrel_macro(tp, args);
-            case 101:
-                return PredefMacros.mathinner_macro(tp, args);
-            case 102:
-                return PredefMacros.mathbin_macro(tp, args);
-            case 103:
-                return PredefMacros.mathopen_macro(tp, args);
-            case 104:
-                return PredefMacros.mathclose_macro(tp, args);
-            case 105:
-                return PredefMacros.joinrel_macro(tp, args);
-            case 106:
-                return PredefMacros.smash_macro(tp, args);
-            case 107:
-                return PredefMacros.vdots_macro(tp, args);
-            case 108:
-                return PredefMacros.ddots_macro(tp, args);
-            case 109:
-                return PredefMacros.iddots_macro(tp, args);
-            case 110:
-                return PredefMacros.nolimits_macro(tp, args);
-            case 111:
-                return PredefMacros.limits_macro(tp, args);
-            case 112:
-                return PredefMacros.normal_macro(tp, args);
-            case 113:
-                return PredefMacros.leftparenthesis_macro(tp, args);
-            case 114:
-                return PredefMacros.leftbracket_macro(tp, args);
-            case 115:
-                return PredefMacros.left_macro(tp, args);
-            case 116:
-                return PredefMacros.middle_macro(tp, args);
-            case 117:
-                return PredefMacros.cr_macro(tp, args);
-            case 118:
-                return PredefMacros.multicolumn_macro(tp, args);
-            case 119:
-                return PredefMacros.hdotsfor_macro(tp, args);
-            case 120:
-                return PredefMacros.arrayATATenv_macro(tp, args);
-            case 121:
-                return PredefMacros.alignATATenv_macro(tp, args);
-            case 122:
-                return PredefMacros.alignedATATenv_macro(tp, args);
-            case 123:
-                return PredefMacros.flalignATATenv_macro(tp, args);
-            case 124:
-                return PredefMacros.alignatATATenv_macro(tp, args);
-            case 125:
-                return PredefMacros.alignedatATATenv_macro(tp, args);
-            case 126:
-                return PredefMacros.multlineATATenv_macro(tp, args);
-            case 127:
-                return PredefMacros.gatherATATenv_macro(tp, args);
-            case 128:
-                return PredefMacros.gatheredATATenv_macro(tp, args);
-            case 129:
-                return PredefMacros.shoveright_macro(tp, args);
-            case 130:
-                return PredefMacros.shoveleft_macro(tp, args);
-            case 131:
-                return PredefMacros.backslashcr_macro(tp, args);
-            case 132:
-                return PredefMacros.newenvironment_macro(tp, args);
-            case 133:
-                return PredefMacros.renewenvironment_macro(tp, args);
-            case 134:
-                return PredefMacros.makeatletter_macro(tp, args);
-            case 135:
-                return PredefMacros.makeatother_macro(tp, args);
-            case 136:
-            case 137:
-                return PredefMacros.fbox_macro(tp, args);
-            case 138:
-                return PredefMacros.stackrel_macro(tp, args);
-            case 139:
-                return PredefMacros.stackbin_macro(tp, args);
-            case 140:
-                return PredefMacros.accentset_macro(tp, args);
-            case 141:
-                return PredefMacros.underaccent_macro(tp, args);
-            case 142:
-                return PredefMacros.undertilde_macro(tp, args);
-            case 143:
-                return PredefMacros.overset_macro(tp, args);
-            case 144:
-                return PredefMacros.Braket_macro(tp, args);
-            case 145:
-                return PredefMacros.Set_macro(tp, args);
-            case 146:
-                return PredefMacros.underset_macro(tp, args);
-            case 147:
-                return PredefMacros.boldsymbol_macro(tp, args);
-            case 148:
-                return PredefMacros.LaTeX_macro(tp, args);
-            case 149:
-                return PredefMacros.GeoGebra_macro(tp, args);
-            case 150:
-                return PredefMacros.big_macro(tp, args);
-            case 151:
-                return PredefMacros.Big_macro(tp, args);
-            case 152:
-                return PredefMacros.bigg_macro(tp, args);
-            case 153:
-                return PredefMacros.Bigg_macro(tp, args);
-            case 154:
-                return PredefMacros.bigl_macro(tp, args);
-            case 155:
-                return PredefMacros.Bigl_macro(tp, args);
-            case 156:
-                return PredefMacros.biggl_macro(tp, args);
-            case 157:
-                return PredefMacros.Biggl_macro(tp, args);
-            case 158:
-                return PredefMacros.bigr_macro(tp, args);
-            case 159:
-                return PredefMacros.Bigr_macro(tp, args);
-            case 160:
-                return PredefMacros.biggr_macro(tp, args);
-            case 161:
-                return PredefMacros.Biggr_macro(tp, args);
-            case 162:
-                return PredefMacros.displaystyle_macro(tp, args);
-            case 163:
-                return PredefMacros.textstyle_macro(tp, args);
-            case 164:
-                return PredefMacros.scriptstyle_macro(tp, args);
-            case 165:
-                return PredefMacros.scriptscriptstyle_macro(tp, args);
-            case 166:
-                return PredefMacros.sideset_macro(tp, args);
-            case 167:
-                return PredefMacros.prescript_macro(tp, args);
-            case 168:
-                return PredefMacros.rotatebox_macro(tp, args);
-            case 169:
-                return PredefMacros.reflectbox_macro(tp, args);
-            case 170:
-                return PredefMacros.scalebox_macro(tp, args);
-            case 171:
-                return PredefMacros.resizebox_macro(tp, args);
-            case 172:
-                return PredefMacros.raisebox_macro(tp, args);
-            case 173:
-                return PredefMacros.shadowbox_macro(tp, args);
-            case 174:
-                return PredefMacros.ovalbox_macro(tp, args);
-            case 175:
-                return PredefMacros.doublebox_macro(tp, args);
-            case 176:
-                return PredefMacros.phantom_macro(tp, args);
-            case 177:
-                return PredefMacros.hphantom_macro(tp, args);
-            case 178:
-                return PredefMacros.vphantom_macro(tp, args);
-            case 179:
-                return PredefMacros.spATbreve_macro(tp, args);
-            case 180:
-                return PredefMacros.spAThat_macro(tp, args);
-            case 181:
-                return PredefMacros.definecolor_macro(tp, args);
-            case 182:
-                return PredefMacros.textcolor_macro(tp, args);
-            case 183:
-                return PredefMacros.fgcolor_macro(tp, args);
-            case 184:
-                return PredefMacros.bgcolor_macro(tp, args);
-            case 185:
-                return PredefMacros.colorbox_macro(tp, args);
-            case 186:
-                return PredefMacros.fcolorbox_macro(tp, args);
-            case 187:
-                return PredefMacros.cedilla_macro(tp, args);
-            case 188:
-                return PredefMacros.IJ_macro(tp, args);
-            case 189:
-                return PredefMacros.IJ_macro(tp, args);
-            case 190:
-                return PredefMacros.TStroke_macro(tp, args);
-            case 191:
-                return PredefMacros.TStroke_macro(tp, args);
-            case 192:
-                return PredefMacros.LCaron_macro(tp, args);
-            case 193:
-                return PredefMacros.tcaron_macro(tp, args);
-            case 194:
-                return PredefMacros.LCaron_macro(tp, args);
-            case 195:
-                return PredefMacros.ogonek_macro(tp, args);
-            case 196:
-                return PredefMacros.cong_macro(tp, args);
-            case 197:
-                return PredefMacros.doteq_macro(tp, args);
-            case 198:
-                return PredefMacros.jlmDynamic_macro(tp, args);
-            case 199:
-                return PredefMacros.jlmExternalFont_macro(tp, args);
-            case 200:
-                return PredefMacros.jlmText_macro(tp, args);
-            case 201:
-                return PredefMacros.jlmTextit_macro(tp, args);
-            case 202:
-                return PredefMacros.jlmTextbf_macro(tp, args);
-            case 203:
-                return PredefMacros.jlmTextitbf_macro(tp, args);
-            case 204:
-                return PredefMacros.DeclareMathSizes_macro(tp, args);
-            case 205:
-                return PredefMacros.magnification_macro(tp, args);
-            case 206:
-                return PredefMacros.hline_macro(tp, args);
-            case 207:
-            case 208:
-            case 209:
-            case 210:
-            case 211:
-            case 212:
-            case 213:
-            case 214:
-            case 215:
-            case 216:
-                return PredefMacros.size_macros(tp, args);
-            case 217:
-                return PredefMacros.jlatexmathcumsup_macro(tp, args);
-            case 218:
-                return PredefMacros.jlatexmathcumsub_macro(tp, args);
-            case 219:
-                return PredefMacros.hstrok_macro(tp, args);
-            case 220:
-                return PredefMacros.Hstrok_macro(tp, args);
-            case 221:
-                return PredefMacros.dstrok_macro(tp, args);
-            case 222:
-                return PredefMacros.Dstrok_macro(tp, args);
-            case 223:
-                return PredefMacros.dotminus_macro(tp, args);
-            case 224:
-                return PredefMacros.ratio_macro(tp, args);
-            case 225:
-                return PredefMacros.smallfrowneq_macro(tp, args);
-            case 226:
-                return PredefMacros.geoprop_macro(tp, args);
-            case 227:
-                return PredefMacros.minuscolon_macro(tp, args);
-            case 228:
-                return PredefMacros.minuscoloncolon_macro(tp, args);
-            case 229:
-                return PredefMacros.simcolon_macro(tp, args);
-            case 230:
-                return PredefMacros.simcoloncolon_macro(tp, args);
-            case 231:
-                return PredefMacros.approxcolon_macro(tp, args);
-            case 232:
-                return PredefMacros.approxcoloncolon_macro(tp, args);
-            case 233:
-                return PredefMacros.coloncolon_macro(tp, args);
-            case 234:
-                return PredefMacros.equalscolon_macro(tp, args);
-            case 235:
-                return PredefMacros.equalscoloncolon_macro(tp, args);
-            case 236:
-                return PredefMacros.colonminus_macro(tp, args);
-            case 237:
-                return PredefMacros.coloncolonminus_macro(tp, args);
-            case 238:
-                return PredefMacros.colonequals_macro(tp, args);
-            case 239:
-                return PredefMacros.coloncolonequals_macro(tp, args);
-            case 240:
-                return PredefMacros.colonsim_macro(tp, args);
-            case 241:
-                return PredefMacros.coloncolonsim_macro(tp, args);
-            case 242:
-                return PredefMacros.colonapprox_macro(tp, args);
-            case 243:
-                return PredefMacros.coloncolonapprox_macro(tp, args);
-            case 244:
-                return PredefMacros.kern_macro(tp, args);
-            case 245:
-                return PredefMacros.char_macro(tp, args);
-            case 246:
-            case 247:
-                return PredefMacros.romannumeral_macro(tp, args);
-            case 248:
-                return PredefMacros.textcircled_macro(tp, args);
-            case 249:
-                return PredefMacros.textsc_macro(tp, args);
-            case 250:
-                return PredefMacros.sc_macro(tp, args);
-            case 251:
-            case 252:
-            case 253:
-            case 254:
-            case 255:
-            case 256:
-            case 257:
-            case 258:
-            case 259:
-            case 260:
-                return PredefMacros.muskip_macros(tp, args);
-            case 261:
-                return PredefMacros.quad_macro(tp, args);
-            case 262:
-                return PredefMacros.surd_macro(tp, args);
-            case 263:
-                return PredefMacros.iint_macro(tp, args);
-            case 264:
-                return PredefMacros.iiint_macro(tp, args);
-            case 265:
-                return PredefMacros.iiiint_macro(tp, args);
-            case 266:
-                return PredefMacros.idotsint_macro(tp, args);
-            case 267:
-                return PredefMacros.int_macro(tp, args);
-            case 268:
-                return PredefMacros.oint_macro(tp, args);
-            case 269:
-                return PredefMacros.lmoustache_macro(tp, args);
-            case 270:
-                return PredefMacros.rmoustache_macro(tp, args);
-            case 271:
-                return PredefMacros.insertBreakMark_macro(tp, args);
-            case 272:
-                return PredefMacros.jlmXML_macro(tp, args);
-            case 273:
-                return PredefMacros.above_macro(tp, args);
-            case 274:
-                return PredefMacros.abovewithdelims_macro(tp, args);
-            case 275:
-                return PredefMacros.st_macro(tp, args);
-            case 276:
-                return PredefMacros.fcscore_macro(tp, args);
-            case 277:
-                return PredefMacros.textstyle_macros(tp, args);
-            case 278:
-                return PredefMacros.qquad_macro(tp, args);
-            case 279:
-                return PredefMacros.longdiv_macro(tp, args);
-            case 280:
-                return PredefMacros.questeq_macro(tp, args);
-            case 281:
-                return PredefMacros.bangle_macro(tp, args);
-            case 282:
-                return PredefMacros.brace_macro(tp, args);
-            case 283:
-                return PredefMacros.brack_macro(tp, args);
-            default:
-                return null;
-            }
-        } catch (Exception e) {
-            throw new ParseException($"Problem with command {args[0]} at position {tp.getLine()}:{tp.getCol()}\n{e.Message}");
+    private static object? InvokeID(int id, TeXParser tp, string[] args)
+    {
+        try
+        {
+            return id switch
+            {
+                0 => PredefMacros.newcommand_macro(tp, args),
+                1 => PredefMacros.renewcommand_macro(tp, args),
+                2 => PredefMacros.Rule_macro(tp, args),
+                3 or 4 => PredefMacros.Hvspace_macro(tp, args),
+                5 or 6 or 7 => PredefMacros.clrlap_macro(tp, args),
+                8 or 9 or 10 => PredefMacros.mathclrlap_macro(tp, args),
+                11 => PredefMacros.Includegraphics_macro(tp, args),
+                12 => PredefMacros.Cfrac_macro(tp, args),
+                13 => PredefMacros.Frac_macro(tp, args),
+                14 => PredefMacros.sfrac_macro(tp, args),
+                15 => PredefMacros.genfrac_macro(tp, args),
+                16 => PredefMacros.over_macro(tp, args),
+                17 => PredefMacros.overwithdelims_macro(tp, args),
+                18 => PredefMacros.atop_macro(tp, args),
+                19 => PredefMacros.atopwithdelims_macro(tp, args),
+                20 => PredefMacros.choose_macro(tp, args),
+                21 => PredefMacros.underscore_macro(tp, args),
+                22 => PredefMacros.mbox_macro(tp, args),
+                23 => PredefMacros.text_macro(tp, args),
+                24 => PredefMacros.intertext_macro(tp, args),
+                25 => PredefMacros.binom_macro(tp, args),
+                26 => PredefMacros.mathbf_macro(tp, args),
+                27 => PredefMacros.bf_macro(tp, args),
+                28 => PredefMacros.textstyle_macros(tp, args),
+                29 => PredefMacros.textstyle_macros(tp, args),
+                30 => PredefMacros.textstyle_macros(tp, args),
+                31 => PredefMacros.mathit_macro(tp, args),
+                32 => PredefMacros.it_macro(tp, args),
+                33 => PredefMacros.mathrm_macro(tp, args),
+                34 => PredefMacros.rm_macro(tp, args),
+                35 => PredefMacros.textstyle_macros(tp, args),
+                36 => PredefMacros.mathsf_macro(tp, args),
+                37 => PredefMacros.sf_macro(tp, args),
+                38 => PredefMacros.mathtt_macro(tp, args),
+                39 => PredefMacros.tt_macro(tp, args),
+                40 or 41 or 42 or 43 or 44 or 45 => PredefMacros.textstyle_macros(tp, args),
+                46 or 47 or 48 or 49 or 50 or 51 or 52 or 53 or 54 or 55 or 56 or 57 => PredefMacros.accentbis_macros(tp, args),
+                58 => PredefMacros.T_macro(tp, args),
+                59 => PredefMacros.accentbis_macros(tp, args),
+                60 => PredefMacros.accent_macro(tp, args),
+                61 => PredefMacros.grkaccent_macro(tp, args),
+                62 or 63 or 64 or 65 or 66 or 67 or 68 or 69 or 70 or 71 or 72 or 73 or 74 or 75 => PredefMacros.accent_macros(tp, args),
+                76 => PredefMacros.nbsp_macro(tp, args),
+                77 => PredefMacros.smallmatrixATATenv_macro(tp, args),
+                78 => PredefMacros.matrixATATenv_macro(tp, args),
+                79 => PredefMacros.overrightarrow_macro(tp, args),
+                80 => PredefMacros.overleftarrow_macro(tp, args),
+                81 => PredefMacros.overleftrightarrow_macro(tp, args),
+                82 => PredefMacros.underrightarrow_macro(tp, args),
+                83 => PredefMacros.underleftarrow_macro(tp, args),
+                84 => PredefMacros.underleftrightarrow_macro(tp, args),
+                85 => PredefMacros.xleftarrow_macro(tp, args),
+                86 => PredefMacros.xrightarrow_macro(tp, args),
+                87 => PredefMacros.underbrace_macro(tp, args),
+                88 => PredefMacros.overbrace_macro(tp, args),
+                89 => PredefMacros.underbrack_macro(tp, args),
+                90 => PredefMacros.overbrack_macro(tp, args),
+                91 => PredefMacros.underparen_macro(tp, args),
+                92 => PredefMacros.overparen_macro(tp, args),
+                93 or 94 => PredefMacros.sqrt_macro(tp, args),
+                95 => PredefMacros.overline_macro(tp, args),
+                96 => PredefMacros.underline_macro(tp, args),
+                97 => PredefMacros.mathop_macro(tp, args),
+                98 => PredefMacros.mathpunct_macro(tp, args),
+                99 => PredefMacros.mathord_macro(tp, args),
+                100 => PredefMacros.mathrel_macro(tp, args),
+                101 => PredefMacros.mathinner_macro(tp, args),
+                102 => PredefMacros.mathbin_macro(tp, args),
+                103 => PredefMacros.mathopen_macro(tp, args),
+                104 => PredefMacros.mathclose_macro(tp, args),
+                105 => PredefMacros.joinrel_macro(tp, args),
+                106 => PredefMacros.smash_macro(tp, args),
+                107 => PredefMacros.vdots_macro(tp, args),
+                108 => PredefMacros.ddots_macro(tp, args),
+                109 => PredefMacros.iddots_macro(tp, args),
+                110 => PredefMacros.nolimits_macro(tp, args),
+                111 => PredefMacros.limits_macro(tp, args),
+                112 => PredefMacros.normal_macro(tp, args),
+                113 => PredefMacros.leftparenthesis_macro(tp, args),
+                114 => PredefMacros.leftbracket_macro(tp, args),
+                115 => PredefMacros.left_macro(tp, args),
+                116 => PredefMacros.middle_macro(tp, args),
+                117 => PredefMacros.cr_macro(tp, args),
+                118 => PredefMacros.multicolumn_macro(tp, args),
+                119 => PredefMacros.hdotsfor_macro(tp, args),
+                120 => PredefMacros.arrayATATenv_macro(tp, args),
+                121 => PredefMacros.alignATATenv_macro(tp, args),
+                122 => PredefMacros.alignedATATenv_macro(tp, args),
+                123 => PredefMacros.flalignATATenv_macro(tp, args),
+                124 => PredefMacros.alignatATATenv_macro(tp, args),
+                125 => PredefMacros.alignedatATATenv_macro(tp, args),
+                126 => PredefMacros.multlineATATenv_macro(tp, args),
+                127 => PredefMacros.gatherATATenv_macro(tp, args),
+                128 => PredefMacros.gatheredATATenv_macro(tp, args),
+                129 => PredefMacros.shoveright_macro(tp, args),
+                130 => PredefMacros.shoveleft_macro(tp, args),
+                131 => PredefMacros.backslashcr_macro(tp, args),
+                132 => PredefMacros.newenvironment_macro(tp, args),
+                133 => PredefMacros.renewenvironment_macro(tp, args),
+                134 => PredefMacros.makeatletter_macro(tp, args),
+                135 => PredefMacros.makeatother_macro(tp, args),
+                136 or 137 => PredefMacros.fbox_macro(tp, args),
+                138 => PredefMacros.stackrel_macro(tp, args),
+                139 => PredefMacros.stackbin_macro(tp, args),
+                140 => PredefMacros.accentset_macro(tp, args),
+                141 => PredefMacros.underaccent_macro(tp, args),
+                142 => PredefMacros.undertilde_macro(tp, args),
+                143 => PredefMacros.overset_macro(tp, args),
+                144 => PredefMacros.Braket_macro(tp, args),
+                145 => PredefMacros.Set_macro(tp, args),
+                146 => PredefMacros.underset_macro(tp, args),
+                147 => PredefMacros.boldsymbol_macro(tp, args),
+                148 => PredefMacros.LaTeX_macro(tp, args),
+                149 => PredefMacros.GeoGebra_macro(tp, args),
+                150 => PredefMacros.big_macro(tp, args),
+                151 => PredefMacros.Big_macro(tp, args),
+                152 => PredefMacros.bigg_macro(tp, args),
+                153 => PredefMacros.Bigg_macro(tp, args),
+                154 => PredefMacros.bigl_macro(tp, args),
+                155 => PredefMacros.Bigl_macro(tp, args),
+                156 => PredefMacros.biggl_macro(tp, args),
+                157 => PredefMacros.Biggl_macro(tp, args),
+                158 => PredefMacros.bigr_macro(tp, args),
+                159 => PredefMacros.Bigr_macro(tp, args),
+                160 => PredefMacros.biggr_macro(tp, args),
+                161 => PredefMacros.Biggr_macro(tp, args),
+                162 => PredefMacros.displaystyle_macro(tp, args),
+                163 => PredefMacros.textstyle_macro(tp, args),
+                164 => PredefMacros.scriptstyle_macro(tp, args),
+                165 => PredefMacros.scriptscriptstyle_macro(tp, args),
+                166 => PredefMacros.sideset_macro(tp, args),
+                167 => PredefMacros.prescript_macro(tp, args),
+                168 => PredefMacros.rotatebox_macro(tp, args),
+                169 => PredefMacros.reflectbox_macro(tp, args),
+                170 => PredefMacros.scalebox_macro(tp, args),
+                171 => PredefMacros.resizebox_macro(tp, args),
+                172 => PredefMacros.raisebox_macro(tp, args),
+                173 => PredefMacros.shadowbox_macro(tp, args),
+                174 => PredefMacros.ovalbox_macro(tp, args),
+                175 => PredefMacros.doublebox_macro(tp, args),
+                176 => PredefMacros.phantom_macro(tp, args),
+                177 => PredefMacros.hphantom_macro(tp, args),
+                178 => PredefMacros.vphantom_macro(tp, args),
+                179 => PredefMacros.SpATbreve_macro(tp, args),
+                180 => PredefMacros.SpAThat_macro(tp, args),
+                181 => PredefMacros.definecolor_macro(tp, args),
+                182 => PredefMacros.textcolor_macro(tp, args),
+                183 => PredefMacros.fgcolor_macro(tp, args),
+                184 => PredefMacros.bgcolor_macro(tp, args),
+                185 => PredefMacros.colorbox_macro(tp, args),
+                186 => PredefMacros.fcolorbox_macro(tp, args),
+                187 => PredefMacros.cedilla_macro(tp, args),
+                188 => PredefMacros.IJ_macro(tp, args),
+                189 => PredefMacros.IJ_macro(tp, args),
+                190 => PredefMacros.TStroke_macro(tp, args),
+                191 => PredefMacros.TStroke_macro(tp, args),
+                192 => PredefMacros.LCaron_macro(tp, args),
+                193 => PredefMacros.tcaron_macro(tp, args),
+                194 => PredefMacros.LCaron_macro(tp, args),
+                195 => PredefMacros.ogonek_macro(tp, args),
+                196 => PredefMacros.cong_macro(tp, args),
+                197 => PredefMacros.doteq_macro(tp, args),
+                198 => PredefMacros.jlmDynamic_macro(tp, args),
+                199 => PredefMacros.jlmExternalFont_macro(tp, args),
+                200 => PredefMacros.jlmText_macro(tp, args),
+                201 => PredefMacros.jlmTextit_macro(tp, args),
+                202 => PredefMacros.jlmTextbf_macro(tp, args),
+                203 => PredefMacros.jlmTextitbf_macro(tp, args),
+                204 => PredefMacros.DeclareMathSizes_macro(tp, args),
+                205 => PredefMacros.magnification_macro(tp, args),
+                206 => PredefMacros.hline_macro(tp, args),
+                207 or 208 or 209 or 210 or 211 or 212 or 213 or 214 or 215 or 216 => PredefMacros.size_macros(tp, args),
+                217 => PredefMacros.jlatexmathcumsup_macro(tp, args),
+                218 => PredefMacros.jlatexmathcumsub_macro(tp, args),
+                219 => PredefMacros.hstrok_macro(tp, args),
+                220 => PredefMacros.Hstrok_macro(tp, args),
+                221 => PredefMacros.dstrok_macro(tp, args),
+                222 => PredefMacros.Dstrok_macro(tp, args),
+                223 => PredefMacros.dotminus_macro(tp, args),
+                224 => PredefMacros.ratio_macro(tp, args),
+                225 => PredefMacros.smallfrowneq_macro(tp, args),
+                226 => PredefMacros.geoprop_macro(tp, args),
+                227 => PredefMacros.minuscolon_macro(tp, args),
+                228 => PredefMacros.minuscoloncolon_macro(tp, args),
+                229 => PredefMacros.simcolon_macro(tp, args),
+                230 => PredefMacros.simcoloncolon_macro(tp, args),
+                231 => PredefMacros.approxcolon_macro(tp, args),
+                232 => PredefMacros.approxcoloncolon_macro(tp, args),
+                233 => PredefMacros.coloncolon_macro(tp, args),
+                234 => PredefMacros.equalscolon_macro(tp, args),
+                235 => PredefMacros.equalscoloncolon_macro(tp, args),
+                236 => PredefMacros.colonminus_macro(tp, args),
+                237 => PredefMacros.coloncolonminus_macro(tp, args),
+                238 => PredefMacros.colonequals_macro(tp, args),
+                239 => PredefMacros.coloncolonequals_macro(tp, args),
+                240 => PredefMacros.colonsim_macro(tp, args),
+                241 => PredefMacros.coloncolonsim_macro(tp, args),
+                242 => PredefMacros.colonapprox_macro(tp, args),
+                243 => PredefMacros.coloncolonapprox_macro(tp, args),
+                244 => PredefMacros.kern_macro(tp, args),
+                245 => PredefMacros.char_macro(tp, args),
+                246 or 247 => PredefMacros.romannumeral_macro(tp, args),
+                248 => PredefMacros.textcircled_macro(tp, args),
+                249 => PredefMacros.textsc_macro(tp, args),
+                250 => PredefMacros.sc_macro(tp, args),
+                251 or 252 or 253 or 254 or 255 or 256 or 257 or 258 or 259 or 260 => PredefMacros.muskip_macros(tp, args),
+                261 => PredefMacros.quad_macro(tp, args),
+                262 => PredefMacros.surd_macro(tp, args),
+                263 => PredefMacros.iint_macro(tp, args),
+                264 => PredefMacros.iiint_macro(tp, args),
+                265 => PredefMacros.iiiint_macro(tp, args),
+                266 => PredefMacros.idotsint_macro(tp, args),
+                267 => PredefMacros.int_macro(tp, args),
+                268 => PredefMacros.oint_macro(tp, args),
+                269 => PredefMacros.lmoustache_macro(tp, args),
+                270 => PredefMacros.rmoustache_macro(tp, args),
+                271 => PredefMacros.insertBreakMark_macro(tp, args),
+                272 => PredefMacros.jlmXML_macro(tp, args),
+                273 => PredefMacros.above_macro(tp, args),
+                274 => PredefMacros.abovewithdelims_macro(tp, args),
+                275 => PredefMacros.St_macro(tp, args),
+                276 => PredefMacros.fcscore_macro(tp, args),
+                277 => PredefMacros.textstyle_macros(tp, args),
+                278 => PredefMacros.qquad_macro(tp, args),
+                279 => PredefMacros.Longdiv_macro(tp, args),
+                280 => PredefMacros.questeq_macro(tp, args),
+                281 => PredefMacros.bangle_macro(tp, args),
+                282 => PredefMacros.brace_macro(tp, args),
+                283 => PredefMacros.brack_macro(tp, args),
+                _ => null,
+            };
+        }
+        catch (Exception e)
+        {
+            throw new ParseException($"Problem with command {args[0]} at position {tp.Line}:{tp.Col}\n{e.Message}");
         }
     }
 }

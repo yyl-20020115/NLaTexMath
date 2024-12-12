@@ -48,11 +48,13 @@ namespace NLaTexMath;
 /**
  * An atom representing a reflected Atom.
  */
-public class ReflectAtom : Atom {
+public class ReflectAtom : Atom
+{
 
     private readonly Atom Base;
 
-    public ReflectAtom(Atom _base) {
+    public ReflectAtom(Atom _base)
+    {
         this.Type = _base.Type;
         this.Base = _base;
     }

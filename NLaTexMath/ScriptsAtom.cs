@@ -55,7 +55,7 @@ public class ScriptsAtom(Atom _base, Atom sub, Atom sup) : Atom
 {
 
     // TeX constant: what's the use???
-    private static readonly SpaceAtom SCRIPT_SPACE = new SpaceAtom(TeXConstants.UNIT_POINT, 0.5f, 0, 0);
+    private static readonly SpaceAtom SCRIPT_SPACE = new (TeXConstants.UNIT_POINT, 0.5f, 0, 0);
 
     // base atom
     private Atom Base = _base;

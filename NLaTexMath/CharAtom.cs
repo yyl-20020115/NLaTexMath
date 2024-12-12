@@ -58,7 +58,7 @@ public class CharAtom(char c, string textStyle, bool mathMode) : CharSymbol
 
     // text style (null means the default text style)
     private string textStyle = textStyle;
-    private bool mathMode = mathMode;
+    private readonly bool mathMode = mathMode;
 
     public CharAtom(char c, string textStyle) : this(c, textStyle, false)
     {
@@ -103,5 +103,5 @@ public class CharAtom(char c, string textStyle, bool mathMode) : CharSymbol
 
     public override CharFont GetCharFont(TeXFont tf) => GetChar(tf, TeXConstants.STYLE_DISPLAY, false).CharFont;
 
-    public override string ToString() => "CharAtom: \'" + c + "\'";
+    public override string ToString() => $"CharAtom: \'{c}\'";
 }

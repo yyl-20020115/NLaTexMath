@@ -46,22 +46,26 @@
 namespace NLaTexMath;
 
 
-public class NewCommandMacro {
+public class NewCommandMacro
+{
 
-    protected static Dictionary<string, string> macrocode =[];
+    protected static Dictionary<string, string> macrocode = [];
     protected static Dictionary<string, string> macroreplacement = [];
 
-    public NewCommandMacro() {
+    public NewCommandMacro()
+    {
     }
 
-    public static void AddNewCommand(string name, string code, int nbargs)  {
+    public static void AddNewCommand(string name, string code, int nbargs)
+    {
         //if (macrocode.Get(name) != null)
         //throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
         macrocode.Add(name, code);
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
 
-    public static void AddNewCommand(string name, string code, int nbargs, string def)  {
+    public static void AddNewCommand(string name, string code, int nbargs, string def)
+    {
         if (macrocode[(name)] != null)
             throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
         macrocode.Add(name, code);
@@ -69,35 +73,42 @@ public class NewCommandMacro {
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs, 1));
     }
 
-    public static bool IsMacro(string name) {
+    public static bool IsMacro(string name)
+    {
         return macrocode.ContainsKey(name);
     }
 
-    public static void AddReNewCommand(string name, string code, int nbargs) {
+    public static void AddReNewCommand(string name, string code, int nbargs)
+    {
         if (macrocode[(name)] == null)
             throw new ParseException("Command " + name + " is not defined ! Use newcommand instead ...");
         macrocode.Add(name, code);
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
 
-    public string ExecuteMacro(TeXParser tp, string[] args) {
+    public string ExecuteMacro(TeXParser tp, string[] args)
+    {
         string code = macrocode[(args[0])];
         string rep;
         int nbargs = args.Length - 11;
         int dec = 0;
 
 
-        if (args[nbargs + 1] != null) {
+        if (args[nbargs + 1] != null)
+        {
             dec = 1;
             rep = Matcher.quoteReplacement(args[nbargs + 1]);
             code = code.replaceAll("#1", rep);
-        } else if (macroreplacement[(args[0])] != null) {
+        }
+        else if (macroreplacement[(args[0])] != null)
+        {
             dec = 1;
             rep = Matcher.quoteReplacement(macroreplacement.Get(args[0]));
             code = code.replaceAll("#1", rep);
         }
 
-        for (int i = 1; i <= nbargs; i++) {
+        for (int i = 1; i <= nbargs; i++)
+        {
             rep = Matcher.quoteReplacement(args[i]);
             code = code.replaceAll("#" + (i + dec), rep);
         }

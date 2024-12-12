@@ -5,17 +5,17 @@ using System.Drawing;
 public static class Images
 {
 
-    public static double DISTANCE_THRESHOLD = 40;
+    public const double DISTANCE_THRESHOLD = 40;
 
     public static double Distance(Bitmap imgA, Bitmap imgB)
     {
         // The images must be the same size.
         if (imgA.Width == imgB.Width && imgA.Height == imgB.Height)
         {
-            int width = imgA.Width;
-            int height = imgA.Height;
+            var width = imgA.Width;
+            var height = imgA.Height;
 
-            double mse = 0;
+            var mse = 0.0;
             // Loop over every pixel.
             for (int y = 0; y < height; y++)
             {
@@ -32,12 +32,8 @@ public static class Images
             }
             return Math.Sqrt(mse / height / width);
         }
-        else
-        {
-            return -1;
-        }
+        return -1;
     }
 
     private static double Square(double x) => x * x;
-
 }

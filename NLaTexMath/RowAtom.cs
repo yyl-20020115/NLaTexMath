@@ -114,7 +114,9 @@ public class RowAtom : Atom, Row
     {
         if (elements.Count != 0)
         {
-            return elements.removeLast();
+            var last = elements.Last();
+            elements.Remove(last);
+            return last;
         }
 
         return new SpaceAtom(TeXConstants.UNIT_POINT, 0.0f, 0.0f, 0.0f);

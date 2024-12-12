@@ -91,9 +91,9 @@ public class JavaFontRenderingBox : Box
 
         this.text = new TextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
         RectangleF rect = text.getBounds();
-        this.height = (float)(-rect.getY() * size / 10);
-        this.depth = (float)(rect.getHeight() * size / 10) - this.height;
-        this.width = (float)((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
+        this.height = (float)(-rect.Y * size / 10.0f);
+        this.depth = (float)(rect.Height * size / 10) - this.height;
+        this.width = (float)((rect.Width + rect.X + 0.4f) * size / 10);
     }
 
     public JavaFontRenderingBox(string str, int type, float size)

@@ -54,4 +54,5 @@ namespace NLaTexMath;
 public class DelimiterMappingNotFoundException(char delimiter)
     : JMathTeXException("No mapping found for the character '" + delimiter + "'! "
               + "Insert a <" + TeXFormulaSettingsParser.CHARTODEL_MAPPING_EL
-              + ">-element in '" + TeXFormulaSettingsParser.RESOURCE_NAME + "'.") { }
+              + ">-element in '" + TeXFormulaSettingsParser.RESOURCE_NAME + "'.")
+{ }

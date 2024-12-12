@@ -45,11 +45,10 @@
 
 namespace NLaTexMath;
 
- public class PredefinedCommands {
-
-    //public PredefinedCommands() { }
-
-    static PredefinedCommands() {
+public class PredefinedCommands
+{
+    static PredefinedCommands()
+    {
         MacroInfo.Commands.Add("newcommand", new PredefMacroInfo(0, 2, 2));
         MacroInfo.Commands.Add("renewcommand", new PredefMacroInfo(1, 2, 2));
         MacroInfo.Commands.Add("rule", new PredefMacroInfo(2, 2, 1));

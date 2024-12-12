@@ -45,7 +45,8 @@
 
 namespace NLaTexMath;
 
-public class GeoGebraLogoAtom : Atom {
+public class GeoGebraLogoAtom : Atom
+{
 
     public GeoGebraLogoAtom() { }
 
@@ -53,7 +54,8 @@ public class GeoGebraLogoAtom : Atom {
 
     public override int RightType => TeXConstants.TYPE_ORDINARY;
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         var o = new CharBox(env.TeXFont.GetDefaultChar('o', env.Style));
         return new GeoGebraLogoBox(o.Width, o.Height);
     }

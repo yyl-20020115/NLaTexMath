@@ -48,53 +48,60 @@ namespace NLaTexMath;
 /**
  * An atom representing an other atom with an extensible arrow or doublearrow over or under it.
  */
-public class UnderOverArrowAtom : Atom {
-
+public class UnderOverArrowAtom : Atom
+{
     private Atom _base;
     private bool over, left = false, dble = false;
 
-    public UnderOverArrowAtom(Atom _base, bool left, bool over) {
+    public UnderOverArrowAtom(Atom _base, bool left, bool over)
+    {
         this._base = _base;
         this.left = left;
         this.over = over;
     }
 
-    public UnderOverArrowAtom(Atom _base, bool over) {
+    public UnderOverArrowAtom(Atom _base, bool over)
+    {
         this._base = _base;
         this.over = over;
         this.dble = true;
     }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box b = _base != null ? _base.CreateBox(env) : new StrutBox(0, 0, 0, 0);
         float sep = new SpaceAtom(TeXConstants.UNIT_POINT, 1f, 0, 0).CreateBox(env).Width;
         Box arrow;
 
-        if (dble) {
+        if (dble)
+        {
             arrow = XLeftRightArrowFactory.Create(env, b.Width);
             sep = 4 * sep;
-        } else {
+        }
+        else
+        {
             arrow = XLeftRightArrowFactory.Create(left, env, b.Width);
             sep = -sep;
         }
 
-        VerticalBox vb = new VerticalBox();
-        if (over) {
+        var vb = new VerticalBox();
+        if (over)
+        {
             vb.Add(arrow);
             vb.Add(new HorizontalBox(b, arrow.Width, TeXConstants.ALIGN_CENTER));
             float h = vb.Depth + vb.Height;
-            vb.            Depth = b.Depth;
-            vb.            Height = h - b.Depth;
-        } else {
+            vb.Depth = b.Depth;
+            vb.Height = h - b.Depth;
+        }
+        else
+        {
             vb.Add(new HorizontalBox(b, arrow.Width, TeXConstants.ALIGN_CENTER));
             vb.Add(new StrutBox(0, sep, 0, 0));
             vb.Add(arrow);
             float h = vb.Depth + vb.Height;
-            vb.            Depth = h - b.Height;
-            vb.            Height = b.Height;
+            vb.Depth = h - b.Height;
+            vb.Height = b.Height;
         }
 
         return vb;
-
     }
 }

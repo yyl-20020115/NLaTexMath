@@ -51,13 +51,6 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class TextStyleMappingNotFoundException : JMathTeXException {
-
-    
-    public TextStyleMappingNotFoundException(string styleName) :
-        base("No mapping found for the text style '" + styleName + "'! "
-              + "Insert a <" + DefaultTeXFontParser.STYLE_MAPPING_EL
-              + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.")
-    { }
-    
+public class TextStyleMappingNotFoundException(string styleName)
+    : JMathTeXException($"No mapping found for the text style '{styleName}'! Insert a <{DefaultTeXFontParser.STYLE_MAPPING_EL}>-element in '{DefaultTeXFontParser.RESOURCE_NAME}'.") {
 }

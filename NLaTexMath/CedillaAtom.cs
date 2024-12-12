@@ -50,11 +50,11 @@ namespace NLaTexMath;
  */
 public class CedillaAtom(Atom _base) : Atom
 {
-    private readonly Atom _base = _base;
+    private readonly Atom Base = _base;
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = _base.CreateBox(env);
+        Box b = Base.CreateBox(env);
         var vb = new VerticalBox();
         vb.Add(b);
         Char ch = env.TeXFont.GetChar("jlatexmathcedilla", env.Style);

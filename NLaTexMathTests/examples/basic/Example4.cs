@@ -50,10 +50,11 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example4 {
-    public static void main(String[] args)  {
-
-        String latex = "\\begin{array}{|c|c|c|c|}\n";
+public class Example4
+{
+    public static void main(String[] args)
+    {
+        var latex = "\\begin{array}{|c|c|c|c|}\n";
         latex += "\\multicolumn{4}{c}{\\shadowbox{\\text{\\Huge An image from the \\LaTeX3 project}}}\\cr\n";
         latex += "\\hline\n";
         latex += "\\text{Left}\\includegraphics{src/test/resources/lion.png}\\text{Right} & \\text{Left}\\includegraphics[width=3cm,interpolation=bicubic]{src/test/resources/lion.png}\\text{Right} & \\text{Left}\\includegraphics[angle=45,width=3cm]{src/test/resources/lion.png}\\text{Right} & \\text{Left}\\includegraphics[angle=160]{src/test/resources/lion.png}\\text{Right} \\cr\n";
@@ -68,12 +69,12 @@ public class Example4 {
         // Note: New interface using builder pattern (inner class):
         TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(10).build();
 
-        icon.setInsets(new Insets(5, 5, 5, 5));
+        icon.Insets = new Insets(5, 5, 5, 5);
 
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(0,0,icon.getIconWidth(),icon.getIconHeight());
+        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
         JLabel jl = new JLabel();
         jl.setForeground(new Color(0, 0, 0));
         icon.paintIcon(jl, g2, 0, 0);

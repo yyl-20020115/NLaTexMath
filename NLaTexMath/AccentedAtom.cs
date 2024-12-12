@@ -51,7 +51,6 @@ namespace NLaTexMath;
  */
 public class AccentedAtom : Atom
 {
-
     // accent symbol
     private SymbolAtom accent;
     private bool acc = false;
@@ -66,10 +65,10 @@ public class AccentedAtom : Atom
         this.Base = _base;
         this.Underbase = _base is AccentedAtom atom ? atom.Underbase : _base;
 
-        if (accent is not SymbolAtom)
+        if (accent is not SymbolAtom s)
             throw new InvalidSymbolTypeException("Invalid accent");
 
-        this.accent = (SymbolAtom)accent;
+        this.accent = s;
         this.acc = true;
     }
 
@@ -89,7 +88,7 @@ public class AccentedAtom : Atom
         if (accent.Type == TeXConstants.TYPE_ACCENT)
         {
             this.Base = _base;
-            Underbase = _base is AccentedAtom ? ((AccentedAtom)_base).Underbase : _base;
+            Underbase = _base is AccentedAtom atom ? atom.Underbase : _base;
         }
         else
             throw new InvalidSymbolTypeException("The symbol with the name '"

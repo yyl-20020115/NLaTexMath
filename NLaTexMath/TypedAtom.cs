@@ -49,8 +49,8 @@ namespace NLaTexMath;
  * An atom representing another atom with an overrided lefttype and righttype. This
  * affects the glue inserted before and after this atom.
  */
-public class TypedAtom : Atom {
-
+public class TypedAtom : Atom
+{
     // new lefttype and righttype
     private readonly int leftType;
     private readonly int rightType;
@@ -58,21 +58,22 @@ public class TypedAtom : Atom {
     // atom for which new types are set
     private readonly Atom atom;
 
-    public TypedAtom(int leftType, int rightType, Atom atom) {
+    public TypedAtom(int leftType, int rightType, Atom atom)
+    {
         this.leftType = leftType;
         this.rightType = rightType;
         this.atom = atom;
         this.TypeLimits = atom.TypeLimits;
     }
 
-    public Atom getBase() {
+    public Atom GetBase()
+    {
         atom.TypeLimits = TypeLimits;
         return atom;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        return atom.CreateBox(env);
-    }
+    public override Box CreateBox(TeXEnvironment env) 
+        => atom.CreateBox(env);
 
     public override int LeftType => leftType;
 

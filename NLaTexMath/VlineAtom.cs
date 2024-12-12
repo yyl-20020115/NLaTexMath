@@ -50,7 +50,6 @@ namespace NLaTexMath;
  */
 public class VlineAtom(int n) : Atom
 {
-
     private float height;
     private float shift;
     private int n = n;

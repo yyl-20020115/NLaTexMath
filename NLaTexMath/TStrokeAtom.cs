@@ -48,27 +48,27 @@ namespace NLaTexMath;
 /**
  * An atom with a stroked T
  */
-public class TStrokeAtom : Atom {
+public class TStrokeAtom(bool upper) : Atom
+{
 
-    private bool upper;
+    private bool upper = upper;
 
-    public TStrokeAtom(bool upper) {
-        this.upper = upper;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Char ch = env.TeXFont.GetChar("bar", env.Style);
         float italic = ch.Italic;
-        CharBox T = new CharBox(env.TeXFont.GetChar(upper ? 'T' : 't', "mathnormal", env.Style));
-        CharBox B = new CharBox(ch);
+        var T = new CharBox(env.TeXFont.GetChar(upper ? 'T' : 't', "mathnormal", env.Style));
+        var B = new CharBox(ch);
         Box y;
-        if (Math.Abs(italic) > TeXFormula.PREC) {
+        if (Math.Abs(italic) > TeXFormula.PREC)
+        {
             y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
             y.Add(B);
-        } else
+        }
+        else
             y = B;
-        Box b = new HorizontalBox(y, T.Width, TeXConstants.ALIGN_CENTER);
-        VerticalBox vb = new VerticalBox();
+        var b = new HorizontalBox(y, T.Width, TeXConstants.ALIGN_CENTER);
+        var vb = new VerticalBox();
         vb.Add(T);
         vb.Add(new StrutBox(0, -0.5f * T.Height, 0, 0));
         vb.Add(b);

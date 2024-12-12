@@ -56,9 +56,9 @@ public class SsAtom(Atom _base) : Atom
     public override Box CreateBox(TeXEnvironment env)
     {
         env = env.Copy(env.TeXFont.Copy());
-        env.TeXFont.SetSs(true);
+        env.TeXFont.Ss = true;
         Box box = Base.CreateBox(env);
-        env.TeXFont.SetSs(false);
+        env.TeXFont.Ss = false;
         return box;
     }
 }

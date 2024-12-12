@@ -50,7 +50,6 @@ namespace NLaTexMath;
  */
 public class VdotsAtom : Atom
 {
-
     public VdotsAtom() { }
 
     public override Box CreateBox(TeXEnvironment env)

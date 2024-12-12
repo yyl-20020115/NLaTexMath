@@ -51,7 +51,7 @@ namespace NLaTexMath;
 public class FcscoreAtom(int N) : Atom
 {
 
-    private int N = N;
+    private readonly int N = N;
 
     public override int LeftType => TeXConstants.TYPE_ORDINARY;
 

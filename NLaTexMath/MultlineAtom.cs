@@ -50,7 +50,7 @@ namespace NLaTexMath;
  */
 public class MultlineAtom(bool isPartial, ArrayOfAtoms column, int type) : Atom
 {
-    public static SpaceAtom vsep_in = new (TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
+    public static SpaceAtom vsep_in = new(TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
     public const int MULTLINE = 0;
     public const int GATHER = 1;
     public const int GATHERED = 2;

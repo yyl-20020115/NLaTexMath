@@ -161,21 +161,10 @@ public class FontInfo
 
     public float GetKern(char left, char right, float factor) => kern.TryGetValue(new CharCouple(left, right), out var f) ? f : 0;
 
-    public CharFont GetLigature(char left, char right)
-    {
-        object obj = lig.Get(new CharCouple(left, right));
-        if (obj == null)
-            return null;
-        else
-            return new CharFont(((char)obj).charValue(), fontId);
-    }
+    public CharFont GetLigature(char left, char right) =>
+        lig.TryGetValue(new(left, right), out var c) ? new CharFont(c, fontId) : null;
 
-    public float[] GetMetrics(char c)
-    {
-        if (unicode == null)
-            return metrics[c];
-        return metrics[unicode[(c)]];
-    }
+    public float[] GetMetrics(char c) => unicode == null ? metrics[c] : metrics[unicode[c]];
 
     public CharFont GetNextLarger(char ch)
     {
@@ -230,14 +219,14 @@ public class FontInfo
     {
         if (unicode == null)
             nextLarger[ch] = new CharFont(larger, fontLarger);
-        else if (!unicode.ContainsKey(ch))
+        else if (!unicode.TryGetValue(ch, out char value))
         {
             char s = (char)unicode.Count;
             unicode.Add(ch, s);
             nextLarger[s] = new CharFont(larger, fontLarger);
         }
         else
-            nextLarger[unicode[(ch)]] = new CharFont(larger, fontLarger);
+            nextLarger[value] = new CharFont(larger, fontLarger);
     }
 
 
@@ -254,7 +243,7 @@ public class FontInfo
 
     public Font Font => font ??= _base == null
                     ? DefaultTeXFontParser.createFont(path)
-                    : DefaultTeXFontParser.createFont(_base.GetType().getResourceAsStream(path), fontName);
+                    : DefaultTeXFontParser.createFont(_base.GetType().GetResourceAsStream(path), fontName);
 
     public static Font GetFont(int id) => fonts[(id)].Font;
 }

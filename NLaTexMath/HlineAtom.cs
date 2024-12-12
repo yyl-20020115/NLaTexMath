@@ -72,7 +72,7 @@ public class HlineAtom : Atom
     {
         float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
         Box b = new HorizontalRule(drt, width, shift, false);
-        VerticalBox vb = new VerticalBox();
+        var vb = new VerticalBox();
         vb.Add(b);
         vb.Type = TeXConstants.TYPE_HLINE;
         return vb;

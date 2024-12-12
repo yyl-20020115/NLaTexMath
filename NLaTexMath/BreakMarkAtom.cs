@@ -50,8 +50,8 @@ namespace NLaTexMath;
  */
 public class BreakMarkAtom : Atom
 {
-
     public BreakMarkAtom() { }
 
-    public override Box CreateBox(TeXEnvironment env) => new StrutBox(0, 0, 0, 0);
+    public override Box CreateBox(TeXEnvironment env)
+        => new StrutBox(0, 0, 0, 0);
 }

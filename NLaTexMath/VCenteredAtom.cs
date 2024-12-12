@@ -64,9 +64,8 @@ public class VCenteredAtom(Atom atom) : Atom
                       .GetAxisHeight(env.Style);
 
         // center on axis
-        b.
         // center on axis
-        Shift = -(total / 2) - axis;
+        b.Shift = -(total / 2) - axis;
 
         // put in horizontal box, so shifting will be vertically!
         return new HorizontalBox(b);

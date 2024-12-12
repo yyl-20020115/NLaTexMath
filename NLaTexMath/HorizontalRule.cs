@@ -51,36 +51,44 @@ namespace NLaTexMath;
 /**
  * A box representing a horizontal line.
  */
-public class HorizontalRule : Box {
+public class HorizontalRule : Box
+{
 
     private Color color = new();
     private float speShift = 0;
 
-    public HorizontalRule(float thickness, float width, float s) {
+    public HorizontalRule(float thickness, float width, float s)
+    {
         height = thickness;
         this.width = width;
         shift = s;
     }
 
-    public HorizontalRule(float thickness, float width, float s, bool trueShift) {
+    public HorizontalRule(float thickness, float width, float s, bool trueShift)
+    {
         height = thickness;
         this.width = width;
-        if (trueShift) {
+        if (trueShift)
+        {
             shift = s;
-        } else {
+        }
+        else
+        {
             shift = 0;
             speShift = s;
         }
     }
 
-    public HorizontalRule(float thickness, float width, float s, Color c) {
+    public HorizontalRule(float thickness, float width, float s, Color c)
+    {
         height = thickness;
         this.width = width;
         color = c;
         shift = s;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y)
+    {
         //TODO:
         //Color old = g2.getColor();
         //if (color != null)

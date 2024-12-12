@@ -63,7 +63,7 @@ public class LongdivAtom : VRowAtom
             Atom num = new TeXFormula(res[i]).root;
             if (i % 2 == 0)
             {
-                RowAtom ra = new RowAtom(num);
+                var ra = new RowAtom(num);
                 ra.Add(rule);
                 if (i == 0)
                 {
@@ -80,7 +80,7 @@ public class LongdivAtom : VRowAtom
                 SymbolAtom rparen = SymbolAtom.Get(TeXFormula.symbolMappings[')']);
                 Atom big = new BigDelimiterAtom(rparen, 1);
                 Atom ph = new PhantomAtom(big, false, true, true);
-                RowAtom ra = new RowAtom(ph);
+                var ra = new RowAtom(ph);
                 Atom raised = new RaiseAtom(big,
                                             TeXConstants.UNIT_X8, 3.5f,
                                             TeXConstants.UNIT_X8, 0f,
@@ -88,14 +88,14 @@ public class LongdivAtom : VRowAtom
                 ra.Add(new SmashedAtom(raised));
                 ra.Add(num);
                 Atom a = new OverlinedAtom(ra);
-                RowAtom ra1 = new RowAtom(new TeXFormula(div).root);
+                var ra1 = new RowAtom(new TeXFormula(div).root);
                 ra1.Add(new SpaceAtom(TeXConstants.THINMUSKIP));
                 ra1.Add(a);
                 Append(ra1);
             }
             else
             {
-                RowAtom ra = new RowAtom(num);
+                var ra = new RowAtom(num);
                 ra.Add(rule);
                 Append(ra);
             }
@@ -104,10 +104,10 @@ public class LongdivAtom : VRowAtom
 
     private string[] MakeResults(long divisor, long dividend)
     {
-        List<string> vec = new();
+        List<string> vec = [];
         long q = dividend / divisor;
         vec.Add(q.ToString());
-        vec.Add((dividend.ToString()));
+        vec.Add(dividend.ToString());
 
         while (q != 0)
         {

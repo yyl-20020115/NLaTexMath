@@ -65,7 +65,8 @@ public class Glue(float space, float stretch, float shrink, string name)
     // the glue table representing the "glue rules" (as in TeX)
     private static readonly int[][][] glueTable;
 
-    static Glue(){
+    static Glue()
+    {
         var parser = new GlueSettingsParser();
         glueTypes = parser.GlueTypes;
         glueTable = parser.CreateGlueTable();
@@ -85,7 +86,8 @@ public class Glue(float space, float stretch, float shrink, string name)
      * @param env the TeXEnvironment
      * @return a box containing representing the glue
      */
-    public static Box Get(int lType, int rType, TeXEnvironment env) {
+    public static Box Get(int lType, int rType, TeXEnvironment env)
+    {
         // types > INNER are considered of type ORD for glue calculations
         int l = (lType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : lType);
         int r = (rType > TeXConstants.TYPE_INNER ? TeXConstants.TYPE_ORDINARY : rType);

@@ -50,18 +50,19 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example9 {
-    public static void main(String[] args)  {
-
-        String latex = "{a \\bangle b} {c \\brace d} {e \\brack f} {g \\choose h}";
+public class Example9
+{
+    public static void main(String[] args)
+    {
+        var latex = "{a \\bangle b} {c \\brace d} {e \\brack f} {g \\choose h}";
         TeXFormula formula = new TeXFormula(latex);
-        TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20).build();
-        icon.setInsets(new Insets(5, 5, 5, 5));
-        BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
+        TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).build();
+        icon.Insets = new Insets(5, 5, 5, 5);
+        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
                                                 BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = image.createGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
+        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
         JLabel jl = new JLabel();
         jl.setForeground(new Color(0, 0, 0));
         icon.paintIcon(jl, g2, 0, 0);

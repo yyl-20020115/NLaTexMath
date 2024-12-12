@@ -51,7 +51,8 @@ namespace NLaTexMath;
 /**
  * An atom representing an atom containing a graphic.
  */
-public class GraphicsAtom : Atom {
+public class GraphicsAtom : Atom
+{
 
     private Image image;
     private Image bimage;
@@ -63,7 +64,8 @@ public class GraphicsAtom : Atom {
     private bool first = true;
     private int interp = -1;
 
-    public GraphicsAtom(string path, string option) {
+    public GraphicsAtom(string path, string option)
+    {
         File f = new File(path);
         if (!f.Exists())
         {
@@ -100,47 +102,64 @@ public class GraphicsAtom : Atom {
         buildAtom(option);
     }
 
-    protected void BuildAtom(string option) {
+    protected void BuildAtom(string option)
+    {
         _base = this;
         Dictionary<string, string> options = ParseOption.ParseMap(option);
-        if (options.ContainsKey("width") || options.ContainsKey("height")) {
+        if (options.ContainsKey("width") || options.ContainsKey("height"))
+        {
             _base = new ResizeAtom(_base, options[("width")], options[("height")], options.ContainsKey("keepaspectratio"));
         }
-        if (options.ContainsKey("scale")) {
+        if (options.ContainsKey("scale"))
+        {
             double scl = Double.parseDouble(options[("scale")]);
             _base = new ScaleAtom(_base, scl, scl);
         }
-        if (options.ContainsKey("angle") || options.ContainsKey("origin")) {
+        if (options.ContainsKey("angle") || options.ContainsKey("origin"))
+        {
             _base = new RotateAtom(_base, options[("angle")], options[("origin")]);
         }
-        if (options.TryGetValue("interpolation", out string? meth)) {
-            if (meth.equalsIgnoreCase("bilinear")) {
+        if (options.TryGetValue("interpolation", out string? meth))
+        {
+            if (meth.equalsIgnoreCase("bilinear"))
+            {
                 interp = GraphicsBox.BILINEAR;
-            } else if (meth.equalsIgnoreCase("bicubic")) {
+            }
+            else if (meth.equalsIgnoreCase("bicubic"))
+            {
                 interp = GraphicsBox.BICUBIC;
-            } else if (meth.equalsIgnoreCase("nearest_neighbor")) {
+            }
+            else if (meth.equalsIgnoreCase("nearest_neighbor"))
+            {
                 interp = GraphicsBox.NEAREST_NEIGHBOR;
             }
         }
     }
 
-    public void Draw() {
-        if (image != null) {
+    public void Draw()
+    {
+        if (image != null)
+        {
             w = image.getWidth(c);
             h = image.getHeight(c);
             bimage = new Bitmap(w, h, Bitmap.TYPE_INT_ARGB);
-            Graphics g2d = bimage.createGraphics(); 
+            Graphics g2d = bimage.createGraphics();
             g2d.drawImage(image, 0, 0, null);
             g2d.dispose();
         }
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        if (image != null) {
-            if (first) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        if (image != null)
+        {
+            if (first)
+            {
                 first = false;
                 return _base.CreateBox(env);
-            } else {
+            }
+            else
+            {
                 env.isColored = true;
                 float width = w * SpaceAtom.GetFactor(TeXConstants.UNIT_PIXEL, env);
                 float height = h * SpaceAtom.GetFactor(TeXConstants.UNIT_PIXEL, env);

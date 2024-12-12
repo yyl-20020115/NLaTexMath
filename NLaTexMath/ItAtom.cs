@@ -58,7 +58,7 @@ public class ItAtom(Atom Base) : Atom
         if (Base != null)
         {
             env = env.Copy(env.TeXFont.Copy());
-            env.TeXFont.SetIt(true);
+            env.TeXFont.            It = true;
             box = Base.CreateBox(env);
         }
         else

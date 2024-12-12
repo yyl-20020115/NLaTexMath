@@ -94,9 +94,7 @@ public class RotateBox : Box
     }
 
     public RotateBox(Box b, double angle, PointF origin)
-        : this(b, angle, origin.X, origin.Y)
-    {
-    }
+        : this(b, angle, origin.X, origin.Y) { }
 
     public RotateBox(Box b, double angle, int option)
         : this(b, angle, CalculateShift(b, option))
@@ -114,57 +112,46 @@ public class RotateBox : Box
         {
             option += "c";
         }
-        if (option == ("bl") || option == ("lb"))
+        switch (option)
         {
-            return BL;
+            case "bl":
+            case "lb":
+                return BL;
+            case "bc":
+            case "cb":
+                return BC;
+            case "br":
+            case "rb":
+                return BR;
+            case "cl":
+            case "lc":
+                return CL;
+            case "cc":
+                return CC;
+            case "cr":
+            case "rc":
+                return CR;
+            case "tl":
+            case "lt":
+                return TL;
+            case "tc":
+            case "ct":
+                return TC;
+            case "tr":
+            case "rt":
+                return TR;
+            case "Bl":
+            case "lB":
+                return BBL;
+            case "Bc":
+            case "cB":
+                return BBC;
+            case "Br":
+            case "rB":
+                return BBR;
+            default:
+                return BBL;
         }
-        else if (option == ("bc") || option == ("cb"))
-        {
-            return BC;
-        }
-        else if (option == ("br") || option == ("rb"))
-        {
-            return BR;
-        }
-        else if (option == ("cl") || option == ("lc"))
-        {
-            return CL;
-        }
-        else if (option == ("cc"))
-        {
-            return CC;
-        }
-        else if (option == ("cr") || option == ("cr"))
-        {
-            return CR;
-        }
-        else if (option == ("tl") || option == ("lt"))
-        {
-            return TL;
-        }
-        else if (option == ("tc") || option == ("ct"))
-        {
-            return TC;
-        }
-        else if (option == ("tr") || option == ("rt"))
-        {
-            return TR;
-        }
-        else if (option == ("Bl") || option == ("lB"))
-        {
-            return BBL;
-        }
-        else if (option == ("Bc") || option == ("cB"))
-        {
-            return BBC;
-        }
-        else if (option == ("Br") || option == ("rB"))
-        {
-            return BBR;
-        }
-        else
-
-            return BBL;
     }
 
     private static PointF CalculateShift(Box b, int option)

@@ -48,17 +48,18 @@ namespace NLaTexMath;
 /**
  * An atom representing an underscore.
  */
-public class UnderscoreAtom : Atom {
+public class UnderscoreAtom : Atom
+{
 
     public static SpaceAtom w = new(TeXConstants.UNIT_EM, 0.7f, 0, 0);
     public static SpaceAtom s = new(TeXConstants.UNIT_EM, 0.06f, 0, 0);
 
-    public UnderscoreAtom() {
-    }
+    public UnderscoreAtom() { }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
-        HorizontalBox hb = new HorizontalBox(s.CreateBox(env));
+        var hb = new HorizontalBox(s.CreateBox(env));
         hb.Add(new HorizontalRule(drt, w.CreateBox(env).Width, 0));
         return hb;
     }

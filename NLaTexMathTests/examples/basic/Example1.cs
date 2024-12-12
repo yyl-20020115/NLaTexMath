@@ -51,10 +51,12 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example1 {
-    public static void main(String[] args)  {
+public class Example1
+{
+    public static void main(String[] args)
+    {
 
-        String latex = "\\begin{array}{lr}\\mbox{\\textcolor{Blue}{Russian}}&\\mbox{\\textcolor{Melon}{Greek}}\\\\";
+        var latex = "\\begin{array}{lr}\\mbox{\\textcolor{Blue}{Russian}}&\\mbox{\\textcolor{Melon}{Greek}}\\\\";
         latex += "\\mbox{" + "привет мир".ToUpper() + "}&\\mbox{" + "γειά κόσμο".ToUpper()
                  + "}\\\\";
         latex += "\\mbox{привет мир}&\\mbox{γειά κόσμο}\\\\";
@@ -81,13 +83,13 @@ public class Example1 {
         TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
                        .build();
 
-        icon.setInsets(new Insets(5, 5, 5, 5));
+        icon.
+        Insets = new Insets(5, 5, 5, 5);
 
-        Bitmap image = new Bitmap(icon.getIconWidth(), icon.getIconHeight(),
-                                                BufferedImage.TYPE_INT_ARGB);
+        Bitmap image = new Bitmap(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics g2 = image.CreateGraphics();
         g2.setColor(Color.white);
-        g2.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
+        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
         JLabel jl = new JLabel();
         jl.setForeground(new Color(0, 0, 0));
         icon.paintIcon(jl, g2, 0, 0);

@@ -51,84 +51,94 @@ namespace NLaTexMath;
 /**
  * A box composed of other boxes, put one above the other.
  */
-public class VerticalBox : Box {
-
+public class VerticalBox : Box
+{
     private float leftMostPos = float.MaxValue;
     private float rightMostPos = -float.MaxValue;
 
     public VerticalBox() { }
 
-    public VerticalBox(Box b, float rest, int alignment) :this(){
+    public VerticalBox(Box b, float rest, int alignment) : this()
+    {
         Add(b);
-        if (alignment == TeXConstants.ALIGN_CENTER) {
-            StrutBox s = new StrutBox(0, rest / 2, 0, 0);
+        if (alignment == TeXConstants.ALIGN_CENTER)
+        {
+            var s = new StrutBox(0, rest / 2, 0, 0);
             base.Add(0, s);
             height += rest / 2;
             depth += rest / 2;
             base.Add(s);
-        } else if (alignment == TeXConstants.ALIGN_TOP) {
+        }
+        else if (alignment == TeXConstants.ALIGN_TOP)
+        {
             depth += rest;
             base.Add(new StrutBox(0, rest, 0, 0));
-        } else if (alignment == TeXConstants.ALIGN_BOTTOM) {
+        }
+        else if (alignment == TeXConstants.ALIGN_BOTTOM)
+        {
             height += rest;
             base.Add(0, new StrutBox(0, rest, 0, 0));
         }
     }
 
-    public void Add(Box b) {
+    public override void Add(Box b)
+    {
         base.Add(b);
-        if (Children.Count == 1) {
+        if (Children.Count == 1)
+        {
             height = b.Height;
             depth = b.Depth;
-        } else
+        }
+        else
             depth += b.Height + b.Depth;
         RecalculateWidth(b);
     }
 
-    public  void Add(Box b, float interline) {
-        if (Children.Count >= 1) {
+    public void Add(Box b, float interline)
+    {
+        if (Children.Count >= 1)
+        {
             Add(new StrutBox(0, interline, 0, 0));
         }
         Add(b);
     }
 
-    private void RecalculateWidth(Box b) {
+    private void RecalculateWidth(Box b)
+    {
         leftMostPos = Math.Min(leftMostPos, b.Shift);
         rightMostPos = Math.Max(rightMostPos, b.Shift + (b.Width > 0 ? b.Width : 0));
         width = rightMostPos - leftMostPos;
     }
 
-    public void Add(int pos, Box b) {
+    public override void Add(int pos, Box b)
+    {
         base.Add(pos, b);
-        if (pos == 0) {
+        if (pos == 0)
+        {
             depth += b.Depth + Height;
             height = b.Height;
-        } else
+        }
+        else
             depth += b.Height + b.Depth;
         RecalculateWidth(b);
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y)
+    {
         float yPos = y - height;
-        foreach(Box b in Children) {
+        foreach (var b in Children)
+        {
             yPos += b.Height;
             b.Draw(g2, x + b.Shift - leftMostPos, yPos);
             yPos += b.Depth;
         }
     }
 
-    public int getSize() {
-        return Children.Count;
-    }
+    public int Size => Children.Count;
 
-    public override int LastFontId
-    {
-        get
-        {
+    public override int LastFontId =>
             // iterate from the last child box (the lowest) to the first (the highest)
             // untill a font id is found that's not equal to NO_FONT
 
-            return this.Children.FirstOrDefault(c => c.LastFontId != TeXFont.NO_FONT)!.LastFontId;
-        }
-    }
+            this.Children.FirstOrDefault(c => c.LastFontId != TeXFont.NO_FONT)!.LastFontId;
 }

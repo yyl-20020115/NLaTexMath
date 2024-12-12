@@ -120,25 +120,25 @@ public class TeXFormula
     {
         // character-to-symbol and character-to-delimiter mappings
         var parser = new TeXFormulaSettingsParser();
-        parser.parseSymbolMappings(symbolMappings, symbolTextMappings);
+        parser.ParseSymbolMappings(symbolMappings, symbolTextMappings);
 
         //new PredefinedCommands();
         //new PredefinedTeXFormulas();
         //new PredefMacros();
 
-        parser.parseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
+        parser.ParseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
 
         try
         {
-            DefaultTeXFont.registerAlphabet((AlphabetRegistration)Type.forName("NLaTexMath.cyrillic.CyrillicRegistration").newInstance());
-            DefaultTeXFont.registerAlphabet((AlphabetRegistration)Type.forName("NLaTexMath.greek.GreekRegistration").newInstance());
+            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.forName("NLaTexMath.cyrillic.CyrillicRegistration").newInstance());
+            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.forName("NLaTexMath.greek.GreekRegistration").newInstance());
         }
         catch (Exception e) { }
 
         //setDefaultDPI();
     }
 
-    public static void addSymbolMappings(string file)
+    public static void AddSymbolMappings(string file)
     {
         FileInputStream _in;
         try
@@ -152,19 +152,19 @@ public class TeXFormula
         addSymbolMappings(_in, file);
     }
 
-    public static void addSymbolMappings(Stream _in, string name)
+    public static void AddSymbolMappings(Stream _in, string name)
     {
         TeXFormulaSettingsParser tfsp = new TeXFormulaSettingsParser(_in, name);
-        tfsp.parseSymbolMappings(symbolMappings, symbolTextMappings);
-        tfsp.parseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
+        tfsp.ParseSymbolMappings(symbolMappings, symbolTextMappings);
+        tfsp.ParseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
     }
 
-    public static bool isRegisteredBlock(UnicodeBlock block)
+    public static bool IsRegisteredBlock(UnicodeBlock block)
     {
         return externalFontMap[(block)] != null;
     }
 
-    public static FontInfos getExternalFont(UnicodeBlock block)
+    public static FontInfos GetExternalFont(UnicodeBlock block)
     {
         FontInfos infos = externalFontMap[(block)];
         if (infos == null)
@@ -176,7 +176,7 @@ public class TeXFormula
         return infos;
     }
 
-    public static void registerExternalFont(UnicodeBlock block, string sansserif, string serif)
+    public static void RegisterExternalFont(UnicodeBlock block, string sansserif, string serif)
     {
         if (sansserif == null && serif == null)
         {
@@ -190,16 +190,16 @@ public class TeXFormula
         }
     }
 
-    public static void registerExternalFont(UnicodeBlock block, string fontName)
+    public static void RegisterExternalFont(UnicodeBlock block, string fontName)
     {
-        registerExternalFont(block, fontName, fontName);
+        RegisterExternalFont(block, fontName, fontName);
     }
 
     /**
      * Set the DPI of target
      * @param dpi the target DPI
      */
-    public static void setDPITarget(float dpi)
+    public static void SetDPITarget(float dpi)
     {
         PIXELS_PER_POINT = dpi / 72f;
     }
@@ -211,7 +211,7 @@ public class TeXFormula
     {
         if (!GraphicsEnvironment.isHeadless())
         {
-            setDPITarget((float)Toolkit.getDefaultToolkit().getScreenResolution());
+            SetDPITarget((float)Toolkit.getDefaultToolkit().getScreenResolution());
         }
     }
 
@@ -292,7 +292,7 @@ public class TeXFormula
     {
         if (f != null)
         {
-            addImpl(f);
+            AddImpl(f);
         }
     }
 
@@ -303,7 +303,7 @@ public class TeXFormula
     public TeXFormula(TeXParser tp)
     {
         this.jlmXMLMap = tp.formula.jlmXMLMap;
-        parser = new TeXParser(tp.getIsPartial(), "", this, false);
+        parser = new TeXParser(tp.IsPartial, "", this, false);
     }
 
     /**
@@ -321,7 +321,7 @@ public class TeXFormula
     {
         this.textStyle = null;
         this.jlmXMLMap = tp.formula.jlmXMLMap;
-        bool isPartial = tp.getIsPartial();
+        bool isPartial = tp.IsPartial;
         parser = new TeXParser(isPartial, s, this, firstpass);
         if (isPartial)
         {
@@ -345,7 +345,7 @@ public class TeXFormula
     {
         this.textStyle = textStyle;
         this.jlmXMLMap = tp.formula.jlmXMLMap;
-        bool isPartial = tp.getIsPartial();
+        bool isPartial = tp.IsPartial;
         parser = new TeXParser(isPartial, s, this);
         if (isPartial)
         {
@@ -371,7 +371,7 @@ public class TeXFormula
     {
         this.textStyle = textStyle;
         this.jlmXMLMap = tp.formula.jlmXMLMap;
-        bool isPartial = tp.getIsPartial();
+        bool isPartial = tp.IsPartial;
         parser = new TeXParser(isPartial, s, this, firstpass, space);
         if (isPartial)
         {
@@ -402,7 +402,7 @@ public class TeXFormula
             return formula;
         }
 
-        string[] arr = text.split("\n|\\\\\\\\|\\\\cr");
+        string[] arr = text.Split("\n|\\\\\\\\|\\\\cr");
         ArrayOfAtoms atoms = new ArrayOfAtoms();
         foreach (string s in arr)
         {
@@ -460,7 +460,7 @@ public class TeXFormula
      */
     public void setLaTeX(string ltx)
     {
-        parser.reset(ltx);
+        parser.Reset(ltx);
         if (ltx != null && ltx.Length != 0)
             parser.parse();
     }
@@ -542,11 +542,11 @@ public class TeXFormula
      */
     public TeXFormula Add(TeXFormula f)
     {
-        addImpl(f);
+        AddImpl(f);
         return this;
     }
 
-    private void addImpl(TeXFormula f)
+    private void AddImpl(TeXFormula f)
     {
         if (f.root != null)
         {
@@ -558,17 +558,14 @@ public class TeXFormula
         }
     }
 
-    public void setLookAtLastAtom(bool b)
+    public bool LookAtLastAtom
     {
-        if (root is RowAtom)
-            ((RowAtom)root).lookAtLastAtom = b;
-    }
-
-    public bool getLookAtLastAtom()
-    {
-        if (root is RowAtom)
-            return ((RowAtom)root).lookAtLastAtom;
-        return false;
+        get => root is RowAtom atom && atom.lookAtLastAtom;
+        set
+        {
+            if (root is RowAtom atom)
+                atom.lookAtLastAtom = value;
+        }
     }
 
     /**
@@ -577,20 +574,20 @@ public class TeXFormula
      *
      * @return the modified TeXFormula
      */
-    public TeXFormula centerOnAxis()
+    public TeXFormula CenterOnAxis()
     {
         root = new VCenteredAtom(root);
         return this;
     }
 
-    public static void addPredefinedTeXFormula(Stream xmlFile)
+    public static void AddPredefinedTeXFormula(Stream xmlFile)
     {
         new PredefinedTeXFormulaParser(xmlFile, "TeXFormula").Parse(predefinedTeXFormulas);
     }
 
-    public static void addPredefinedCommands(Stream xmlFile)
+    public static void AddPredefinedCommands(Stream xmlFile)
     {
-        new PredefinedTeXFormulaParser(xmlFile, "Command").parse(MacroInfo.Commands);
+        new PredefinedTeXFormulaParser(xmlFile, "Command").Parse(MacroInfo.Commands);
     }
 
     /**
@@ -605,7 +602,7 @@ public class TeXFormula
      * @throws InvalidUnitException if the given integer value does not represent
      *                  a valid unit
      */
-    public TeXFormula addStrut(int unit, float width, float height, float depth)
+    public TeXFormula AddStrut(int unit, float width, float height, float depth)
     {
         return Add(new SpaceAtom(unit, width, height, depth));
     }
@@ -638,7 +635,7 @@ public class TeXFormula
      * @throws InvalidUnitException if the given integer value does not represent
      *                  a valid unit
      */
-    public TeXFormula addStrut(int widthUnit, float width, int heightUnit,
+    public TeXFormula AddStrut(int widthUnit, float width, int heightUnit,
                                float height, int depthUnit, float depth)
     {
         return Add(new SpaceAtom(widthUnit, width, heightUnit, height, depthUnit,
@@ -656,32 +653,32 @@ public class TeXFormula
             return root.CreateBox(style);
     }
 
-    private DefaultTeXFont createFont(float size, int type)
+    private DefaultTeXFont CreateFont(float size, int type)
     {
         DefaultTeXFont dtf = new DefaultTeXFont(size);
         if (type == 0)
         {
-            dtf.SetSs(false);
+            dtf.Ss = false;
         }
         if ((type & ROMAN) != 0)
         {
-            dtf.SetRoman(true);
+            dtf.Roman = true;
         }
         if ((type & TYPEWRITER) != 0)
         {
-            dtf.SetTt(true);
+            dtf.Tt = true;
         }
         if ((type & SANSSERIF) != 0)
         {
-            dtf.SetSs(true);
+            dtf.Ss = true;
         }
         if ((type & ITALIC) != 0)
         {
-            dtf.SetIt(true);
+            dtf.It = true;
         }
         if ((type & BOLD) != 0)
         {
-            dtf.SetBold(true);
+            dtf.Bold = true;
         }
 
         return dtf;
@@ -711,7 +708,7 @@ public class TeXFormula
          * @param style the style
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setStyle(int style)
+        public TeXIconBuilder SetStyle(int style)
         {
             this.style = style;
             return this;
@@ -722,7 +719,7 @@ public class TeXFormula
          * @param size the size
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setSize(float size)
+        public TeXIconBuilder SetSize(float size)
         {
             this.size = size;
             return this;
@@ -733,7 +730,7 @@ public class TeXFormula
          * @param type the font type
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setType(int type)
+        public TeXIconBuilder SetType(int type)
         {
             this.type = type;
             return this;
@@ -744,7 +741,7 @@ public class TeXFormula
          * @param fgcolor the foreground color
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setFGColor(Color fgcolor)
+        public TeXIconBuilder SetFGColor(Color fgcolor)
         {
             this.fgcolor = fgcolor;
             return this;
@@ -755,7 +752,7 @@ public class TeXFormula
          * @param trueValues the "true values" value
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setTrueValues(bool trueValues)
+        public TeXIconBuilder SetTrueValues(bool trueValues)
         {
             this.trueValues = trueValues;
             return this;
@@ -768,7 +765,7 @@ public class TeXFormula
          * @param align the alignment
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setWidth(int widthUnit, float textWidth, int align)
+        public TeXIconBuilder SetWidth(int widthUnit, float textWidth, int align)
         {
             this.widthUnit = widthUnit;
             this.textWidth = textWidth;
@@ -782,7 +779,7 @@ public class TeXFormula
          * @param isMaxWidth whether the width is a maximum width
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setIsMaxWidth(bool isMaxWidth)
+        public TeXIconBuilder SetIsMaxWidth(bool isMaxWidth)
         {
             if (widthUnit == null)
             {
@@ -843,7 +840,7 @@ public class TeXFormula
             {
                 throw new Exception("A size is required. Use setStyle()");
             }
-            DefaultTeXFont font = (type == null) ? new DefaultTeXFont(size) : createFont(size, type);
+            DefaultTeXFont font = (type == null) ? new DefaultTeXFont(size) : CreateFont(size, type);
             TeXEnvironment te;
             if (widthUnit != null)
             {
@@ -867,7 +864,7 @@ public class TeXFormula
                 if (interLineUnit != null)
                 {
                     float il = interLineSpacing * SpaceAtom.GetFactor(interLineUnit, te);
-                    Box b = BreakFormula.split(box, te.Textwidth, il);
+                    Box b = BreakFormula.Split(box, te.Textwidth, il);
                     hb = new HorizontalBox(b, isMaxWidth ? b.Width : te.Textwidth, align);
                 }
                 else
@@ -882,7 +879,7 @@ public class TeXFormula
             }
             if (fgcolor != null)
             {
-                ti.setForeground(fgcolor);
+                ti.SetForeground(fgcolor);
             }
             ti.isColored = te.isColored;
             return ti;
@@ -901,22 +898,22 @@ public class TeXFormula
      */
     public TeXIcon CreateTeXIcon(int style, float size)
     {
-        return new TeXIconBuilder().setStyle(style).setSize(size).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int type)
     {
-        return new TeXIconBuilder().setStyle(style).setSize(size).setType(type).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int type, Color fgcolor)
     {
-        return new TeXIconBuilder().setStyle(style).setSize(size).setType(type).setFGColor(fgcolor).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetFGColor(fgcolor).build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, bool trueValues)
     {
-        return new TeXIconBuilder().setStyle(style).setSize(size).setTrueValues(trueValues).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetTrueValues(trueValues).build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int widthUnit, float textwidth, int align)
@@ -926,7 +923,7 @@ public class TeXFormula
 
     public TeXIcon createTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align)
     {
-        return new TeXIconBuilder().setStyle(style).setSize(size).setType(type).setWidth(widthUnit, textwidth, align).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int widthUnit, float textwidth, int align, int interlineUnit, float interline)
@@ -936,14 +933,14 @@ public class TeXFormula
 
     public TeXIcon CreateTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align, int interlineUnit, float interline)
     {
-        return new TeXIconBuilder().setStyle(style).setSize(size).setType(type).setWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).build();
     }
 
     public void CreateImage(string format, int style, float size, string _out, Color bg, Color fg, bool transparency)
     {
         TeXIcon icon = CreateTeXIcon(style, size);
-        icon.setInsets(new Insets(1, 1, 1, 1));
-        int w = icon.getIconWidth(), h = icon.getIconHeight();
+        icon.        Insets = new Insets(1, 1, 1, 1);
+        int w = icon.GetIconWidth(), h = icon.GetIconHeight();
 
         Bitmap image = new Bitmap(w, h, transparency ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
         Graphics g2 = image.createGraphics();
@@ -953,8 +950,8 @@ public class TeXFormula
             g2.fillRect(0, 0, w, h);
         }
 
-        icon.setForeground(fg);
-        icon.paintIcon(null, g2, 0, 0);
+        icon.SetForeground(fg);
+        icon.PaintIcon(null, g2, 0, 0);
         try
         {
             FileImageOutputStream imout = new FileImageOutputStream(new File(_out));
@@ -998,8 +995,8 @@ public class TeXFormula
     {
         TeXFormula f = new TeXFormula(formula);
         TeXIcon icon = f.CreateTeXIcon(style, size);
-        icon.setInsets(new Insets(2, 2, 2, 2));
-        int w = icon.getIconWidth(), h = icon.getIconHeight();
+        icon.        Insets = new Insets(2, 2, 2, 2);
+        int w = icon.GetIconWidth(), h = icon.GetIconHeight();
 
         Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
         Graphics g2 = image.createGraphics();
@@ -1009,8 +1006,8 @@ public class TeXFormula
             g2.fillRect(0, 0, w, h);
         }
 
-        icon.setForeground(fg == null ? Color.Black : fg);
-        icon.paintIcon(null, g2, 0, 0);
+        icon.SetForeground(fg == null ? Color.Black : fg);
+        icon.PaintIcon(null, g2, 0, 0);
         g2.dispose();
 
         return image;
@@ -1026,8 +1023,8 @@ public class TeXFormula
     public Image CreateBufferedImage(int style, float size, Color fg, Color bg)
     {
         TeXIcon icon = CreateTeXIcon(style, size);
-        icon.setInsets(new Insets(2, 2, 2, 2));
-        int w = icon.getIconWidth(), h = icon.getIconHeight();
+        icon.        Insets = new Insets(2, 2, 2, 2);
+        int w = icon.GetIconWidth(), h = icon.GetIconHeight();
 
         Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
         Graphics g2 = image.createGraphics();
@@ -1037,14 +1034,14 @@ public class TeXFormula
             g2.fillRect(0, 0, w, h);
         }
 
-        icon.setForeground(fg == null ? Color.Black : fg);
-        icon.paintIcon(null, g2, 0, 0);
+        icon.SetForeground(fg == null ? Color.Black : fg);
+        icon.PaintIcon(null, g2, 0, 0);
         g2.dispose();
 
         return image;
     }
 
-    public void setDEBUG(bool b)
+    public void SetDEBUG(bool b)
     {
         Box.DEBUG = b;
     }
@@ -1084,15 +1081,11 @@ public class TeXFormula
      * @param c the desired foreground color for the <i>current</i> TeXFormula
      * @return the modified TeXFormula
      */
-    public TeXFormula setColor(Color c)
+    public TeXFormula SetColor(Color c)
     {
-        if (c != null)
-        {
-            if (root is ColorAtom)
-                root = new ColorAtom(null, c, (ColorAtom)root);
-            else
-                root = new ColorAtom(root, null, c);
-        }
+
+        root = root is ColorAtom atom ? new ColorAtom(null, c, atom) : (Atom)new ColorAtom(root, null, c);
+
         return this;
     }
 
@@ -1106,7 +1099,7 @@ public class TeXFormula
      * @ if the given integer value does not represent
      *                  a valid atom type
      */
-    public TeXFormula setFixedTypes(int leftType, int rightType)
+    public TeXFormula SetFixedTypes(int leftType, int rightType)
     {
         root = new TypedAtom(leftType, rightType, root);
         return this;
@@ -1144,5 +1137,4 @@ public class TeXFormula
             return new TeXFormula(formula);
         }
     }
-
 }
