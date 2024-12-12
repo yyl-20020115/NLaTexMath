@@ -47,14 +47,12 @@ namespace NLaTexMath;
 
 public class WebStartAlphabetRegistration : AlphabetRegistration {
 
-    private UnicodeBlock[] blocks;
+    private readonly UnicodeBlock[] blocks;
     private AlphabetRegistration reg;
 
-    private WebStartAlphabetRegistration(UnicodeBlock[] blocks) {
-        this.blocks = blocks;
-    }
+    private WebStartAlphabetRegistration(UnicodeBlock[] blocks) => this.blocks = blocks;
 
-    public static void register(UnicodeBlock[] blocks) {
+    public static void Register(UnicodeBlock[] blocks) {
         DefaultTeXFont.registerAlphabet(new WebStartAlphabetRegistration(blocks));
     }
 

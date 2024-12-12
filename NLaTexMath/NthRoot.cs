@@ -49,43 +49,35 @@ namespace NLaTexMath;
 /**
  * An atom representing an nth-root construction.
  */
-public class NthRoot : Atom {
+public class NthRoot(Atom _base, Atom root) : Atom
+{
+    public const string sqrtSymbol = "sqrt";
 
-    private static readonly string sqrtSymbol = "sqrt";
-
-    private static readonly float FACTOR = 0.55f;
+    public const float FACTOR = 0.55f;
 
     // base atom to be put under the root sign
-    private  Atom _base;
+    public readonly Atom Base = _base ?? new EmptyAtom();
 
     // root atom to be put in the upper left corner above the root sign
-    private  Atom root;
+    public readonly Atom Root = root ?? new EmptyAtom();
 
-    public NthRoot(Atom _base, Atom root) {
-        this._base = _base == null ? new EmptyAtom() : _base;
-        this.root = root == null ? new EmptyAtom() : root;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         // first create a simple square root construction
-
         TeXFont tf = env.TeXFont;
         int style = env.Style;
         // calculate minimum clearance clr
-        float clr, drt = tf.getDefaultRuleThickness(style);
-        if (style < TeXConstants.STYLE_TEXT)
-            clr = tf.getXHeight(style, tf.getChar(sqrtSymbol, style).getFontCode());
-        else
-            clr = drt;
-        clr = drt + Math.Abs(clr) / 4 ;
+        float clr, drt = tf.GetDefaultRuleThickness(style);
+        clr = style < TeXConstants.STYLE_TEXT ? tf.GetXHeight(style, tf.GetChar(sqrtSymbol, style).FontCode) : drt;
+        clr = drt + Math.Abs(clr) / 4;
 
         // cramped style for the formula under the root sign
-        Box bs = _base.CreateBox(env.CrampStyle());
-        HorizontalBox b = new HorizontalBox(bs);
+        Box bs = Base.CreateBox(env.CrampStyle());
+        var b = new HorizontalBox(bs);
         b.Add(new SpaceAtom(TeXConstants.UNIT_MU, 1, 0, 0).CreateBox(env.CrampStyle()));
         // create root sign
         float totalH = b.Height + b.Depth;
-        Box rootSign = DelimiterFactory.create(sqrtSymbol, env, totalH + clr + drt);
+        Box rootSign = DelimiterFactory.Create(sqrtSymbol, env, totalH + clr + drt);
 
         // Add half the excess to clr
         float delta = rootSign.Depth - (totalH + clr);
@@ -95,22 +87,23 @@ public class NthRoot : Atom {
         rootSign.
         // create total box
         Shift = -(b.Height + clr);
-        OverBar ob = new OverBar(b, clr, rootSign.Height);
-        ob.        Shift = -(b.Height + clr + drt);
+        OverBar ob = new(b, clr, rootSign.Height);
+        ob.Shift = -(b.Height + clr + drt);
         HorizontalBox squareRoot = new HorizontalBox(rootSign);
         squareRoot.Add(ob);
 
-        if (root == null)
+        if (Root == null)
             // simple square root
             return squareRoot;
-        else { // nthRoot, not a simple square root
+        else
+        { // nthRoot, not a simple square root
 
             // create box from root
-            Box r = root.CreateBox(env.RootStyle);
+            Box r = Root.CreateBox(env.RootStyle);
 
             // shift root up
             float bottomShift = FACTOR * (squareRoot.Height + squareRoot.Depth);
-            r.            Shift = squareRoot.Depth - r.Depth - bottomShift;
+            r.Shift = squareRoot.Depth - r.Depth - bottomShift;
 
             // negative kern
             Box negativeKern = new SpaceAtom(TeXConstants.UNIT_MU, -10f, 0, 0).CreateBox(env);

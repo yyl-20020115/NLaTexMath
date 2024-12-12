@@ -58,36 +58,36 @@ public class LaTeXAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        env = env.Copy(env.TeXFont.copy());
-        env.TeXFont.setRoman(true);
-        float sc = env.TeXFont.getScaleFactor();
+        env = env.Copy(env.TeXFont.Copy());
+        env.TeXFont.SetRoman(true);
+        float sc = env.TeXFont.GetScaleFactor();
 
         TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap[UnicodeBlock.BASIC_LATIN];
         if (fontInfos != null)
         {
             TeXFormula.externalFontMap.Add(UnicodeBlock.BASIC_LATIN, null);
         }
-        RowAtom rat = (RowAtom)((RomanAtom)new TeXFormula("\\mathrm{XETL}").root)._base;
+        RowAtom rat = (RowAtom)((RomanAtom)new TeXFormula("\\mathrm{XETL}").root).Base;
         if (fontInfos != null)
         {
             TeXFormula.externalFontMap.Add(UnicodeBlock.BASIC_LATIN, fontInfos);
         }
 
-        HorizontalBox hb = new HorizontalBox(rat.getLastAtom().CreateBox(env));
+        HorizontalBox hb = new HorizontalBox(rat.GetLastAtom().CreateBox(env));
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.35f * sc, 0, 0).CreateBox(env));
         float f = new SpaceAtom(TeXConstants.UNIT_EX, 0.45f * sc, 0, 0).CreateBox(env).Width;
         float f1 = new SpaceAtom(TeXConstants.UNIT_EX, 0.5f * sc, 0, 0).CreateBox(env).Width;
-        CharBox A = new CharBox(env.TeXFont.getChar('A', "mathnormal", env.SupStyle.Style));
+        CharBox A = new CharBox(env.TeXFont.GetChar('A', "mathnormal", env.SupStyle.Style));
         A.        Shift = -f;
         hb.Add(A);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).CreateBox(env));
-        hb.Add(rat.getLastAtom().CreateBox(env));
+        hb.Add(rat.GetLastAtom().CreateBox(env));
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).CreateBox(env));
-        Box E = rat.getLastAtom().CreateBox(env);
+        Box E = rat.GetLastAtom().CreateBox(env);
         E.        Shift = f1;
         hb.Add(E);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.15f * sc, 0, 0).CreateBox(env));
-        hb.Add(rat.getLastAtom().CreateBox(env));
+        hb.Add(rat.GetLastAtom().CreateBox(env));
         return hb;
     }
 }

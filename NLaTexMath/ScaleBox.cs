@@ -50,36 +50,39 @@ namespace NLaTexMath;
 /**
  * A box representing a scaled box.
  */
-public class ScaleBox : Box {
+public class ScaleBox : Box
+{
+    private readonly Box box;
+    private readonly double xscl, yscl;
 
-    private Box box;
-    private double xscl, yscl;
-
-    public ScaleBox(Box b, double xscl, double yscl) {
+    public ScaleBox(Box b, double xscl, double yscl)
+    {
         this.box = b;
-        this.xscl = (Double.IsNaN(xscl) || Double.IsInfinity(xscl)) ? 0 : xscl;
-        this.yscl = (Double.IsNaN(yscl) || Double.IsInfinity(yscl)) ? 0 : yscl;
-        width = b.width * (float) Math.Abs(this.xscl);
-        height = this.yscl > 0 ? b.height * (float) this.yscl : -b.depth * (float) this.yscl;
-        depth = this.yscl > 0 ? b.depth * (float) this.yscl : -b.height * (float) this.yscl;
-        shift = b.shift * (float) this.yscl;
+        this.xscl = (double.IsNaN(xscl) || double.IsInfinity(xscl)) ? 0 : xscl;
+        this.yscl = (double.IsNaN(yscl) || double.IsInfinity(yscl)) ? 0 : yscl;
+        width = b.Width * (float)Math.Abs(this.xscl);
+        height = this.yscl > 0 ? b.Height * (float)this.yscl : -b.Depth * (float)this.yscl;
+        depth = this.yscl > 0 ? b.Depth * (float)this.yscl : -b.Height * (float)this.yscl;
+        shift = b.Shift * (float)this.yscl;
     }
 
     public ScaleBox(Box b, float factor) : this(b, (double)factor, (double)factor)
     {
-        ;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
-        DrawDebug(g2, x, y);
-        if (xscl != 0 && yscl != 0) {
-            float dec = xscl < 0 ? width : 0;
-            g2.translate(x + dec, y);
-            g2.scale(xscl, yscl);
-            box.Draw(g2, 0, 0);
-            g2.scale(1 / xscl, 1 / yscl);
-            g2.translate(-x - dec, -y);
-        }
+    public override void Draw(Graphics g2, float x, float y)
+    {
+        //TODO:
+        //DrawDebug(g2, x, y);
+        //if (xscl != 0 && yscl != 0)
+        //{
+        //    float dec = xscl < 0 ? width : 0;
+        //    g2.translate(x + dec, y);
+        //    g2.scale(xscl, yscl);
+        //    box.Draw(g2, 0, 0);
+        //    g2.scale(1 / xscl, 1 / yscl);
+        //    g2.translate(-x - dec, -y);
+        //}
     }
 
     public override int LastFontId => box.LastFontId;

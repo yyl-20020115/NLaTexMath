@@ -48,21 +48,21 @@ namespace NLaTexMath;
 /**
  * An atom representing a roman atom.
  */
-public class RomanAtom : Atom {
+public class RomanAtom(Atom Base) : Atom
+{
+    public readonly Atom Base = Base;
 
-    protected Atom _base;
-
-    public RomanAtom(Atom _base) {
-        this._base = _base;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box box;
-        if (_base != null) {
-            env = env.Copy(env.TeXFont.copy());
-            env.            TeXFont.setRoman(true);
-            box = _base.CreateBox(env);
-        } else {
+        if (Base != null)
+        {
+            env = env.Copy(env.TeXFont.Copy());
+            env.TeXFont.SetRoman(true);
+            box = Base.CreateBox(env);
+        }
+        else
+        {
             box = new StrutBox(0, 0, 0, 0);
         }
 

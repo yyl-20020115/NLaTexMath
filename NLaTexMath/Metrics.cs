@@ -49,39 +49,21 @@ namespace NLaTexMath;
 /**
  * Contains the metrics for 1 character: width, height, depth and italic correction.
  */
-public class Metrics {
+public class Metrics(float w, float h, float d, float i, float factor, float size)
+{
+    private readonly float w = w * factor;
+    private readonly float h = h * factor;
+    private readonly float d = d * factor;
+    private readonly float i = i * factor;
+    private readonly float s = size;
 
-    private  float w;
-    private  float h;
-    private  float d;
-    private  float i;
-    private  float s;
+    public float Width => w;
 
-    public Metrics(float w, float h, float d, float i, float factor, float size) {
-        this.w = w * factor;
-        this.h = h * factor;
-        this.d = d * factor;
-        this.i = i * factor;
-        this.s = size;
-    }
+    public float Height => h;
 
-    public float getWidth() {
-        return w;
-    }
+    public float Depth => d;
 
-    public float getHeight() {
-        return h;
-    }
+    public float Italic => i;
 
-    public float getDepth() {
-        return d;
-    }
-
-    public float getItalic() {
-        return i;
-    }
-
-    public float getSize() {
-        return s;
-    }
+    public float Size => s;
 }

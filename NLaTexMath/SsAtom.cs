@@ -48,20 +48,17 @@ namespace NLaTexMath;
 /**
  * An atom representing a sans serif atom.
  */
-public class SsAtom : Atom {
+public class SsAtom(Atom _base) : Atom
+{
 
-    private Atom _base;
+    private readonly Atom Base = _base;
 
-    public SsAtom(Atom _base) {
-        this._base = _base;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        env = env.Copy(env.TeXFont.copy());
-        env.        TeXFont.setSs(true);
-        Box box = _base.CreateBox(env);
-        env.        TeXFont.setSs(false);
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        env = env.Copy(env.TeXFont.Copy());
+        env.TeXFont.SetSs(true);
+        Box box = Base.CreateBox(env);
+        env.TeXFont.SetSs(false);
         return box;
     }
-
 }

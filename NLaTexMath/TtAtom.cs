@@ -57,10 +57,10 @@ public class TtAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        env = env.Copy(env.TeXFont.copy());
-        env.        TeXFont.setTt(true);
+        env = env.Copy(env.TeXFont.Copy());
+        env.        TeXFont.SetTt(true);
         Box box = _base.CreateBox(env);
-        env.        TeXFont.setTt(false);
+        env.        TeXFont.SetTt(false);
         return box;
     }
 

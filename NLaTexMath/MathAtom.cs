@@ -48,23 +48,19 @@ namespace NLaTexMath;
 /**
  * An atom representing a math atom.
  */
-public class MathAtom : Atom {
+public class MathAtom(Atom _base, int style) : Atom
+{
+    protected readonly int style = style;
+    protected readonly Atom Base = _base;
 
-    private int style = TeXConstants.STYLE_DISPLAY;
-    protected Atom _base;
-
-    public MathAtom(Atom _base, int style) {
-        this._base = _base;
-        this.style = style;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        env = env.Copy(env.TeXFont.copy());
-        env.        TeXFont.setRoman(false);
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        env = env.Copy(env.TeXFont.Copy());
+        env.TeXFont.SetRoman(false);
         int sstyle = env.Style;
-        env.        Style = style;
-        Box box = _base.CreateBox(env);
-        env.        Style = sstyle;
+        env.Style = style;
+        Box box = Base.CreateBox(env);
+        env.Style = sstyle;
         return box;
     }
 }

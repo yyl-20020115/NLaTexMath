@@ -76,7 +76,7 @@ public abstract class CharSymbol : Atom {
      *
      * @return whether this CharSymbol is marked as a text symbol
      */
-    public bool IsMarkedAsTextSymbol() => textSymbol;
+    public bool IsMarkedAsTextSymbol => textSymbol;
 
     /**
      * Get the CharFont-object that uniquely identifies the character that is represented

@@ -60,7 +60,7 @@ class UnderlinedAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
+        float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
 
         // create formula box in same style
         Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));

@@ -48,21 +48,10 @@ namespace NLaTexMath;
 /**
  * An atom representing a rule.
  */
-public class RuleAtom : Atom {
+public class RuleAtom(int wunit, float width, int hunit, float height, int runit, float raise) : Atom {
 
-    private int wunit, hunit, runit;
-    private float w, h, r;
+    private readonly int wunit = wunit, hunit = hunit, runit = runit;
+    private readonly float w = width, h = height, r = raise;
 
-    public RuleAtom(int wunit, float width, int hunit, float height, int runit, float raise) {
-        this.wunit = wunit;
-        this.hunit = hunit;
-        this.runit = runit;
-        this.w = width;
-        this.h = height;
-        this.r = raise;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        return new HorizontalRule(h * SpaceAtom.getFactor(hunit, env), w * SpaceAtom.getFactor(wunit, env), r * SpaceAtom.getFactor(runit, env));
-    }
+    public override Box CreateBox(TeXEnvironment env) => new HorizontalRule(h * SpaceAtom.GetFactor(hunit, env), w * SpaceAtom.GetFactor(wunit, env), r * SpaceAtom.GetFactor(runit, env));
 }

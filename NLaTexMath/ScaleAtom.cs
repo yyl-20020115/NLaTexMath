@@ -48,34 +48,27 @@ namespace NLaTexMath;
 /**
  * An atom representing a scaled Atom.
  */
-public class ScaleAtom : Atom {
+public class ScaleAtom : Atom
+{
 
     protected Atom _base;
-    private double xscl, yscl;
+    private readonly double xscl, yscl;
 
-    public ScaleAtom(Atom _base, double xscl, double yscl) {
+    public ScaleAtom(Atom _base, double xscl, double yscl)
+    {
         this.Type = _base.Type;
         this._base = _base;
         this.xscl = xscl;
         this.yscl = yscl;
     }
 
-    public ScaleAtom(Atom _base, double scl) {
+    public ScaleAtom(Atom _base, double scl)
+    {
         this.Type = _base.Type;
         this._base = _base;
         this.xscl = scl;
         this.yscl = scl;
     }
 
-    public int getLeftType() {
-        return base.LeftType;
-    }
-
-    public int getRightType() {
-        return base.RightType;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        return new ScaleBox(_base.CreateBox(env), xscl, yscl);
-    }
+    public override Box CreateBox(TeXEnvironment env) => new ScaleBox(_base.CreateBox(env), xscl, yscl);
 }

@@ -51,7 +51,8 @@ namespace NLaTexMath;
 /**
  * A box representing a box containing a graphics.
  */
-public class GraphicsBox : Box {
+public class GraphicsBox : Box
+{
 
     public readonly static int BILINEAR = 0;
     public readonly static int NEAREST_NEIGHBOR = 1;
@@ -61,43 +62,41 @@ public class GraphicsBox : Box {
     private float scl;
     private object interp;
 
-    public GraphicsBox(Image image, float width, float height, float size, int interpolation) {
+    public GraphicsBox(Image image, float width, float height, float size, int interpolation)
+    {
         this.image = image;
         this.width = width;
         this.height = height;
         this.scl = 1 / size;
         depth = 0;
         shift = 0;
-        switch (interpolation) {
-        case BILINEAR :
-            interp = RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-            break;
-        case NEAREST_NEIGHBOR :
-            interp = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-            break;
-        case BICUBIC :
-            interp = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
-            break;
-        default :
-            interp = null;
-                break; 
-        }
+        interp = interpolation switch
+        {
+            BILINEAR => (object)RenderingHints.VALUE_INTERPOLATION_BILINEAR,
+            NEAREST_NEIGHBOR => (object)RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR,
+            BICUBIC => (object)RenderingHints.VALUE_INTERPOLATION_BICUBIC,
+            _ => null,
+        };
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
-        AffineTransform oldAt = g2.getTransform();
-        object oldKey = null;
-        if (interp != null) {
-            oldKey = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interp);
-        }
-        g2.translate(x, y - height);
-        g2.scale(scl, scl);
-        g2.drawImage(image, 0, 0, null);
-        g2.setTransform(oldAt);
-        if (oldKey != null) {
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldKey);
-        }
+    public override void Draw(Graphics g2, float x, float y)
+    {
+        //TODO:
+        //AffineTransform oldAt = g2.getTransform();
+        //object oldKey = null;
+        //if (interp != null)
+        //{
+        //    oldKey = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
+        //    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interp);
+        //}
+        //g2.translate(x, y - height);
+        //g2.scale(scl, scl);
+        //g2.drawImage(image, 0, 0, null);
+        //g2.setTransform(oldAt);
+        //if (oldKey != null)
+        //{
+        //    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldKey);
+        //}
     }
 
     public override int LastFontId => 0;

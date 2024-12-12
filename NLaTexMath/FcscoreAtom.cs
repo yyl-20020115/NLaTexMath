@@ -48,15 +48,10 @@ namespace NLaTexMath;
 /**
  * An atom with representing an L with a caron.
  */
-public class FcscoreAtom : Atom
+public class FcscoreAtom(int N) : Atom
 {
 
-    private int N;
-
-    public FcscoreAtom(int N)
-    {
-        this.N = N;
-    }
+    private int N = N;
 
     public override int LeftType => TeXConstants.TYPE_ORDINARY;
 
@@ -64,7 +59,7 @@ public class FcscoreAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        float factor = 12 * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
+        float factor = 12 * SpaceAtom.GetFactor(TeXConstants.UNIT_MU, env);
 
         return new FcscoreBox(N == 5 ? 4 : N, factor * 1f, factor * 0.07f, factor * 0.125f, N == 5);
     }

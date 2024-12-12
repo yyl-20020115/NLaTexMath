@@ -50,29 +50,21 @@ namespace NLaTexMath;
  */
 public class LapedAtom(Atom at, char type) : Atom
 {
-
-    private Atom at = at;
-    private char type = type;
+    private readonly Atom at = at;
+    private readonly char type = type;
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = at.CreateBox(env);
-        VerticalBox vb = new VerticalBox();
+        var b = at.CreateBox(env);
+        var vb = new VerticalBox();
         vb.Add(b);
-        vb.        Width = 0;
-        switch (type)
+        vb.Width = 0;
+        b.Shift = type switch
         {
-            case 'l':
-                b.                Shift = -b.Width;
-                break;
-            case 'r':
-                b.                Shift = 0;
-                break;
-            default:
-                b.                Shift = -b.Width / 2;
-                break;
-        }
-
+            'l' => -b.Width,
+            'r' => 0,
+            _ => -b.Width / 2,
+        };
         return vb;
     }
 }

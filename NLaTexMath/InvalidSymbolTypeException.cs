@@ -51,9 +51,5 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class InvalidSymbolTypeException : JMathTeXException {
-
-    
-    public InvalidSymbolTypeException(string msg):base(msg) {
-    }
+public class InvalidSymbolTypeException(string msg) : JMathTeXException(msg) {
 }

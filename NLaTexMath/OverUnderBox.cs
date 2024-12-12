@@ -52,7 +52,8 @@ namespace NLaTexMath;
  * A box representing another box with a delimiter box and a script box above or under it,
  * with script and delimiter seperated by a kern.
  */
-public class OverUnderBox : Box {
+public class OverUnderBox : Box
+{
 
     // base, delimiter and script atom
     private readonly Box _base;
@@ -78,7 +79,8 @@ public class OverUnderBox : Box {
      *           true : draws delimiter and script box above the base box, false : under the
      *           base box
      */
-    public OverUnderBox(Box b, Box d, Box script, float kern, bool over) {
+    public OverUnderBox(Box b, Box d, Box script, float kern, bool over)
+    {
         _base = b;
         del = d;
         this.script = script;
@@ -87,50 +89,51 @@ public class OverUnderBox : Box {
 
         // calculate metrics of the box
         width = b.Width;
-        height = b.height
+        height = b.Height
                  + (over ? d.Width : 0)
-                 + (over && script != null ? script.height + script.depth + kern : 0);
-        depth = b.depth
+                 + (over && script != null ? script.Height + script.Depth + kern : 0);
+        depth = b.Depth
                 + (over ? 0 : d.Width)
-                + (!over && script != null ? script.height + script.depth + kern : 0);
+                + (!over && script != null ? script.Height + script.Depth + kern : 0);
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
-        DrawDebug(g2, x, y);
-        _base.Draw(g2, x, y);
+    public override void Draw(Graphics g2, float x, float y)
+    {
+        //DrawDebug(g2, x, y);
+        //_base.Draw(g2, x, y);
 
-        float yVar = y - base.height - del.Width;
-        del.        Depth = del.Height + del.Depth;
-        del.        Height = 0;
-        if (over) { // draw delimiter and script above base box
-            double transX = x + (del.height + del.depth) * 0.75, transY = yVar;
-            AffineTransform oldAt = g2.getTransform();
-            g2.translate(transX, transY);
-            g2.rotate(Math.PI / 2);
-            del.Draw(g2, 0, 0);
-            g2.setTransform(oldAt);
+        //float yVar = y - base.height - del.Width;
+        //del.        Depth = del.Height + del.Depth;
+        //del.        Height = 0;
+        //if (over) { // draw delimiter and script above base box
+        //    double transX = x + (del.height + del.depth) * 0.75, transY = yVar;
+        //    AffineTransform oldAt = g2.getTransform();
+        //    g2.translate(transX, transY);
+        //    g2.rotate(Math.PI / 2);
+        //    del.Draw(g2, 0, 0);
+        //    g2.setTransform(oldAt);
 
-            // draw superscript
-            if (script != null) {
-                script.Draw(g2, x, yVar - kern - script.depth);
-            }
-        }
+        //    // draw superscript
+        //    if (script != null) {
+        //        script.Draw(g2, x, yVar - kern - script.depth);
+        //    }
+        //}
 
-        yVar = y + base.depth;
-        if (!over) { // draw delimiter and script under base box
-            double transX = x + (del.Height + del.depth) * 0.75, transY = yVar;
-            AffineTransform oldAt = g2.getTransform();
-            g2.translate(transX, transY);
-            g2.rotate(Math.PI / 2);
-            del.Draw(g2, 0, 0);
-            g2.setTransform(oldAt);
-            yVar += del.Width;
+        //yVar = y + base.depth;
+        //if (!over) { // draw delimiter and script under base box
+        //    double transX = x + (del.Height + del.depth) * 0.75, transY = yVar;
+        //    AffineTransform oldAt = g2.getTransform();
+        //    g2.translate(transX, transY);
+        //    g2.rotate(Math.PI / 2);
+        //    del.Draw(g2, 0, 0);
+        //    g2.setTransform(oldAt);
+        //    yVar += del.Width;
 
-            // draw subscript
-            if (script != null) {
-                script.Draw(g2, x, yVar + kern + script.height);
-            }
-        }
+        //    // draw subscript
+        //    if (script != null) {
+        //        script.Draw(g2, x, yVar + kern + script.height);
+        //    }
+        //}
     }
 
     public override int LastFontId => _base.LastFontId;

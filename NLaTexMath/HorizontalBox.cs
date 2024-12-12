@@ -92,11 +92,10 @@ public class HorizontalBox : Box {
 
     public HorizontalBox(Color? fg, Color? bg): base(fg, bg)
     {
-        ;
     }
 
-    public HorizontalBox cloneBox() {
-        HorizontalBox b = new HorizontalBox(foreground, background);
+    public HorizontalBox CloneBox() {
+        var b = new HorizontalBox(foreground, background);
         b.shift = shift;
 
         return b;
@@ -117,17 +116,17 @@ public class HorizontalBox : Box {
         EndDraw(g2);
     }
 
-    public  void Add(Box b) {
-        recalculate(b);
+    public override void Add(Box b) {
+        Recalculate(b);
         base.Add(b);
     }
 
-    public  void Add(int pos, Box b) {
-        recalculate(b);
+    public override void Add(int pos, Box b) {
+        Recalculate(b);
         base.Add(pos, b);
     }
 
-    private void recalculate(Box b) {
+    private void Recalculate(Box b) {
         // Commented for ticket 764
         // \left(\!\!\!\begin{array}{c}n\\\\r\end{array}\!\!\!\right)+123
         //curPos += b.getWidth();
@@ -156,22 +155,22 @@ public class HorizontalBox : Box {
         }
     }
 
-    public void addBreakPosition(int pos) {
+    public void AddBreakPosition(int pos) {
         breakPositions ??= [];
         breakPositions.Add(pos);
     }
 
-    protected HorizontalBox[] split(int position) {
-        return split(position, 1);
+    public HorizontalBox[] Split(int position) {
+        return Split(position, 1);
     }
 
-    protected HorizontalBox[] splitRemove(int position) {
-        return split(position, 2);
+    public HorizontalBox[] SplitRemove(int position) {
+        return Split(position, 2);
     }
 
-    private HorizontalBox[] split(int position, int shift) {
-        HorizontalBox hb1 = cloneBox();
-        HorizontalBox hb2 = cloneBox();
+    public HorizontalBox[] Split(int position, int shift) {
+        HorizontalBox hb1 = CloneBox();
+        HorizontalBox hb2 = CloneBox();
         for (int i = 0; i <= position; i++) {
             hb1.Add(Children[(i)]);
         }
@@ -183,7 +182,7 @@ public class HorizontalBox : Box {
         if (breakPositions != null) {
             for (int i = 0; i < breakPositions.Count; i++) {
                 if (breakPositions[(i)] > position + 1) {
-                    hb2.addBreakPosition(breakPositions[(i)] - position - 1);
+                    hb2.AddBreakPosition(breakPositions[(i)] - position - 1);
                 }
             }
         }

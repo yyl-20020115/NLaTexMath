@@ -61,11 +61,11 @@ public class FencedAtom : Atom
     private static readonly float DELIMITER_SHORTFALL = 5f;
 
     // _base atom
-    private readonly Atom _base;
+    private readonly Atom Base;
 
     // delimiters
-    private SymbolAtom left = null;
-    private SymbolAtom right = null;
+    private SymbolAtom? left;
+    private SymbolAtom? right;
     private readonly List<MiddleAtom> middle;
 
     /**
@@ -75,38 +75,31 @@ public class FencedAtom : Atom
      * @param l the left delimiter
      * @param r the right delimiter
      */
-    public FencedAtom(Atom _base, SymbolAtom l, SymbolAtom r)
-        : this(_base, l, null, r)
+    public FencedAtom(Atom Base, SymbolAtom l, SymbolAtom r)
+        : this(Base, l, null, r)
     {
-        ;
     }
 
-    public FencedAtom(Atom _base, SymbolAtom l, List<MiddleAtom> m, SymbolAtom r)
+    public FencedAtom(Atom Base, SymbolAtom l, List<MiddleAtom> m, SymbolAtom r)
     {
-        if (_base == null)
-            this._base = new RowAtom(); // empty _base
+        if (Base == null)
+            this.Base = new RowAtom(); // empty _base
         else
-            this._base = _base;
-        if (l == null || l.getName() != ("normaldot"))
+            this.Base = Base;
+        if (l == null || l.Name != "normaldot")
         {
             left = l;
         }
-        if (r == null || r.getName() != ("normaldot"))
+        if (r == null || r.Name != "normaldot")
         {
             right = r;
         }
         middle = m;
     }
 
-    public int getLeftType()
-    {
-        return TeXConstants.TYPE_INNER;
-    }
+    public override int LeftType => TeXConstants.TYPE_INNER;
 
-    public int getRightType()
-    {
-        return TeXConstants.TYPE_INNER;
-    }
+    public override int RightType => TeXConstants.TYPE_INNER;
 
     /**
      * Centers the given box with resprect to the given axis, by setting an appropriate
@@ -115,70 +108,70 @@ public class FencedAtom : Atom
      * @param box
      *           box to be vertically centered with respect to the axis
      */
-    private static void center(Box box, float axis)
+    private static void Center(Box box, float axis)
     {
         float h = box.Height, total = h + box.Depth;
-        box.        Shift = -(total / 2 - h) - axis;
+        box.Shift = -(total / 2 - h) - axis;
     }
 
     public override Box CreateBox(TeXEnvironment env)
     {
         TeXFont tf = env.TeXFont;
-        Box content = _base.CreateBox(env);
-        float shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXConstants.UNIT_POINT, env);
-        float axis = tf.getAxisHeight(env.Style);
+        var content = Base.CreateBox(env);
+        float shortfall = DELIMITER_SHORTFALL * SpaceAtom.GetFactor(TeXConstants.UNIT_POINT, env);
+        float axis = tf.GetAxisHeight(env.Style);
         float delta = Math.Max(content.Height - axis, content.Depth + axis);
         float minHeight = Math.Max((delta / 500) * DELIMITER_FACTOR, 2 * delta - shortfall);
 
         // construct box
-        HorizontalBox hBox = new HorizontalBox();
+        var hBox = new HorizontalBox();
 
         if (middle != null)
         {
             for (int i = 0; i < middle.Count; i++)
             {
                 MiddleAtom at = middle[(i)];
-                if (at._base is SymbolAtom)
+                if (at.Base is SymbolAtom)
                 {
-                    Box b = DelimiterFactory.create(((SymbolAtom)at._base).getName(), env, minHeight);
-                    center(b, axis);
-                    at.box = b;
+                    Box b = DelimiterFactory.Create(((SymbolAtom)at.Base).Name, env, minHeight);
+                    Center(b, axis);
+                    at.Box = b;
                 }
             }
             if (middle.Count != 0)
             {
-                content = _base.CreateBox(env);
+                content = Base.CreateBox(env);
             }
         }
 
         // left delimiter
         if (left != null)
         {
-            Box b = DelimiterFactory.create(left.getName(), env, minHeight);
-            center(b, axis);
+            Box b = DelimiterFactory.Create(left.Name, env, minHeight);
+            Center(b, axis);
             hBox.Add(b);
         }
 
         // glue between left delimiter and content (if not whitespace)
-        if (!(_base is SpaceAtom))
+        if (Base is not SpaceAtom)
         {
-            hBox.Add(Glue.Get(TeXConstants.TYPE_OPENING, _base.LeftType, env));
+            hBox.Add(Glue.Get(TeXConstants.TYPE_OPENING, Base.LeftType, env));
         }
 
         // Add content
         hBox.Add(content);
 
         // glue between right delimiter and content (if not whitespace)
-        if (!(_base is SpaceAtom))
+        if (Base is not SpaceAtom)
         {
-            hBox.Add(Glue.Get(_base.RightType, TeXConstants.TYPE_CLOSING, env));
+            hBox.Add(Glue.Get(Base.RightType, TeXConstants.TYPE_CLOSING, env));
         }
 
         // right delimiter
         if (right != null)
         {
-            Box b = DelimiterFactory.create(right.getName(), env, minHeight);
-            center(b, axis);
+            Box b = DelimiterFactory.Create(right.Name, env, minHeight);
+            Center(b, axis);
             hBox.Add(b);
         }
 

@@ -52,9 +52,10 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public interface TeXFont {
+public interface TeXFont
+{
 
-    public const int   NO_FONT = -1;
+    public const int NO_FONT = -1;
 
     /**
      * Derives a new {@link TeXFont} object with the given point size
@@ -62,23 +63,23 @@ public interface TeXFont {
      * @param pointSize the new size (in points) of the derived {@link TeXFont}
      * @return a <b>copy</b> of this {@link TeXFont} with the new size
      */
-    public TeXFont deriveFont(float pointSize);
+    public TeXFont DeriveFont(float pointSize);
 
-    public TeXFont scaleFont(float factor);
+    public TeXFont ScaleFont(float factor);
 
-    public float getScaleFactor();
+    public float GetScaleFactor();
 
-    public float getAxisHeight(int style);
+    public float GetAxisHeight(int style);
 
-    public float getBigOpSpacing1(int style);
+    public float GetBigOpSpacing1(int style);
 
-    public float getBigOpSpacing2(int style);
+    public float GetBigOpSpacing2(int style);
 
-    public float getBigOpSpacing3(int style);
+    public float GetBigOpSpacing3(int style);
 
-    public float getBigOpSpacing4(int style);
+    public float GetBigOpSpacing4(int style);
 
-    public float getBigOpSpacing5(int style);
+    public float GetBigOpSpacing5(int style);
 
     /**
      * Get a Char-object specifying the given character in the given text style with
@@ -91,8 +92,7 @@ public interface TeXFont {
      * @ if there's no text style defined with
      * 		the given name
      */
-    public Char getChar(char c, string textStyle, int style)
-    ;
+    public Char GetChar(char c, string textStyle, int style);
 
     /**
      * Get a Char-object for this specific character containing the metric information
@@ -101,7 +101,7 @@ public interface TeXFont {
      * @param style the style in which the atom should be drawn
      * @return the Char-object for this character containing metric information
      */
-    public Char getChar(CharFont cf, int style);
+    public Char GetChar(CharFont cf, int style);
 
     /**
      * Get a Char-object for the given symbol with metric information depending on
@@ -113,8 +113,7 @@ public interface TeXFont {
      * @ if there's no symbol defined with the given
      * 			name
      */
-    public Char getChar(string name, int style)
-    ;
+    public Char GetChar(string name, int style);
 
     /**
      * Get a Char-object specifying the given character in the default text style with
@@ -124,13 +123,13 @@ public interface TeXFont {
      * @param style the style in which the atom should be drawn
      * @return the Char-object specifying the given character in the default text style
      */
-    public Char getDefaultChar(char c, int style);
+    public Char GetDefaultChar(char c, int style);
 
-    public float getDefaultRuleThickness(int style);
+    public float GetDefaultRuleThickness(int style);
 
-    public float getDenom1(int style);
+    public float GetDenom1(int style);
 
-    public float getDenom2(int style);
+    public float GetDenom2(int style);
 
     /**
      * Get an Extension-object for the given Char containing the 4 possible parts to
@@ -141,7 +140,7 @@ public interface TeXFont {
      * @param style the style in which the atom should be drawn
      * @return an Extension object containing the 4 possible parts
      */
-    public Extension getExtension(Char c, int style);
+    public Extension GetExtension(Char c, int style);
 
     /**
      * Get the kern value to be inserted between the given characters in the given style.
@@ -151,7 +150,7 @@ public interface TeXFont {
      * @param style the style in which the atom should be drawn
      * @return the kern value between both characters (default 0)
      */
-    public float getKern(CharFont left, CharFont right, int style);
+    public float GetKern(CharFont left, CharFont right, int style);
 
     /**
      * Get the ligature that replaces both characters (if any).
@@ -160,9 +159,9 @@ public interface TeXFont {
      * @param right right character
      * @return a ligature replacing both characters (or null: no ligature)
      */
-    public CharFont getLigature(CharFont left, CharFont right);
+    public CharFont GetLigature(CharFont left, CharFont right);
 
-    public int getMuFontId();
+    public int GetMuFontId();
 
     /**
      * Get the next larger version of the given character. This is only called if
@@ -172,21 +171,21 @@ public interface TeXFont {
      * @param style the style in which the atom should be drawn
      * @return the next larger version of this character
      */
-    public Char getNextLarger(Char c, int style);
+    public Char GetNextLarger(Char c, int style);
 
-    public float getNum1(int style);
+    public float GetNum1(int style);
 
-    public float getNum2(int style);
+    public float GetNum2(int style);
 
-    public float getNum3(int style);
+    public float GetNum3(int style);
 
-    public float getQuad(int style, int fontCode);
+    public float GetQuad(int style, int fontCode);
 
     /**
      *
      * @return the point size of this TeXFont
      */
-    public float getSize();
+    public float GetSize();
 
     /**
      * Get the kern amount of the character defined by the given CharFont followed by the
@@ -198,56 +197,56 @@ public interface TeXFont {
      * @return the kern amount of the character defined by cf followed by the
      * "skewchar" of it's font.
      */
-    public float getSkew(CharFont cf, int style);
+    public float GetSkew(CharFont cf, int style);
 
-    public float getSpace(int style);
+    public float GetSpace(int style);
 
-    public float getSub1(int style);
+    public float GetSub1(int style);
 
-    public float getSub2(int style);
+    public float GetSub2(int style);
 
-    public float getSubDrop(int style);
+    public float GetSubDrop(int style);
 
-    public float getSup1(int style);
+    public float GetSup1(int style);
 
-    public float getSup2(int style);
+    public float GetSup2(int style);
 
-    public float getSup3(int style);
+    public float GetSup3(int style);
 
-    public float getSupDrop(int style);
+    public float GetSupDrop(int style);
 
-    public float getXHeight(int style, int fontCode);
+    public float GetXHeight(int style, int fontCode);
 
-    public float getEM(int style);
+    public float GetEM(int style);
 
     /**
      *
      * @param c a character
      * @return true if the given character has a larger version, false otherwise
      */
-    public bool hasNextLarger(Char c);
+    public bool HasNextLarger(Char c);
 
-    public bool hasSpace(int font);
+    public bool HasSpace(int font);
 
-    public void setBold(bool bold);
+    public void SetBold(bool bold);
 
-    public bool getBold();
+    public bool GetBold();
 
-    public void setRoman(bool rm);
+    public void SetRoman(bool rm);
 
-    public bool getRoman();
+    public bool GetRoman();
 
-    public void setTt(bool tt);
+    public void SetTt(bool tt);
 
-    public bool getTt();
+    public bool GetTt();
 
-    public void setIt(bool it);
+    public void SetIt(bool it);
 
-    public bool getIt();
+    public bool GetIt();
 
-    public void setSs(bool ss);
+    public void SetSs(bool ss);
 
-    public bool getSs();
+    public bool GetSs();
 
     /**
      *
@@ -255,7 +254,7 @@ public interface TeXFont {
      * @return true if the given character Contains extension information to buid
      * 			an arbitrary large version of this character.
      */
-    public bool isExtensionChar(Char c);
+    public bool IsExtensionChar(Char c);
 
-    public TeXFont copy();
+    public TeXFont Copy();
 }

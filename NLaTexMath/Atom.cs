@@ -70,11 +70,11 @@ public abstract class Atom : ICloneable
     /**
      * The type of the atom (default value: ordinary atom)
      */
-    public int Type = TeXConstants.TYPE_ORDINARY;
+    public virtual int Type { get; set; } = TeXConstants.TYPE_ORDINARY;
 
-    public int TypeLimits = TeXConstants.SCRIPT_NOLIMITS;
+    public virtual int TypeLimits { get; set; } = TeXConstants.SCRIPT_NOLIMITS;
 
-    public int Alignment = -1;
+    public virtual int Alignment { get; set; } = -1;
 
     /**
      * Convert this atom into a {@link Box}, using properties set by "parent"

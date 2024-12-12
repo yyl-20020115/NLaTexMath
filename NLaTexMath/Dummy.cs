@@ -56,11 +56,8 @@ namespace NLaTexMath;
  */
 public class Dummy(Atom a) : Atom
 {
-
     private Atom el = a;
-
     private bool textSymbol = false;
-
     private int type = -1;
 
     /**
@@ -73,46 +70,34 @@ public class Dummy(Atom a) : Atom
  *
  * @param t the new type
  */
-    public int Type { get => type; set => type = value; }
+    public override int Type { get => type; set => type = value; }
 
     /**
      * @return the changed type, or the old left type if it hasn't been changed
      */
-    public int LeftType => (type >= 0 ? type : el.LeftType);
+    public override int LeftType => (type >= 0 ? type : el.LeftType);
 
     /**
      *
      * @return the changed type, or the old right type if it hasn't been changed
      */
-    public int getRightType()
-    {
-        return (type >= 0 ? type : el.RightType);
-    }
+    public override int RightType => (type >= 0 ? type : el.RightType);
 
-    public bool isCharSymbol()
-    {
-        return el is CharSymbol;
-    }
+    public bool IsCharSymbol => el is CharSymbol;
 
-    public bool isCharInMathMode()
-    {
-        return el is CharAtom && ((CharAtom)el).IsMathMode;
-    }
+    public bool IsCharInMathMode => el is CharAtom atom && atom.IsMathMode;
 
     /**
      * This method will only be called if isCharSymbol returns true.
      */
-    public CharFont getCharFont(TeXFont tf)
-    {
-        return ((CharSymbol)el).GetCharFont(tf);
-    }
+    public CharFont GetCharFont(TeXFont tf) => ((CharSymbol)el).GetCharFont(tf);
 
     /**
      * Changes this atom into the given "ligature atom".
      *
      * @param a the ligature atom
      */
-    public void changeAtom(FixedCharAtom a)
+    public void ChangeAtom(FixedCharAtom a)
     {
         textSymbol = false;
         type = -1;
@@ -123,26 +108,25 @@ public class Dummy(Atom a) : Atom
     {
         if (textSymbol)
             ((CharSymbol)el).MarkAsTextSymbol();
-        Box b = el.CreateBox(rs);
+        var b = el.CreateBox(rs);
         if (textSymbol)
             ((CharSymbol)el).RemoveMark(); // atom remains unchanged!
         return b;
     }
 
-    public void markAsTextSymbol()
+    public void MarkAsTextSymbol()
     {
         textSymbol = true;
     }
 
-    public bool isKern()
-    {
-        return el is SpaceAtom;
-    }
+    public bool IsKern => el is SpaceAtom;
 
     // only for Row-elements
-    public void setPreviousAtom(Dummy prev)
+    public void SetPreviousAtom(Dummy prev)
     {
-        if (el is Row)
-            ((Row)el).SetPreviousAtom(prev);
+        if (el is Row row)
+        {
+            row.SetPreviousAtom(prev);
+        }
     }
 }

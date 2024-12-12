@@ -47,7 +47,7 @@ namespace NLaTexMath;
 
  public class PredefinedCommands {
 
-    public PredefinedCommands() { }
+    //public PredefinedCommands() { }
 
     static PredefinedCommands() {
         MacroInfo.Commands.Add("newcommand", new PredefMacroInfo(0, 2, 2));

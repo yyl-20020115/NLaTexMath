@@ -48,56 +48,56 @@ namespace NLaTexMath;
 /**
  * An atom representing a vertical row of other atoms.
  */
-public class MultlineAtom : Atom {
+public class MultlineAtom(bool isPartial, ArrayOfAtoms column, int type) : Atom
+{
+    public static SpaceAtom vsep_in = new (TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
+    public const int MULTLINE = 0;
+    public const int GATHER = 1;
+    public const int GATHERED = 2;
 
-    public static SpaceAtom vsep_in = new SpaceAtom(TeXConstants.UNIT_EX, 0.0f, 1.0f, 0.0f);
-    public const int   MULTLINE = 0;
-    public const int   GATHER = 1;
-    public const int   GATHERED = 2;
+    private ArrayOfAtoms column = column;
+    private readonly int type = type;
+    private readonly bool isPartial = isPartial;
 
-    private ArrayOfAtoms column;
-    private int type;
-    private bool isPartial;
-
-    public MultlineAtom(bool isPartial, ArrayOfAtoms column, int type) {
-        this.isPartial = isPartial;
-        this.column = column;
-        this.type = type;
-    }
-
-    public MultlineAtom(ArrayOfAtoms column, int type): this(false, column, type)
+    public MultlineAtom(ArrayOfAtoms column, int type) : this(false, column, type)
     {
-        ;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        float tw = env.GetTextwidth();
-        if (tw == float.PositiveInfinity || type == GATHERED) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        float tw = env.Textwidth;
+        if (tw == float.PositiveInfinity || type == GATHERED)
+        {
             return new MatrixAtom(isPartial, column, "").CreateBox(env);
         }
 
-        VerticalBox vb = new VerticalBox();
+        var vb = new VerticalBox();
         Atom at = column.array[0][0];
         int alignment = type == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_LEFT;
-        if (at.Alignment != -1) {
+        if (at.Alignment != -1)
+        {
             alignment = at.Alignment;
         }
         vb.Add(new HorizontalBox(at.CreateBox(env), tw, alignment));
         Box Vsep = vsep_in.CreateBox(env);
-        for (int i = 1; i < column.row - 1; i++) {
+        for (int i = 1; i < column.row - 1; i++)
+        {
             at = column.array[i][0];
             alignment = TeXConstants.ALIGN_CENTER;
-            if (at.Alignment != -1) {
+            if (at.Alignment != -1)
+            {
                 alignment = at.Alignment;
             }
             vb.Add(Vsep);
             vb.Add(new HorizontalBox(at.CreateBox(env), tw, alignment));
         }
 
-        if (column.row > 1) {
+        if (column.row > 1)
+        {
             at = column.array[column.row - 1][0];
             alignment = type == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_RIGHT;
-            if (at.Alignment != -1) {
+            if (at.Alignment != -1)
+            {
                 alignment = at.Alignment;
             }
             vb.Add(Vsep);
@@ -105,8 +105,8 @@ public class MultlineAtom : Atom {
         }
 
         float height = vb.Height + vb.Depth;
-        vb.        Height = height / 2;
-        vb.        Depth = height / 2;
+        vb.Height = height / 2;
+        vb.Depth = height / 2;
 
         return vb;
     }

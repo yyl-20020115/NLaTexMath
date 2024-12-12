@@ -43,51 +43,54 @@
  *
  */
 
+using System.Reflection;
+
 namespace NLaTexMath;
 
-public class MacroInfo {
-
-    public static Dictionary<string, MacroInfo> Commands = new(300);
-    public static Dictionary<string, object> Packages = new ();
+public class MacroInfo
+{
+    public static readonly Dictionary<string, MacroInfo> Commands = new(300);
+    public static readonly Dictionary<string, object> Packages = [];
 
     public object pack;
-    public Method macro;
+    public MethodInfo macro;
     public int nbArgs;
     public bool hasOptions = false;
     public int posOpts;
 
-    public MacroInfo(object pack, Method macro, int nbArgs) {
+    public MacroInfo(object pack, MethodInfo macro, int nbArgs)
+    {
         this.pack = pack;
         this.macro = macro;
         this.nbArgs = nbArgs;
     }
 
-    public MacroInfo(object pack, Method macro, int nbArgs, int posOpts): this(pack, macro, nbArgs)
+    public MacroInfo(object pack, MethodInfo macro, int nbArgs, int posOpts) : this(pack, macro, nbArgs)
     {
-        ;
         this.hasOptions = true;
         this.posOpts = posOpts;
     }
 
-    public MacroInfo(int nbArgs, int posOpts) : this(null, (Method)null, nbArgs)
+    public MacroInfo(int nbArgs, int posOpts) : this(null, (MethodInfo)null, nbArgs)
     {
-        ;
         this.hasOptions = true;
         this.posOpts = posOpts;
     }
 
-    public MacroInfo(int nbArgs) : this(null, (Method)null, nbArgs)
+    public MacroInfo(int nbArgs) : this(null, (MethodInfo)null, nbArgs)
     {
-       ;
     }
 
-    public MacroInfo(string className, string methodName, float nbArgs) {
-        int nba = (int) nbArgs;
+    public MacroInfo(string className, string methodName, float nbArgs)
+    {
+        int nba = (int)nbArgs;
         Type[] args = [typeof(TeXParser), typeof(string[])];
 
-        try {
+        try
+        {
             object pack = Packages[className];
-            if (pack == null) {
+            if (pack == null)
+            {
                 Type cl = Type.forName(className);
                 pack = cl.getConstructor(new Type[0]).newInstance(new object[0]);
                 Packages.Add(className, pack);
@@ -95,20 +98,24 @@ public class MacroInfo {
             this.pack = pack;
             this.macro = pack.GetType().getDeclaredMethod(methodName, args);
             this.nbArgs = nba;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.Error.WriteLine("Cannot load namespace " + className + ":");
             Console.Error.WriteLine(e.ToString());
         }
     }
 
-    public MacroInfo(string className, string methodName, float nbArgs, float posOpts) {
-        int nba = (int) nbArgs;
+    public MacroInfo(string className, string methodName, float nbArgs, float posOpts)
+    {
+        int nba = (int)nbArgs;
         Type[] args = [typeof(TeXParser), typeof(string[])];
 
         try
         {
             object pack = Packages[className];
-            if (pack == null) {
+            if (pack == null)
+            {
                 Type cl = Type.forName(className);
                 pack = cl.getConstructor(new Class[0]).newInstance(new object[0]);
                 Packages.Add(className, pack);
@@ -117,20 +124,26 @@ public class MacroInfo {
             this.macro = pack.GetType().getDeclaredMethod(methodName, args);
             this.nbArgs = nba;
             this.hasOptions = true;
-            this.posOpts = (int) posOpts;
-        } catch (Exception e) {
+            this.posOpts = (int)posOpts;
+        }
+        catch (Exception e)
+        {
             Console.Error.WriteLine("Cannot load namespace " + className + ":");
             Console.Error.WriteLine(e.ToString());
         }
     }
 
-    public object invoke( TeXParser tp,  string[] args)  {
-        object[] argsMethod = {(object) tp, (object) args};
-        try {
-            return macro.invoke(pack, argsMethod);
-        } catch (Exception e) {
+    public object Invoke(TeXParser tp, string[] args)
+    {
+        object[] argsMethod = [tp, args];
+        try
+        {
+            return macro.Invoke(pack, argsMethod);
+        }
+        catch (Exception e)
+        {
             var th = e.InnerException;
-            throw new ParseException("Problem with command " + args[0] + " at position " + tp.getLine() + ":" + tp.getCol() + "\n" + th.Message);
+            throw new ParseException($"Problem with command {args[0]} at position {tp.getLine()}:{tp.getCol()}\n{th?.Message??""}");
         }
     }
 }

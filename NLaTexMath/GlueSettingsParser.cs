@@ -51,161 +51,179 @@ namespace NLaTexMath;
 /**
  * Parses the glue settings (different types and rules) from an XML-file.
  */
-public class GlueSettingsParser {
+public class GlueSettingsParser
+{
 
     private const string RESOURCE_NAME = "GlueSettings.xml";
 
-    private  Dictionary<string,int> typeMappings = [];
-    private  Dictionary<string,int> glueTypeMappings = [];
+    private Dictionary<string, int> typeMappings = [];
+    private Dictionary<string, int> glueTypeMappings = [];
     private Glue[] glueTypes;
 
-    private  Dictionary<string,int> styleMappings = [];
+    private Dictionary<string, int> styleMappings = [];
 
     private XElement root;
 
-    public GlueSettingsParser(){
-        try {
-            setTypeMappings();
-            setStyleMappings();
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setIgnoringElementContentWhitespace(true);
-            factory.setIgnoringComments(true);
-            root = factory.newDocumentBuilder().parse(GlueSettingsParser..getResourceAsStream(RESOURCE_NAME)).getDocumentElement();
-            parseGlueTypes();
-        } catch (Exception e) { // JDOMException or IOException
+    public GlueSettingsParser()
+    {
+        try
+        {
+            SetTypeMappings();
+            SetStyleMappings();
+            //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            //factory.setIgnoringElementContentWhitespace(true);
+            //factory.setIgnoringComments(true);
+            //root = factory.newDocumentBuilder().parse(GlueSettingsParser..getResourceAsStream(RESOURCE_NAME)).getDocumentElement();
+            //parseGlueTypes();
+        }
+        catch (Exception e)
+        { // JDOMException or IOException
             throw new XMLResourceParseException(RESOURCE_NAME, e);
         }
     }
 
-    private void setStyleMappings() {
+    private void SetStyleMappings()
+    {
         styleMappings.Add("display", TeXConstants.STYLE_DISPLAY / 2);
         styleMappings.Add("text", TeXConstants.STYLE_TEXT / 2);
         styleMappings.Add("script", TeXConstants.STYLE_SCRIPT / 2);
         styleMappings.Add("script_script", TeXConstants.STYLE_SCRIPT_SCRIPT / 2); // autoboxing
     }
 
-    private void parseGlueTypes(){
-        List<Glue> glueTypesList = new  ();
+    private void ParseGlueTypes()
+    {
+        List<Glue> glueTypesList = new();
         XElement types = (XElement)root.getElementsByTagName("GlueTypes").item(0);
         int defaultIndex = -1;
         int index = 0;
-        if (types != null) { // element present
+        if (types != null)
+        { // element present
             var list = types.getElementsByTagName("GlueType").ToList();
-            for (int i = 0; i < list.Count; i++) {
+            for (int i = 0; i < list.Count; i++)
+            {
                 XElement type = (XElement)list[i];
                 // retrieve required attribute value, throw exception if not set
-                string name = getAttrValueAndCheckIfNotNull("name", type);
+                string name = GetAttrValueAndCheckIfNotNull("name", type);
                 Glue glue = createGlue(type, name);
                 if (name.equalsIgnoreCase("default")) // default must have value
                     defaultIndex = index;
                 glueTypesList.Add(glue);
-                index ++;
+                index++;
             }
         }
-        if (defaultIndex < 0) {
+        if (defaultIndex < 0)
+        {
             // create a default glue object if missing
             defaultIndex = index;
-            glueTypesList.Add(new Glue(0,0,0,"default"));
+            glueTypesList.Add(new Glue(0, 0, 0, "default"));
         }
 
         glueTypes = glueTypesList.ToArray();
 
         // make sure default glue is at the front
-        if (defaultIndex > 0) {
+        if (defaultIndex > 0)
+        {
             Glue tmp = glueTypes[defaultIndex];
             glueTypes[defaultIndex] = glueTypes[0];
             glueTypes[0] = tmp;
         }
 
         // make reverse map
-        for (int i = 0; i < glueTypes.Length; i++) {
+        for (int i = 0; i < glueTypes.Length; i++)
+        {
             glueTypeMappings.Add(glueTypes[i].Name, i);
         }
     }
 
-    private Glue createGlue(XElement type, string name){
-         string[] names = { "space", "stretch", "shrink" };
+    private Glue createGlue(XElement type, string name)
+    {
+        string[] names = { "space", "stretch", "shrink" };
         float[] values = new float[names.Length];
-        for (int i = 0; i < names.Length; i++) {
+        for (int i = 0; i < names.Length; i++)
+        {
             double val = 0; // default value if attribute not present
             string attrVal = null;
-            try {
-                attrVal = type.Attribute(names[i])?.Value??"";
-                if (attrVal!=("")) // attribute present
+            try
+            {
+                attrVal = type.Attribute(names[i])?.Value ?? "";
+                if (attrVal != ("")) // attribute present
                     val = Double.parseDouble(attrVal);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw new XMLResourceParseException(RESOURCE_NAME, "GlueType",
                                                     names[i], "has an invalid real value '" + attrVal + "'!");
             }
-            values[i] = (float) val;
+            values[i] = (float)val;
         }
         return new Glue(values[0], values[1], values[2], name);
     }
 
-    private void setTypeMappings() {
-        typeMappings.Add("ord",   TeXConstants.TYPE_ORDINARY);
-        typeMappings.Add("op",    TeXConstants.TYPE_BIG_OPERATOR);
-        typeMappings.Add("bin",   TeXConstants.TYPE_BINARY_OPERATOR);
-        typeMappings.Add("rel",   TeXConstants.TYPE_RELATION);
-        typeMappings.Add("open",  TeXConstants.TYPE_OPENING);
+    private void SetTypeMappings()
+    {
+        typeMappings.Add("ord", TeXConstants.TYPE_ORDINARY);
+        typeMappings.Add("op", TeXConstants.TYPE_BIG_OPERATOR);
+        typeMappings.Add("bin", TeXConstants.TYPE_BINARY_OPERATOR);
+        typeMappings.Add("rel", TeXConstants.TYPE_RELATION);
+        typeMappings.Add("open", TeXConstants.TYPE_OPENING);
         typeMappings.Add("close", TeXConstants.TYPE_CLOSING);
         typeMappings.Add("punct", TeXConstants.TYPE_PUNCTUATION);
         typeMappings.Add("inner", TeXConstants.TYPE_INNER); // autoboxing
     }
 
-    public Glue[] getGlueTypes() {
-        return glueTypes;
-    }
+    public Glue[] GlueTypes => glueTypes;
 
-    public int[][][] createGlueTable(){
+    public int[][][] CreateGlueTable()
+    {
         int size = typeMappings.Count;
         int[][][] table = new int[size][size][styleMappings.Count];
         XElement glueTable = (XElement)root.getElementsByTagName("GlueTable").item(0);
-        if (glueTable != null) { // element present
+        if (glueTable != null)
+        { // element present
             // iterate all the "Glue"-elements
             List<XNode> list = glueTable.getElementsByTagName("Glue");
-            for (int i = 0; i < list.Count; i++) {
+            for (int i = 0; i < list.Count; i++)
+            {
                 XElement glue = (XElement)list[i];
                 // retrieve required attribute values and throw exception if they're not set
-                string left = getAttrValueAndCheckIfNotNull("lefttype", glue);
-                string right = getAttrValueAndCheckIfNotNull("righttype", glue);
-                string type = getAttrValueAndCheckIfNotNull("gluetype", glue);
+                string left = GetAttrValueAndCheckIfNotNull("lefttype", glue);
+                string right = GetAttrValueAndCheckIfNotNull("righttype", glue);
+                string type = GetAttrValueAndCheckIfNotNull("gluetype", glue);
                 // iterate all the "Style"-elements
                 List<XNode> listG = glue.getElementsByTagName("Style");
-                for (int j = 0; j < listG.Count; j++) {
+                for (int j = 0; j < listG.Count; j++)
+                {
                     XElement style = (XElement)listG[(j)];
-                    string styleName = getAttrValueAndCheckIfNotNull("name", style);
+                    string styleName = GetAttrValueAndCheckIfNotNull("name", style);
                     // retrieve mappings
                     object l = typeMappings[(left)];
                     object r = typeMappings[(right)];
                     object st = styleMappings[(styleName)];
                     object val = glueTypeMappings[(type)];
                     // throw exception if unknown value set 
-                    checkMapping(l, "Glue", "lefttype", left);
-                    checkMapping(r, "Glue", "righttype", right);
-                    checkMapping(val, "Glue", "gluetype", type);
-                    checkMapping(st, "Style", "name", styleName);
+                    CheckMapping(l, "Glue", "lefttype", left);
+                    CheckMapping(r, "Glue", "righttype", right);
+                    CheckMapping(val, "Glue", "gluetype", type);
+                    CheckMapping(st, "Style", "name", styleName);
                     // put value in table
-                    table[((int) l).intValue()][((int) r).intValue()][((int) st).intValue()] = ((int) val).intValue();
+                    table[((int)l).intValue()][((int)r).intValue()][((int)st).intValue()] = ((int)val).intValue();
                 }
             }
         }
         return table;
     }
 
-    private static void checkMapping(object val, string elementName,
-                                     string attrName, string attrValue){
+    private static void CheckMapping(object val, string elementName,
+                                     string attrName, string attrValue)
+    {
         if (val == null)
             throw new XMLResourceParseException(RESOURCE_NAME, elementName,
                                                 attrName, "has an unknown value '" + attrValue + "'!");
     }
 
-    private static string getAttrValueAndCheckIfNotNull(string attrName,
-            XElement element){
-        string attrValue = element.Attribute(attrName)?.Value??"";
-        if (attrValue==(""))
-            throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName,
-                                                attrName, null);
-        return attrValue;
+    private static string GetAttrValueAndCheckIfNotNull(string attrName, XElement element)
+    {
+        var attrValue = element.Attribute(attrName)?.Value ?? "";
+        return attrValue == ("") ? throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName, attrName, null) : attrValue;
     }
 }

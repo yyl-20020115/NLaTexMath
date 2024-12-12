@@ -66,34 +66,36 @@ public class GeoGebraLogoBox : Box {
     }
 
     public override void Draw(Graphics g2, float x, float y) {
-        AffineTransform oldAt = g2.getTransform();
-        Color oldC = g2.getColor();
-        Stroke oldS = g2.getStroke();
-        g2.translate(x + 0.25f * height / 2.15f, y - 1.75f / 2.15f * height);
-        g2.setColor(gray);
-        g2.setStroke(st);
-        g2.scale(0.05f * height / 2.15f, 0.05f * height / 2.15f);
-        g2.rotate(-26 * Math.PI / 180, 20.5, 17.5);
-        g2.drawArc(0, 0, 43, 32, 0, 360);
-        g2.rotate(26 * Math.PI / 180, 20.5, 17.5);
-        g2.setStroke(oldS);
-        drawCircle(g2, 16f, -5f);
-        drawCircle(g2, -1f, 7f);
-        drawCircle(g2, 5f, 28f);
-        drawCircle(g2, 27f, 24f);
-        drawCircle(g2, 36f, 3f);
-        g2.setStroke(oldS);
-        g2.setTransform(oldAt);
-        g2.setColor(oldC);
+        //TODO:
+        //AffineTransform oldAt = g2.getTransform();
+        //Color oldC = g2.getColor();
+        //Stroke oldS = g2.getStroke();
+        //g2.translate(x + 0.25f * height / 2.15f, y - 1.75f / 2.15f * height);
+        //g2.setColor(gray);
+        //g2.setStroke(st);
+        //g2.scale(0.05f * height / 2.15f, 0.05f * height / 2.15f);
+        //g2.rotate(-26 * Math.PI / 180, 20.5, 17.5);
+        //g2.drawArc(0, 0, 43, 32, 0, 360);
+        //g2.rotate(26 * Math.PI / 180, 20.5, 17.5);
+        //g2.setStroke(oldS);
+        //drawCircle(g2, 16f, -5f);
+        //drawCircle(g2, -1f, 7f);
+        //drawCircle(g2, 5f, 28f);
+        //drawCircle(g2, 27f, 24f);
+        //drawCircle(g2, 36f, 3f);
+        //g2.setStroke(oldS);
+        //g2.setTransform(oldAt);
+        //g2.setColor(oldC);
     } 
 
-    private static void drawCircle(Graphics g2, float x, float y) {
-        g2.setColor(blue);
-        g2.translate(x, y);
-        g2.fillArc(0, 0, 8, 8, 0, 360);
-        g2.setColor(Color.Black);
-        g2.drawArc(0, 0, 8, 8, 0, 360);
-        g2.translate(-x, -y);
+    private static void DrawCircle(Graphics g2, float x, float y) {
+        //TODO:
+        //g2.setColor(blue);
+        //g2.translate(x, y);
+        //g2.fillArc(0, 0, 8, 8, 0, 360);
+        //g2.setColor(Color.Black);
+        //g2.drawArc(0, 0, 8, 8, 0, 360);
+        //g2.translate(-x, -y);
     }
 
     public override int LastFontId => 0;

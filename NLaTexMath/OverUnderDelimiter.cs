@@ -54,23 +54,23 @@ public class OverUnderDelimiter : Atom
 {
 
     // base and script atom
-    private Atom _base;
+    private readonly Atom Base;
     private Atom script;
 
     // delimiter symbol
-    private SymbolAtom symbol;
+    private readonly SymbolAtom symbol;
 
     // kern between delimiter and script
-    private SpaceAtom kern;
+    private readonly SpaceAtom kern;
 
     // whether the delimiter should be positioned above or under the base
-    private bool over;
+    private readonly bool over;
 
     public OverUnderDelimiter(Atom _base, Atom script, SymbolAtom s, int kernUnit,
                               float kern, bool over)
     {
         Type = TeXConstants.TYPE_INNER;
-        this._base = _base;
+        this.Base = _base;
         this.script = script;
         symbol = s;
         this.kern = new SpaceAtom(kernUnit, 0, kern, 0);
@@ -86,8 +86,8 @@ public class OverUnderDelimiter : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env));
-        Box del = DelimiterFactory.create(symbol.getName(), env, b.Width);
+        Box b = (Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env));
+        Box del = DelimiterFactory.Create(symbol.Name, env, b.Width);
 
         Box scriptBox = null;
         if (script != null)
@@ -96,7 +96,7 @@ public class OverUnderDelimiter : Atom
         }
 
         // create centered horizontal box if smaller than maximum width
-        float max = getMaxWidth(b, del, scriptBox);
+        float max = GetMaxWidth(b, del, scriptBox);
         if (max - b.Width > TeXFormula.PREC)
         {
             b = new HorizontalBox(b, max, TeXConstants.ALIGN_CENTER);
@@ -111,7 +111,7 @@ public class OverUnderDelimiter : Atom
         return new OverUnderBox(b, del, scriptBox, kern.CreateBox(env).Height, over);
     }
 
-    private static float getMaxWidth(Box b, Box del, Box script)
+    private static float GetMaxWidth(Box b, Box del, Box script)
     {
         float max = Math.Max(b.Width, del.Height + del.Depth);
         if (script != null)

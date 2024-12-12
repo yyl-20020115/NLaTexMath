@@ -48,60 +48,80 @@ namespace NLaTexMath;
 /**
  * An atom representing a scaled Atom.
  */
-public class ResizeAtom : Atom {
+public class ResizeAtom : Atom
+{
 
     private Atom _base;
     private int wunit, hunit;
     private float w, h;
     private bool keepaspectratio;
 
-    public ResizeAtom(Atom _base, string ws, string hs, bool keepaspectratio) {
+    public ResizeAtom(Atom _base, string ws, string hs, bool keepaspectratio)
+    {
         this.Type = _base.Type;
         this._base = _base;
         this.keepaspectratio = keepaspectratio;
-        float[] w = SpaceAtom.getLength(ws == null ? "" : ws);
-        float[] h = SpaceAtom.getLength(hs == null ? "" : hs);
-        if (w.Length != 2) {
+        float[] w = SpaceAtom.GetLength(ws == null ? "" : ws);
+        float[] h = SpaceAtom.GetLength(hs == null ? "" : hs);
+        if (w.Length != 2)
+        {
             this.wunit = -1;
-        } else {
-            this.wunit = (int) w[0];
+        }
+        else
+        {
+            this.wunit = (int)w[0];
             this.w = w[1];
         }
-        if (h.Length != 2) {
+        if (h.Length != 2)
+        {
             this.hunit = -1;
-        } else {
-            this.hunit = (int) h[0];
+        }
+        else
+        {
+            this.hunit = (int)h[0];
             this.h = h[1];
         }
     }
 
-    public int getLeftType() {
+    public int getLeftType()
+    {
         return base.LeftType;
     }
 
-    public int getRightType() {
+    public int getRightType()
+    {
         return base.RightType;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box bbox = _base.CreateBox(env);
-        if (wunit == -1 && hunit == -1) {
+        if (wunit == -1 && hunit == -1)
+        {
             return bbox;
-        } else {
+        }
+        else
+        {
             double xscl = 1;
             double yscl = 1;
-            if (wunit != -1 && hunit != -1) {
-                xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.Width;
-                yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.Height;
-                if (keepaspectratio) {
+            if (wunit != -1 && hunit != -1)
+            {
+                xscl = w * SpaceAtom.GetFactor(wunit, env) / bbox.Width;
+                yscl = h * SpaceAtom.GetFactor(hunit, env) / bbox.Height;
+                if (keepaspectratio)
+                {
                     xscl = Math.Min(xscl, yscl);
                     yscl = xscl;
                 }
-            } else if (wunit != -1 && hunit == -1) {
-                xscl = w * SpaceAtom.getFactor(wunit, env) / bbox.Width;
+            }
+            else if (wunit != -1 && hunit == -1)
+            {
+                xscl = w * SpaceAtom.GetFactor(wunit, env) / bbox.Width;
                 yscl = xscl;
-            } else {
-                yscl = h * SpaceAtom.getFactor(hunit, env) / bbox.Height;
+            }
+            else
+            {
+                yscl = h * SpaceAtom.GetFactor(hunit, env) / bbox.Height;
                 xscl = yscl;
             }
 

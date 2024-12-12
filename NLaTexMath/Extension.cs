@@ -52,7 +52,6 @@ namespace NLaTexMath;
  */
 public class Extension(Char t, Char m, Char r, Char b)
 {
-
     // there ALLWAYS is a repeat character! (check TFM.isExtensionChar())
     private readonly Char top = t;
     private readonly Char middle = m;

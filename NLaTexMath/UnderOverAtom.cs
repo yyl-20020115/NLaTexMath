@@ -74,7 +74,7 @@ public class UnderOverAtom : Atom {
     public UnderOverAtom(Atom _base, Atom underOver, int underOverUnit,
                          float underOverSpace, bool underOverScriptSize, bool over) {
         // check if unit is valid
-        SpaceAtom.checkUnit(underOverUnit);
+        SpaceAtom.CheckUnit(underOverUnit);
         // units valid
         this._base = _base;
 
@@ -103,8 +103,8 @@ public class UnderOverAtom : Atom {
                          bool underScriptSize, Atom over, int overUnit, float overSpace,
                          bool overScriptSize){
         // check if units are valid
-        SpaceAtom.checkUnit(underUnit);
-        SpaceAtom.checkUnit(overUnit);
+        SpaceAtom.CheckUnit(underUnit);
+        SpaceAtom.CheckUnit(overUnit);
 
         // units valid
         this._base = _base;

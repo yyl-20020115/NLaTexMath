@@ -48,21 +48,18 @@ namespace NLaTexMath;
 /**
  * An atom representing a modification of style in a formula (e.g. textstyle or displaystyle).
  */
-public class StyleAtom : Atom {
+public class StyleAtom(int style, Atom _base) : Atom
+{
 
-    private int style;
-    private Atom at;
+    private readonly int style = style;
+    private readonly Atom Base = _base;
 
-    public StyleAtom(int style, Atom at) {
-        this.style = style;
-        this.at = at;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        int sstyle = env.Style;
-        env.        Style = style;
-        Box box = at.CreateBox(env);
-        env.        Style = sstyle;
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        int style = env.Style;
+        env.Style = this.style;
+        Box box = Base.CreateBox(env);
+        env.Style = style;
         return box;
     }
 }

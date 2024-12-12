@@ -239,7 +239,7 @@ public  class JLaTeXMathCache {
         WeakReference<CachedImage> img = new WeakReference<CachedImage>(new CachedImage(image, cached), queue);
 
         if (cache.Length >= max) {
-            WeakReference<CachedImage> soft;
+            WeakReference<CachedImage> soft; 
             while ((soft = queue.poll()) != null) {
                 CachedImage ci = (CachedImage) soft.Get();
                 if (ci != null) {

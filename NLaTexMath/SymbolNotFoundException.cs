@@ -51,13 +51,7 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class SymbolNotFoundException : JMathTeXException {
-
-    
-    public SymbolNotFoundException(string name) :
-        base("There's no symbol with the name '" + name + "' defined in '"
-              + TeXSymbolParser.RESOURCE_NAME + "'!")
-    { }
-    
-
+public class SymbolNotFoundException(string name) 
+    : JMathTeXException("There's no symbol with the name '" + name + "' defined in '"
+              + TeXSymbolParser.RESOURCE_NAME + "'!") {
 }

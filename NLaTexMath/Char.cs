@@ -52,53 +52,29 @@ namespace NLaTexMath;
 /**
  * Represents a character together with its font, font ID and metric information.
  */
-public class Char {
+public class Char(char c, Font f, int fc, Metrics m)
+{
 
-    private readonly char c;
-    private readonly Font font;
-    private readonly Metrics m;
-    private readonly int fontCode;
+    private readonly char c = c;
+    private readonly Font font = f;
+    private readonly Metrics m = m;
+    private readonly int fontCode = fc;
 
-    public Char(char c, Font f, int fc, Metrics m) {
-        font = f;
-        fontCode = fc;
-        this.c = c;
-        this.m = m;
-    }
+    public CharFont CharFont => new (c, fontCode);
 
-    public CharFont getCharFont() {
-        return new CharFont(c, fontCode);
-    }
+    public char Character => c;
 
-    public char getChar() {
-        return c;
-    }
+    public Font Font => font;
 
-    public Font getFont() {
-        return font;
-    }
+    public int FontCode => fontCode;
 
-    public int getFontCode() {
-        return fontCode;
-    }
+    public float Width => m.Width;
 
-    public float getWidth() {
-        return m.getWidth();
-    }
+    public float Italic => m.Italic;
 
-    public float getItalic() {
-        return m.getItalic();
-    }
+    public float Height => m.Height;
 
-    public float getHeight() {
-        return m.getHeight();
-    }
+    public float Depth => m.Depth;
 
-    public float getDepth() {
-        return m.getDepth();
-    }
-
-    public Metrics getMetrics() {
-        return m;
-    }
+    public Metrics Metrics => m;
 }

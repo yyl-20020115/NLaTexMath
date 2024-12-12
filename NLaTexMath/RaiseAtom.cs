@@ -48,49 +48,32 @@ namespace NLaTexMath;
 /**
  * An atom representing a scaled Atom.
  */
-public class RaiseAtom : Atom {
+public class RaiseAtom(Atom Base, int runit, float r, int hunit, float h, int dunit, float d) : Atom
+{
 
-    private Atom _base;
-    private int runit, hunit, dunit;
-    private float r, h, d;
+    private Atom Base = Base;
+    private int runit = runit, hunit = hunit, dunit = dunit;
+    private float r = r, h = h, d = d;
 
-    public RaiseAtom(Atom _base, int runit, float r, int hunit, float h, int dunit, float d) {
-        this._base = _base;
-        this.runit = runit;
-        this.r = r;
-        this.hunit = hunit;
-        this.h = h;
-        this.dunit = dunit;
-        this.d = d;
-    }
+    public override int LeftType => base.LeftType;
 
-    public int getLeftType() {
-        return base.LeftType;
-    }
+    public override int RightType => base.RightType;
 
-    public int getRightType() {
-        return base.RightType;
-    }
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        Box bbox = Base.CreateBox(env);
+        bbox.Shift = runit == -1 ? 0 : -r * SpaceAtom.GetFactor(runit, env);
 
-    public override Box CreateBox(TeXEnvironment env) {
-        Box bbox = _base.CreateBox(env);
-        if (runit == -1) {
-            bbox.            Shift = 0;
-        } else {
-            bbox.            Shift = -r * SpaceAtom.getFactor(runit, env);
-        }
-
-        if (hunit == -1) {
+        if (hunit == -1)
+        {
             return bbox;
         }
 
-        HorizontalBox hbox = new HorizontalBox(bbox);
-        hbox.        Height = h * SpaceAtom.getFactor(hunit, env);
-        if (dunit == -1) {
-            hbox.            Depth = 0;
-        } else {
-            hbox.            Depth = d * SpaceAtom.getFactor(dunit, env);
-        }
+        var hbox = new HorizontalBox(bbox)
+        {
+            Height = h * SpaceAtom.GetFactor(hunit, env),
+            Depth = dunit == -1 ? 0 : d * SpaceAtom.GetFactor(dunit, env)
+        };
 
         return hbox;
     }

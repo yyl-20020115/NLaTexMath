@@ -46,5 +46,4 @@
 
 namespace NLaTexMath;
 
-public class FontAlreadyLoadedException(string msg) : XMLResourceParseException(msg) {
-}
+public class FontAlreadyLoadedException(string msg) : XMLResourceParseException(msg) { }

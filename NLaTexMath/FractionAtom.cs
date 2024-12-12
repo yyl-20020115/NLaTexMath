@@ -49,7 +49,8 @@ namespace NLaTexMath;
 /**
  * An atom representing a fraction.
  */
-public class FractionAtom : Atom {
+public class FractionAtom : Atom
+{
 
     // whether the default thickness should not be used for the fraction line
     private bool noDefault = false;
@@ -81,7 +82,6 @@ public class FractionAtom : Atom {
      */
     public FractionAtom(Atom num, Atom den) : this(num, den, true)
     {
-        ;
     }
 
     /**
@@ -91,9 +91,8 @@ public class FractionAtom : Atom {
      * @param den the denominator
      * @param rule whether the fraction line should be drawn
      */
-    public FractionAtom(Atom num, Atom den, bool rule): this(num, den, !rule, TeXConstants.UNIT_PIXEL, 0f)
+    public FractionAtom(Atom num, Atom den, bool rule) : this(num, den, !rule, TeXConstants.UNIT_PIXEL, 0f)
     {
-        ;
     }
 
     /**
@@ -108,9 +107,9 @@ public class FractionAtom : Atom {
      * @throws InvalidUnitException if the given integer is not a valid unit constant
      */
     public FractionAtom(Atom num, Atom den, bool noDef, int unit, float t)
-   {
+    {
         // check unit
-        SpaceAtom.checkUnit(unit);
+        SpaceAtom.CheckUnit(unit);
 
         // unit ok
         numerator = num;
@@ -131,10 +130,10 @@ public class FractionAtom : Atom {
      * @param denomAlign alignment of the denominator
      */
     public FractionAtom(Atom num, Atom den, bool rule, int numAlign,
-                        int denomAlign): this(num, den, rule)
+                        int denomAlign) : this(num, den, rule)
     {
-        this.numAlign = checkAlignment(numAlign);
-        this.denomAlign = checkAlignment(denomAlign);
+        this.numAlign = CheckAlignment(numAlign);
+        this.denomAlign = CheckAlignment(denomAlign);
     }
 
     /**
@@ -147,7 +146,7 @@ public class FractionAtom : Atom {
      * @param denomAlign alignment of the denominator
      */
     public FractionAtom(Atom num, Atom den, float defFactor, int numAlign,
-                        int denomAlign): this(num, den, true, numAlign, denomAlign)
+                        int denomAlign) : this(num, den, true, numAlign, denomAlign)
     {
         this.defFactor = defFactor;
         defFactorSet = true;
@@ -165,10 +164,10 @@ public class FractionAtom : Atom {
      * @param denomAlign alignment of the denominator
      */
     public FractionAtom(Atom num, Atom den, int unit, float t, int numAlign,
-                        int denomAlign): this(num, den, unit, t)
+                        int denomAlign) : this(num, den, unit, t)
     {
-        this.numAlign = checkAlignment(numAlign);
-        this.denomAlign = checkAlignment(denomAlign);
+        this.numAlign = CheckAlignment(numAlign);
+        this.denomAlign = CheckAlignment(denomAlign);
     }
 
     /**
@@ -180,29 +179,26 @@ public class FractionAtom : Atom {
      * @param unit a unit constant for the line thickness
      * @param t the thickness of the fraction line (in the given unit)
      */
-    public FractionAtom(Atom num, Atom den, int unit, float t): this(num, den, true, unit, t)
+    public FractionAtom(Atom num, Atom den, int unit, float t) : this(num, den, true, unit, t)
     {
-        ;
     }
 
     // Checks if the alignment constant is valid.
     // If not, a default value will be used.
-    private int checkAlignment(int align) {
-        if (align == TeXConstants.ALIGN_LEFT ||
-                align == TeXConstants.ALIGN_RIGHT)
-            return align;
-        else
-            return TeXConstants.ALIGN_CENTER;
-    }
+    private int CheckAlignment(int align) => align == TeXConstants.ALIGN_LEFT ||
+                align == TeXConstants.ALIGN_RIGHT
+            ? align
+            : TeXConstants.ALIGN_CENTER;
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         TeXFont tf = env.TeXFont;
         int style = env.Style;
         // set thickness to default if default value should be used
-        float drt = tf.getDefaultRuleThickness(style);
+        float drt = tf.GetDefaultRuleThickness(style);
         if (noDefault)
             // convert the thickness to pixels
-            thickness *= SpaceAtom.getFactor(unit, env);
+            thickness *= SpaceAtom.GetFactor(unit, env);
         else
             thickness = (defFactorSet ? defFactor * drt : drt);
 
@@ -219,25 +215,29 @@ public class FractionAtom : Atom {
 
         // calculate default shift amounts
         float shiftUp, shiftDown;
-        if (style < TeXConstants.STYLE_TEXT) {
-            shiftUp = tf.getNum1(style);
-            shiftDown = tf.getDenom1(style);
-        } else {
-            shiftDown = tf.getDenom2(style);
+        if (style < TeXConstants.STYLE_TEXT)
+        {
+            shiftUp = tf.GetNum1(style);
+            shiftDown = tf.GetDenom1(style);
+        }
+        else
+        {
+            shiftDown = tf.GetDenom2(style);
             if (thickness > 0)
-                shiftUp = tf.getNum2(style);
+                shiftUp = tf.GetNum2(style);
             else
-                shiftUp = tf.getNum3(style);
+                shiftUp = tf.GetNum3(style);
         }
 
         // upper part of vertical box = numerator
-        VerticalBox vBox = new VerticalBox();
+        var vBox = new VerticalBox();
         vBox.Add(num);
 
         // calculate clearance clr, adjust shift amounts and create vertical box
-        float clr, delta, axis = tf.getAxisHeight(style);
+        float clr, delta, axis = tf.GetAxisHeight(style);
 
-        if (thickness > 0) { // WITH fraction rule
+        if (thickness > 0)
+        { // WITH fraction rule
             // clearance clr
             if (style < TeXConstants.STYLE_TEXT)
                 clr = 3 * thickness;
@@ -249,11 +249,13 @@ public class FractionAtom : Atom {
             float kern1 = shiftUp - num.Depth - (axis + delta), kern2 = axis
                           - delta - (denom.Height - shiftDown);
             float delta1 = clr - kern1, delta2 = clr - kern2;
-            if (delta1 > 0) {
+            if (delta1 > 0)
+            {
                 shiftUp += delta1;
                 kern1 += delta1;
             }
-            if (delta2 > 0) {
+            if (delta2 > 0)
+            {
                 shiftDown += delta2;
                 kern2 += delta2;
             }
@@ -262,7 +264,9 @@ public class FractionAtom : Atom {
             vBox.Add(new StrutBox(0, kern1, 0, 0));
             vBox.Add(new HorizontalRule(thickness, num.Width, 0));
             vBox.Add(new StrutBox(0, kern2, 0, 0));
-        } else { // WITHOUT fraction rule
+        }
+        else
+        { // WITHOUT fraction rule
             // clearance clr
             if (style < TeXConstants.STYLE_TEXT)
                 clr = 7 * drt;
@@ -273,7 +277,8 @@ public class FractionAtom : Atom {
             float kern = shiftUp - num.Depth
                          - (denom.Height - shiftDown);
             delta = (clr - kern) / 2;
-            if (delta > 0) {
+            if (delta > 0)
+            {
                 shiftUp += delta;
                 shiftDown += delta;
                 kern += 2 * delta;
@@ -285,8 +290,8 @@ public class FractionAtom : Atom {
 
         // finish vertical box
         vBox.Add(denom);
-        vBox.        Height = shiftUp + num.Height;
-        vBox.        Depth = shiftDown + denom.Depth;
+        vBox.Height = shiftUp + num.Height;
+        vBox.Depth = shiftDown + denom.Depth;
 
         // \nulldelimiterspace is set by default to 1.2pt = 0.12em)
         float f = new SpaceAtom(TeXConstants.UNIT_EM, 0.12f, 0, 0).CreateBox(env).Width;

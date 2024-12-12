@@ -49,7 +49,8 @@ namespace NLaTexMath;
 /**
  * An atom representing another atom with an accent symbol above it.
  */
-public class AccentedAtom : Atom {
+public class AccentedAtom : Atom
+{
 
     // accent symbol
     private SymbolAtom accent;
@@ -57,12 +58,13 @@ public class AccentedAtom : Atom {
     private bool changeSize = true;
 
     // _base atom
-    public Atom _base = null;
-    protected Atom underbase = null;
+    public readonly Atom Base;
+    public readonly Atom Underbase;
 
-    public AccentedAtom(Atom _base, Atom accent){
-        this._base = _base;
-        underbase = _base is AccentedAtom atom ? atom.underbase : _base;
+    public AccentedAtom(Atom _base, Atom accent)
+    {
+        this.Base = _base;
+        this.Underbase = _base is AccentedAtom atom ? atom.Underbase : _base;
 
         if (accent is not SymbolAtom)
             throw new InvalidSymbolTypeException("Invalid accent");
@@ -71,11 +73,7 @@ public class AccentedAtom : Atom {
         this.acc = true;
     }
 
-    public AccentedAtom(Atom _base, Atom accent, bool changeSize): this(_base, accent)
-    {
-        ;
-        this.changeSize = changeSize;
-    }
+    public AccentedAtom(Atom _base, Atom accent, bool changeSize) : this(_base, accent) => this.changeSize = changeSize;
 
     /**
      * Creates an AccentedAtom from a _base atom and an accent symbol defined by its name
@@ -86,15 +84,14 @@ public class AccentedAtom : Atom {
      * @throws SymbolNotFoundException if there's no symbol defined with the given name
      */
     public AccentedAtom(Atom _base, string accentName)
-     {
+    {
         accent = SymbolAtom.Get(accentName);
-        if (accent.Type == TeXConstants.TYPE_ACCENT) {
-            this._base = _base;
-            if (_base is AccentedAtom)
-                underbase = ((AccentedAtom)_base).underbase;
-            else
-                underbase = _base;
-        } else
+        if (accent.Type == TeXConstants.TYPE_ACCENT)
+        {
+            this.Base = _base;
+            Underbase = _base is AccentedAtom ? ((AccentedAtom)_base).Underbase : _base;
+        }
+        else
             throw new InvalidSymbolTypeException("The symbol with the name '"
                                                  + accentName + "' is not defined as an accent ("
                                                  + TeXSymbolParser.TYPE_ATTR + "='acc') in '"
@@ -116,70 +113,77 @@ public class AccentedAtom : Atom {
         if (acc == null)
             throw new InvalidTeXFormulaException(
                 "The accent TeXFormula can't be null!");
-        else {
+        else
+        {
             Atom root = acc.root;
-            if (root is SymbolAtom) {
-                accent = (SymbolAtom) root;
+            if (root is SymbolAtom atom)
+            {
+                accent = atom;
                 if (accent.Type == TeXConstants.TYPE_ACCENT)
-                    this._base = _base;
+                    this.Base = _base;
                 else
                     throw new InvalidSymbolTypeException(
                         "The accent TeXFormula represents a single symbol with the name '"
-                        + accent.getName()
+                        + accent.Name
                         + "', but this symbol is not defined as an accent ("
                         + TeXSymbolParser.TYPE_ATTR + "='acc') in '"
                         + TeXSymbolParser.RESOURCE_NAME + "'!");
-            } else
+            }
+            else
                 throw new InvalidTeXFormulaException(
                     "The accent TeXFormula does not represent a single symbol!");
         }
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         TeXFont tf = env.TeXFont;
         int style = env.Style;
 
         // set _base in cramped style
-        Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env.CrampStyle()));
+        Box b = Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env.CrampStyle());
 
         float u = b.Width;
         float s = 0;
-        if (underbase is CharSymbol)
-            s = tf.getSkew(((CharSymbol) underbase).GetCharFont(tf), style);
+        if (Underbase is CharSymbol symbol)
+            s = tf.GetSkew(symbol.GetCharFont(tf), style);
 
         // retrieve best Char from the accent symbol
-        Char ch = tf.getChar(accent.getName(), style);
-        while (tf.hasNextLarger(ch)) {
-            Char larger = tf.getNextLarger(ch, style);
-            if (larger.getWidth() <= u)
+        Char ch = tf.GetChar(accent.Name, style);
+        while (tf.HasNextLarger(ch))
+        {
+            Char larger = tf.GetNextLarger(ch, style);
+            if (larger.Width <= u)
                 ch = larger;
             else
                 break;
         }
 
         // calculate delta
-        float ec = -SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
-        float delta = acc ? ec : Math.Min(b.Height, tf.getXHeight(style, ch.getFontCode()));
+        float ec = -SpaceAtom.GetFactor(TeXConstants.UNIT_MU, env);
+        float delta = acc ? ec : Math.Min(b.Height, tf.GetXHeight(style, ch.FontCode));
 
         // create vertical box
-        VerticalBox vBox = new VerticalBox();
+        VerticalBox vBox = new();
 
         // accent
         Box y;
-        float italic = ch.getItalic();
+        float italic = ch.Italic;
         Box cb = new CharBox(ch);
         if (acc)
             cb = accent.CreateBox(changeSize ? env.SubStyle : env);
 
-        if (Math.Abs(italic) > TeXFormula.PREC) {
+        if (Math.Abs(italic) > TeXFormula.PREC)
+        {
             y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
             y.Add(cb);
-        } else
+        }
+        else
             y = cb;
 
         // if diff > 0, center accent, otherwise center _base
         float diff = (u - y.Width) / 2;
-        y.        Shift = s + (diff > 0 ? diff : 0);
+        y.Shift = s + (diff > 0 ? diff : 0);
         if (diff < 0)
             b = new HorizontalBox(b, y.Width, TeXConstants.ALIGN_CENTER);
         vBox.Add(y);
@@ -191,13 +195,14 @@ public class AccentedAtom : Atom {
 
         // set height and depth vertical box
         float total = vBox.Height + vBox.Depth, d = b.Depth;
-        vBox.        Depth = d;
-        vBox.        Height = total - d;
+        vBox.Depth = d;
+        vBox.Height = total - d;
 
-        if (diff < 0) {
-            HorizontalBox hb = new HorizontalBox(new StrutBox(diff, 0, 0, 0));
+        if (diff < 0)
+        {
+            var hb = new HorizontalBox(new StrutBox(diff, 0, 0, 0));
             hb.Add(vBox);
-            hb.            Width = u;
+            hb.Width = u;
             return hb;
         }
 

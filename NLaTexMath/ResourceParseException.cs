@@ -49,13 +49,9 @@ namespace NLaTexMath;
 /**
  * Signals that an error occurred while loading the necessary resources into memory.
  */
-public class ResourceParseException : JMathTeXException {
+public class ResourceParseException : JMathTeXException
+{
+    protected ResourceParseException(string msg) : base(msg) { }
 
-    
-    protected ResourceParseException(string msg) :base(msg){
-    }
-
-    protected ResourceParseException(string msg, Exception cause) : base(msg, cause)
-    {
-    }
+    protected ResourceParseException(string msg, Exception cause) : base(msg, cause) { }
 }

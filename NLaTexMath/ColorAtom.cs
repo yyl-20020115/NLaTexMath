@@ -67,7 +67,7 @@ public class ColorAtom : Atom, Row
 
     static ColorAtom()
     {
-        initColors();
+        InitColors();
     }
 
     /**
@@ -106,28 +106,22 @@ public class ColorAtom : Atom, Row
         env.isColored = true;
         TeXEnvironment copy = env.Copy();
         if (background != null)
-            copy.            Background = background;
+            copy.Background = background;
         if (color != null)
-            copy.            Color = color;
+            copy.Color = color;
         return elements.CreateBox(copy);
     }
 
-    public int getLeftType()
-    {
-        return elements.getLeftType();
-    }
+    public override int LeftType => elements.LeftType;
 
-    public int getRightType()
-    {
-        return elements.RightType;
-    }
+    public override int RightType => elements.RightType;
 
     public void SetPreviousAtom(Dummy prev)
     {
         elements.SetPreviousAtom(prev);
     }
 
-    public static Color getColor(string s)
+    public static Color GetColor(string s)
     {
         if (s != null)
         {
@@ -190,7 +184,7 @@ public class ColorAtom : Atom, Row
                             y = (float)Math.Min(1, Math.Max(0, y));
                             k = (float)Math.Min(1, Math.Max(0, k));
 
-                            return convColor(c, m, y, k);
+                            return ConvertColor(c, m, y, k);
                         }
                         catch (Exception e)
                         {
@@ -225,7 +219,7 @@ public class ColorAtom : Atom, Row
         return Color.Black;
     }
 
-    private static void initColors()
+    private static void InitColors()
     {
         Colors.Add("black", Color.Black);
         Colors.Add("white", Color.White);
@@ -233,72 +227,72 @@ public class ColorAtom : Atom, Row
         Colors.Add("green", Color.Green);
         Colors.Add("blue", Color.Blue);
         Colors.Add("cyan", Color.Cyan);
-        Colors.Add("magenta", Color.Magenta); 
+        Colors.Add("magenta", Color.Magenta);
         Colors.Add("yellow", Color.Yellow);
-        Colors.Add("greenyellow", convColor(0.15f, 0f, 0.69f, 0f));
-        Colors.Add("goldenrod", convColor(0f, 0.10f, 0.84f, 0f));
-        Colors.Add("dandelion", convColor(0f, 0.29f, 0.84f, 0f));
-        Colors.Add("apricot", convColor(0f, 0.32f, 0.52f, 0f));
-        Colors.Add("peach", convColor(0f, 0.50f, 0.70f, 0f));
-        Colors.Add("melon", convColor(0f, 0.46f, 0.50f, 0f));
-        Colors.Add("yelloworange", convColor(0f, 0.42f, 1f, 0f));
-        Colors.Add("orange", convColor(0f, 0.61f, 0.87f, 0f));
-        Colors.Add("burntorange", convColor(0f, 0.51f, 1f, 0f));
-        Colors.Add("bittersweet", convColor(0f, 0.75f, 1f, 0.24f));
-        Colors.Add("redorange", convColor(0f, 0.77f, 0.87f, 0f));
-        Colors.Add("mahogany", convColor(0f, 0.85f, 0.87f, 0.35f));
-        Colors.Add("maroon", convColor(0f, 0.87f, 0.68f, 0.32f));
-        Colors.Add("brickred", convColor(0f, 0.89f, 0.94f, 0.28f));
-        Colors.Add("orangered", convColor(0f, 1f, 0.50f, 0f));
-        Colors.Add("rubinered", convColor(0f, 1f, 0.13f, 0f));
-        Colors.Add("wildstrawberry", convColor(0f, 0.96f, 0.39f, 0f));
-        Colors.Add("salmon", convColor(0f, 0.53f, 0.38f, 0f));
-        Colors.Add("carnationpink", convColor(0f, 0.63f, 0f, 0f));
-        Colors.Add("magenta", convColor(0f, 1f, 0f, 0f));
-        Colors.Add("violetred", convColor(0f, 0.81f, 0f, 0f));
-        Colors.Add("rhodamine", convColor(0f, 0.82f, 0f, 0f));
-        Colors.Add("mulberry", convColor(0.34f, 0.90f, 0f, 0.02f));
-        Colors.Add("redviolet", convColor(0.07f, 0.90f, 0f, 0.34f));
-        Colors.Add("fuchsia", convColor(0.47f, 0.91f, 0f, 0.08f));
-        Colors.Add("lavender", convColor(0f, 0.48f, 0f, 0f));
-        Colors.Add("thistle", convColor(0.12f, 0.59f, 0f, 0f));
-        Colors.Add("orchid", convColor(0.32f, 0.64f, 0f, 0f));
-        Colors.Add("darkorchid", convColor(0.40f, 0.80f, 0.20f, 0f));
-        Colors.Add("purple", convColor(0.45f, 0.86f, 0f, 0f));
-        Colors.Add("plum", convColor(0.50f, 1f, 0f, 0f));
-        Colors.Add("violet", convColor(0.79f, 0.88f, 0f, 0f));
-        Colors.Add("royalpurple", convColor(0.75f, 0.90f, 0f, 0f));
-        Colors.Add("blueviolet", convColor(0.86f, 0.91f, 0f, 0.04f));
-        Colors.Add("periwinkle", convColor(0.57f, 0.55f, 0f, 0f));
-        Colors.Add("cadetblue", convColor(0.62f, 0.57f, 0.23f, 0f));
-        Colors.Add("cornflowerblue", convColor(0.65f, 0.13f, 0f, 0f));
-        Colors.Add("midnightblue", convColor(0.98f, 0.13f, 0f, 0.43f));
-        Colors.Add("navyblue", convColor(0.94f, 0.54f, 0f, 0f));
-        Colors.Add("royalblue", convColor(1f, 0.50f, 0f, 0f));
-        Colors.Add("cerulean", convColor(0.94f, 0.11f, 0f, 0f));
-        Colors.Add("processblue", convColor(0.96f, 0f, 0f, 0f));
-        Colors.Add("skyblue", convColor(0.62f, 0f, 0.12f, 0f));
-        Colors.Add("turquoise", convColor(0.85f, 0f, 0.20f, 0f));
-        Colors.Add("tealblue", convColor(0.86f, 0f, 0.34f, 0.02f));
-        Colors.Add("aquamarine", convColor(0.82f, 0f, 0.30f, 0f));
-        Colors.Add("bluegreen", convColor(0.85f, 0f, 0.33f, 0f));
-        Colors.Add("emerald", convColor(1f, 0f, 0.50f, 0f));
-        Colors.Add("junglegreen", convColor(0.99f, 0f, 0.52f, 0f));
-        Colors.Add("seagreen", convColor(0.69f, 0f, 0.50f, 0f));
-        Colors.Add("forestgreen", convColor(0.91f, 0f, 0.88f, 0.12f));
-        Colors.Add("pinegreen", convColor(0.92f, 0f, 0.59f, 0.25f));
-        Colors.Add("limegreen", convColor(0.50f, 0f, 1f, 0f));
-        Colors.Add("yellowgreen", convColor(0.44f, 0f, 0.74f, 0f));
-        Colors.Add("springgreen", convColor(0.26f, 0f, 0.76f, 0f));
-        Colors.Add("olivegreen", convColor(0.64f, 0f, 0.95f, 0.40f));
-        Colors.Add("rawsienna", convColor(0f, 0.72f, 1f, 0.45f));
-        Colors.Add("sepia", convColor(0f, 0.83f, 1f, 0.70f));
-        Colors.Add("brown", convColor(0f, 0.81f, 1f, 0.60f));
-        Colors.Add("tan", convColor(0.14f, 0.42f, 0.56f, 0f));
-        Colors.Add("gray", convColor(0f, 0f, 0f, 0.50f));
+        Colors.Add("greenyellow", ConvertColor(0.15f, 0f, 0.69f, 0f));
+        Colors.Add("goldenrod", ConvertColor(0f, 0.10f, 0.84f, 0f));
+        Colors.Add("dandelion", ConvertColor(0f, 0.29f, 0.84f, 0f));
+        Colors.Add("apricot", ConvertColor(0f, 0.32f, 0.52f, 0f));
+        Colors.Add("peach", ConvertColor(0f, 0.50f, 0.70f, 0f));
+        Colors.Add("melon", ConvertColor(0f, 0.46f, 0.50f, 0f));
+        Colors.Add("yelloworange", ConvertColor(0f, 0.42f, 1f, 0f));
+        Colors.Add("orange", ConvertColor(0f, 0.61f, 0.87f, 0f));
+        Colors.Add("burntorange", ConvertColor(0f, 0.51f, 1f, 0f));
+        Colors.Add("bittersweet", ConvertColor(0f, 0.75f, 1f, 0.24f));
+        Colors.Add("redorange", ConvertColor(0f, 0.77f, 0.87f, 0f));
+        Colors.Add("mahogany", ConvertColor(0f, 0.85f, 0.87f, 0.35f));
+        Colors.Add("maroon", ConvertColor(0f, 0.87f, 0.68f, 0.32f));
+        Colors.Add("brickred", ConvertColor(0f, 0.89f, 0.94f, 0.28f));
+        Colors.Add("orangered", ConvertColor(0f, 1f, 0.50f, 0f));
+        Colors.Add("rubinered", ConvertColor(0f, 1f, 0.13f, 0f));
+        Colors.Add("wildstrawberry", ConvertColor(0f, 0.96f, 0.39f, 0f));
+        Colors.Add("salmon", ConvertColor(0f, 0.53f, 0.38f, 0f));
+        Colors.Add("carnationpink", ConvertColor(0f, 0.63f, 0f, 0f));
+        Colors.Add("magenta", ConvertColor(0f, 1f, 0f, 0f));
+        Colors.Add("violetred", ConvertColor(0f, 0.81f, 0f, 0f));
+        Colors.Add("rhodamine", ConvertColor(0f, 0.82f, 0f, 0f));
+        Colors.Add("mulberry", ConvertColor(0.34f, 0.90f, 0f, 0.02f));
+        Colors.Add("redviolet", ConvertColor(0.07f, 0.90f, 0f, 0.34f));
+        Colors.Add("fuchsia", ConvertColor(0.47f, 0.91f, 0f, 0.08f));
+        Colors.Add("lavender", ConvertColor(0f, 0.48f, 0f, 0f));
+        Colors.Add("thistle", ConvertColor(0.12f, 0.59f, 0f, 0f));
+        Colors.Add("orchid", ConvertColor(0.32f, 0.64f, 0f, 0f));
+        Colors.Add("darkorchid", ConvertColor(0.40f, 0.80f, 0.20f, 0f));
+        Colors.Add("purple", ConvertColor(0.45f, 0.86f, 0f, 0f));
+        Colors.Add("plum", ConvertColor(0.50f, 1f, 0f, 0f));
+        Colors.Add("violet", ConvertColor(0.79f, 0.88f, 0f, 0f));
+        Colors.Add("royalpurple", ConvertColor(0.75f, 0.90f, 0f, 0f));
+        Colors.Add("blueviolet", ConvertColor(0.86f, 0.91f, 0f, 0.04f));
+        Colors.Add("periwinkle", ConvertColor(0.57f, 0.55f, 0f, 0f));
+        Colors.Add("cadetblue", ConvertColor(0.62f, 0.57f, 0.23f, 0f));
+        Colors.Add("cornflowerblue", ConvertColor(0.65f, 0.13f, 0f, 0f));
+        Colors.Add("midnightblue", ConvertColor(0.98f, 0.13f, 0f, 0.43f));
+        Colors.Add("navyblue", ConvertColor(0.94f, 0.54f, 0f, 0f));
+        Colors.Add("royalblue", ConvertColor(1f, 0.50f, 0f, 0f));
+        Colors.Add("cerulean", ConvertColor(0.94f, 0.11f, 0f, 0f));
+        Colors.Add("processblue", ConvertColor(0.96f, 0f, 0f, 0f));
+        Colors.Add("skyblue", ConvertColor(0.62f, 0f, 0.12f, 0f));
+        Colors.Add("turquoise", ConvertColor(0.85f, 0f, 0.20f, 0f));
+        Colors.Add("tealblue", ConvertColor(0.86f, 0f, 0.34f, 0.02f));
+        Colors.Add("aquamarine", ConvertColor(0.82f, 0f, 0.30f, 0f));
+        Colors.Add("bluegreen", ConvertColor(0.85f, 0f, 0.33f, 0f));
+        Colors.Add("emerald", ConvertColor(1f, 0f, 0.50f, 0f));
+        Colors.Add("junglegreen", ConvertColor(0.99f, 0f, 0.52f, 0f));
+        Colors.Add("seagreen", ConvertColor(0.69f, 0f, 0.50f, 0f));
+        Colors.Add("forestgreen", ConvertColor(0.91f, 0f, 0.88f, 0.12f));
+        Colors.Add("pinegreen", ConvertColor(0.92f, 0f, 0.59f, 0.25f));
+        Colors.Add("limegreen", ConvertColor(0.50f, 0f, 1f, 0f));
+        Colors.Add("yellowgreen", ConvertColor(0.44f, 0f, 0.74f, 0f));
+        Colors.Add("springgreen", ConvertColor(0.26f, 0f, 0.76f, 0f));
+        Colors.Add("olivegreen", ConvertColor(0.64f, 0f, 0.95f, 0.40f));
+        Colors.Add("rawsienna", ConvertColor(0f, 0.72f, 1f, 0.45f));
+        Colors.Add("sepia", ConvertColor(0f, 0.83f, 1f, 0.70f));
+        Colors.Add("brown", ConvertColor(0f, 0.81f, 1f, 0.60f));
+        Colors.Add("tan", ConvertColor(0.14f, 0.42f, 0.56f, 0f));
+        Colors.Add("gray", ConvertColor(0f, 0f, 0f, 0.50f));
     }
 
-    private static Color convColor(float c, float m, float y, float k)
+    private static Color ConvertColor(float c, float m, float y, float k)
     {
         float kk = 1f - k;
         return Color.FromArgb((int)(kk * (1f - c)), (int)(kk * (1f - m)), (int)(kk * (1f - y)));

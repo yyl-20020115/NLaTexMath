@@ -53,5 +53,6 @@ public class EmptyAtom : Atom
 
     public EmptyAtom() { }
 
-    public override Box CreateBox(TeXEnvironment env) => new StrutBox(0, 0, 0, 0);
+    public override Box CreateBox(TeXEnvironment env)
+        => new StrutBox(0, 0, 0, 0);
 }

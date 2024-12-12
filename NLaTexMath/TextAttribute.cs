@@ -43,9 +43,8 @@
  *
  */
 
-namespace NLaTexMath
+namespace NLaTexMath;
+
+public class TextAttribute
 {
-    internal class TextAttribute
-    {
-    }
 }

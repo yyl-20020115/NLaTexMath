@@ -52,10 +52,11 @@ namespace NLaTexMath;
  * An atom representing a "big operator" (or an atom that acts as one) together
  * with its limits.
  */
-public class BigOperatorAtom : Atom {
+public class BigOperatorAtom : Atom
+{
 
     // limits
-    private Atom under , over;
+    private Atom under, over;
 
     // atom representing a big operator
     protected Atom _base;
@@ -75,7 +76,8 @@ public class BigOperatorAtom : Atom {
      * @param under atom representing the under limit
      * @param over atom representing the over limit
      */
-    public BigOperatorAtom(Atom _base, Atom under, Atom over) {
+    public BigOperatorAtom(Atom _base, Atom under, Atom over)
+    {
         this._base = _base;
         this.under = under;
         this.over = over;
@@ -91,58 +93,67 @@ public class BigOperatorAtom : Atom {
      * @param over atom representing the over limit
      * @param limits whether limits should be drawn over and under the _base (&lt;-&gt; as scripts)
      */
-    public BigOperatorAtom(Atom _base, Atom under, Atom over, bool limits): this(_base, under, over)
+    public BigOperatorAtom(Atom _base, Atom under, Atom over, bool limits) : this(_base, under, over)
     {
-        ;
         this.limits = limits;
-        limitsSet = true;
+        this.limitsSet = true;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         TeXFont tf = env.TeXFont;
         int style = env.Style;
 
         Box y;
         float delta;
-
         RowAtom bbase = null;
         Atom Base = _base;
-        if (_base is TypedAtom) {
+        if (_base is TypedAtom)
+        {
             Atom at = ((TypedAtom)_base).getBase();
-            if (at is RowAtom && ((RowAtom)at).lookAtLastAtom && _base.TypeLimits != TeXConstants.SCRIPT_LIMITS) {
-                _base = ((RowAtom)at).getLastAtom();
-                bbase = (RowAtom)at;
-            } else
+            if (at is RowAtom atom && atom.lookAtLastAtom && _base.TypeLimits != TeXConstants.SCRIPT_LIMITS)
+            {
+                _base = atom.GetLastAtom();
+                bbase = atom;
+            }
+            else
                 _base = at;
         }
 
         if ((limitsSet && !limits)
                 || (!limitsSet && style >= TeXConstants.STYLE_TEXT)
                 || (_base.TypeLimits == TeXConstants.SCRIPT_NOLIMITS)
-                || (_base.TypeLimits == TeXConstants.SCRIPT_NORMAL && style >= TeXConstants.STYLE_TEXT)) {
+                || (_base.TypeLimits == TeXConstants.SCRIPT_NORMAL && style >= TeXConstants.STYLE_TEXT))
+        {
             // if explicitly set to not display as limits or if not set and style
             // is not display, then attach over and under as regular sub- en
             // superscript
-            if (bbase != null) {
+            if (bbase != null)
+            {
                 bbase.Add(new ScriptsAtom(_base, under, over));
                 Box b = bbase.CreateBox(env);
-                bbase.getLastAtom();
+                bbase.GetLastAtom();
                 bbase.Add(_base);
                 _base = Base;
                 return b;
             }
             return new ScriptsAtom(_base, under, over).CreateBox(env);
-        } else {
-            if (_base is SymbolAtom
-                    && _base.Type == TeXConstants.TYPE_BIG_OPERATOR) { // single
+        }
+        else
+        {
+            if (_base is SymbolAtom atom
+                    && _base.Type == TeXConstants.TYPE_BIG_OPERATOR)
+            { // single
                 // bigop
                 // symbol
-                Char c = tf.getChar(((SymbolAtom) _base).getName(), style);
+                Char c = tf.GetChar(atom.Name, style);
                 y = _base.CreateBox(env);
 
                 // include delta in width
-                delta = c.getItalic();
-            } else { // formula
+                delta = c.Italic;
+            }
+            else
+            { // formula
                 delta = 0;
                 y = new HorizontalBox(_base == null ? new StrutBox(0, 0, 0, 0)
                                       : _base.CreateBox(env));
@@ -165,16 +176,17 @@ public class BigOperatorAtom : Atom {
             // build vertical box
             VerticalBox vBox = new VerticalBox();
 
-            float bigop5 = tf.getBigOpSpacing5(style), kern = 0;
+            float bigop5 = tf.GetBigOpSpacing5(style), kern = 0;
             float xh = 0; // TODO: check why this is not used // NOPMD
 
             // over
-            if (over != null) {
+            if (over != null)
+            {
                 vBox.Add(new StrutBox(0, bigop5, 0, 0));
-                x.                Shift = delta / 2;
+                x.Shift = delta / 2;
                 vBox.Add(x);
-                kern = Math.Max(tf.getBigOpSpacing1(style), tf
-                                .getBigOpSpacing3(style)
+                kern = Math.Max(tf.GetBigOpSpacing1(style), tf
+                                .GetBigOpSpacing3(style)
                                 - x.Depth);
                 vBox.Add(new StrutBox(0, kern, 0, 0));
                 xh = vBox.Height + vBox.Depth;
@@ -184,12 +196,13 @@ public class BigOperatorAtom : Atom {
             vBox.Add(y);
 
             // under
-            if (under != null) {
-                float k = Math.Max(tf.getBigOpSpacing2(style), tf
-                                   .getBigOpSpacing4(style)
+            if (under != null)
+            {
+                float k = Math.Max(tf.GetBigOpSpacing2(style), tf
+                                   .GetBigOpSpacing4(style)
                                    - z.Height);
                 vBox.Add(new StrutBox(0, k, 0, 0));
-                z.                Shift = -delta / 2;
+                z.Shift = -delta / 2;
                 vBox.Add(z);
                 vBox.Add(new StrutBox(0, bigop5, 0, 0));
             }
@@ -198,11 +211,12 @@ public class BigOperatorAtom : Atom {
             float h = y.Height, total = vBox.Height + vBox.Depth;
             if (x != null)
                 h += bigop5 + kern + x.Height + x.Depth;
-            vBox.            Height = h;
-            vBox.            Depth = total - h;
+            vBox.Height = h;
+            vBox.Depth = total - h;
 
-            if (bbase != null) {
-                HorizontalBox hb = new HorizontalBox(bbase.CreateBox(env));
+            if (bbase != null)
+            {
+                var hb = new HorizontalBox(bbase.CreateBox(env));
                 bbase.Add(_base);
                 hb.Add(vBox);
                 _base = Base;
@@ -216,7 +230,7 @@ public class BigOperatorAtom : Atom {
     /*
      * Centers the given box in a new box that has the given width
      */
-    private static Box ChangeWidth(Box b, float maxWidth) 
+    private static Box ChangeWidth(Box b, float maxWidth)
         => b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
             ? new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER)
             : b;

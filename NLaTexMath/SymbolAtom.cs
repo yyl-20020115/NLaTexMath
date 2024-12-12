@@ -52,7 +52,8 @@ namespace NLaTexMath;
 /**
  * A box representing a symbol (a non-alphanumeric character).
  */
-public class SymbolAtom : CharSymbol {
+public class SymbolAtom : CharSymbol
+{
 
     // whether it's is a delimiter symbol
     private readonly bool delimiter;
@@ -68,11 +69,12 @@ public class SymbolAtom : CharSymbol {
 
     private char unicode;
 
-    static SymbolAtom(){
+    static SymbolAtom()
+    {
         symbols = new TeXSymbolParser().readSymbols();
 
         // set valid symbol types
-        validSymbolTypes =  new BitSet(16);
+        validSymbolTypes = new BitSet(16);
         validSymbolTypes.Set(TeXConstants.TYPE_ORDINARY);
         validSymbolTypes.Set(TeXConstants.TYPE_BIG_OPERATOR);
         validSymbolTypes.Set(TeXConstants.TYPE_BINARY_OPERATOR);
@@ -83,7 +85,8 @@ public class SymbolAtom : CharSymbol {
         validSymbolTypes.Set(TeXConstants.TYPE_ACCENT);
     }
 
-    public SymbolAtom(SymbolAtom s, int type){
+    public SymbolAtom(SymbolAtom s, int type)
+    {
         if (!validSymbolTypes.Get(type))
             throw new InvalidSymbolTypeException(
                 "The symbol type was not valid! "
@@ -104,7 +107,8 @@ public class SymbolAtom : CharSymbol {
      * @param type symbol type constant
      * @param del whether the symbol is a delimiter
      */
-    public SymbolAtom(string name, int type, bool del) {
+    public SymbolAtom(string name, int type, bool del)
+    {
         this.name = name;
         this.Type = type;
         if (type == TeXConstants.TYPE_BIG_OPERATOR)
@@ -113,31 +117,36 @@ public class SymbolAtom : CharSymbol {
         delimiter = del;
     }
 
-    public SymbolAtom setUnicode(char c) {
+    public SymbolAtom SetUnicode(char c)
+    {
         this.unicode = c;
         return this;
     }
 
-    public char getUnicode() {
-        return unicode;
-    }
+    public char Unicode => unicode;
 
-    public static void addSymbolAtom(string file) {
+    public static void AddSymbolAtom(string file)
+    {
         FileInputStream _in;
-        try {
+        try
+        {
             _in = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            throw new ResourceParseException(file, e);
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new Exception(file, e);
         }
         addSymbolAtom(_in, file);
     }
 
-    public static void addSymbolAtom(Stream _in, string name) {
+    public static void AddSymbolAtom(Stream _in, string name)
+    {
         TeXSymbolParser tsp = new TeXSymbolParser(_in, name);
         symbols.putAll(tsp.readSymbols());
     }
 
-    public static void addSymbolAtom(SymbolAtom sym) {
+    public static void AddSymbolAtom(SymbolAtom sym)
+    {
         symbols.Add(sym.name, sym);
     }
 
@@ -149,43 +158,39 @@ public class SymbolAtom : CharSymbol {
      * @return a SymbolAtom representing the found symbol
      * @ if no symbol with the given name was found
      */
-    public static SymbolAtom Get(string name)  {
-        object obj = symbols[(name)];
-        if (obj == null) // not found
-            throw new SymbolNotFoundException(name);
-        else
-            return (SymbolAtom) obj;
-    }
+    public static SymbolAtom Get(string name) 
+        => !symbols.TryGetValue(name, out var v) ? throw new SymbolNotFoundException(name) : v;
 
     /**
      *
      * @return true if this symbol can act as a delimiter to embrace formulas
      */
-    public bool isDelimiter() {
-        return delimiter;
-    }
+    public bool IsDelimiter => delimiter;
 
-    public string getName() {
-        return name;
-    }
+    public string Name => name;
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         TeXFont tf = env.TeXFont;
         int style = env.Style;
-        Char c = tf.getChar(name, style);
+        Char c = tf.GetChar(name, style);
         Box cb = new CharBox(c);
-        if (env.SmallCap && unicode != 0 && char.IsLower(unicode)) {
-            try {
-                cb = new ScaleBox(new CharBox(tf.getChar(TeXFormula.symbolTextMappings[char.ToUpper(unicode)], style)), 0.8, 0.8);
-            } catch (SymbolMappingNotFoundException e) { }
+        if (env.SmallCap && unicode != 0 && char.IsLower(unicode))
+        {
+            try
+            {
+                cb = new ScaleBox(new CharBox(tf.GetChar(TeXFormula.symbolTextMappings[char.ToUpper(unicode)], style)), 0.8, 0.8);
+            }
+            catch (SymbolMappingNotFoundException e) { }
         }
 
-        if (Type == TeXConstants.TYPE_BIG_OPERATOR) {
-            if (style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c))
-                c = tf.getNextLarger(c, style);
+        if (Type == TeXConstants.TYPE_BIG_OPERATOR)
+        {
+            if (style < TeXConstants.STYLE_TEXT && tf.HasNextLarger(c))
+                c = tf.GetNextLarger(c, style);
             cb = new CharBox(c);
-            cb.            Shift = -(cb.Height + cb.Depth) / 2 - env.TeXFont.getAxisHeight(env.Style);
-            float delta = c.getItalic();
+            cb.Shift = -(cb.Height + cb.Depth) / 2 - env.TeXFont.GetAxisHeight(env.Style);
+            float delta = c.Italic;
             HorizontalBox hb = new HorizontalBox(cb);
             if (delta > TeXFormula.PREC)
                 hb.Add(new StrutBox(delta, 0, 0, 0));
@@ -194,8 +199,7 @@ public class SymbolAtom : CharSymbol {
         return cb;
     }
 
-    public override CharFont GetCharFont(TeXFont tf) {
+    public override CharFont GetCharFont(TeXFont tf) =>
         // style doesn't matter here
-        return tf.getChar(name, TeXConstants.STYLE_DISPLAY).getCharFont();
-    }
+        tf.GetChar(name, TeXConstants.STYLE_DISPLAY).CharFont;
 }

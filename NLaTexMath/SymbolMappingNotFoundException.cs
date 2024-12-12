@@ -51,13 +51,8 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class SymbolMappingNotFoundException : JMathTeXException {
-
-    
-    public SymbolMappingNotFoundException(string symbolName):
-        base("No mapping found for the symbol '" + symbolName + "'! "
+public class SymbolMappingNotFoundException(string symbolName) 
+    : JMathTeXException("No mapping found for the symbol '" + symbolName + "'! "
               + "Insert a <" + DefaultTeXFontParser.SYMBOL_MAPPING_EL
-              + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.")
-    { }
-    
+              + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.") {
 }

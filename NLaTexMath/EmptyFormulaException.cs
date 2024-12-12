@@ -46,9 +46,8 @@
 
 namespace NLaTexMath;
 
-public class EmptyFormulaException : Exception {
-
-    public EmptyFormulaException() 
-       : base("Illegal operation with an empty Formula!") { 
-    }
+public class EmptyFormulaException : Exception
+{
+    public EmptyFormulaException()
+       : base("Illegal operation with an empty Formula!") { }
 }

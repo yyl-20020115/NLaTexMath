@@ -48,20 +48,15 @@ namespace NLaTexMath;
 /**
  * An atom used in array mode to write on several columns.
  */
-public class HdotsforAtom : MulticolumnAtom {
+public class HdotsforAtom(int n, float coeff) : MulticolumnAtom(n, "c", ldotp) {
 
     private static readonly Atom ldotp = SymbolAtom.Get("ldotp");
     private static readonly Atom thin = new SpaceAtom(TeXConstants.THINMUSKIP);
-    private float coeff;
-
-    public HdotsforAtom(int n, float coeff) : base(n, "c", ldotp)
-    {
-        this.coeff = coeff;
-    }
+    private float coeff = coeff;
 
     public override Box CreateBox(TeXEnvironment env) {
-        Box sp = new StrutBox(coeff * thin.CreateBox(env).Width, 0, 0, 0);
-        HorizontalBox db = new HorizontalBox(sp);
+        var sp = new StrutBox(coeff * thin.CreateBox(env).Width, 0, 0, 0);
+        var db = new HorizontalBox(sp);
         db.Add(ldotp.CreateBox(env));
         db.Add(sp);
         Box b;

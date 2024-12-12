@@ -48,22 +48,24 @@ namespace NLaTexMath;
 /**
  * An atom representing vdots.
  */
-public class VdotsAtom : Atom {
+public class VdotsAtom : Atom
+{
 
     public VdotsAtom() { }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        Box dot = SymbolAtom.Get("ldotp").CreateBox(env);
-        VerticalBox vb = new VerticalBox(dot, 0, TeXConstants.ALIGN_BOTTOM);
-        Box b = new SpaceAtom(TeXConstants.UNIT_MU, 0, 4, 0).CreateBox(env);
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        var dot = SymbolAtom.Get("ldotp").CreateBox(env);
+        var vb = new VerticalBox(dot, 0, TeXConstants.ALIGN_BOTTOM);
+        var b = new SpaceAtom(TeXConstants.UNIT_MU, 0, 4, 0).CreateBox(env);
         vb.Add(b);
         vb.Add(dot);
         vb.Add(b);
         vb.Add(dot);
         float d = vb.Depth;
         float h = vb.Height;
-        vb.        Depth = 0;
-        vb.        Height = d + h;
+        vb.Depth = 0;
+        vb.Height = d + h;
 
         return vb;
     }

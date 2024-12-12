@@ -68,14 +68,14 @@ public class CharAtom(char c, string textStyle, bool mathMode) : CharSymbol
     {
         if (textStyle == null)
         {
-            string ts = env.TextStyle;
+            var ts = env.TextStyle;
             if (ts != null)
             {
                 textStyle = ts;
             }
         }
-        bool smallCap = env.SmallCap;
-        Char ch = GetChar(env.TeXFont, env.Style, smallCap);
+        var smallCap = env.SmallCap;
+        var ch = GetChar(env.TeXFont, env.Style, smallCap);
         Box box = new CharBox(ch);
         if (smallCap && char.IsLower(c))
         {
@@ -98,10 +98,10 @@ public class CharAtom(char c, string textStyle, bool mathMode) : CharSymbol
         {
             chr = char.ToUpper(c);
         }
-        return textStyle == null ? tf.getDefaultChar(chr, style) : tf.getChar(chr, textStyle, style);
+        return textStyle == null ? tf.GetDefaultChar(chr, style) : tf.GetChar(chr, textStyle, style);
     }
 
-    public override CharFont GetCharFont(TeXFont tf) => GetChar(tf, TeXConstants.STYLE_DISPLAY, false).getCharFont();
+    public override CharFont GetCharFont(TeXFont tf) => GetChar(tf, TeXConstants.STYLE_DISPLAY, false).CharFont;
 
     public override string ToString() => "CharAtom: \'" + c + "\'";
 }

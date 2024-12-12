@@ -204,7 +204,7 @@ public class PredefMacros
         int unit;
         if (i != args[1].Length)
         {
-            unit = SpaceAtom.getUnit(args[1].Substring(i).ToLower());
+            unit = SpaceAtom.GetUnit(args[1].Substring(i).ToLower());
         }
         else
         {
@@ -236,18 +236,18 @@ public class PredefMacros
 
     public static Atom rule_macro(TeXParser tp, string[] args)
     {
-        float[] winfo = SpaceAtom.getLength(args[1]);
+        float[] winfo = SpaceAtom.GetLength(args[1]);
         if (winfo.Length == 1)
         {
             throw new ParseException("Error in getting width in \\rule command !");
         }
-        float[] hinfo = SpaceAtom.getLength(args[2]);
+        float[] hinfo = SpaceAtom.GetLength(args[2]);
         if (hinfo.Length == 1)
         {
             throw new ParseException("Error in getting height in \\rule command !");
         }
 
-        float[] rinfo = SpaceAtom.getLength(args[3]);
+        float[] rinfo = SpaceAtom.GetLength(args[3]);
         if (rinfo.Length == 1)
         {
             throw new ParseException("Error in getting raise in \\rule command !");
@@ -341,7 +341,7 @@ public class PredefMacros
         }
 
         bool rule = true;
-        float[] ths = SpaceAtom.getLength(args[3]);
+        float[] ths = SpaceAtom.GetLength(args[3]);
         if (args[3] == null || args[3].Length == 0 || ths.Length == 1)
         {
             ths = new float[] { 0.0f, 0.0f };
@@ -644,7 +644,7 @@ public class PredefMacros
 
     public static Atom tcaron_macro(TeXParser tp, string[] args)
     {
-        return new tcaronAtom();
+        return new TcaronAtom();
     }
 
     public static Atom ogonek_macro(TeXParser tp, string[] args)
@@ -1114,7 +1114,7 @@ public class PredefMacros
         }
 
         if (args[3] == null)
-            nbArgs = new int(0);
+            nbArgs = (0);
         else
             nbArgs = int.TryParse(args[3], out var v) ? v : 0;
 
@@ -1124,9 +1124,9 @@ public class PredefMacros
         }
 
         if (args[4] == null)
-            NewCommandMacro.addNewCommand(newcom.Substring(1), args[2], nbArgs.intValue());
+            NewCommandMacro.AddNewCommand(newcom.Substring(1), args[2], nbArgs.intValue());
         else
-            NewCommandMacro.addNewCommand(newcom.Substring(1), args[2], nbArgs.intValue(), args[4]);
+            NewCommandMacro.AddNewCommand(newcom.Substring(1), args[2], nbArgs.intValue(), args[4]);
 
         return null;
     }
@@ -1148,7 +1148,7 @@ public class PredefMacros
         if (nbArgs == null)
             throw new ParseException("The optional argument should be an integer !");
 
-        NewCommandMacro.addReNewCommand(newcom.Substring(1), args[2], nbArgs.intValue());
+        NewCommandMacro.AddReNewCommand(newcom.Substring(1), args[2], nbArgs.intValue());
 
         return null;
     }
@@ -1171,7 +1171,7 @@ public class PredefMacros
         if (opt == null)
             throw new ParseException("The optional argument should be an integer !");
 
-        NewEnvironmentMacro.addNewEnvironment(args[1], args[2], args[3], opt.intValue());
+        NewEnvironmentMacro.AddNewEnvironment(args[1], args[2], args[3], opt.intValue());
         return null;
     }
 
@@ -1181,7 +1181,7 @@ public class PredefMacros
         if (opt == null)
             throw new ParseException("The optional argument should be an integer !");
 
-        NewEnvironmentMacro.addReNewEnvironment(args[1], args[2], args[3], opt.intValue());
+        NewEnvironmentMacro.AddReNewEnvironment(args[1], args[2], args[3], opt.intValue());
         return null;
     }
 
@@ -1501,13 +1501,13 @@ public class PredefMacros
 
     public static Atom raisebox_macro(TeXParser tp, string[] args)
     {
-        float[] raise = SpaceAtom.getLength(args[1]);
+        float[] raise = SpaceAtom.GetLength(args[1]);
         if (raise.Length == 1)
         {
             throw new ParseException("Error in getting raise in \\raisebox command !");
         }
-        float[] height = SpaceAtom.getLength(args[3]);
-        float[] depth = SpaceAtom.getLength(args[4]);
+        float[] height = SpaceAtom.GetLength(args[3]);
+        float[] depth = SpaceAtom.GetLength(args[4]);
         if (height.Length == 1 || height[1] == 0)
         {
             height = new float[] { -1, 0 };
@@ -1575,7 +1575,7 @@ public class PredefMacros
     {
         try
         {
-            return new ColorAtom(new TeXFormula(tp, args[2]).root, null, ColorAtom.getColor(args[1]));
+            return new ColorAtom(new TeXFormula(tp, args[2]).root, null, ColorAtom.GetColor(args[1]));
         }
         catch (Exception e)
         {
@@ -1587,7 +1587,7 @@ public class PredefMacros
     {
         try
         {
-            return new ColorAtom(new TeXFormula(tp, args[2]).root, ColorAtom.getColor(args[1]), null);
+            return new ColorAtom(new TeXFormula(tp, args[2]).root, ColorAtom.GetColor(args[1]), null);
         }
         catch (Exception e)
         {
@@ -1597,18 +1597,18 @@ public class PredefMacros
 
     public static Atom textcolor_macro(TeXParser tp, string[] args)
     {
-        return new ColorAtom(new TeXFormula(tp, args[2]).root, null, ColorAtom.getColor(args[1]));
+        return new ColorAtom(new TeXFormula(tp, args[2]).root, null, ColorAtom.GetColor(args[1]));
     }
 
     public static Atom colorbox_macro(TeXParser tp, string[] args)
     {
-        Color c = ColorAtom.getColor(args[1]);
+        Color c = ColorAtom.GetColor(args[1]);
         return new FBoxAtom(new TeXFormula(tp, args[2]).root, c, c);
     }
 
     public static Atom fcolorbox_macro(TeXParser tp, string[] args)
     {
-        return new FBoxAtom(new TeXFormula(tp, args[3]).root, ColorAtom.getColor(args[2]), ColorAtom.getColor(args[1]));
+        return new FBoxAtom(new TeXFormula(tp, args[3]).root, ColorAtom.GetColor(args[2]), ColorAtom.GetColor(args[1]));
     }
 
     public static Atom cong_macro(TeXParser tp, string[] args)
@@ -1640,7 +1640,7 @@ public class PredefMacros
 
     public static Atom jlmExternalFont_macro(TeXParser tp, string[] args)
     {
-        JavaFontRenderingBox.setFont(args[1]);
+        JavaFontRenderingBox.SetFont(args[1]);
         return null;
     }
 
@@ -1965,7 +1965,7 @@ public class PredefMacros
 
     public static Atom kern_macro(TeXParser tp, string[] args)
     {
-        float[] info = SpaceAtom.getLength(args[1]);
+        float[] info = SpaceAtom.GetLength(args[1]);
         if (info.Length == 1)
         {
             throw new ParseException("Error in getting kern in \\kern command !");

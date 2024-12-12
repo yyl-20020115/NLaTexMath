@@ -50,16 +50,15 @@ namespace NLaTexMath;
  */
 public class OgonekAtom(Atom _base) : Atom
 {
-
-    private Atom _base = _base;
+    private readonly Atom Base = _base;
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = _base.CreateBox(env);
-        VerticalBox vb = new VerticalBox();
+        Box b = Base.CreateBox(env);
+        var vb = new VerticalBox();
         vb.Add(b);
-        Char ch = env.TeXFont.getChar("ogonek", env.Style);
-        float italic = ch.getItalic();
+        Char ch = env.TeXFont.GetChar("ogonek", env.Style);
+        float italic = ch.Italic;
         Box ogonek = new CharBox(ch);
         Box y;
         if (Math.Abs(italic) > TeXFormula.PREC)
@@ -74,8 +73,8 @@ public class OgonekAtom(Atom _base) : Atom
         vb.Add(new StrutBox(0, -ogonek.Height, 0, 0));
         vb.Add(og);
         float f = vb.Height + vb.Depth;
-        vb.        Height = b.Height;
-        vb.        Depth = f - b.Height;
+        vb.Height = b.Height;
+        vb.Depth = f - b.Height;
         return vb;
     }
 }

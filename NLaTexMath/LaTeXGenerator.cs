@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Drawing;
 namespace NLaTexMath;
 
-public class LaTeXGenerator
+public static class LaTeXGenerator
 {
-
-    public LaTeXGenerator() { }
-
     /**
      * Generate a PNG with the given path and LaTeX formula
      * @param formula the formula to compile
      * @param path the image path
      */
-    public void generate(String formula, String path)
+    public static void Generate(String formula, String path)
     {
         var tf = new TeXFormula(formula);
         var ti = tf.CreateTeXIcon(TeXConstants.STYLE_DISPLAY, 40);

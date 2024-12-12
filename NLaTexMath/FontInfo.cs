@@ -51,32 +51,24 @@ namespace NLaTexMath;
 /**
  * Contains all the font information for 1 font.
  */
-public class FontInfo {
+public class FontInfo
+{
 
     /**
      * Maximum number of character codes in a TeX font.
      */
-    public const int   NUMBER_OF_CHAR_CODES = 256;
+    public const int NUMBER_OF_CHAR_CODES = 256;
 
-    private static Dictionary<int, FontInfo> fonts = [];
+    private static readonly Dictionary<int, FontInfo> fonts = [];
 
-    public class CharCouple {
+    public class CharCouple(char l, char r)
+    {
 
-        private readonly char left, right;
+        private readonly char left = l, right = r;
 
-        public CharCouple(char l, char r) {
-            left = l;
-            right = r;
-        }
+        public override bool Equals(object? o) => o is CharCouple lig && left == lig.left && right == lig.right;
 
-        public bool equals(object o) {
-            CharCouple lig = (CharCouple) o;
-            return left == lig.left && right == lig.right;
-        }
-
-        public int hashCode() {
-            return (left + right) % 128;
-        }
+        public override int GetHashCode() => (left + right) % 128;
     }
 
     // ID
@@ -87,8 +79,8 @@ public class FontInfo {
     private readonly object _base;
     private readonly string path;
     private readonly string fontName;
-    private readonly Dictionary<CharCouple,char> lig = [];
-    private readonly Dictionary<CharCouple,float> kern = [];
+    private readonly Dictionary<CharCouple, char> lig = [];
+    private readonly Dictionary<CharCouple, float> kern = [];
     private float[][] metrics;
     private CharFont[] nextLarger;
     private int[][] extensions;
@@ -112,7 +104,8 @@ public class FontInfo {
     public readonly string ttVersion;
     public readonly string itVersion;
 
-    public FontInfo(int fontId, object _base, string path, string fontName, int unicode, float xHeight, float space, float quad, string boldVersion, string romanVersion, string ssVersion, string ttVersion, string itVersion) {
+    public FontInfo(int fontId, object _base, string path, string fontName, int unicode, float xHeight, float space, float quad, string boldVersion, string romanVersion, string ssVersion, string ttVersion, string itVersion)
+    {
         this.fontId = fontId;
         this._base = _base;
         this.path = path;
@@ -126,8 +119,9 @@ public class FontInfo {
         this.ttVersion = ttVersion;
         this.itVersion = itVersion;
         int num = NUMBER_OF_CHAR_CODES;
-        if (unicode != 0) {
-            this.unicode = new (unicode);
+        if (unicode != 0)
+        {
+            this.unicode = new(unicode);
             num = unicode;
         }
         metrics = new float[num][];
@@ -145,7 +139,8 @@ public class FontInfo {
      * @param k
      *           kern value
      */
-    public void addKern(char left, char right, float k) {
+    public void AddKern(char left, char right, float k)
+    {
         kern.Add(new CharCouple(left, right), (k));
     }
 
@@ -157,162 +152,110 @@ public class FontInfo {
      * @param ligChar
      *           ligature to Replace left and right character
      */
-    public void addLigature(char left, char right, char ligChar) {
+    public void AddLigature(char left, char right, char ligChar)
+    {
         lig.Add(new CharCouple(left, right), (ligChar));
     }
 
-    public int[] getExtension(char ch) {
-        if (unicode == null)
-            return extensions[ch];
-        return extensions[unicode[(ch)]];
-    }
+    public int[] GetExtension(char ch) => unicode == null ? extensions[ch] : extensions[unicode[(ch)]];
 
-    public float getKern(char left, char right, float factor) {
-        object obj = kern.Get(new CharCouple(left, right));
-        if (obj == null)
-            return 0;
-        else
-            return ((float) obj).floatValue() * factor;
-    }
+    public float GetKern(char left, char right, float factor) => kern.TryGetValue(new CharCouple(left, right), out var f) ? f : 0;
 
-    public CharFont getLigature(char left, char right) {
+    public CharFont GetLigature(char left, char right)
+    {
         object obj = lig.Get(new CharCouple(left, right));
         if (obj == null)
             return null;
         else
-            return new CharFont(((char) obj).charValue(), fontId);
+            return new CharFont(((char)obj).charValue(), fontId);
     }
-     
-    public float[] getMetrics(char c) {
+
+    public float[] GetMetrics(char c)
+    {
         if (unicode == null)
             return metrics[c];
         return metrics[unicode[(c)]];
     }
 
-    public CharFont getNextLarger(char ch) {
+    public CharFont GetNextLarger(char ch)
+    {
         if (unicode == null)
             return nextLarger[ch];
         return nextLarger[unicode[(ch)]];
     }
 
-    public float getQuad(float factor) {
-        return quad * factor;
-    }
+    public float GetQuad(float factor) => quad * factor;
 
     /**
      * @return the skew character of the font (for the correct positioning of
      *         accents)
      */
-    public char getSkewChar() {
-        return skewChar;
-    }
+    public char SkewChar { get => skewChar; set => skewChar = value; }
 
-    public float getSpace(float factor) {
-        return space * factor;
-    }
+    public float GetSpace(float factor) => space * factor;
 
-    public float getXHeight(float factor) {
-        return xHeight * factor;
-    }
+    public float GetXHeight(float factor) => xHeight * factor;
 
-    public bool hasSpace() {
-        return space > TeXFormula.PREC;
-    }
+    public bool HasSpace => space > TeXFormula.PREC;
 
-    public void setExtension(char ch, int[] ext) {
+    public void SetExtension(char ch, int[] ext)
+    {
         if (unicode == null)
             extensions[ch] = ext;
-        else if (!unicode.ContainsKey(ch)) {
+        else if (!unicode.TryGetValue(ch, out char value))
+        {
             char s = (char)unicode.Count;
             unicode.Add(ch, s);
             extensions[s] = ext;
-        } else
-            extensions[unicode[(ch)]] = ext;
+        }
+        else
+            extensions[value] = ext;
     }
 
-    public void setMetrics(char c, float[] arr) {
+    public void SetMetrics(char c, float[] arr)
+    {
         if (unicode == null)
             metrics[c] = arr;
-        else if (!unicode.ContainsKey(c)) {
+        else if (!unicode.TryGetValue(c, out char value))
+        {
             char s = (char)unicode.Count;
             unicode.Add(c, s);
             metrics[s] = arr;
-        } else
-            metrics[unicode[(c)]] = arr;
+        }
+        else
+            metrics[value] = arr;
     }
 
-    public void setNextLarger(char ch, char larger, int fontLarger) {
+    public void SetNextLarger(char ch, char larger, int fontLarger)
+    {
         if (unicode == null)
             nextLarger[ch] = new CharFont(larger, fontLarger);
-        else if (!unicode.ContainsKey(ch)) {
+        else if (!unicode.ContainsKey(ch))
+        {
             char s = (char)unicode.Count;
             unicode.Add(ch, s);
             nextLarger[s] = new CharFont(larger, fontLarger);
-        } else
+        }
+        else
             nextLarger[unicode[(ch)]] = new CharFont(larger, fontLarger);
     }
 
-    public void setSkewChar(char c) {
-        skewChar = c;
-    }
 
-    public int getId() {
-        return fontId;
-    }
+    public int Id => fontId;
 
-    public int getBoldId() {
-        return boldId;
-    }
+    public int BoldId { get => boldId; set => boldId = value == -1 ? fontId : value; }
 
-    public int getRomanId() {
-        return romanId;
-    }
+    public int RomanId { get => romanId; set => romanId = value == -1 ? fontId : value; }
+    public int TtId { get => ttId; set => ttId = value == -1 ? fontId : value; }
 
-    public int getTtId() {
-        return ttId;
-    }
+    public int ItId { get => itId; set => itId = value == -1 ? fontId : value; }
 
-    public int getItId() {
-        return itId;
-    }
+    public int SsId { get => ssId; set => ssId = value == -1 ? fontId : value; }
 
-    public int getSsId() {
-        return ssId;
-    }
+    public Font Font => font ??= _base == null
+                    ? DefaultTeXFontParser.createFont(path)
+                    : DefaultTeXFontParser.createFont(_base.GetType().getResourceAsStream(path), fontName);
 
-    public void setSsId(int id) {
-        ssId = id == -1 ? fontId : id;
-    }
-
-    public void setTtId(int id) {
-        ttId = id == -1 ? fontId : id;
-    }
-
-    public void setItId(int id) {
-        itId = id == -1 ? fontId : id;
-    }
-
-    public void setRomanId(int id) {
-        romanId = id == -1 ? fontId : id;
-    }
-
-    public void setBoldId(int id) {
-        boldId = id == -1 ? fontId : id;
-    }
-
-    public Font getFont() {
-        if (font == null) {
-            if (_base == null) {
-                font = DefaultTeXFontParser.createFont(path);
-            } else {
-                font = DefaultTeXFontParser.createFont(_base.GetType().getResourceAsStream(path), fontName);
-            }
-        }
-        return font;
-    }
-
-    public static Font getFont(int id) {
-        return fonts[(id)].getFont();
-    }
+    public static Font GetFont(int id) => fonts[(id)].Font;
 }
 

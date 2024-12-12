@@ -50,7 +50,8 @@ using System.Drawing;
 /**
  * A box representing a scaled box.
  */
-public class JavaFontRenderingBox : Box {
+public class JavaFontRenderingBox : Box
+{
 
     private static readonly Graphics TEMPGRAPHIC = new Bitmap(1, 1, Bitmap.TYPE_INT_ARGB).createGraphics();
 
@@ -64,20 +65,25 @@ public class JavaFontRenderingBox : Box {
     private static int KERNING_ON;
     private static int LIGATURES_ON;
 
-    static JavaFontRenderingBox(){
-        try { // to avoid problems with Java 1.5
+    static JavaFontRenderingBox()
+    {
+        try
+        { // to avoid problems with Java 1.5
             //KERNING = (TextAttribute) (TextAttribute..getField("KERNING").Get(TextAttribute.));
             //KERNING_ON = (int) (TextAttribute..getField("KERNING_ON").Get(TextAttribute.));
             //LIGATURES = (TextAttribute) (TextAttribute..getField("LIGATURES").Get(TextAttribute.));
             //LIGATURES_ON = (int) (TextAttribute..getField("LIGATURES_ON").Get(TextAttribute.));
-        } catch (Exception e) { }
+        }
+        catch (Exception e) { }
     }
 
-    public JavaFontRenderingBox(string str, int type, float size, Font f, bool kerning) {
+    public JavaFontRenderingBox(string str, int type, float size, Font f, bool kerning)
+    {
         this.size = size;
 
-        if (kerning && KERNING != null) {
-            Dictionary<TextAttribute, object> map = new ();
+        if (kerning && KERNING != null)
+        {
+            Dictionary<TextAttribute, object> map = new();
             map.Add(KERNING, KERNING_ON);
             map.Add(LIGATURES, LIGATURES_ON);
             f = f.deriveFont(map);
@@ -85,28 +91,30 @@ public class JavaFontRenderingBox : Box {
 
         this.text = new TextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
         RectangleF rect = text.getBounds();
-        this.height = (float) (-rect.getY() * size / 10);
-        this.depth = (float) (rect.getHeight() * size / 10) - this.height;
-        this.width = (float) ((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
+        this.height = (float)(-rect.getY() * size / 10);
+        this.depth = (float)(rect.getHeight() * size / 10) - this.height;
+        this.width = (float)((rect.getWidth() + rect.getX() + 0.4f) * size / 10);
     }
 
-    public JavaFontRenderingBox(string str, int type, float size) 
+    public JavaFontRenderingBox(string str, int type, float size)
     : this(str, type, size, font, true)
     {
-        ;
     }
 
-    public static void setFont(string name) {
+    public static void SetFont(string name)
+    {
         font = new Font(name, Font.PLAIN, 10);
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
-        DrawDebug(g2, x, y);
-        g2.translate(x, y);
-        g2.scale(0.1 * size, 0.1 * size);
-        text.draw(g2, 0, 0);
-        g2.scale(10 / size, 10 / size);
-        g2.translate(-x, -y);
+    public override void Draw(Graphics g2, float x, float y)
+    {
+        //TODO:
+        //DrawDebug(g2, x, y);
+        //g2.translate(x, y);
+        //g2.scale(0.1 * size, 0.1 * size);
+        //text.draw(g2, 0, 0);
+        //g2.scale(10 / size, 10 / size);
+        //g2.translate(-x, -y);
     }
 
     public override int LastFontId => 0;

@@ -55,8 +55,8 @@ using System.Drawing;
  * formula must be drawn. It's used in the createBox-methods. Contains methods that
  * apply the style changing rules for subformula's.
  */
-public class TeXEnvironment {
-
+public class TeXEnvironment
+{
     // colors
     private Color? background, color;
 
@@ -83,12 +83,13 @@ public class TeXEnvironment {
     {
     }
 
-    public TeXEnvironment(int style, TeXFont tf, int widthUnit, float textwidth): this(style, tf, new Color(), new Color())
+    public TeXEnvironment(int style, TeXFont tf, int widthUnit, float textwidth) : this(style, tf, new Color(), new Color())
     {
-        this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
+        this.textwidth = textwidth * SpaceAtom.GetFactor(widthUnit, this);
     }
 
-    private TeXEnvironment(int style, TeXFont tf, Color? bg, Color? c) {
+    private TeXEnvironment(int style, TeXFont tf, Color? bg, Color? c)
+    {
         this.style = style;
         this.tf = tf;
         background = bg;
@@ -96,7 +97,8 @@ public class TeXEnvironment {
         SetInterline(TeXConstants.UNIT_EX, 1f);
     }
 
-    private TeXEnvironment(int style, float scaleFactor, TeXFont tf, Color? bg, Color? c, string textStyle, bool smallCap) {
+    private TeXEnvironment(int style, float scaleFactor, TeXFont tf, Color? bg, Color? c, string textStyle, bool smallCap)
+    {
         this.style = style;
         this.scaleFactor = scaleFactor;
         this.tf = tf;
@@ -107,41 +109,41 @@ public class TeXEnvironment {
         SetInterline(TeXConstants.UNIT_EX, 1f);
     }
 
-    public void SetInterline(int unit, float len) {
+    public void SetInterline(int unit, float len)
+    {
         this.interline = len;
         this.interlineUnit = unit;
     }
 
-    public float GetInterline() {
-        return interline * SpaceAtom.getFactor(interlineUnit, this);
+    public float Interline => interline * SpaceAtom.GetFactor(interlineUnit, this);
+
+    public void SetTextwidth(int widthUnit, float textwidth)
+    {
+        this.textwidth = textwidth * SpaceAtom.GetFactor(widthUnit, this);
     }
 
-    public void SetTextwidth(int widthUnit, float textwidth) {
-        this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
-    }
-
-    public float GetTextwidth() {
-        return textwidth;
-    }
+    public float Textwidth => textwidth;
 
     public float ScaleFactor { get => scaleFactor; set => scaleFactor = value; }
 
-    public TeXEnvironment Copy() {
-        return new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap);
-    }
+    public TeXEnvironment Copy() => new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap);
 
-    public TeXEnvironment Copy(TeXFont tf) {
-        TeXEnvironment te = new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap);
-        te.textwidth = textwidth;
-        te.interline = interline;
-        te.interlineUnit = interlineUnit;
+    public TeXEnvironment Copy(TeXFont tf)
+    {
+        var te = new TeXEnvironment(style, scaleFactor, tf, background, color, textStyle, smallCap)
+        {
+            textwidth = textwidth,
+            interline = interline,
+            interlineUnit = interlineUnit
+        };
         return te;
     }
 
     /**
      * @return a copy of the environment, but in a cramped style.
      */
-    public TeXEnvironment CrampStyle() {
+    public TeXEnvironment CrampStyle()
+    {
         TeXEnvironment s = Copy();
         s.style = (style % 2 == 1 ? style : style + 1);
         return s;
@@ -151,7 +153,8 @@ public class TeXEnvironment {
      *
      * @return a copy of the environment, but in denominator style.
      */
-    public TeXEnvironment DenomStyle() {
+    public TeXEnvironment DenomStyle()
+    {
         TeXEnvironment s = Copy();
         s.style = 2 * (style / 2) + 1 + 2 - 2 * (style / 6);
         return s;
@@ -181,7 +184,7 @@ public class TeXEnvironment {
      *
      * @return the point size of the TeXFont
      */
-    public float Size => tf.getSize();
+    public float Size => tf.GetSize();
 
     /**
      *
@@ -223,7 +226,8 @@ public class TeXEnvironment {
      * Resets the color settings.
      *
      */
-    public void Reset() {
+    public void Reset()
+    {
         color = null;
         background = null;
     }
@@ -270,9 +274,12 @@ public class TeXEnvironment {
         }
     }
 
-    public float Space => tf.getSpace(style) * tf.getScaleFactor();
+    public float Space => tf.GetSpace(style) * tf.GetScaleFactor();
 
-    public int LastFontId { get =>
-    // if there was no last font id (whitespace boxes only), use default "mu font"
-    (lastFontId == TeXFont.NO_FONT ? tf.getMuFontId() : lastFontId); set => lastFontId = value; }
+    public int LastFontId
+    {
+        get =>
+        // if there was no last font id (whitespace boxes only), use default "mu font"
+        (lastFontId == TeXFont.NO_FONT ? tf.GetMuFontId() : lastFontId); set => lastFontId = value;
+    }
 }

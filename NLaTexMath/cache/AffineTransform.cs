@@ -44,7 +44,7 @@
  */
 
 namespace NLaTexMath.cache;
-
+ 
 public class AffineTransform
 {
 }

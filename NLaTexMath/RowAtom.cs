@@ -54,10 +54,11 @@ namespace NLaTexMath;
  * An atom representing a horizontal row of other atoms, to be seperated by glue.
  * It's also responsible for inserting kerns and ligatures.
  */
-public class RowAtom : Atom , Row {
+public class RowAtom : Atom, Row
+{
 
     // atoms to be displayed horizontally next to eachother
-    protected List<Atom> elements = new ();
+    protected List<Atom> elements = [];
 
     public bool lookAtLastAtom = false;
 
@@ -71,9 +72,10 @@ public class RowAtom : Atom , Row {
     // previous atom, be replaced by a ligature
     private static BitSet ligKernSet;
 
-    static RowAtom() {
+    static RowAtom()
+    {
         // fill binSet
-        binSet = new BitSet (16);
+        binSet = new BitSet(16);
         binSet.Set(TeXConstants.TYPE_BINARY_OPERATOR);
         binSet.Set(TeXConstants.TYPE_BIG_OPERATOR);
         binSet.Set(TeXConstants.TYPE_RELATION);
@@ -81,7 +83,7 @@ public class RowAtom : Atom , Row {
         binSet.Set(TeXConstants.TYPE_PUNCTUATION);
 
         // fill ligKernSet
-        ligKernSet = new BitSet (16);
+        ligKernSet = new BitSet(16);
         ligKernSet.Set(TeXConstants.TYPE_ORDINARY);
         ligKernSet.Set(TeXConstants.TYPE_BIG_OPERATOR);
         ligKernSet.Set(TeXConstants.TYPE_BINARY_OPERATOR);
@@ -91,30 +93,37 @@ public class RowAtom : Atom , Row {
         ligKernSet.Set(TeXConstants.TYPE_PUNCTUATION);
     }
 
-    public RowAtom() {
+    public RowAtom()
+    {
         // empty
     }
 
-    public RowAtom(Atom el) {
-        if (el != null) {
-            if (el is RowAtom)
+    public RowAtom(Atom el)
+    {
+        if (el != null)
+        {
+            if (el is RowAtom atom)
                 // no need to make an mrow the only element of an mrow
-                elements.addAll(((RowAtom) el).elements);
+                elements.AddRange(atom.elements);
             else
                 elements.Add(el);
         }
     }
 
-    public Atom getLastAtom() {
-        if (elements.Count != 0) {
+    public Atom GetLastAtom()
+    {
+        if (elements.Count != 0)
+        {
             return elements.removeLast();
         }
 
         return new SpaceAtom(TeXConstants.UNIT_POINT, 0.0f, 0.0f, 0.0f);
     }
 
-    public  void Add(Atom el) {
-        if (el != null) {
+    public void Add(Atom el)
+    {
+        if (el != null)
+        {
             elements.Add(el);
         }
     }
@@ -126,50 +135,66 @@ public class RowAtom : Atom , Row {
      * @param prev
      *           previous atom
      */
-    private void changeToOrd(Dummy cur, Dummy prev, Atom next) {
+    private void ChangeToOrd(Dummy cur, Dummy prev, Atom next)
+    {
         int type = cur.LeftType;
-        if (type == TeXConstants.TYPE_BINARY_OPERATOR && ((prev == null || binSet.Get(prev.getRightType())) || next == null)) {
-            cur.            Type = TeXConstants.TYPE_ORDINARY;
-        } else if (next != null && cur.getRightType() == TeXConstants.TYPE_BINARY_OPERATOR) {
+        if (type == TeXConstants.TYPE_BINARY_OPERATOR && ((prev == null || binSet.Get(prev.RightType)) || next == null))
+        {
+            cur.Type = TeXConstants.TYPE_ORDINARY;
+        }
+        else if (next != null && cur.RightType == TeXConstants.TYPE_BINARY_OPERATOR)
+        {
             int nextType = next.LeftType;
-            if (nextType == TeXConstants.TYPE_RELATION || nextType == TeXConstants.TYPE_CLOSING || nextType == TeXConstants.TYPE_PUNCTUATION) {
-                cur.                Type = TeXConstants.TYPE_ORDINARY;
+            if (nextType == TeXConstants.TYPE_RELATION || nextType == TeXConstants.TYPE_CLOSING || nextType == TeXConstants.TYPE_PUNCTUATION)
+            {
+                cur.Type = TeXConstants.TYPE_ORDINARY;
             }
         }
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         TeXFont tf = env.TeXFont;
         HorizontalBox hBox = new HorizontalBox(env.Color, env.Background);
         int position = 0;
         env.Reset();
 
         // convert atoms to boxes and Add to the horizontal box
-        for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();) {
+        for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();)
+        {
             Atom at = it.next();
             position++;
 
             bool markAdded = false;
-            while (at is BreakMarkAtom) {
-                if (!markAdded) {
+            while (at is BreakMarkAtom)
+            {
+                if (!markAdded)
+                {
                     markAdded = true;
                 }
-                if (it.hasNext()) {
+                if (it.hasNext())
+                {
                     at = it.next();
                     position++;
-                } else {
+                }
+                else
+                {
                     break;
                 }
             }
 
-            if (at is DynamicAtom && ((DynamicAtom) at).getInsertMode()) {
-                Atom a = ((DynamicAtom) at).getAtom();
-                if (a is RowAtom) {
-                    elements.remove(position - 1);
-                    elements.addAll(position - 1, ((RowAtom) a).elements);
+            if (at is DynamicAtom && ((DynamicAtom)at).getInsertMode())
+            {
+                Atom a = ((DynamicAtom)at).getAtom();
+                if (a is RowAtom atom1)
+                {
+                    elements.RemoveAt(position - 1);
+                    elements.Add(position - 1, atom1.elements);
                     it = elements.listIterator(position - 1);
                     at = it.next();
-                } else {
+                }
+                else
+                {
                     at = a;
                 }
             }
@@ -178,33 +203,41 @@ public class RowAtom : Atom , Row {
 
             // if necessary, change BIN type to ORD
             Atom nextAtom = null;
-            if (it.hasNext()) {
+            if (it.hasNext())
+            {
                 nextAtom = it.next();
                 it.previous();
             }
-            changeToOrd(atom, previousAtom, nextAtom);
+            ChangeToOrd(atom, previousAtom, nextAtom);
 
             // check for ligatures or kerning
             float kern = 0;
             // Calixte : I put a while to handle the case where there are
             // several ligatures as in ffi or ffl
-            while (it.hasNext() && atom.getRightType() == TeXConstants.TYPE_ORDINARY && atom.isCharSymbol()) {
+            while (it.hasNext() && atom.RightType == TeXConstants.TYPE_ORDINARY && atom.IsCharSymbol)
+            {
                 Atom next = it.next();
                 position++;
-                if (next is CharSymbol && ligKernSet.Get(next.LeftType)) {
-                    atom.markAsTextSymbol();
-                    CharFont l = atom.getCharFont(tf), r = ((CharSymbol) next).GetCharFont(tf);
-                    CharFont lig = tf.getLigature(l, r);
-                    if (lig == null) {
-                        kern = tf.getKern(l, r, env.Style);
+                if (next is CharSymbol && ligKernSet.Get(next.LeftType))
+                {
+                    atom.MarkAsTextSymbol();
+                    CharFont l = atom.GetCharFont(tf), r = ((CharSymbol)next).GetCharFont(tf);
+                    CharFont lig = tf.GetLigature(l, r);
+                    if (lig == null)
+                    {
+                        kern = tf.GetKern(l, r, env.Style);
                         it.previous();
                         position--;
                         break; // iterator remains unchanged (no ligature!)
-                    } else { // ligature
-                        atom.changeAtom(new FixedCharAtom(lig)); // go on with the
+                    }
+                    else
+                    { // ligature
+                        atom.ChangeAtom(new FixedCharAtom(lig)); // go on with the
                         // ligature
                     }
-                } else {
+                }
+                else
+                {
                     it.previous();
                     position--;
                     break;
@@ -213,21 +246,24 @@ public class RowAtom : Atom , Row {
 
             // insert glue, unless it's the first element of the row
             // OR this element or the next is a Kern.
-            if (it.previousIndex() != 0 && previousAtom != null && !previousAtom.isKern() && !atom.isKern()) {
-                hBox.Add(Glue.Get(previousAtom.getRightType(), atom.LeftType, env));
+            if (it.previousIndex() != 0 && previousAtom != null && !previousAtom.IsKern && !atom.IsKern)
+            {
+                hBox.Add(Glue.Get(previousAtom.RightType, atom.LeftType, env));
             }
 
             // insert atom's box
-            atom.setPreviousAtom(previousAtom);
+            atom.SetPreviousAtom(previousAtom);
             Box b = atom.CreateBox(env);
-            if (atom.isCharInMathMode() && b is CharBox) {
+            if (atom.IsCharInMathMode && b is CharBox)
+            {
                 // When we've a single char, we need to Add italic correction
                 // As an example: (TVY) looks crappy...
-                CharBox cb = (CharBox) b;
-                cb.addItalicCorrectionToWidth();
+                CharBox cb = (CharBox)b;
+                cb.AddItalicCorrectionToWidth();
             }
-            if (markAdded || (at is CharAtom && char.IsDigit(((CharAtom) at).Character))) {
-                hBox.addBreakPosition(hBox.Children.Count);
+            if (markAdded || (at is CharAtom && char.IsDigit(((CharAtom)at).Character)))
+            {
+                hBox.AddBreakPosition(hBox.Children.Count);
             }
             hBox.Add(b);
 
@@ -237,12 +273,14 @@ public class RowAtom : Atom , Row {
             LastFontId = b.LastFontId;
 
             // insert kern
-            if (Math.Abs(kern) > TeXFormula.PREC) {
+            if (Math.Abs(kern) > TeXFormula.PREC)
+            {
                 hBox.Add(new StrutBox(kern, 0, 0, 0));
             }
 
             // kerns do not interfere with the normal glue-rules without kerns
-            if (!atom.isKern()) {
+            if (!atom.IsKern)
+            {
                 previousAtom = atom;
             }
         }
@@ -252,17 +290,12 @@ public class RowAtom : Atom , Row {
         return hBox;
     }
 
-    public void SetPreviousAtom(Dummy prev) {
+    public void SetPreviousAtom(Dummy prev)
+    {
         previousAtom = prev;
     }
 
-    public int getLeftType() {
-        if (elements.Count == 0) {
-            return TeXConstants.TYPE_ORDINARY;
-        } else {
-            return (elements[0]).LeftType;
-        }
-    }
+    public override int LeftType => elements.Count == 0 ? TeXConstants.TYPE_ORDINARY : elements[0].LeftType;
 
-    public int RightType => elements.Count == 0 ? TeXConstants.TYPE_ORDINARY : elements[^1].RightType;
+    public override int RightType => elements.Count == 0 ? TeXConstants.TYPE_ORDINARY : elements[^1].RightType;
 }

@@ -48,26 +48,23 @@ namespace NLaTexMath;
 /**
  * An atom representing a italic atom.
  */
-public class ItAtom(Atom _base) : Atom
+public class ItAtom(Atom Base) : Atom
 {
-
-    private Atom _base = _base;
+    private readonly Atom Base = Base;
 
     public override Box CreateBox(TeXEnvironment env)
     {
         Box box;
-        if (_base != null)
+        if (Base != null)
         {
-            env = env.Copy(env.TeXFont.copy());
-            env.TeXFont.setIt(true);
-            box = _base.CreateBox(env);
+            env = env.Copy(env.TeXFont.Copy());
+            env.TeXFont.SetIt(true);
+            box = Base.CreateBox(env);
         }
         else
         {
             box = new StrutBox(0, 0, 0, 0);
         }
-
         return box;
     }
-
 }

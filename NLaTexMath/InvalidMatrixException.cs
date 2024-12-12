@@ -51,9 +51,5 @@ namespace NLaTexMath;
  *
  * @author Calixte Denizet
  */
-public class InvalidMatrixException : JMathTeXException {
-
-    
-    public InvalidMatrixException(string msg):base(msg) {
-    }
+public class InvalidMatrixException(string msg) : JMathTeXException(msg) {
 }

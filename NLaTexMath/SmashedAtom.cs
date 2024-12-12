@@ -48,29 +48,33 @@ namespace NLaTexMath;
 /**
  * An atom representing a smashed atom (i.e. with no height and no depth).
  */
-public class SmashedAtom : Atom {
+public class SmashedAtom : Atom
+{
 
-    private Atom at;
+    private readonly Atom at;
     private bool h = true, d = true;
 
-    public SmashedAtom(Atom at, string opt) {
+    public SmashedAtom(Atom at, string opt)
+    {
         this.at = at;
-        if ("t"==(opt))
+        if ("t" == opt)
             d = false;
-        else if ("b"==(opt))
+        else if ("b" == opt)
             h = false;
     }
 
-    public SmashedAtom(Atom at) {
+    public SmashedAtom(Atom at)
+    {
         this.at = at;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box b = at.CreateBox(env);
         if (h)
-            b.            Height = 0;
+            b.Height = 0;
         if (d)
-            b.            Depth = 0;
+            b.Depth = 0;
         return b;
     }
 }

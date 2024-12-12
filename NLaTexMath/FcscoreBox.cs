@@ -67,43 +67,43 @@ public class FcscoreBox : Box {
     }
 
     public override void Draw(Graphics g2, float x, float y) {
-        AffineTransform transf = g2.getTransform();
-        Stroke oldStroke = g2.getStroke(); 
+        //AffineTransform transf = g2.getTransform();
+        //Stroke oldStroke = g2.getStroke(); 
 
-        double sx = transf.getScaleX();
-        double sy = transf.getScaleY();
-        double s = 1;
-        if (sx == sy) {
-            // There are rounding problems due to scale factor: lines could have different
-            // spacing...
-            // So the increment (space+thickness) is done in using integer.
-            s = sx;
-            AffineTransform t = (AffineTransform) transf.Clone();
-            t.scale(1 / sx, 1 / sy);
-            g2.setTransform(t);
-        }
+        //double sx = transf.getScaleX();
+        //double sy = transf.getScaleY();
+        //double s = 1;
+        //if (sx == sy) {
+        //    // There are rounding problems due to scale factor: lines could have different
+        //    // spacing...
+        //    // So the increment (space+thickness) is done in using integer.
+        //    s = sx;
+        //    AffineTransform t = (AffineTransform) transf.Clone();
+        //    t.scale(1 / sx, 1 / sy);
+        //    g2.setTransform(t);
+        //}
 
-        g2.setStroke(new BasicStroke((float) (s * thickness), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        float th = thickness / 2.0f;
-        Line line = new Line();
-        float xx = x + space;
-        xx = (float) (xx * s + (space / 2.0f) * s);
-         int inc = (int) Math.Round((space + thickness) * s);
+        //g2.setStroke(new BasicStroke((float) (s * thickness), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+        //float th = thickness / 2.0f;
+        //Line line = new Line();
+        //float xx = x + space;
+        //xx = (float) (xx * s + (space / 2.0f) * s);
+        // int inc = (int) Math.Round((space + thickness) * s);
 
-        for (int i = 0; i < N; i++) {
-            line.setLine(xx + th * s, (y - height) * s, xx + th * s, y * s);
-            g2.draw(line);
-            xx += inc;
-        }
+        //for (int i = 0; i < N; i++) {
+        //    line.setLine(xx + th * s, (y - height) * s, xx + th * s, y * s);
+        //    g2.draw(line);
+        //    xx += inc;
+        //}
 
-        if (strike) {
+        //if (strike) {
 
-            line.setLine((x + space) * s, (y - height / 2.f) * s, xx - s * space / 2, (y - height / 2.f) * s);
-            g2.draw(line);
-        }
+        //    line.setLine((x + space) * s, (y - height / 2.f) * s, xx - s * space / 2, (y - height / 2.f) * s);
+        //    g2.draw(line);
+        //}
 
-        g2.setTransform(transf);
-        g2.setStroke(oldStroke);
+        //g2.setTransform(transf);
+        //g2.setStroke(oldStroke);
     }
 
     public override int LastFontId => TeXFont.NO_FONT;

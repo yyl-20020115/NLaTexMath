@@ -65,7 +65,8 @@ using System.Drawing;
  * {@link #getLastFontId()} method (the last font
  * that will be used when this box will be painted).
  */
-public abstract class Box {
+public abstract class Box
+{
 
     public static bool DEBUG = false;
 
@@ -124,7 +125,8 @@ public abstract class Box {
      *
      * @param b the box to be inserted
      */
-    public void Add(Box b) {
+    public virtual void Add(Box b)
+    {
         Children.Add(b);
         b.parent = this;
         b.elderParent = elderParent;
@@ -136,7 +138,8 @@ public abstract class Box {
      * @param pos the position at which to insert the given box
      * @param b the box to be inserted
      */
-    public void Add(int pos, Box b) {
+    public virtual void Add(int pos, Box b)
+    {
         Children.Insert(pos, b);
         b.parent = this;
         b.elderParent = elderParent;
@@ -146,7 +149,7 @@ public abstract class Box {
      * Creates an empty box (no children) with all dimensions set to 0 and no
      * foreground and background color set (default values will be used: null)
      */
-    protected Box(): this(null,null)
+    protected Box() : this(null, null)
     {
     }
 
@@ -157,7 +160,8 @@ public abstract class Box {
      * @param fg the foreground color
      * @param bg the background color
      */
-    protected Box(Color? fg, Color? bg) {
+    protected Box(Color? fg, Color? bg)
+    {
         foreground = fg;
         background = bg;
         this.prevColor = fg;
@@ -242,57 +246,74 @@ public abstract class Box {
      * @param x the x-coordinate
      * @param y the y-coordinate
      */
-    protected void StartDraw(Graphics g2, float x, float y) {
+    protected void StartDraw(Graphics g2, float x, float y)
+    {
         // old color
         prevColor = g2.getColor();
-        if (background != null) { // draw background
+        if (background != null)
+        { // draw background
             g2.setColor(background);
             g2.fill(new RectangleF(x, y - height, width, height + depth));
         }
-        if (foreground == null) {
+        if (foreground == null)
+        {
             g2.setColor(prevColor); // old foreground color
-        } else {
+        }
+        else
+        {
             g2.setColor(foreground); // overriding foreground color
         }
         DrawDebug(g2, x, y);
     }
 
-    protected void DrawDebug(Graphics g2, float x, float y, bool showDepth) {
-        if (DEBUG) {
+    protected void DrawDebug(Graphics g2, float x, float y, bool showDepth)
+    {
+        if (DEBUG)
+        {
             Stroke st = g2.getStroke();
-            if (markForDEBUG != null) {
+            if (markForDEBUG != null)
+            {
                 Color c = g2.getColor();
                 g2.setColor(markForDEBUG);
                 g2.fill(new RectangleF(x, y - height, width, height + depth));
                 g2.setColor(c);
             }
-            g2.setStroke(new BasicStroke((float) (Math.Abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            if (width < 0) {
+            g2.setStroke(new BasicStroke((float)(Math.Abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+            if (width < 0)
+            {
                 x += width;
                 width = -width;
             }
             g2.draw(new RectangleF(x, y - height, width, height + depth));
-            if (showDepth) {
+            if (showDepth)
+            {
                 Color c = g2.getColor();
                 g2.setColor(Color.Red);
-                if (depth > 0) {
+                if (depth > 0)
+                {
                     g2.fill(new RectangleF(x, y, width, depth));
                     g2.setColor(c);
                     g2.draw(new RectangleF(x, y, width, depth));
-                } else if (depth < 0) {
+                }
+                else if (depth < 0)
+                {
                     g2.fill(new RectangleF(x, y + depth, width, -depth));
                     g2.setColor(c);
                     g2.draw(new RectangleF(x, y + depth, width, -depth));
-                } else {
+                }
+                else
+                {
                     g2.setColor(c);
                 }
-            } 
+            }
             g2.setStroke(st);
         }
     }
 
-    protected void DrawDebug(Graphics g2, float x, float y) {
-        if (DEBUG) {
+    protected void DrawDebug(Graphics g2, float x, float y)
+    {
+        if (DEBUG)
+        {
             DrawDebug(g2, x, y, true);
         }
     }
@@ -302,8 +323,9 @@ public abstract class Box {
      *
      * @param g2 the graphics (2D) context
      */
-    protected void EndDraw(Graphics g2) {
+    protected void EndDraw(Graphics g2)
+    {
         g2.setColor(prevColor);
-        
+
     }
 }

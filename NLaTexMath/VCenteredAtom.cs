@@ -50,20 +50,18 @@ namespace NLaTexMath;
  * An atom representing another atom vertically centered with respect to the axis
  * (determined by a general TeXFont parameter)
  */
-public class VCenteredAtom : Atom {
+public class VCenteredAtom(Atom atom) : Atom
+{
 
     // atom to be centered vertically with respect to the axis
-    private readonly Atom atom;
+    private readonly Atom atom = atom;
 
-    public VCenteredAtom(Atom atom) {
-        this.atom = atom;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box b = atom.CreateBox(env);
 
         float total = b.Height + b.Depth, axis = env.TeXFont
-                      .getAxisHeight(env.Style);
+                      .GetAxisHeight(env.Style);
 
         // center on axis
         b.

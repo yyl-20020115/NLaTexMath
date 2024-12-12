@@ -50,20 +50,14 @@ namespace NLaTexMath;
 /**
  * The string rendering is made in using Java Graphics.drawString.
  */
-public class JavaFontRenderingAtom : Atom {
+public class JavaFontRenderingAtom(string str, int type) : Atom {
 
-    private string str;
-    private int type;
-    private TeXFormula.FontInfos fontInfos;
-
-    public JavaFontRenderingAtom(string str, int type) {
-        this.str = str;
-        this.type = type;
-    }
+    private readonly string str = str;
+    private readonly int type = type;
+    private readonly TeXFormula.FontInfos? fontInfos;
 
     public JavaFontRenderingAtom(string str, TeXFormula.FontInfos fontInfos): this(str, 0)
     {
-        ;
         this.fontInfos = fontInfos;
     }
 

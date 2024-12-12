@@ -51,12 +51,8 @@ namespace NLaTexMath;
  */
 public class CharFont(char ch, int f, int bf)
 {
-
     public char c = ch;
     public int fontId = f;
     public int boldFontId = bf;
-
-    public CharFont(char ch, int f): this(ch, f, f)
-    {
-    }
+    public CharFont(char ch, int f) : this(ch, f, f) { }
 }

@@ -51,16 +51,18 @@ namespace NLaTexMath;
 /**
  * A box representing whitespace.
  */
-public class StrutBox : Box {
-
-    public StrutBox(float w, float h, float d, float s) {
+public class StrutBox : Box
+{
+    public StrutBox(float w, float h, float d, float s)
+    {
         width = w;
         height = h;
         depth = d;
         shift = s;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y)
+    {
         // no visual effect
     }
 

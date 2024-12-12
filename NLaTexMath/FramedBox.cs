@@ -56,47 +56,46 @@ public class FramedBox : Box {
     public Box box;
     public float thickness;
     public float space;
-    private Color line;
-    private Color bg;
+    private Color? line;
+    private Color? bg;
 
     public FramedBox(Box box, float thickness, float space) {
         this.box = box;
-        this.width = box.width + 2 * thickness + 2 * space;
-        this.height = box.height + thickness + space;
-        this.depth = box.depth + thickness + space;
-        this.shift = box.shift;
+        this.width = box.Width + 2 * thickness + 2 * space;
+        this.height = box.Height + thickness + space;
+        this.depth = box.Depth + thickness + space;
+        this.shift = box.Shift;
         this.thickness = thickness;
         this.space = space;
     }
 
-    public FramedBox(Box box, float thickness, float space, Color line, Color bg): this(box, thickness, space)
+    public FramedBox(Box box, float thickness, float space, Color? line, Color? bg): this(box, thickness, space)
     {
-        ;
         this.line = line;
         this.bg = bg;
     }
 
     public override void Draw(Graphics g2, float x, float y) {
-        Stroke st = g2.getStroke();
-        g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        float th = thickness / 2;
-        if (bg != null) { 
-            Color prev = g2.getColor();
-            g2.setColor(bg);
-            g2.fill(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
-            g2.setColor(prev);
-        }
-        if (line != null) {
-            Color prev = g2.getColor();
-            g2.setColor(line);
-            g2.draw(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
-            g2.setColor(prev);
-        } else {
-            g2.draw(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
-        }
-        //drawDebug(g2, x, y);
-        g2.setStroke(st);
-        box.Draw(g2, x + space + thickness, y);
+        //Stroke st = g2.getStroke();
+        //g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+        //float th = thickness / 2;
+        //if (bg != null) { 
+        //    Color prev = g2.getColor();
+        //    g2.setColor(bg);
+        //    g2.fill(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
+        //    g2.setColor(prev);
+        //}
+        //if (line != null) {
+        //    Color prev = g2.getColor();
+        //    g2.setColor(line);
+        //    g2.draw(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
+        //    g2.setColor(prev);
+        //} else {
+        //    g2.draw(new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
+        //}
+        ////drawDebug(g2, x, y);
+        //g2.setStroke(st);
+        //box.Draw(g2, x + space + thickness, y);
     }
 
     public override int LastFontId => box.LastFontId;

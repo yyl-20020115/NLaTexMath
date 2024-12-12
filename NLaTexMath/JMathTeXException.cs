@@ -51,12 +51,9 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class JMathTeXException : Exception {
+public class JMathTeXException : Exception
+{
+    public JMathTeXException(string msg) : base(msg) { }
 
-    
-    public JMathTeXException(string msg):base(msg) {
-    }
-
-    public JMathTeXException(string msg, Exception cause) :base(msg,cause) {
-    }
+    public JMathTeXException(string msg, Exception cause) : base(msg, cause) { }
 }

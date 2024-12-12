@@ -48,15 +48,14 @@ namespace NLaTexMath;
 /**
  * An atom with representing an t with a caron.
  */
-public class tcaronAtom : Atom {
+public class TcaronAtom : Atom
+{
 
-    public tcaronAtom() {
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        CharBox A = new CharBox(env.TeXFont.getChar("textapos", env.Style));
-        CharBox t = new CharBox(env.TeXFont.getChar('t', "mathnormal", env.Style));
-        HorizontalBox hb = new HorizontalBox(t);
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        var A = new CharBox(env.TeXFont.GetChar("textapos", env.Style));
+        var t = new CharBox(env.TeXFont.GetChar('t', "mathnormal", env.Style));
+        var hb = new HorizontalBox(t);
         hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.3f, 0, 0).CreateBox(env));
         hb.Add(A);
         return hb;

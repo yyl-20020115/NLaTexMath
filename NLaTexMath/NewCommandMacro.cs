@@ -61,7 +61,7 @@ public class NewCommandMacro {
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
 
-    public static void addNewCommand(string name, string code, int nbargs, string def)  {
+    public static void AddNewCommand(string name, string code, int nbargs, string def)  {
         if (macrocode[(name)] != null)
             throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
         macrocode.Add(name, code);
@@ -69,18 +69,18 @@ public class NewCommandMacro {
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs, 1));
     }
 
-    public static bool isMacro(string name) {
+    public static bool IsMacro(string name) {
         return macrocode.ContainsKey(name);
     }
 
-    public static void addReNewCommand(string name, string code, int nbargs) {
+    public static void AddReNewCommand(string name, string code, int nbargs) {
         if (macrocode[(name)] == null)
             throw new ParseException("Command " + name + " is not defined ! Use newcommand instead ...");
         macrocode.Add(name, code);
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
 
-    public string executeMacro(TeXParser tp, string[] args) {
+    public string ExecuteMacro(TeXParser tp, string[] args) {
         string code = macrocode[(args[0])];
         string rep;
         int nbargs = args.Length - 11;

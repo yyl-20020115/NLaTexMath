@@ -58,8 +58,8 @@ public class BoldAtom(Atom _base) : Atom
         Box box;
         if (_base != null)
         {
-            env = env.Copy(env.TeXFont.copy());
-            env.            TeXFont.setBold(true);
+            env = env.Copy(env.TeXFont.Copy());
+            env.TeXFont.SetBold(true);
             box = _base.CreateBox(env);
         }
         else

@@ -46,46 +46,38 @@
 
 namespace NLaTexMath;
 
-public class XMLResourceParseException : ResourceParseException {
-
-    
+public class XMLResourceParseException : ResourceParseException
+{
     /*
      * Attribute problem
      */
-    public XMLResourceParseException(string resourceName, string elementName, string attributeName, string msg) 
-        :base(resourceName + ": invalid <" + elementName
+    public XMLResourceParseException(string resourceName, string elementName, string attributeName, string msg)
+        : base(resourceName + ": invalid <" + elementName
               + ">-element found: attribute '" + attributeName + "' "
-              + (msg == null ? "is required!" : msg)){
-    }
+              + (msg ?? "is required!")) { }
 
     /*
      * Attribute problem
      */
     public XMLResourceParseException(string resourceName, string elementName, string attributeName, string msg, Exception e)
-        :base(resourceName + ": invalid <" + elementName
+        : base(resourceName + ": invalid <" + elementName
               + ">-element found: attribute '" + attributeName + "' "
-              + (msg == null ? "is required!" : msg), e){
-    }
+              + (msg ?? "is required!"), e) { }
     /*
      * required element missing
      */
     public XMLResourceParseException(string resourceName, string elementName)
-        :base(resourceName + ": the required <" + elementName
-              + ">-element is not found!")
-    { 
-    }
-
+        : base(resourceName + ": the required <" + elementName
+              + ">-element is not found!") { }
     /*
      * JDOMException or IOException
      */
     public XMLResourceParseException(string resourceName, Exception e)
-        :base(resourceName, e){
-    }
+        : base(resourceName, e) { }
 
     /*
      * for other cases
      */
     public XMLResourceParseException(string msg)
-        : base(msg) { 
-    }
+        : base(msg) { }
 }

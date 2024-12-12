@@ -48,19 +48,16 @@ namespace NLaTexMath;
 /**
  * An atom representing a small capital atom.
  */
-public class SmallCapAtom : Atom {
+public class SmallCapAtom(Atom _base) : Atom
+{
+    protected Atom Base = _base;
 
-    protected Atom _base;
-
-    public SmallCapAtom(Atom _base) {
-        this._base = _base;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         bool prev = env.SmallCap;
-        env.        SmallCap = true;
-        Box box = _base.CreateBox(env);
-        env.        SmallCap = prev;
+        env.SmallCap = true;
+        Box box = Base.CreateBox(env);
+        env.SmallCap = prev;
         return box;
     }
 }

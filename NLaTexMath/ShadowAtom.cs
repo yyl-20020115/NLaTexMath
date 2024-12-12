@@ -48,11 +48,7 @@ namespace NLaTexMath;
 /**
  * An atom representing a boxed base atom.
  */
-public class ShadowAtom : FBoxAtom {
-
-    public ShadowAtom(Atom _base) :base(_base) { }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        return new ShadowBox((FramedBox) base.CreateBox(env), env.TeXFont.getDefaultRuleThickness(env.Style) * 4);
-    }
+public class ShadowAtom(Atom _base) : FBoxAtom(_base) {
+    public override Box CreateBox(TeXEnvironment env) 
+        => new ShadowBox((FramedBox)base.CreateBox(env), env.TeXFont.GetDefaultRuleThickness(env.Style) * 4);
 }

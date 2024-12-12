@@ -49,5 +49,6 @@ namespace NLaTexMath;
  * An atom representing a boxed base atom.
  */
 public class OvalAtom(Atom _base) : FBoxAtom(_base) {
-    public override Box CreateBox(TeXEnvironment env) => new OvalBox((FramedBox)base.CreateBox(env));
+    public override Box CreateBox(TeXEnvironment env)
+        => new OvalBox((FramedBox)base.CreateBox(env));
 }

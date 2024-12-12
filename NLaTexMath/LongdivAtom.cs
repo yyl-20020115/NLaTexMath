@@ -48,27 +48,35 @@ namespace NLaTexMath;
 /**
  * An atom representing a long division.
  */
-public class LongdivAtom : VRowAtom {
-
-    public LongdivAtom(long divisor, long dividend) {
-        setHalign(TeXConstants.ALIGN_RIGHT);
-        setVtop(true);
-        string[] res = makeResults(divisor, dividend);
+public class LongdivAtom : VRowAtom
+{
+    public LongdivAtom(long divisor, long dividend)
+    {
+        Halign = TeXConstants.ALIGN_RIGHT;
+        Vtop = true;
+        string[] res = MakeResults(divisor, dividend);
         Atom rule = new RuleAtom(TeXConstants.UNIT_EX, 0f,
                                  TeXConstants.UNIT_EX, 2.6f,
                                  TeXConstants.UNIT_EX, 0.5f);
-        for (int i = 0; i < res.Length; ++i) {
+        for (int i = 0; i < res.Length; ++i)
+        {
             Atom num = new TeXFormula(res[i]).root;
-            if (i % 2 == 0) {
+            if (i % 2 == 0)
+            {
                 RowAtom ra = new RowAtom(num);
                 ra.Add(rule);
-                if (i == 0) {
+                if (i == 0)
+                {
                     Append(ra);
-                } else {
+                }
+                else
+                {
                     Append(new UnderlinedAtom(ra));
                 }
-            } else if (i == 1) {
-                string div =(divisor.ToString());
+            }
+            else if (i == 1)
+            {
+                string div = (divisor.ToString());
                 SymbolAtom rparen = SymbolAtom.Get(TeXFormula.symbolMappings[')']);
                 Atom big = new BigDelimiterAtom(rparen, 1);
                 Atom ph = new PhantomAtom(big, false, true, true);
@@ -84,7 +92,9 @@ public class LongdivAtom : VRowAtom {
                 ra1.Add(new SpaceAtom(TeXConstants.THINMUSKIP));
                 ra1.Add(a);
                 Append(ra1);
-            } else {
+            }
+            else
+            {
                 RowAtom ra = new RowAtom(num);
                 ra.Add(rule);
                 Append(ra);
@@ -92,16 +102,18 @@ public class LongdivAtom : VRowAtom {
         }
     }
 
-    private string[] makeResults(long divisor, long dividend) {
-        List<string> vec = new ();
+    private string[] MakeResults(long divisor, long dividend)
+    {
+        List<string> vec = new();
         long q = dividend / divisor;
         vec.Add(q.ToString());
         vec.Add((dividend.ToString()));
 
-        while (q != 0) {
-            double p = (double) Math.Floor(Math.Log10((double) q));
+        while (q != 0)
+        {
+            double p = (double)Math.Floor(Math.Log10((double)q));
             double p10 = Math.Pow(10.0, p);
-            long d = (long) (Math.Floor(((double) q) / p10) * p10);
+            long d = (long)(Math.Floor(((double)q) / p10) * p10);
             long dd = d * divisor;
             vec.Add(dd.ToString());
             dividend -= dd;
@@ -109,6 +121,6 @@ public class LongdivAtom : VRowAtom {
             q -= d;
         }
 
-        return vec.ToArray();
+        return [.. vec];
     }
 }

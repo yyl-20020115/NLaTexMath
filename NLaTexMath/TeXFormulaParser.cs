@@ -57,24 +57,24 @@ public class TeXFormulaParser
 
     private interface ActionParser
     { // NOPMD
-        public void parse(XElement el);
+        public void Parse(XElement el);
     }
 
     private interface ArgumentValueParser
     { // NOPMD
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         ;
     }
 
-    private class MethodInvocationParser : ActionParser
+    public class MethodInvocationParser : ActionParser
     {
 
-        MethodInvocationParser()
+        public MethodInvocationParser()
         {
             // avoids creation of special accessor type
         }
 
-        public void parse(XElement el)
+        public void Parse(XElement el)
         {
             // get required string attributes
             string methodName = getAttrValueAndCheckIfNotNull("name", el);
@@ -121,7 +121,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public void parse(XElement el)
+        public void Parse(XElement el)
         {
             // get required string attribute
             string name = getAttrValueAndCheckIfNotNull("name", el);
@@ -157,7 +157,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public void parse(XElement el)
+        public void Parse(XElement el)
         {
             // get required string attribute
             string name = getAttrValueAndCheckIfNotNull("name", el);
@@ -208,7 +208,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             checkNullValue(value, type);
             try
@@ -233,7 +233,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             checkNullValue(value, type);
             if (value.Length == 1)
@@ -258,7 +258,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             checkNullValue(value, type);
             if ("true" == (value))
@@ -287,7 +287,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             checkNullValue(value, type);
             try
@@ -313,7 +313,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public void parse(XElement el)
+        public void Parse(XElement el)
         {
             // get required string attribute
             string name = getAttrValueAndCheckIfNotNull("name", el);
@@ -341,7 +341,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             return value;
         }
@@ -355,7 +355,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             if (value == null)
             {// null pointer argument
@@ -388,7 +388,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             checkNullValue(value, type);
             try
@@ -417,7 +417,7 @@ public class TeXFormulaParser
             // avoids creation of special accessor type
         }
 
-        public object parseValue(string value, string type)
+        public object ParseValue(string value, string type)
         {
             checkNullValue(value, type);
             try
@@ -507,7 +507,7 @@ public class TeXFormulaParser
                 ActionParser p = actionParsers[(el.Name.LocalName)];
                 if (p != null)
                 {// ignore unknown elements
-                    p.parse(el);
+                    p.Parse(el);
                 }
             }
         }

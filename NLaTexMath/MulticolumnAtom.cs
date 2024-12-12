@@ -50,7 +50,6 @@ namespace NLaTexMath;
  */
 public class MulticolumnAtom : Atom
 {
-
     protected int n;
     protected int align;
     protected float w = 0;
@@ -68,9 +67,9 @@ public class MulticolumnAtom : Atom
 
     public void SetWidth(float w) => this.w = w;
 
-    public int GetSkipped() => n;
+    public int Skipped => n;
 
-    public bool HasRightVline() => afterVlines != 0;
+    public bool HasRightVline => afterVlines != 0;
 
     public void SetRowColumn(int i, int j)
     {
@@ -143,7 +142,7 @@ public class MulticolumnAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = w == 0 ? cols.CreateBox(env) : new HorizontalBox(cols.CreateBox(env), w, align);
+        var b = w == 0 ? cols.CreateBox(env) : new HorizontalBox(cols.CreateBox(env), w, align);
         b.Type = TeXConstants.TYPE_MULTICOLUMN;
         return b;
     }

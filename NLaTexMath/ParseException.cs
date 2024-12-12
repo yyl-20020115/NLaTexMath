@@ -49,14 +49,9 @@ namespace NLaTexMath;
 /**
  * Signals that an error occured while parsing a string to a formula.
  */
-public class ParseException : JMathTeXException {
+public class ParseException : JMathTeXException
+{
+    public ParseException(string str, Exception cause) : base(str, cause) { }
 
-    
-    public ParseException(string str, Exception cause): base(str, cause)
-    {
-        ;
-    }
-
-    public ParseException(string str):base(str) {
-    }
+    public ParseException(string str) : base(str) { }
 }

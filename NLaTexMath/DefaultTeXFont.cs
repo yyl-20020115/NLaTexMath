@@ -167,7 +167,7 @@ public class DefaultTeXFont : TeXFont {
     public static void addAlphabet(UnicodeBlock alphabet, Stream inlanguage, string language, Stream insymbols, string symbols, Stream inmappings, string mappings){
         if (!loadedAlphabets.Contains(alphabet)) {
             addTeXFontDescription(inlanguage, language);
-            SymbolAtom.addSymbolAtom(insymbols, symbols);
+            SymbolAtom.AddSymbolAtom(insymbols, symbols);
             TeXFormula.addSymbolMappings(inmappings, mappings);
             loadedAlphabets.Add(alphabet);
         }
@@ -216,43 +216,43 @@ public class DefaultTeXFont : TeXFont {
         }
     }
 
-    public TeXFont copy() {
+    public TeXFont Copy() {
         return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
     }
 
-    public TeXFont deriveFont(float size) {
+    public TeXFont DeriveFont(float size) {
         return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
     }
 
-    public TeXFont scaleFont(float factor) {
+    public TeXFont ScaleFont(float factor) {
         return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
     }
 
-    public float getScaleFactor() {
+    public float GetScaleFactor() {
         return factor;
     }
 
-    public float getAxisHeight(int style) {
+    public float GetAxisHeight(int style) {
         return getParameter("axisheight") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getBigOpSpacing1(int style) {
+    public float GetBigOpSpacing1(int style) {
         return getParameter("bigopspacing1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getBigOpSpacing2(int style) {
+    public float GetBigOpSpacing2(int style) {
         return getParameter("bigopspacing2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getBigOpSpacing3(int style) {
+    public float GetBigOpSpacing3(int style) {
         return getParameter("bigopspacing3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getBigOpSpacing4(int style) {
+    public float GetBigOpSpacing4(int style) {
         return getParameter("bigopspacing4") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getBigOpSpacing5(int style) {
+    public float GetBigOpSpacing5(int style) {
         return getParameter("bigopspacing5") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
@@ -274,12 +274,12 @@ public class DefaultTeXFont : TeXFont {
 
         // if the mapping for the character's range, then use the default style
         if (cf[kind] == null)
-            return getDefaultChar(c, style);
+            return GetDefaultChar(c, style);
         else
-            return getChar(new CharFont((char) (cf[kind].c + offset), cf[kind].fontId), style);
+            return GetChar(new CharFont((char) (cf[kind].c + offset), cf[kind].fontId), style);
     }
 
-    public Char getChar(char c, string textStyle, int style)  {
+    public Char GetChar(char c, string textStyle, int style)  {
         object mapping = textStyleMappings[(textStyle)];
         if (mapping == null) // text style mapping not found
             throw new TextStyleMappingNotFoundException(textStyle);
@@ -287,80 +287,80 @@ public class DefaultTeXFont : TeXFont {
             return getChar(c, (CharFont[]) mapping, style);
     }
 
-    public Char getChar(CharFont cf, int style) {
+    public Char GetChar(CharFont cf, int style) {
         float fsize = getSizeFactor(style);
         int id = isBold ? cf.boldFontId : cf.fontId;
         FontInfo info = fontInfo[id];
         if (isBold && cf.fontId == cf.boldFontId) {
-            id = info.getBoldId();
+            id = info.BoldId;
             info = fontInfo[id];
             cf = new CharFont(cf.c, id, style);
         }
         if (isRoman) {
-            id = info.getRomanId();
+            id = info.RomanId;
             info = fontInfo[id];
             cf = new CharFont(cf.c, id, style);
         }
         if (isSs) {
-            id = info.getSsId();
+            id = info.SsId;
             info = fontInfo[id];
             cf = new CharFont(cf.c, id, style);
         }
         if (isTt) {
-            id = info.getTtId();
+            id = info.TtId;
             info = fontInfo[id];
             cf = new CharFont(cf.c, id, style);
         }
         if (isIt) {
-            id = info.getItId();
+            id = info.ItId;
             info = fontInfo[id];
             cf = new CharFont(cf.c, id, style);
         }
-        Font font = info.getFont();
+        Font font = info.Font;
         return new Char(cf.c, font, id, getMetrics(cf, factor * fsize));
     }
 
-    public Char getChar(string symbolName, int style)  {
+    public Char GetChar(string symbolName, int style)  {
         object obj = symbolMappings[(symbolName)];
         if (obj == null) {// no symbol mapping found!
             throw new SymbolMappingNotFoundException(symbolName); 
         } else {
-            return getChar((CharFont) obj, style);
+            return GetChar((CharFont) obj, style);
         }
     }
 
-    public Char getDefaultChar(char c, int style) {
+    public Char GetDefaultChar(char c, int style) {
         // these default text style mappings will allways exist,
         // because it's checked during parsing
         if (c >= '0' && c <= '9') {
-            return getChar(c, defaultTextStyleMappings[NUMBERS], style);
+            return GetChar(c, defaultTextStyleMappings[NUMBERS], style);
         } else if (c >= 'a' && c <= 'z') {
-            return getChar(c, defaultTextStyleMappings[SMALL], style);
+            return GetChar(c, defaultTextStyleMappings[SMALL], style);
         } else {
-            return getChar(c, defaultTextStyleMappings[CAPITALS], style);
+            return GetChar(c, defaultTextStyleMappings[CAPITALS], style);
         }
     }
 
-    public float getDefaultRuleThickness(int style) {
+    public float GetDefaultRuleThickness(int style) {
         return getParameter("defaultrulethickness") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getDenom1(int style) {
+    public float GetDenom1(int style) {
         return getParameter("denom1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getDenom2(int style) {
+    public float GetDenom2(int style) {
         return getParameter("denom2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public Extension getExtension(Char c, int style) {
-        Font f = c.getFont();
-        int fc = c.getFontCode();
+    public Extension GetExtension(Char c, int style) {
+        Font f = c.Font;
+        int fc = c.FontCode;
         float s = getSizeFactor(style);
 
         // construct Char for every part
         FontInfo info = fontInfo[fc];
-        int[] ext = info.getExtension(c.getChar());
+        int[] ext = info.GetExtension(c.Character);
         Char[] parts = new Char[ext.Length];
         for (int i = 0; i < ext.Length; i++) {
             if (ext[i] == NONE) {
@@ -373,19 +373,19 @@ public class DefaultTeXFont : TeXFont {
         return new Extension(parts[TOP], parts[MID], parts[REP], parts[BOT]);
     }
 
-    public float getKern(CharFont left, CharFont right, int style) {
+    public float GetKern(CharFont left, CharFont right, int style) {
         if (left.fontId == right.fontId) {
             FontInfo info = fontInfo[left.fontId];
-            return info.getKern(left.c, right.c, getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+            return info.GetKern(left.c, right.c, getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
         } else {
             return 0;
         }
     }
 
-    public CharFont getLigature(CharFont left, CharFont right) {
+    public CharFont GetLigature(CharFont left, CharFont right) {
         if (left.fontId == right.fontId) {
             FontInfo info =  fontInfo[left.fontId];
-            return info.getLigature(left.c, right.c);
+            return info.GetLigature(left.c, right.c);
         } else {
             return null;
         }
@@ -393,147 +393,147 @@ public class DefaultTeXFont : TeXFont {
 
     private Metrics getMetrics(CharFont cf, float size) {
         FontInfo info = fontInfo[cf.fontId];
-        float[] m = info.getMetrics(cf.c);
+        float[] m = info.GetMetrics(cf.c);
         return new Metrics(m[WIDTH], m[HEIGHT], m[DEPTH], m[IT], size * TeXFormula.PIXELS_PER_POINT, size);
     }
 
-    public int getMuFontId() {
+    public int GetMuFontId() {
         return (int)generalSettings[(DefaultTeXFontParser.MUFONTID_ATTR)];
     }
 
-    public Char getNextLarger(Char c, int style) {
-        FontInfo info = fontInfo[c.getFontCode()];
-        CharFont ch = info.getNextLarger(c.getChar());
+    public Char GetNextLarger(Char c, int style) {
+        FontInfo info = fontInfo[c.FontCode];
+        CharFont ch = info.GetNextLarger(c.Character);
         FontInfo newInfo = fontInfo[ch.fontId];
-        return new Char(ch.c, newInfo.getFont(), ch.fontId, getMetrics(ch, getSizeFactor(style)));
+        return new Char(ch.c, newInfo.Font, ch.fontId, getMetrics(ch, getSizeFactor(style)));
     }
 
-    public float getNum1(int style) {
+    public float GetNum1(int style) {
         return getParameter("num1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getNum2(int style) {
+    public float GetNum2(int style) {
         return getParameter("num2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getNum3(int style) {
+    public float GetNum3(int style) {
         return getParameter("num3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getQuad(int style, int fontCode) {
+    public float GetQuad(int style, int fontCode) {
         FontInfo info = fontInfo[fontCode];
-        return info.getQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+        return info.GetQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
     }
 
-    public float getSize() {
+    public float GetSize() {
         return size;
     }
 
-    public float getSkew(CharFont cf, int style) {
+    public float GetSkew(CharFont cf, int style) {
         FontInfo info = fontInfo[cf.fontId];
-        char skew = info.getSkewChar();
+        char skew = info.SkewChar;
         if (skew == -1)
             return 0;
         else
-            return getKern(cf, new CharFont(skew, cf.fontId), style);
+            return GetKern(cf, new CharFont(skew, cf.fontId), style);
     }
 
-    public float getSpace(int style) {
+    public float GetSpace(int style) {
         int spaceFontId = (int)generalSettings[DefaultTeXFontParser.SPACEFONTID_ATTR];
         FontInfo info = fontInfo[spaceFontId];
-        return info.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+        return info.GetSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
     }
 
-    public float getSub1(int style) {
+    public float GetSub1(int style) {
         return getParameter("sub1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getSub2(int style) {
+    public float GetSub2(int style) {
         return getParameter("sub2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getSubDrop(int style) {
+    public float GetSubDrop(int style) {
         return getParameter("subdrop") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getSup1(int style) {
+    public float GetSup1(int style) {
         return getParameter("sup1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getSup2(int style) {
+    public float GetSup2(int style) {
         return getParameter("sup2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getSup3(int style) {
+    public float GetSup3(int style) {
         return getParameter("sup3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getSupDrop(int style) {
+    public float GetSupDrop(int style) {
         return getParameter("supdrop") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public float getXHeight(int style, int fontCode) {
+    public float GetXHeight(int style, int fontCode) {
         FontInfo info = fontInfo[fontCode];
-        return info.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
+        return info.GetXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
     }
 
-    public float getEM(int style) {
+    public float GetEM(int style) {
         return getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
     }
 
-    public bool hasNextLarger(Char c) {
-        FontInfo info = fontInfo[c.getFontCode()];
-        return (info.getNextLarger(c.getChar()) != null);
+    public bool HasNextLarger(Char c) {
+        FontInfo info = fontInfo[c.FontCode];
+        return (info.GetNextLarger(c.Character) != null);
     }
 
-    public void setBold(bool bold) {
+    public void SetBold(bool bold) {
         isBold = bold;
     }
 
-    public bool getBold() {
+    public bool GetBold() {
         return isBold;
     }
 
-    public void setRoman(bool rm) {
+    public void SetRoman(bool rm) {
         isRoman = rm;
     }
 
-    public bool getRoman() {
+    public bool GetRoman() {
         return isRoman;
     }
 
-    public void setTt(bool tt) {
+    public void SetTt(bool tt) {
         isTt = tt;
     }
 
-    public bool getTt() {
+    public bool GetTt() {
         return isTt;
     }
 
-    public void setIt(bool it) {
+    public void SetIt(bool it) {
         isIt = it;
     }
 
-    public bool getIt() {
+    public bool GetIt() {
         return isIt;
     }
 
-    public void setSs(bool ss) {
+    public void SetSs(bool ss) {
         isSs = ss;
     }
 
-    public bool getSs() {
+    public bool GetSs() {
         return isSs;
     }
 
-    public bool hasSpace(int font) {
+    public bool HasSpace(int font) {
         FontInfo info = fontInfo[font];
-        return info.hasSpace();
+        return info.HasSpace;
     }
 
-    public bool isExtensionChar(Char c) {
-        FontInfo info = fontInfo[c.getFontCode()];
-        return info.getExtension(c.getChar()) != null;
+    public bool IsExtensionChar(Char c) {
+        FontInfo info = fontInfo[c.FontCode];
+        return info.GetExtension(c.Character) != null;
     }
 
     public static void setMathSizes(float ds, float ts, float ss, float sss) {

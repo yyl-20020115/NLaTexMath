@@ -50,14 +50,12 @@ namespace NLaTexMath;
  */
 public class ReflectAtom : Atom {
 
-    private Atom _base;
+    private readonly Atom Base;
 
     public ReflectAtom(Atom _base) {
         this.Type = _base.Type;
-        this._base = _base;
+        this.Base = _base;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        return new ReflectBox(_base.CreateBox(env));
-    }
+    public override Box CreateBox(TeXEnvironment env) => new ReflectBox(Base.CreateBox(env));
 }

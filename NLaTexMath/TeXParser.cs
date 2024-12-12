@@ -328,7 +328,7 @@ public class TeXParser
     {
         Atom at = formula.root;
         if (at is RowAtom)
-            return ((RowAtom)at).getLastAtom();
+            return ((RowAtom)at).GetLastAtom();
         formula.root = null;
         return at;
     }
@@ -456,7 +456,7 @@ public class TeXParser
                             mac = MacroInfo.Commands[(com)];
                             try
                             {
-                                mac.invoke(this, args);
+                                mac.Invoke(this, args);
                             }
                             catch (ParseException e)
                             {
@@ -469,14 +469,14 @@ public class TeXParser
                             len = parseString.Length;
                             pos = spos;
                         }
-                        else if (NewCommandMacro.isMacro(com))
+                        else if (NewCommandMacro.IsMacro(com))
                         {
                             mac = MacroInfo.Commands[(com)];
                             args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
                             args[0] = com;
                             try
                             {
-                                parseString.Replace(spos, pos, (string)mac.invoke(this, args));
+                                parseString.Replace(spos, pos, (string)mac.Invoke(this, args));
                             }
                             catch (ParseException e)
                             {
@@ -919,7 +919,7 @@ public class TeXParser
         Atom at;
         if (formula.root is RowAtom)
         {
-            at = ((RowAtom)formula.root).getLastAtom();
+            at = ((RowAtom)formula.root).GetLastAtom();
         }
         else if (formula.root == null)
         {
@@ -1342,7 +1342,7 @@ public class TeXParser
                 {// we are in text mode
                     if (TeXFormula.symbolTextMappings[c] != null)
                     {
-                        return SymbolAtom.Get(TeXFormula.symbolTextMappings[c]).setUnicode(c);
+                        return SymbolAtom.Get(TeXFormula.symbolTextMappings[c]).SetUnicode(c);
                     }
                 }
                 if (TeXFormula.symbolFormulaMappings != null && TeXFormula.symbolFormulaMappings[c] != null)
@@ -1627,14 +1627,14 @@ public class TeXParser
         string[] args = getOptsArgs(mac.nbArgs, opts);
         args[0] = command;
 
-        if (NewCommandMacro.isMacro(command))
+        if (NewCommandMacro.IsMacro(command))
         {
-            string ret = (string)mac.invoke(this, args);
+            string ret = (string)mac.Invoke(this, args);
             insert(spos, pos, ret);
             return null;
         }
 
-        return (Atom)mac.invoke(this, args);
+        return (Atom)mac.Invoke(this, args);
     }
 
     /** Test the validity of the name of a command. It must Contains only alpha characters and eventually a @ if makeAtletter activated

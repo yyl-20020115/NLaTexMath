@@ -48,18 +48,14 @@ namespace NLaTexMath;
 /**
  * An atom representing an extensible left or right arrow to handle xleftarrow and xrightarrow commands in LaTeX.
  */
-public class XArrowAtom : Atom {
+public class XArrowAtom(Atom over, Atom under, bool left) : Atom
+{
+    private readonly Atom over = over;
+    private readonly Atom under = under;
+    private readonly bool left = left;
 
-    private Atom over, under;
-    private bool left;
-
-    public XArrowAtom(Atom over, Atom under, bool left) {
-        this.over = over;
-        this.under = under;
-        this.left = left;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box O = over != null ? over.CreateBox(env.SupStyle) : new StrutBox(0, 0, 0, 0);
         Box U = under != null ? under.CreateBox(env.SubStyle) : new StrutBox(0, 0, 0, 0);
         Box oside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).CreateBox(env.SupStyle);
@@ -71,7 +67,7 @@ public class XArrowAtom : Atom {
         Box ohb = new HorizontalBox(O, width, TeXConstants.ALIGN_CENTER);
         Box uhb = new HorizontalBox(U, width, TeXConstants.ALIGN_CENTER);
 
-        VerticalBox vb = new VerticalBox();
+        var vb = new VerticalBox();
         vb.Add(ohb);
         vb.Add(sep);
         vb.Add(arrow);
@@ -80,10 +76,10 @@ public class XArrowAtom : Atom {
 
         float h = vb.Height + vb.Depth;
         float d = sep.Height + sep.Depth + uhb.Height + uhb.Depth;
-        vb.        Depth = d;
-        vb.        Height = h - d;
+        vb.Depth = d;
+        vb.Height = h - d;
 
-        HorizontalBox hb = new HorizontalBox(vb, vb.Width + 2*sep.Height, TeXConstants.ALIGN_CENTER);
+        var hb = new HorizontalBox(vb, vb.Width + 2 * sep.Height, TeXConstants.ALIGN_CENTER);
         return hb;
     }
 }

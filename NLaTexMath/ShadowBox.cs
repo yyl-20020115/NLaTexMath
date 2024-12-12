@@ -50,31 +50,33 @@ using System.Drawing;
 /**
  * A box representing a rotated box.
  */
-public class ShadowBox : FramedBox {
+public class ShadowBox : FramedBox
+{
 
-    private float shadowRule;
+    private readonly float shadowRule;
 
     public ShadowBox(FramedBox fbox, float shadowRule)
     : base(fbox.box, fbox.thickness, fbox.space)
     {
-        ;
         this.shadowRule = shadowRule;
         depth += shadowRule;
         width += shadowRule;
     }
 
-    public void draw(Graphics g2, float x, float y) {
-        float th = thickness / 2;
-        box.Draw(g2, x + space + thickness, y);
-        Stroke st = g2.getStroke();
-        g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        g2.draw(new RectangleF(x + th, y - height + th, width - shadowRule - thickness, height + depth - shadowRule - thickness));
-        float penth = (float) Math.Abs(1 / g2.getTransform().getScaleX());
-        g2.setStroke(new BasicStroke(penth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        g2.fill(new RectangleF(x + shadowRule - penth, y + depth - shadowRule - penth, width - shadowRule, shadowRule));
-        g2.fill(new RectangleF(x + width - shadowRule - penth, y - height + th + shadowRule, shadowRule, depth + height - 2 * shadowRule - th));
-        //drawDebug(g2, x, y);
-        g2.setStroke(st);
+    public override void Draw(Graphics g2, float x, float y)
+    {
+        //TODO:
+        //float th = thickness / 2;
+        //box.Draw(g2, x + space + thickness, y);
+        //Stroke st = g2.getStroke();
+        //g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+        //g2.draw(new RectangleF(x + th, y - height + th, width - shadowRule - thickness, height + depth - shadowRule - thickness));
+        //float penth = (float) Math.Abs(1 / g2.getTransform().getScaleX());
+        //g2.setStroke(new BasicStroke(penth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+        //g2.fill(new RectangleF(x + shadowRule - penth, y + depth - shadowRule - penth, width - shadowRule, shadowRule));
+        //g2.fill(new RectangleF(x + width - shadowRule - penth, y - height + th + shadowRule, shadowRule, depth + height - 2 * shadowRule - th));
+        ////drawDebug(g2, x, y);
+        //g2.setStroke(st);
     }
 
     public override int LastFontId => box.LastFontId;

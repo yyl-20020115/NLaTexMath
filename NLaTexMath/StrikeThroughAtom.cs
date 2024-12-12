@@ -48,26 +48,22 @@ namespace NLaTexMath;
 /**
  * An atom representing a smashed atom (i.e. with no height and no depth).
  */
-public class StrikeThroughAtom : Atom {
+public class StrikeThroughAtom(Atom _base) : Atom
+{
+    private readonly Atom Base = _base;
 
-    private Atom at;
-
-    public StrikeThroughAtom(Atom at) {
-        this.at = at;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         TeXFont tf = env.TeXFont;
         int style = env.Style;
-        float axis = tf.getAxisHeight(style);
-        float drt = tf.getDefaultRuleThickness(style);
-        Box b = at.CreateBox(env);
-        HorizontalRule rule = new HorizontalRule(drt, b.Width, -axis + drt, false);
-        HorizontalBox hb = new HorizontalBox();
+        float axis = tf.GetAxisHeight(style);
+        float drt = tf.GetDefaultRuleThickness(style);
+        Box b = Base.CreateBox(env);
+        var rule = new HorizontalRule(drt, b.Width, -axis + drt, false);
+        var hb = new HorizontalBox();
         hb.Add(b);
         hb.Add(new StrutBox(-b.Width, 0, 0, 0));
         hb.Add(rule);
-
         return hb;
     }
 }

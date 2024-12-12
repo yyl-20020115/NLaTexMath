@@ -49,19 +49,17 @@ namespace NLaTexMath;
 /**
  * An atom representing a fixed character (not depending on a text style).
  */
-public class FixedCharAtom : CharSymbol
+public class FixedCharAtom(CharFont c) : CharSymbol
 {
 
-    private readonly CharFont cf;
-
-    public FixedCharAtom(CharFont c) => cf = c;
+    private readonly CharFont cf = c;
 
     public override CharFont GetCharFont(TeXFont tf) => cf;
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        TeXFont tf = env.TeXFont;
-        Char c = tf.getChar(cf, env.Style);
+        var tf = env.TeXFont;
+        var c = tf.GetChar(cf, env.Style);
         return new CharBox(c);
     }
 

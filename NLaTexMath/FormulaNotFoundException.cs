@@ -51,12 +51,9 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class FormulaNotFoundException : JMathTeXException
-{
-
-    public FormulaNotFoundException(string name) :
-        base("There's no predefined TeXFormula with the name '" + name
+public class FormulaNotFoundException(string name) 
+    : JMathTeXException("There's no predefined TeXFormula with the name '" + name
               + "' defined in '" + PredefinedTeXFormulaParser.RESOURCE_NAME
               + "'!")
-    { }
+{
 }

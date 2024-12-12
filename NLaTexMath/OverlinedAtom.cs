@@ -49,30 +49,32 @@ namespace NLaTexMath;
 /**
  * An atom representing another atom with a horizontal line above it
  */
-public class OverlinedAtom : Atom {
+public class OverlinedAtom : Atom
+{
 
     // base atom to be overlined
-    private  Atom _base;
+    private readonly Atom Base;
 
-    public OverlinedAtom(Atom f) {
-        _base = f;
+    public OverlinedAtom(Atom atom)
+    {
+        Base = atom;
         Type = TeXConstants.TYPE_ORDINARY;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
-        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
 
         // cramp the style of the formula to be overlined and create vertical box
-        Box b = (_base == null ? new StrutBox(0, 0, 0, 0) : _base.CreateBox(env
-                 .CrampStyle()));
-        OverBar ob = new OverBar(b, 3 * drt, drt);
-
-        // baseline vertical box = baseline box b
-        ob.
-        // baseline vertical box = baseline box b
-        Depth = b.Depth;
-        ob.        Height = b.Height + 5 * drt;
-
+        Box b = Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env
+                 .CrampStyle());
+        OverBar ob = new(b, 3 * drt, drt)
+        {
+            // baseline vertical box = baseline box b
+            Depth = b.Depth,
+            // baseline vertical box = baseline box b
+            Height = b.Height + 5 * drt
+        };
         return ob;
     }
 }

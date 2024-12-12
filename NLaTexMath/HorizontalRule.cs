@@ -81,16 +81,17 @@ public class HorizontalRule : Box {
     }
 
     public override void Draw(Graphics g2, float x, float y) {
-        Color old = g2.getColor();
-        if (color != null)
-            g2.setColor(color);
+        //TODO:
+        //Color old = g2.getColor();
+        //if (color != null)
+        //    g2.setColor(color);
 
-        if (speShift == 0) {
-            g2.fill(new RectangleF(x, y - height, width, height));
-        } else {
-            g2.fill(new RectangleF(x, y - height + speShift, width, height)); 
-        }
-        g2.setColor(old);
+        //if (speShift == 0) {
+        //    g2.fill(new RectangleF(x, y - height, width, height));
+        //} else {
+        //    g2.fill(new RectangleF(x, y - height + speShift, width, height)); 
+        //}
+        //g2.setColor(old);
     }
 
     public override int LastFontId => TeXFont.NO_FONT;

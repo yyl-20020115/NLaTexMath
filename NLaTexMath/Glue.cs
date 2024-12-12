@@ -49,14 +49,15 @@ namespace NLaTexMath;
 /**
  * Represents glue by its 3 components. Contains the "glue rules".
  */
-public class Glue {
+public class Glue(float space, float stretch, float shrink, string name)
+{
 
     // the glue components
-    private readonly float space;
-    private readonly float stretch;
-    private readonly float shrink;
+    private readonly float space = space;
+    private readonly float stretch = stretch;
+    private readonly float shrink = shrink;
 
-    private readonly string name;
+    private readonly string name = name;
 
     // Contains the different glue types
     private static Glue[] glueTypes;
@@ -65,16 +66,9 @@ public class Glue {
     private static readonly int[][][] glueTable;
 
     static Glue(){
-        GlueSettingsParser parser = new GlueSettingsParser();
-        glueTypes = parser.getGlueTypes();
-        glueTable = parser.createGlueTable();
-    }
-
-    public Glue(float space, float stretch, float shrink, string name) {
-        this.space = space;
-        this.stretch = stretch;
-        this.shrink = shrink;
-        this.name = name;
+        var parser = new GlueSettingsParser();
+        glueTypes = parser.GlueTypes;
+        glueTable = parser.CreateGlueTable();
     }
 
     /**
@@ -102,11 +96,11 @@ public class Glue {
         return glueTypes[glueType].CreateBox(env);
     }
 
-    private Box CreateBox(TeXEnvironment env)
+    protected Box CreateBox(TeXEnvironment env)
     {
         TeXFont tf = env.TeXFont;
         // use "quad" from a font marked as an "mu font"
-        float quad = tf.getQuad(env.Style, tf.getMuFontId());
+        float quad = tf.GetQuad(env.Style, tf.GetMuFontId());
 
         return new GlueBox((space / 18.0f) * quad, (stretch / 18.0f) * quad, (shrink / 18.0f) * quad);
     }

@@ -51,115 +51,116 @@ namespace NLaTexMath;
 /**
  * An atom representing a vertical row of other atoms.
  */
-public class VRowAtom : Atom {
-
+public class VRowAtom : Atom
+{
     // atoms to be displayed horizontally next to eachother
     protected List<Atom> elements = [];
-    private SpaceAtom raise = new SpaceAtom(TeXConstants.UNIT_EX, 0, 0, 0);
+    private SpaceAtom raise = new(TeXConstants.UNIT_EX, 0, 0, 0);
     protected bool addInterline = false;
     protected bool vtop = false;
     protected int halign = TeXConstants.ALIGN_NONE;
 
-    public VRowAtom() {
+    public VRowAtom()
+    {
         // empty
     }
 
-    public VRowAtom(Atom el) {
-        if (el != null) {
-            if (el is VRowAtom)
+    public VRowAtom(Atom el)
+    {
+        if (el != null)
+        {
+            if (el is VRowAtom atom)
                 // no need to make an mrow the only element of an mrow
-                elements.AddRange(((VRowAtom) el).elements);
+                elements.AddRange(atom.elements);
             else
                 elements.Add(el);
         }
     }
 
-    public void setAddInterline(bool addInterline) {
-        this.addInterline = addInterline;
-    }
+    public bool AddInterline { get => this.addInterline; set => this.addInterline = value; }
 
-    public bool getAddInterline() {
-        return this.addInterline;
-    }
+    public int Halign { get => halign; set => this.halign = value; }
 
-    public void setHalign(int halign) {
-        this.halign = halign;
-    }
+    public bool Vtop { get => vtop; set => this.vtop = value; }
 
-    public int getHalign() {
-        return halign;
-    }
-
-    public void setVtop(bool vtop) {
-        this.vtop = vtop;
-    }
-
-    public bool getVtop() {
-        return vtop;
-    }
-
-    public void setRaise(int unit, float r) {
+    public void setRaise(int unit, float r)
+    {
         raise = new SpaceAtom(unit, r, 0, 0);
     }
 
-    public Atom getLastAtom() {
+    public Atom getLastAtom()
+    {
         return elements.RemoveLast();
     }
 
-    public  void Add(Atom el) {
+    public void Add(Atom el)
+    {
         if (el != null)
             elements.Insert(0, el);
     }
 
-    public  void Append(Atom el) {
+    public void Append(Atom el)
+    {
         if (el != null)
             elements.Add(el);
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         VerticalBox vb = new VerticalBox();
-        if (halign != TeXConstants.ALIGN_NONE) {
+        if (halign != TeXConstants.ALIGN_NONE)
+        {
             float maxWidth = -float.PositiveInfinity;
-            List<Box> boxes = new ();
-            for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();) {
+            List<Box> boxes = new();
+            for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();)
+            {
                 Box b = it.next().createBox(env);
                 boxes.Add(b);
-                if (maxWidth < b.Width) {
+                if (maxWidth < b.Width)
+                {
                     maxWidth = b.Width;
                 }
             }
-            Box interline = new StrutBox(0, env.GetInterline(), 0, 0);
+            Box interline = new StrutBox(0, env.Interline, 0, 0);
 
             // convert atoms to boxes and Add to the horizontal box
-            for (ListIterator<Box> it = boxes.listIterator(); it.hasNext();) {
+            for (ListIterator<Box> it = boxes.listIterator(); it.hasNext();)
+            {
                 Box b = it.next();
                 vb.Add(new HorizontalBox(b, maxWidth, halign));
-                if (addInterline && it.hasNext()) {
+                if (addInterline && it.hasNext())
+                {
                     vb.Add(interline);
                 }
             }
-        } else {
-            Box interline = new StrutBox(0, env.GetInterline(), 0, 0);
+        }
+        else
+        {
+            Box interline = new StrutBox(0, env.Interline, 0, 0);
 
             // convert atoms to boxes and Add to the horizontal box
-            for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();) {
+            for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();)
+            {
                 vb.Add(it.next().createBox(env));
-                if (addInterline && it.hasNext()) {
+                if (addInterline && it.hasNext())
+                {
                     vb.Add(interline);
                 }
             }
         }
 
-        vb.
-        Shift = -raise.CreateBox(env).Width;
-        if (vtop) {
+        vb.Shift = -raise.CreateBox(env).Width;
+        if (vtop)
+        {
             float t = vb.getSize() == 0 ? 0 : vb.Children.First().Height;
-            vb.            Height = t;
-            vb.            Depth = vb.Depth + vb.Height - t;
-        } else {
+            vb.Height = t;
+            vb.Depth = vb.Depth + vb.Height - t;
+        }
+        else
+        {
             float t = vb.getSize() == 0 ? 0 : vb.Children.Last().Depth;
-            vb.            Height = vb.Depth + vb.Height - t;
-            vb.            Depth = t;
+            vb.Height = vb.Depth + vb.Height - t;
+            vb.Depth = t;
         }
 
         return vb;

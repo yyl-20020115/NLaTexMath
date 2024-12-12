@@ -51,60 +51,69 @@ using System.Xml.Linq;
 /**
  * Parses and creates predefined TeXFormula objects form an XML-file.
  */
-public class PredefinedTeXFormulaParser {
+public class PredefinedTeXFormulaParser
+{
 
     public static readonly string RESOURCE_NAME = "PredefinedTeXFormulas.xml";
 
     private XElement root;
     private string type;
 
-    public PredefinedTeXFormulaParser(Stream file, string type){
-        try {
+    public PredefinedTeXFormulaParser(Stream file, string type)
+    {
+        try
+        {
             this.type = type;
             //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             //factory.setIgnoringElementContentWhitespace(true);
             //factory.setIgnoringComments(true);
             root = factory.newDocumentBuilder().parse(file).getDocumentElement();
-        } catch (Exception e) { // JDOMException or IOException
+        }
+        catch (Exception e)
+        { // JDOMException or IOException
             throw new XMLResourceParseException("", e);
         }
     }
 
     public PredefinedTeXFormulaParser(string PredefFile, string type) : this(PredefinedTeXFormulaParser.getResourceAsStream(PredefFile), type)
     {
-       ;
     }
 
-    public void Parse(Dictionary<string,string> predefinedTeXFormulas) {
+    public void Parse(Dictionary<string, string> predefinedTeXFormulas)
+    {
         // get required string attribute
-        string enabledAll = getAttrValueAndCheckIfNotNull("enabled", root);
-        if ("true"==(enabledAll)) { // parse formula's
+        string enabledAll = GetAttrValueAndCheckIfNotNull("enabled", root);
+        if ("true" == (enabledAll))
+        { // parse formula's
             // iterate all "Font"-elements
             List<XNode> list = root.getElementsByTagName(this.type);
-            for (int i = 0; i < list.Count; i++) {
+            for (int i = 0; i < list.Count; i++)
+            {
                 XElement formula = (XElement)list[i];
                 // get required string attribute
-                string enabled = getAttrValueAndCheckIfNotNull("enabled", formula);
-                if ("true"== (enabled)) { // parse this formula
+                string enabled = GetAttrValueAndCheckIfNotNull("enabled", formula);
+                if ("true" == (enabled))
+                { // parse this formula
                     // get required string attribute
-                    string name = getAttrValueAndCheckIfNotNull("name", formula);
+                    string name = GetAttrValueAndCheckIfNotNull("name", formula);
 
                     // parse and build the formula and Add it to the table
-                    if ("TeXFormula"==(this.type))
-                        predefinedTeXFormulas.Add(name, (TeXFormula) new TeXFormulaParser(name, formula, this.type).parse());
+                    if ("TeXFormula" == (this.type))
+                        predefinedTeXFormulas.Add(name, (TeXFormula)new TeXFormulaParser(name, formula, this.type).parse());
                     else
-                        predefinedTeXFormulas.Add(name, (MacroInfo) new TeXFormulaParser(name, formula, this.type).parse());
+                        predefinedTeXFormulas.Add(name, (MacroInfo)new TeXFormulaParser(name, formula, this.type).parse());
                 }
             }
         }
     }
 
-    private static string getAttrValueAndCheckIfNotNull(string attrName,
-            XElement element){
-        string attrValue = element.Attribute(attrName)?.Value??"";
-        if (attrValue=="")
-            throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName,
-                                                attrName, null);
-        return attrValue;
+    private static string GetAttrValueAndCheckIfNotNull(string attrName,
+            XElement element)
+    {
+        var attrValue = element.Attribute(attrName)?.Value ?? "";
+        return attrValue == ""
+            ? throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName, attrName, null)
+            : attrValue
+            ;
     }
 }

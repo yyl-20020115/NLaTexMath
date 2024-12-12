@@ -46,9 +46,6 @@
 
 /* Modified by Calixte Denizet */
 
-using NLaTexMath;
-using static NLaTexMath.SpaceAtom;
-
 namespace NLaTexMath;
 
 /**
@@ -58,7 +55,7 @@ namespace NLaTexMath;
 public class SpaceAtom : Atom
 {
 
-    private static Dictionary<string, int> units = [];
+    private static readonly Dictionary<string, int> units = [];
     static SpaceAtom()
     {
         units.Add("em", TeXConstants.UNIT_EM);
@@ -79,20 +76,20 @@ public class SpaceAtom : Atom
         units.Add("cc", TeXConstants.UNIT_CC);
     }
     // whether a hard space should be represented
-    private bool blankSpace;
+    private readonly bool blankSpace;
 
     // thinmuskip, medmuskip, thickmuskip
-    private int blankType;
+    private readonly int blankType;
 
     // dimensions
-    private float width;
-    private float height;
-    private float depth;
+    private readonly float width;
+    private readonly float height;
+    private readonly float depth;
 
     // units for the dimensions
-    private int wUnit;
-    private int hUnit;
-    private int dUnit;
+    private readonly int wUnit;
+    private readonly int hUnit;
+    private readonly int dUnit;
 
     public SpaceAtom()
     {
@@ -108,7 +105,7 @@ public class SpaceAtom : Atom
     public SpaceAtom(int unit, float width, float height, float depth)
     {
         // check if unit is valid
-        checkUnit(unit);
+        CheckUnit(unit);
 
         // unit valid
         this.wUnit = unit;
@@ -126,7 +123,7 @@ public class SpaceAtom : Atom
      * @throws InvalidUnitException if the given integer value does not represent
      *                  a valid unit
      */
-    public static void checkUnit(int unit)
+    public static void CheckUnit(int unit)
     {
         if (unit < 0 || unit >= unitConversions.Length)
             throw new InvalidUnitException();
@@ -136,9 +133,9 @@ public class SpaceAtom : Atom
                      int depthUnit, float depth)
     {
         // check if units are valid
-        checkUnit(widthUnit);
-        checkUnit(heightUnit);
-        checkUnit(depthUnit);
+        CheckUnit(widthUnit);
+        CheckUnit(heightUnit);
+        CheckUnit(depthUnit);
 
         // all units valid
         wUnit = widthUnit;
@@ -149,13 +146,9 @@ public class SpaceAtom : Atom
         this.depth = depth;
     }
 
-    public static int getUnit(string unit)
-    {
-        int u = (int)units.Get(unit);
-        return u == null ? TeXConstants.UNIT_PIXEL : u.intValue();
-    }
+    public static int GetUnit(string unit) => units.TryGetValue(unit, out var u) ? TeXConstants.UNIT_PIXEL : u;
 
-    public static float[] getLength(string lgth)
+    public static float[] GetLength(string lgth)
     {
         if (lgth == null)
         {
@@ -167,7 +160,7 @@ public class SpaceAtom : Atom
         float f = 0;
         try
         {
-            f = float.parseFloat(lgth.substring(0, i));
+            f = float.TryParse(lgth[..i], out var v) ? v : 0.0f;
         }
         catch (Exception e)
         {
@@ -177,14 +170,14 @@ public class SpaceAtom : Atom
         int unit;
         if (i != lgth.Length)
         {
-            unit = getUnit(lgth.Substring(i).ToLower());
+            unit = GetUnit(lgth.Substring(i).ToLower());
         }
         else
         {
             unit = TeXConstants.UNIT_PIXEL;
         }
 
-        return new float[] { (float)unit, f };
+        return [(float)unit, f];
     }
 
     public override Box CreateBox(TeXEnvironment env)
@@ -212,80 +205,77 @@ public class SpaceAtom : Atom
         }
         else
         {
-            return new StrutBox(width * getFactor(wUnit, env), height * getFactor(hUnit, env), depth * getFactor(dUnit, env), 0);
+            return new StrutBox(width * GetFactor(wUnit, env), height * GetFactor(hUnit, env), depth * GetFactor(dUnit, env), 0);
         }
     }
 
-    public static float getFactor(int unit, TeXEnvironment env)
-    {
-        return unitConversions[unit].getPixelConversion(env);
-    }
+    public static float GetFactor(int unit, TeXEnvironment env) => unitConversions[unit].GetPixelConversion(env);
 
     public interface UnitConversion
     { // NOPMD
-        public float getPixelConversion(TeXEnvironment env);
+        public float GetPixelConversion(TeXEnvironment env);
     }
 
 
     class EM : UnitConversion
     {//EM
-        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getEM(env.Style);
+        public float GetPixelConversion(TeXEnvironment env) => env.TeXFont.GetEM(env.Style);
     }
     class EX : UnitConversion
     {//EX
-        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getXHeight(env.Style, env.LastFontId);
+        public float GetPixelConversion(TeXEnvironment env) => env.TeXFont.GetXHeight(env.Style, env.LastFontId);
     }
     class PIXEL : UnitConversion
     {//PIXEL
-        public float getPixelConversion(TeXEnvironment env) => 1 / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => 1 / env.Size;
     }
     class BP : UnitConversion
     {//BP (or PostScript point)
-        public float getPixelConversion(TeXEnvironment env) => TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class PICA : UnitConversion
     {//PICA
-        public float getPixelConversion(TeXEnvironment env) => (12 * TeXFormula.PIXELS_PER_POINT) / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => (12 * TeXFormula.PIXELS_PER_POINT) / env.Size;
     }
     class MU : UnitConversion
     {//MU
-        public float getPixelConversion(TeXEnvironment env)
+        public float GetPixelConversion(TeXEnvironment env)
         {
             TeXFont tf = env.TeXFont;
-            return tf.getQuad(env.Style, tf.getMuFontId()) / 18;
+            return tf.GetQuad(env.Style, tf.GetMuFontId()) / 18;
         }
     }
     class CM : UnitConversion
     {//CM
-        public float getPixelConversion(TeXEnvironment env) => 28.346456693f * TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => 28.346456693f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class MM : UnitConversion
     {//MM
-        public float getPixelConversion(TeXEnvironment env) => 2.8346456693f * TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => 2.8346456693f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class IN : UnitConversion
     {//IN
-        public float getPixelConversion(TeXEnvironment env) => 72 * TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => 72 * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class SP : UnitConversion
     {//SP
-        public float getPixelConversion(TeXEnvironment env) => 65536 * TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => 65536 * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class PT : UnitConversion
     {//PT (or Standard Anglo-American point)
-        public float getPixelConversion(TeXEnvironment env) => .9962640099f * TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => .9962640099f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class DD : UnitConversion
     {//DD
-        public float getPixelConversion(TeXEnvironment env) => 1.0660349422f * TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => 1.0660349422f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class CC : UnitConversion
     {//CC
-        public float getPixelConversion(TeXEnvironment env) => 12.7924193070f * TeXFormula.PIXELS_PER_POINT / env.Size;
+        public float GetPixelConversion(TeXEnvironment env) => 12.7924193070f * TeXFormula.PIXELS_PER_POINT / env.Size;
     }
     class X8 : UnitConversion
     {//X8
-        public float getPixelConversion(TeXEnvironment env) => env.TeXFont.getDefaultRuleThickness(env.Style);
+        public float GetPixelConversion(TeXEnvironment env) => env.TeXFont.GetDefaultRuleThickness(env.Style);
     }
     private static readonly UnitConversion[] unitConversions = [
         new EM(),

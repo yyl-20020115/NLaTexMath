@@ -51,7 +51,8 @@ namespace NLaTexMath;
 /**
  * Parses predefined TeXFormula's from an XML-file.
  */
-public class TeXFormulaSettingsParser {
+public class TeXFormulaSettingsParser
+{
 
     public static readonly string RESOURCE_NAME = "TeXFormulaSettings.xml";
     public static readonly string CHARTODEL_MAPPING_EL = "Map";
@@ -59,80 +60,101 @@ public class TeXFormulaSettingsParser {
     private XElement root;
 
     public TeXFormulaSettingsParser()
-        :this(GlueSettingsParser..getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME) { 
+        : this(GlueSettingsParser..getResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+    {
     }
 
-    public TeXFormulaSettingsParser(Stream file, string name){
-        try {
+    public TeXFormulaSettingsParser(Stream file, string name)
+    {
+        try
+        {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setIgnoringElementContentWhitespace(true);
             factory.setIgnoringComments(true);
             root = factory.newDocumentBuilder().parse(file).getDocumentElement();
-        } catch (Exception e) { // JDOMException or IOException
+        }
+        catch (Exception e)
+        { // JDOMException or IOException
             throw new XMLResourceParseException(name, e);
         }
     }
 
-    public void parseSymbolToFormulaMappings(string[] mappings, string[] textMappings){
+    public void parseSymbolToFormulaMappings(string[] mappings, string[] textMappings)
+    {
         XElement charToSymbol = (XElement)root.getElementsByTagName("CharacterToFormulaMappings").item(0);
         if (charToSymbol != null) // element present
             addFormulaToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
     }
 
-    public void parseSymbolMappings(string[] mappings, string[] textMappings){
+    public void parseSymbolMappings(string[] mappings, string[] textMappings)
+    {
         XElement charToSymbol = (XElement)root.getElementsByTagName("CharacterToSymbolMappings").item(0);
         if (charToSymbol != null) // element present
             addToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
     }
 
-    private static void addToMap(List<XNode> mapList, string[] tableMath, string[] tableText){
-        for (int i = 0; i < mapList.Count; i++) {
-            XElement map = (XElement) mapList[i];
-            string ch = map.Attribute("char")?.Value??"";
-            string symbol = map.Attribute("symbol")?.Value??"";
+    private static void addToMap(List<XNode> mapList, string[] tableMath, string[] tableText)
+    {
+        for (int i = 0; i < mapList.Count; i++)
+        {
+            XElement map = (XElement)mapList[i];
+            string ch = map.Attribute("char")?.Value ?? "";
+            string symbol = map.Attribute("symbol")?.Value ?? "";
             string text = map.Attribute("text")?.Value ?? "";
             // both attributes are required!
-            if (ch=="") {
+            if (ch == "")
+            {
                 throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName, "char", null);
-            } else if (symbol=="") {
+            }
+            else if (symbol == "")
+            {
                 throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName, "symbol", null);
             }
 
-            if (ch.Length == 1) {// valid element found
-                tableMath[ch[0]] =  symbol;
-            } else {
+            if (ch.Length == 1)
+            {// valid element found
+                tableMath[ch[0]] = symbol;
+            }
+            else
+            {
                 // only single-character mappings allowed, ignore others
                 throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName, "char", "must have a value that Contains exactly 1 character!");
             }
 
-            if (tableText != null && text!="") {
+            if (tableText != null && text != "")
+            {
                 tableText[ch[0]] = text;
             }
         }
     }
 
-    private static void addFormulaToMap(List<XNode> mapList, string[] tableMath, string[] tableText){
-        for (int i = 0; i < mapList.Count; i++) {
+    private static void addFormulaToMap(List<XNode> mapList, string[] tableMath, string[] tableText)
+    {
+        for (int i = 0; i < mapList.Count; i++)
+        {
             XElement map = (XElement)mapList[i];
-            string ch = map.Attribute("char")?.Value??"";
-            string formula = map.Attribute("formula")?.Value??"";
-            string text = map.Attribute("text")?.Value??"";
+            string ch = map.Attribute("char")?.Value ?? "";
+            string formula = map.Attribute("formula")?.Value ?? "";
+            string text = map.Attribute("text")?.Value ?? "";
             // both attributes are required!
-            if (ch=="")
+            if (ch == "")
                 throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName,
                                                     "char", null);
-            else if (formula=="")
+            else if (formula == "")
                 throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName,
                                                     "formula", null);
-            if (ch.Length == 1) {// valid element found
+            if (ch.Length == 1)
+            {// valid element found
                 tableMath[ch[0]] = formula;
-            } else
+            }
+            else
                 // only single-character mappings allowed, ignore others
                 throw new XMLResourceParseException(RESOURCE_NAME, map.Name.LocalName,
                                                     "char",
                                                     "must have a value that Contains exactly 1 character!");
 
-            if (tableText != null && text!="") {
+            if (tableText != null && text != "")
+            {
                 tableText[ch[0]] = text;
             }
         }

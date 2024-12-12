@@ -78,11 +78,11 @@ public class VerticalBox : Box {
     public void Add(Box b) {
         base.Add(b);
         if (Children.Count == 1) {
-            height = b.height;
-            depth = b.depth;
+            height = b.Height;
+            depth = b.Depth;
         } else
-            depth += b.height + b.depth;
-        recalculateWidth(b);
+            depth += b.Height + b.Depth;
+        RecalculateWidth(b);
     }
 
     public  void Add(Box b, float interline) {
@@ -92,20 +92,20 @@ public class VerticalBox : Box {
         Add(b);
     }
 
-    private void recalculateWidth(Box b) {
-        leftMostPos = Math.Min(leftMostPos, b.shift);
-        rightMostPos = Math.Max(rightMostPos, b.shift + (b.width > 0 ? b.width : 0));
+    private void RecalculateWidth(Box b) {
+        leftMostPos = Math.Min(leftMostPos, b.Shift);
+        rightMostPos = Math.Max(rightMostPos, b.Shift + (b.Width > 0 ? b.Width : 0));
         width = rightMostPos - leftMostPos;
     }
 
     public void Add(int pos, Box b) {
         base.Add(pos, b);
         if (pos == 0) {
-            depth += b.depth + height;
-            height = b.height;
+            depth += b.Depth + Height;
+            height = b.Height;
         } else
-            depth += b.height + b.depth;
-        recalculateWidth(b);
+            depth += b.Height + b.Depth;
+        RecalculateWidth(b);
     }
 
     public override void Draw(Graphics g2, float x, float y) {
@@ -127,12 +127,8 @@ public class VerticalBox : Box {
         {
             // iterate from the last child box (the lowest) to the first (the highest)
             // untill a font id is found that's not equal to NO_FONT
-            int fontId = TeXFont.NO_FONT;
-            for (ListIterator<Box> it = Children.listIterator(Children.Count); fontId == TeXFont.NO_FONT
-                    && it.hasPrevious();)
-                fontId = it.previous().getLastFontId();
 
-            return fontId;
+            return this.Children.FirstOrDefault(c => c.LastFontId != TeXFont.NO_FONT)!.LastFontId;
         }
     }
 }

@@ -50,17 +50,15 @@ namespace NLaTexMath;
  */
 public class CumulativeScriptsAtom : Atom
 {
-
-    private Atom _base;
-    private RowAtom sup;
-    private RowAtom sub;
+    private readonly Atom Base;
+    private readonly RowAtom sup;
+    private readonly RowAtom sub;
 
     public CumulativeScriptsAtom(Atom _base, Atom sub, Atom sup) : base()
     {
-        if (_base is CumulativeScriptsAtom)
+        if (_base is CumulativeScriptsAtom at)
         {
-            CumulativeScriptsAtom at = (CumulativeScriptsAtom)_base;
-            this._base = at._base;
+            this.Base = at.Base;
             at.sup.Add(sup);
             at.sub.Add(sub);
             this.sup = at.sup;
@@ -68,19 +66,12 @@ public class CumulativeScriptsAtom : Atom
         }
         else
         {
-            if (_base == null)
-            {
-                this._base = new PhantomAtom(new CharAtom('M', "mathnormal"), false, true, true);
-            }
-            else
-            {
-                this._base = _base;
-            }
+            this.Base = _base ?? new PhantomAtom(new CharAtom('M', "mathnormal"), false, true, true);
             this.sup = new RowAtom(sup);
             this.sub = new RowAtom(sub);
         }
     }
 
     public override Box CreateBox(TeXEnvironment env) 
-        => new ScriptsAtom(_base, sub, sup).CreateBox(env);
+        => new ScriptsAtom(Base, sub, sup).CreateBox(env);
 }

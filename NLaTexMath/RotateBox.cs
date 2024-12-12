@@ -53,18 +53,18 @@ using System.Drawing;
 public class RotateBox : Box
 {
 
-    public const int   BL = 0;
-    public const int   BC = 1;
-    public const int   BR = 2;
-    public const int   TL = 3;
-    public const int   TC = 4;
-    public const int   TR = 5;
-    public const int   BBL = 6;
-    public const int   BBR = 7;
-    public const int   BBC = 8;
-    public const int   CL = 9;
-    public const int   CC = 10;
-    public const int   CR = 11;
+    public const int BL = 0;
+    public const int BC = 1;
+    public const int BR = 2;
+    public const int TL = 3;
+    public const int TC = 4;
+    public const int TR = 5;
+    public const int BBL = 6;
+    public const int BBR = 7;
+    public const int BBC = 8;
+    public const int CL = 9;
+    public const int CC = 10;
+    public const int CR = 11;
 
     protected double angle = 0;
     private Box box;
@@ -77,9 +77,9 @@ public class RotateBox : Box
     {
         this.box = b;
         this.angle = angle * Math.PI / 180;
-        height = b.height;
-        depth = b.depth;
-        width = b.width;
+        height = b.Height;
+        depth = b.Depth;
+        width = b.Width;
         double s = Math.Sin(this.angle);
         double c = Math.Cos(this.angle);
         shiftX = (float)(x * (1 - c) + y * s);
@@ -96,16 +96,14 @@ public class RotateBox : Box
     public RotateBox(Box b, double angle, PointF origin)
         : this(b, angle, origin.X, origin.Y)
     {
-        ;
     }
 
     public RotateBox(Box b, double angle, int option)
-        : this(b, angle, calculateShift(b, option))
+        : this(b, angle, CalculateShift(b, option))
     {
-        ;
     }
 
-    public static int getOrigin(string option)
+    public static int GetOrigin(string option)
     {
         if (option == null || option.Length == 0)
         {
@@ -169,58 +167,58 @@ public class RotateBox : Box
             return BBL;
     }
 
-    private static PointF calculateShift(Box b, int option)
+    private static PointF CalculateShift(Box b, int option)
     {
-        PointF p = new PointF(0, -b.depth);
+        PointF p = new PointF(0, -b.Depth);
         switch (option)
         {
             case BL:
                 p.X = 0;
-                p.Y = -b.depth;
+                p.Y = -b.Depth;
                 break;
             case BR:
-                p.X = b.width;
-                p.Y = -b.depth;
+                p.X = b.Width;
+                p.Y = -b.Depth;
                 break;
             case BC:
-                p.X = b.width / 2;
-                p.Y = -b.depth;
+                p.X = b.Width / 2;
+                p.Y = -b.Depth;
                 break;
             case TL:
                 p.X = 0;
-                p.Y = b.height;
+                p.Y = b.Height;
                 break;
             case TR:
-                p.X = b.width;
-                p.Y = b.height;
+                p.X = b.Width;
+                p.Y = b.Height;
                 break;
             case TC:
-                p.X = b.width / 2;
-                p.Y = b.height;
+                p.X = b.Width / 2;
+                p.Y = b.Height;
                 break;
             case BBL:
                 p.X = 0;
                 p.Y = 0;
                 break;
             case BBR:
-                p.X = b.width;
+                p.X = b.Width;
                 p.Y = 0;
                 break;
             case BBC:
-                p.X = b.width / 2;
+                p.X = b.Width / 2;
                 p.Y = 0;
                 break;
             case CL:
                 p.X = 0;
-                p.Y = (b.height - b.depth) / 2;
+                p.Y = (b.Height - b.Depth) / 2;
                 break;
             case CR:
-                p.X = b.width;
-                p.Y = (b.height - b.depth) / 2;
+                p.X = b.Width;
+                p.Y = (b.Height - b.Depth) / 2;
                 break;
             case CC:
-                p.X = b.width / 2;
-                p.Y = (b.height - b.depth) / 2;
+                p.X = b.Width / 2;
+                p.Y = (b.Height - b.Depth) / 2;
                 break;
             default:
                 break;
@@ -231,14 +229,15 @@ public class RotateBox : Box
 
     public override void Draw(Graphics g2, float x, float y)
     {
-        DrawDebug(g2, x, y);
-        box.DrawDebug(g2, x, y, true);
-        y -= shiftY;
-        x += shiftX - xmin;
-        g2.rotate(-angle, x, y);
-        box.Draw(g2, x, y);
-        box.DrawDebug(g2, x, y, true);
-        g2.rotate(angle, x, y);
+        //TODO:
+        //DrawDebug(g2, x, y);
+        //box.DrawDebug(g2, x, y, true);
+        //y -= shiftY;
+        //x += shiftX - xmin;
+        //g2.rotate(-angle, x, y);
+        //box.Draw(g2, x, y);
+        //box.DrawDebug(g2, x, y, true);
+        //g2.rotate(angle, x, y);
     }
 
     public override int LastFontId => box.LastFontId;

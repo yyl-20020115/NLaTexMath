@@ -48,26 +48,20 @@ namespace NLaTexMath;
 /**
  * An atom representing a big delimiter (for left and right commands).
  */
-public class BigDelimiterAtom : Atom
+public class BigDelimiterAtom(SymbolAtom delim, int size) : Atom
 {
 
-    public SymbolAtom delim;
-    private int size;
-
-    public BigDelimiterAtom(SymbolAtom delim, int size)
-    {
-        this.delim = delim;
-        this.size = size;
-    }
+    public SymbolAtom delim = delim;
+    private readonly int size = size;
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = DelimiterFactory.Create(delim, env, size);
-        HorizontalBox hbox = new HorizontalBox();
+        var b = DelimiterFactory.Create(delim, env, size);
+        var hbox = new HorizontalBox();
         float h = b.Height;
         float total = h + b.Depth;
-        float axis = env.TeXFont.getAxisHeight(env.Style);
-        b.        Shift = -total / 2 + h - axis;
+        float axis = env.TeXFont.GetAxisHeight(env.Style);
+        b.Shift = -total / 2 + h - axis;
         hbox.Add(b);
         return hbox;
     }

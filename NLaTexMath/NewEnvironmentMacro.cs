@@ -47,18 +47,17 @@ namespace NLaTexMath;
 
 public class NewEnvironmentMacro : NewCommandMacro {
 
-    public NewEnvironmentMacro() {
-    }
+    public NewEnvironmentMacro() { }
 
     public static void AddNewEnvironment(string name, string begdef, string enddef, int nbArgs){
         //if (macrocode.Get(name + "@env") != null)
         //throw new ParseException("Environment " + name + " already exists ! Use renewenvironment instead ...");
-        AddNewCommand(name + "@env", begdef + " #" + (nbArgs + 1) + " " + enddef, nbArgs + 1);
+        AddNewCommand($"{name}@env", $"{begdef} #{nbArgs + 1} {enddef}", nbArgs + 1);
     }
 
     public static void AddReNewEnvironment(string name, string begdef, string enddef, int nbArgs){
-        if (macrocode.TryGetValue(name + "@env",out var m))
-            throw new ParseException("Environment " + name + "is not defined ! Use newenvironment instead ...");
-        addReNewCommand(name + "@env", begdef + " #" + (nbArgs + 1) + " " + enddef, nbArgs + 1);
+        if (macrocode.TryGetValue($"{name}@env", out var m))
+            throw new ParseException($"Environment {name}is not defined ! Use newenvironment instead ...");
+        AddReNewCommand($"{name}@env", $"{begdef} #{nbArgs + 1} {enddef}", nbArgs + 1);
     }
 }

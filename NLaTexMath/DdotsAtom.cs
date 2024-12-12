@@ -48,20 +48,20 @@ namespace NLaTexMath;
 /**
  * An atom representing ddots.
  */
-public class DdotsAtom : Atom {
+public class DdotsAtom : Atom
+{
+    public DdotsAtom() { }
 
-    public DdotsAtom() {
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box ldots = TeXFormula.Get("ldots").root.CreateBox(env);
         float w = ldots.Width;
         Box dot = SymbolAtom.Get("ldotp").CreateBox(env);
-        HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.ALIGN_LEFT);
-        HorizontalBox hb2 = new HorizontalBox(dot, w, TeXConstants.ALIGN_CENTER);
-        HorizontalBox hb3 = new HorizontalBox(dot, w, TeXConstants.ALIGN_RIGHT);
+        var hb1 = new HorizontalBox(dot, w, TeXConstants.ALIGN_LEFT);
+        var hb2 = new HorizontalBox(dot, w, TeXConstants.ALIGN_CENTER);
+        var hb3 = new HorizontalBox(dot, w, TeXConstants.ALIGN_RIGHT);
         Box pt4 = new SpaceAtom(TeXConstants.UNIT_MU, 0, 4, 0).CreateBox(env);
-        VerticalBox vb = new VerticalBox();
+        var vb = new VerticalBox();
         vb.Add(hb1);
         vb.Add(pt4);
         vb.Add(hb2);
@@ -69,8 +69,8 @@ public class DdotsAtom : Atom {
         vb.Add(hb3);
 
         float h = vb.Height + vb.Depth;
-        vb.        Height = h;
-        vb.        Depth = 0;
+        vb.Height = h;
+        vb.Depth = 0;
 
         return vb;
     }

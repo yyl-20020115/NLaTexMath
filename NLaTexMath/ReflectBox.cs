@@ -50,25 +50,29 @@ namespace NLaTexMath;
 /**
  * A box representing a rotated box.
  */
-public class ReflectBox : Box {
+public class ReflectBox : Box
+{
 
-    private Box box;
+    private readonly Box box;
 
-    public ReflectBox(Box b) {
+    public ReflectBox(Box b)
+    {
         this.box = b;
-        width = b.width;
-        height = b.height;
-        depth = b.depth;
-        shift = b.shift;
+        width = b.Width;
+        height = b.Height;
+        depth = b.Depth;
+        shift = b.Shift;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
-        DrawDebug(g2, x, y);
-        g2.translate(x, y);
-        g2.scale(-1, 1);
-        box.Draw(g2, -width, 0);
-        g2.scale(-1, 1);
-        g2.translate(-x, -y);
+    public override void Draw(Graphics g2, float x, float y)
+    {
+        //TODO:
+        //DrawDebug(g2, x, y);
+        //g2.translate(x, y);
+        //g2.scale(-1, 1);
+        //box.Draw(g2, -width, 0);
+        //g2.scale(-1, 1);
+        //g2.translate(-x, -y);
     }
 
     public override int LastFontId => box.LastFontId;

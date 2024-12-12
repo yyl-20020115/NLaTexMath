@@ -49,35 +49,35 @@ namespace NLaTexMath;
 /**
  * An atom representing another atom that should be drawn invisibly.
  */
-public class PhantomAtom : Atom , Row {
+public class PhantomAtom(Atom el) : Atom, Row
+{
 
     // RowAtom to be drawn invisibly
-    private RowAtom elements;
+    private RowAtom elements = el == null ? new RowAtom() : new RowAtom(el);
 
     // dimensions to be taken into account
     private bool w = true, h = true, d = true;
 
-    public PhantomAtom(Atom el) {
-        elements = el == null ? new RowAtom() : new RowAtom(el);
-    }
-
-    public PhantomAtom(Atom el, bool width, bool height, bool depth):this(el) {
+    public PhantomAtom(Atom el, bool width, bool height, bool depth) : this(el)
+    {
         w = width;
         h = height;
         d = depth;
     }
 
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         Box res = elements.CreateBox(env);
         return new StrutBox((w ? res.Width : 0), (h ? res.Height : 0),
                             (d ? res.Depth : 0), res.Shift);
     }
 
-    public override int LeftType => elements.getLeftType();
+    public override int LeftType => elements.LeftType;
 
     public override int RightType => elements.RightType;
 
-    public void SetPreviousAtom(Dummy prev) {
+    public void SetPreviousAtom(Dummy prev)
+    {
         elements.SetPreviousAtom(prev);
     }
 }

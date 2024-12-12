@@ -56,21 +56,21 @@ public class FBoxAtom : Atom
     public float INTERSPACE = 0.65f;
 
     // base atom
-    protected readonly Atom _base;
-    protected Color bg = new(), line = new();
+    protected readonly Atom Base;
+    protected Color? bg, line;
 
-    public FBoxAtom(Atom _base)
+    public FBoxAtom(Atom Base)
     {
-        if (_base == null)
-            this._base = new RowAtom(); // empty base
+        if (Base == null)
+            this.Base = new RowAtom(); // empty base
         else
         {
-            this._base = _base;
-            this.Type = _base.Type;
+            this.Base = Base;
+            this.Type = Base.Type;
         }
     }
 
-    public FBoxAtom(Atom _base, Color bg, Color line) : this(_base)
+    public FBoxAtom(Atom Base, Color bg, Color line) : this(Base)
     {
         this.bg = bg;
         this.line = line;
@@ -78,9 +78,9 @@ public class FBoxAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box bbase = _base.CreateBox(env);
-        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
-        float space = INTERSPACE * SpaceAtom.getFactor(TeXConstants.UNIT_EM, env);
+        var bbase = Base.CreateBox(env);
+        float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
+        float space = INTERSPACE * SpaceAtom.GetFactor(TeXConstants.UNIT_EM, env);
         if (bg == null)
         {
             return new FramedBox(bbase, drt, space);

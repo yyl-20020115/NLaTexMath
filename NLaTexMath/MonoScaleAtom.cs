@@ -48,17 +48,15 @@ namespace NLaTexMath;
 /**
  * An atom representing a mono scale Atom.
  */
-public class MonoScaleAtom : ScaleAtom {
+public class MonoScaleAtom(Atom _base, float factor) : ScaleAtom(_base, (double)factor, (double)factor)
+{
+    private readonly float factor = factor;
 
-    private float factor;
-
-    public
-        MonoScaleAtom(Atom _base, float factor) : base(_base, (double)factor, (double)factor) => this.factor = factor;
-
-    public override Box CreateBox(TeXEnvironment env) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
         env = env.Copy();
         float f = env.ScaleFactor;
-        env.        ScaleFactor = factor;
+        env.ScaleFactor = factor;
         return new ScaleBox(base.CreateBox(env), factor / f);
     }
 }

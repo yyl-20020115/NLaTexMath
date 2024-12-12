@@ -47,7 +47,7 @@ namespace NLaTexMath;
 
 public class BasicStroke
 {
-    public BasicStroke(float v, object cAP_BUTT1, object cAP_BUTT, object jOIN_MITER)
+    public BasicStroke(float v, object CAP_BUTT1, object CAP_BUTT, object JOIN_MITER)
     {
     } 
 

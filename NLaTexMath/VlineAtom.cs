@@ -48,44 +48,36 @@ namespace NLaTexMath;
 /**
  * An atom representing a hline in array environment
  */
-public class VlineAtom : Atom {
+public class VlineAtom(int n) : Atom
+{
 
     private float height;
     private float shift;
-    private int n;
+    private int n = n;
 
-    public VlineAtom(int n) {
-        this.n = n;
-    }
+    public void SetHeight(float height) => this.height = height;
 
-    public void setHeight(float height) {
-        this.height = height;
-    }
+    public void SetShift(float shift) => this.shift = shift;
 
-    public void setShift(float shift) {
-        this.shift = shift;
-    }
+    public float GetWidth(TeXEnvironment env)
+        => n != 0 ? env.TeXFont.GetDefaultRuleThickness(env.Style) * ((3 * n) - 2) : 0;
 
-    public float getWidth(TeXEnvironment env) {
-        if (n != 0) {
-            float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
-            return drt * (3 * n - 2);
-        } else
-            return 0;
-    }
-
-    public override Box CreateBox(TeXEnvironment env) {
-        if (n != 0) {
-            float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
-            Box b = new HorizontalRule(height, drt, shift);
-            Box sep = new StrutBox(2 * drt, 0, 0, 0);
-            HorizontalBox hb = new HorizontalBox();
-            for (int i = 0; i < n - 1; i++) {
+    public override Box CreateBox(TeXEnvironment env)
+    {
+        if (n != 0)
+        {
+            float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
+            var b = new HorizontalRule(height, drt, shift);
+            var sep = new StrutBox(2 * drt, 0, 0, 0);
+            var hb = new HorizontalBox();
+            for (int i = 0; i < n - 1; i++)
+            {
                 hb.Add(b);
                 hb.Add(sep);
             }
 
-            if (n > 0) {
+            if (n > 0)
+            {
                 hb.Add(b);
             }
 

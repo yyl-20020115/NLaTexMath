@@ -70,7 +70,7 @@ public class HlineAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        float drt = env.TeXFont.getDefaultRuleThickness(env.Style);
+        float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
         Box b = new HorizontalRule(drt, width, shift, false);
         VerticalBox vb = new VerticalBox();
         vb.Add(b);

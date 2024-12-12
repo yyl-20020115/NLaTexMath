@@ -67,42 +67,41 @@ public class CharBox : Box {
      * @param c a Char-object containing the character's font information.
      */
     public CharBox(Char c) {
-        cf = c.getCharFont();
-        size = c.getMetrics().getSize();
-        width = c.getWidth();
-        height = c.getHeight();
-        depth = c.getDepth();
-        italic = c.getItalic();
+        cf = c.CharFont;
+        size = c.Metrics.Size;
+        width = c.Width;
+        height = c.Height;
+        depth = c.Depth;
+        italic = c.Italic;
     }
 
-    public void addItalicCorrectionToWidth() {
+    public void AddItalicCorrectionToWidth() {
         width += italic;
         italic = 0;
     }
 
     public override void Draw(Graphics g2, float x, float y) { 
         DrawDebug(g2, x, y);
-        AffineTransform at = g2.getTransform();
-        g2.translate(x, y);
-        Font font = FontInfo.getFont(cf.fontId);
+        //TODO:
+        //AffineTransform at = g2.getTransform();
+        //g2.translate(x, y);
+        //Font font = FontInfo.getFont(cf.fontId);
 
-        if (Math.Abs(size - TeXFormula.FONT_SCALE_FACTOR) > TeXFormula.PREC) {
-            g2.Scale(size / TeXFormula.FONT_SCALE_FACTOR,
-                     size / TeXFormula.FONT_SCALE_FACTOR);
-        }
+        //if (Math.Abs(size - TeXFormula.FONT_SCALE_FACTOR) > TeXFormula.PREC) {
+        //    g2.Scale(size / TeXFormula.FONT_SCALE_FACTOR,
+        //             size / TeXFormula.FONT_SCALE_FACTOR);
+        //}
 
-        if (g2.getFont() != font) {
-            g2.setFont(font);
-        }
+        //if (g2.getFont() != font) {
+        //    g2.setFont(font);
+        //}
 
-        arr[0] = cf.c;
-        g2.drawChars(arr, 0, 1, 0, 0);
-        g2.setTransform(at);
+        //arr[0] = cf.c;
+        //g2.drawChars(arr, 0, 1, 0, 0);
+        //g2.setTransform(at);
     }
 
     public override int LastFontId => cf.fontId;
 
-    public override string ToString() {
-        return base.ToString() + "=" + cf.c;
-    }
+    public override string ToString() => base.ToString() + "=" + cf.c;
 }

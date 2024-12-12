@@ -51,9 +51,5 @@ namespace NLaTexMath;
  *
  * @author Kurt Vermeulen
  */
-public class InvalidTeXFormulaException : JMathTeXException {
-
-    
-    public InvalidTeXFormulaException(string msg) :base(msg){
-    }
+public class InvalidTeXFormulaException(string msg) : JMathTeXException(msg) {
 }

@@ -45,11 +45,10 @@
 
 namespace NLaTexMath;
 
- public class PredefinedTeXFormulas {
-
-    public PredefinedTeXFormulas() { }
-
-    static PredefinedTeXFormulas(){
+public class PredefinedTeXFormulas
+{
+    static PredefinedTeXFormulas()
+    {
         TeXFormula.predefinedTeXFormulasAsString.Add("qquad", "\\quad\\quad");
         TeXFormula.predefinedTeXFormulasAsString.Add(" ", "\\nbsp");
         TeXFormula.predefinedTeXFormulasAsString.Add("ne", "\\not\\equals");

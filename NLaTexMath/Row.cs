@@ -50,7 +50,8 @@ namespace NLaTexMath;
  * A "composed atom": an atom that consists of child atoms that will be displayed
  * next to each other horizontally with glue between them.
  */
-public interface Row {
+public interface Row
+{
 
     /**
      * Sets the given dummy containing the atom that comes just before

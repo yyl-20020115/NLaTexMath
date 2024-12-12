@@ -50,7 +50,7 @@ namespace NLaTexMath;
  */
 public class RotateAtom : Atom
 {
-    private Atom _base;
+    private Atom Base;
     private double angle;
     private int option = -1;
     private int xunit, yunit;
@@ -59,26 +59,26 @@ public class RotateAtom : Atom
     public RotateAtom(Atom _base, string angle, string option)
     {
         this.Type = _base.Type;
-        this._base = _base;
+        this.Base = _base;
         this.angle = double.TryParse(angle, out var v) ? v : 0;
-        this.option = RotateBox.getOrigin(option);
+        this.option = RotateBox.GetOrigin(option);
     }
 
     public RotateAtom(Atom _base, double angle, string option)
     {
         this.Type = _base.Type;
-        this._base = _base;
+        this.Base = _base;
         this.angle = angle;
         Dictionary<string, string> map = ParseOption.ParseMap(option);
         if (map.TryGetValue("origin", out string? value))
         {
-            this.option = RotateBox.getOrigin(value);
+            this.option = RotateBox.GetOrigin(value);
         }
         else
         {
             if (map.TryGetValue("x", out string? value1))
             {
-                float[] xinfo = SpaceAtom.getLength(value1);
+                float[] xinfo = SpaceAtom.GetLength(value1);
                 this.xunit = (int)xinfo[0];
                 this.x = xinfo[1];
             }
@@ -89,7 +89,7 @@ public class RotateAtom : Atom
             }
             if (map.TryGetValue("y", out string? value2))
             {
-                float[] yinfo = SpaceAtom.getLength(value2);
+                float[] yinfo = SpaceAtom.GetLength(value2);
                 this.yunit = (int)yinfo[0];
                 this.y = yinfo[1];
             }
@@ -101,15 +101,7 @@ public class RotateAtom : Atom
         }
     }
 
-    public override Box CreateBox(TeXEnvironment env)
-    {
-        if (option != -1)
-        {
-            return new RotateBox(_base.CreateBox(env), angle, option);
-        }
-        else
-        {
-            return new RotateBox(_base.CreateBox(env), angle, x * SpaceAtom.getFactor(xunit, env), y * SpaceAtom.getFactor(yunit, env));
-        }
-    }
+    public override Box CreateBox(TeXEnvironment env) => option != -1
+            ? new RotateBox(Base.CreateBox(env), angle, option)
+            : (Box)new RotateBox(Base.CreateBox(env), angle, x * SpaceAtom.GetFactor(xunit, env), y * SpaceAtom.GetFactor(yunit, env));
 }

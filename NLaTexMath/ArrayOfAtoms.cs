@@ -73,7 +73,7 @@ public class ArrayOfAtoms : TeXFormula {
     public void AddRow()
     {
         AddCol();
-        array.Add(new List<Atom>());
+        array.Add([]);
         row++;
     }
 
@@ -82,8 +82,8 @@ public class ArrayOfAtoms : TeXFormula {
     public int Cols => col;
 
     public VRowAtom GetAsVRow() {
-        VRowAtom vr = new VRowAtom();
-        vr.setAddInterline(true);
+        var vr = new VRowAtom();
+        vr.        AddInterline = true;
         foreach (List<Atom> r in array) {
             foreach (Atom a in r) {
                 vr.Append(a);

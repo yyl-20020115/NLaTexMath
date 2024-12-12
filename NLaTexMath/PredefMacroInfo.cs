@@ -48,25 +48,15 @@ namespace NLaTexMath;
 /**
  * Class to load the predefined commands. Mainly wrote to avoid the use of the Java reflection.
  */
-class PredefMacroInfo : MacroInfo {
+public class PredefMacroInfo : MacroInfo {
 
-    private int id;
+    private readonly int id;
 
-    public PredefMacroInfo(int id, int nbArgs, int posOpts) : base(nbArgs, posOpts)
-    {
-        ;
-        this.id = id;
-    }
+    public PredefMacroInfo(int id, int nbArgs, int posOpts) : base(nbArgs, posOpts) => this.id = id;
 
-    public PredefMacroInfo(int id, int nbArgs) : base(nbArgs)
-    {
-       ;
-        this.id = id;
-    }
+    public PredefMacroInfo(int id, int nbArgs) : base(nbArgs) => this.id = id;
 
-    public object invoke( TeXParser tp,  string[] args){
-        return invokeID(id, tp, args);
-    }
+    public object Invoke(TeXParser tp, string[] args) => invokeID(id, tp, args);
 
     private static object invokeID( int id,  TeXParser tp,  string[] args){
         try {
@@ -588,7 +578,7 @@ class PredefMacroInfo : MacroInfo {
                 return null;
             }
         } catch (Exception e) {
-            throw new ParseException("Problem with command " + args[0] + " at position " + tp.getLine() + ":" + tp.getCol() + "\n" + e.Message);
+            throw new ParseException($"Problem with command {args[0]} at position {tp.getLine()}:{tp.getCol()}\n{e.Message}");
         }
     }
 }

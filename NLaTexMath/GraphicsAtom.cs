@@ -53,7 +53,7 @@ namespace NLaTexMath;
  */
 public class GraphicsAtom : Atom {
 
-    private Image image = null;
+    private Image image;
     private Image bimage;
     //TODO:
     //private Label c;
@@ -65,32 +65,42 @@ public class GraphicsAtom : Atom {
 
     public GraphicsAtom(string path, string option) {
         File f = new File(path);
-        if (!f.Exists()) {
-            try {
+        if (!f.Exists())
+        {
+            try
+            {
                 Uri url = new Uri(path);
                 image = Toolkit.getDefaultToolkit().getImage(url);
-            } catch (MalformedURLException e) {
+            }
+            catch (MalformedURLException e)
+            {
                 image = null;
             }
-        } else {
+        }
+        else
+        {
             image = Toolkit.getDefaultToolkit().getImage(path);
         }
 
-        if (image != null) {
+        if (image != null)
+        {
             c = new Label();
             MediaTracker tracker = new MediaTracker(c);
             tracker.addImage(image, 0);
-            try {
+            try
+            {
                 tracker.waitForID(0);
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e)
+            {
                 image = null;
             }
         }
-        draw();
+        Draw();
         buildAtom(option);
     }
 
-    protected void buildAtom(string option) {
+    protected void BuildAtom(string option) {
         _base = this;
         Dictionary<string, string> options = ParseOption.ParseMap(option);
         if (options.ContainsKey("width") || options.ContainsKey("height")) {
@@ -114,7 +124,7 @@ public class GraphicsAtom : Atom {
         }
     }
 
-    public void draw() {
+    public void Draw() {
         if (image != null) {
             w = image.getWidth(c);
             h = image.getHeight(c);
@@ -132,8 +142,8 @@ public class GraphicsAtom : Atom {
                 return _base.CreateBox(env);
             } else {
                 env.isColored = true;
-                float width = w * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
-                float height = h * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
+                float width = w * SpaceAtom.GetFactor(TeXConstants.UNIT_PIXEL, env);
+                float height = h * SpaceAtom.GetFactor(TeXConstants.UNIT_PIXEL, env);
                 return new GraphicsBox(bimage, width, height, env.Size, interp);
             }
         }

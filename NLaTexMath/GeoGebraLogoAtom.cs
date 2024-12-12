@@ -47,15 +47,14 @@ namespace NLaTexMath;
 
 public class GeoGebraLogoAtom : Atom {
 
-    public GeoGebraLogoAtom() {
-    }
+    public GeoGebraLogoAtom() { }
 
     public override int LeftType => TeXConstants.TYPE_ORDINARY;
 
     public override int RightType => TeXConstants.TYPE_ORDINARY;
 
     public override Box CreateBox(TeXEnvironment env) {
-        CharBox o = new CharBox(env.TeXFont.getDefaultChar('o', env.Style));
+        var o = new CharBox(env.TeXFont.GetDefaultChar('o', env.Style));
         return new GeoGebraLogoBox(o.Width, o.Height);
     }
 }

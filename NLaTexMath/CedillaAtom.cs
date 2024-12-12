@@ -48,20 +48,17 @@ namespace NLaTexMath;
 /**
  * An atom with a cedilla.
  */
-public class CedillaAtom : Atom
+public class CedillaAtom(Atom _base) : Atom
 {
-
-    private Atom _base;
-
-    public CedillaAtom(Atom _base) => this._base = _base;
+    private readonly Atom _base = _base;
 
     public override Box CreateBox(TeXEnvironment env)
     {
         Box b = _base.CreateBox(env);
-        VerticalBox vb = new VerticalBox();
+        var vb = new VerticalBox();
         vb.Add(b);
-        Char ch = env.TeXFont.getChar("jlatexmathcedilla", env.Style);
-        float italic = ch.getItalic();
+        Char ch = env.TeXFont.GetChar("jlatexmathcedilla", env.Style);
+        float italic = ch.Italic;
         Box cedilla = new CharBox(ch);
         Box y;
         if (Math.Abs(italic) > TeXFormula.PREC)
@@ -75,12 +72,12 @@ public class CedillaAtom : Atom
         }
 
         Box ce = new HorizontalBox(y, b.Width, TeXConstants.ALIGN_CENTER);
-        float x = 0.4f * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
+        float x = 0.4f * SpaceAtom.GetFactor(TeXConstants.UNIT_MU, env);
         vb.Add(new StrutBox(0, -x, 0, 0));
         vb.Add(ce);
         float f = vb.Height + vb.Depth;
-        vb.        Height = b.Height;
-        vb.        Depth = f - b.Height;
+        vb.Height = b.Height;
+        vb.Depth = f - b.Height;
         return vb;
     }
 }

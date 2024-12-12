@@ -57,9 +57,9 @@ public class TStrokeAtom : Atom {
     }
 
     public override Box CreateBox(TeXEnvironment env) {
-        Char ch = env.TeXFont.getChar("bar", env.Style);
-        float italic = ch.getItalic();
-        CharBox T = new CharBox(env.TeXFont.getChar(upper ? 'T' : 't', "mathnormal", env.Style));
+        Char ch = env.TeXFont.GetChar("bar", env.Style);
+        float italic = ch.Italic;
+        CharBox T = new CharBox(env.TeXFont.GetChar(upper ? 'T' : 't', "mathnormal", env.Style));
         CharBox B = new CharBox(ch);
         Box y;
         if (Math.Abs(italic) > TeXFormula.PREC) {

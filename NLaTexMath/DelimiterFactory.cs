@@ -61,16 +61,16 @@ public class DelimiterFactory
 
         TeXFont tf = env.TeXFont;
         int style = env.Style;
-        Char c = tf.getChar(symbol.getName(), style);
+        Char c = tf.GetChar(symbol.Name, style);
         int i;
 
-        for (i = 1; i <= size && tf.hasNextLarger(c); i++)
-            c = tf.getNextLarger(c, style);
+        for (i = 1; i <= size && tf.HasNextLarger(c); i++)
+            c = tf.GetNextLarger(c, style);
 
-        if (i <= size && !tf.hasNextLarger(c))
+        if (i <= size && !tf.HasNextLarger(c))
         {
-            CharBox A = new CharBox(tf.getChar('A', "mathnormal", style));
-            Box b = create(symbol.getName(), env, size * (A.Height + A.Depth));
+            CharBox A = new CharBox(tf.GetChar('A', "mathnormal", style));
+            Box b = Create(symbol.Name, env, size * (A.Height + A.Depth));
             return b;
         }
 
@@ -85,33 +85,33 @@ public class DelimiterFactory
      * @return the box representing the delimiter variant that fits best according to
      * 			the required minimum size.
      */
-    public static Box create(string symbol, TeXEnvironment env, float minHeight)
+    public static Box Create(string symbol, TeXEnvironment env, float minHeight)
     {
         TeXFont tf = env.TeXFont;
         int style = env.Style;
-        Char c = tf.getChar(symbol, style);
+        Char c = tf.GetChar(symbol, style);
 
         // start with smallest character
-        Metrics m = c.getMetrics();
-        float total = m.getHeight() + m.getDepth();
+        Metrics m = c.Metrics;
+        float total = m.Height + m.Depth;
 
         // try larger versions of the same character until minHeight has been
         // reached
-        while (total < minHeight && tf.hasNextLarger(c))
+        while (total < minHeight && tf.HasNextLarger(c))
         {
-            c = tf.getNextLarger(c, style);
-            m = c.getMetrics();
-            total = m.getHeight() + m.getDepth();
+            c = tf.GetNextLarger(c, style);
+            m = c.Metrics;
+            total = m.Height + m.Depth;
         }
         if (total >= minHeight)
         { // tall enough character found
             return new CharBox(c);
         }
-        else if (tf.isExtensionChar(c))
+        else if (tf.IsExtensionChar(c))
         {
             // construct tall enough vertical box
             VerticalBox vBox = new VerticalBox();
-            Extension ext = tf.getExtension(c, style); // extension info
+            Extension ext = tf.GetExtension(c, style); // extension info
 
             if (ext.HasTop)
             { // insert top part

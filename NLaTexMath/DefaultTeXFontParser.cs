@@ -92,7 +92,7 @@ public class DefaultTeXFontParser
                                                  .getOptionalInt("bot", el, DefaultTeXFont.NONE);
 
             // parsing OK, Add extension info
-            info.setExtension(ch, extensionChars);
+            info.SetExtension(ch, extensionChars);
         }
     }
 
@@ -111,7 +111,7 @@ public class DefaultTeXFontParser
             float kernAmount = DefaultTeXFontParser.getFloatAndCheck("val", el);
 
             // parsing OK, Add kern info
-            info.addKern(ch, (char)code, kernAmount);
+            info.AddKern(ch, (char)code, kernAmount);
         }
     }
 
@@ -130,7 +130,7 @@ public class DefaultTeXFontParser
             int ligCode = DefaultTeXFontParser.getIntAndCheck("ligCode", el);
 
             // parsing OK, Add ligature info
-            info.addLigature(ch, (char)code, (char)ligCode);
+            info.AddLigature(ch, (char)code, (char)ligCode);
         }
     }
 
@@ -149,7 +149,7 @@ public class DefaultTeXFontParser
             int code = DefaultTeXFontParser.getIntAndCheck("code", el);
 
             // parsing OK, Add "next larger" info
-            info.setNextLarger(ch, (char)code, Font_ID.IndexOf(fontId));
+            info.SetNextLarger(ch, (char)code, Font_ID.IndexOf(fontId));
         }
     }
 
@@ -293,7 +293,7 @@ public class DefaultTeXFontParser
         FontInfo info = new FontInfo(Font_ID.IndexOf(fontId), _base, path, fontName, unicode, xHeight, space, quad, bold, roman, ss, tt, it);
 
         if (skewChar != -1) // attribute set
-            info.setSkewChar((char)skewChar);
+            info.            SkewChar = (char)skewChar;
 
         // process all "Char"-elements
         List<XNode> listF = font.getElementsByTagName("Char");
@@ -306,11 +306,11 @@ public class DefaultTeXFontParser
         for (int i = 0; i < res.Count; i++)
         {
             FontInfo fin = res[i];
-            fin.setBoldId(Font_ID.IndexOf(fin.boldVersion));
-            fin.setRomanId(Font_ID.IndexOf(fin.romanVersion));
-            fin.setSsId(Font_ID.IndexOf(fin.ssVersion));
-            fin.setTtId(Font_ID.IndexOf(fin.ttVersion));
-            fin.setItId(Font_ID.IndexOf(fin.itVersion));
+            fin.            BoldId = Font_ID.IndexOf(fin.boldVersion);
+            fin.            RomanId = Font_ID.IndexOf(fin.romanVersion);
+            fin.            SsId = Font_ID.IndexOf(fin.ssVersion);
+            fin.            TtId = Font_ID.IndexOf(fin.ttVersion);
+            fin.            ItId = Font_ID.IndexOf(fin.itVersion);
         }
 
         parsedTextStyles = parseStyleMappings();
@@ -369,7 +369,7 @@ public class DefaultTeXFontParser
         metrics[DefaultTeXFont.DEPTH] = getOptionalFloat("depth", charElement, 0);
         metrics[DefaultTeXFont.IT] = getOptionalFloat("italic", charElement, 0);
         // set metrics
-        info.setMetrics(ch, metrics);
+        info.SetMetrics(ch, metrics);
 
         // process children
         List<XNode> list = charElement.Nodes().ToList();
