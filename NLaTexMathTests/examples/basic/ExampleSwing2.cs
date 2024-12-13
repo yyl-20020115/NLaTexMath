@@ -14,7 +14,7 @@ public class ExampleSwing2
                        .SetSize(16)
                        .SetWidth(TeXConstants.UNIT_PIXEL, 256f, TeXConstants.ALIGN_CENTER)
                        .SetIsMaxWidth(true).setInterLineSpacing(TeXConstants.UNIT_PIXEL, 20f)
-                       .build();
+                       .Build();
 
         //TODO:
         //JFrame frame = new JFrame();

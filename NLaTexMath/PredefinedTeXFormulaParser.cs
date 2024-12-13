@@ -46,6 +46,7 @@
 
 namespace NLaTexMath;
 
+using NLaTexMath.Internal.util;
 using System.Xml.Linq;
 
 /**
@@ -75,7 +76,7 @@ public class PredefinedTeXFormulaParser
         }
     }
 
-    public PredefinedTeXFormulaParser(string PredefFile, string type) : this(PredefinedTeXFormulaParser.GetResourceAsStream(PredefFile), type)
+    public PredefinedTeXFormulaParser(string PredefFile, string type) : this(typeof(PredefinedTeXFormulaParser).GetResourceAsStream(PredefFile), type)
     {
     }
 
@@ -99,9 +100,9 @@ public class PredefinedTeXFormulaParser
 
                     // parse and build the formula and Add it to the table
                     if ("TeXFormula" == (this.type))
-                        predefinedTeXFormulas.Add(name, (TeXFormula)new TeXFormulaParser(name, formula, this.type).Parse());
+                        predefinedTeXFormulas.Add(name, new TeXFormulaParser(name, formula, this.type).Parse() as string);
                     else
-                        predefinedTeXFormulas.Add(name, (MacroInfo)new TeXFormulaParser(name, formula, this.type).Parse());
+                        predefinedTeXFormulas.Add(name, new TeXFormulaParser(name, formula, this.type).Parse() as string);
                 }
             }
         }

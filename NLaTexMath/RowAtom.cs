@@ -157,14 +157,14 @@ public class RowAtom : Atom, Row
     public override Box CreateBox(TeXEnvironment env)
     {
         TeXFont tf = env.TeXFont;
-        HorizontalBox hBox = new HorizontalBox(env.Color, env.Background);
+        var hBox = new HorizontalBox(env.Color, env.Background);
         int position = 0;
         env.Reset();
 
         // convert atoms to boxes and Add to the horizontal box
-        for (ListIterator<Atom> it = elements.listIterator(); it.hasNext();)
+        for (int i = 0;i<elements.Count;i++)
         {
-            Atom at = it.next();
+            var at = elements[i];
             position++;
 
             bool markAdded = false;
@@ -174,9 +174,9 @@ public class RowAtom : Atom, Row
                 {
                     markAdded = true;
                 }
-                if (it.hasNext())
+                if (i<elements.Count)
                 {
-                    at = it.next();
+                    at = elements[++i];
                     position++;
                 }
                 else
@@ -185,15 +185,17 @@ public class RowAtom : Atom, Row
                 }
             }
 
-            if (at is DynamicAtom && ((DynamicAtom)at).InsertMode)
+            if (at is DynamicAtom atom2 && atom2.InsertMode)
             {
-                Atom a = ((DynamicAtom)at).GetAtom();
+                Atom a = atom2.GetAtom();
                 if (a is RowAtom atom1)
                 {
                     elements.RemoveAt(position - 1);
-                    elements.Insert(position - 1, atom1.elements);
-                    it = elements.listIterator(position - 1);
-                    at = it.next();
+                    //TODO:
+                    //elements.Insert(position - 1, atom1.elements);
+                    //it = elements.listIterator(position - 1);
+                    //at = it.next();
+                    at = elements[i];
                 }
                 else
                 {
@@ -205,53 +207,53 @@ public class RowAtom : Atom, Row
 
             // if necessary, change BIN type to ORD
             Atom nextAtom = null;
-            if (it.hasNext())
-            {
-                nextAtom = it.next();
-                it.previous();
-            }
+            //if (it.hasNext())
+            //{
+            //    nextAtom = it.next();
+            //    it.previous();
+            //}
             ChangeToOrd(atom, previousAtom, nextAtom);
 
             // check for ligatures or kerning
             float kern = 0;
             // Calixte : I put a while to handle the case where there are
             // several ligatures as in ffi or ffl
-            while (it.hasNext() && atom.RightType == TeXConstants.TYPE_ORDINARY && atom.IsCharSymbol)
-            {
-                Atom next = it.next();
-                position++;
-                if (next is CharSymbol && ligKernSet.Get(next.LeftType))
-                {
-                    atom.MarkAsTextSymbol();
-                    CharFont l = atom.GetCharFont(tf), r = ((CharSymbol)next).GetCharFont(tf);
-                    CharFont lig = tf.GetLigature(l, r);
-                    if (lig == null)
-                    {
-                        kern = tf.GetKern(l, r, env.Style);
-                        it.previous();
-                        position--;
-                        break; // iterator remains unchanged (no ligature!)
-                    }
-                    else
-                    { // ligature
-                        atom.ChangeAtom(new FixedCharAtom(lig)); // go on with the
-                        // ligature
-                    }
-                }
-                else
-                {
-                    it.previous();
-                    position--;
-                    break;
-                }// iterator remains unchanged
-            }
+            //while (it.hasNext() && atom.RightType == TeXConstants.TYPE_ORDINARY && atom.IsCharSymbol)
+            //{
+            //    Atom next = it.next();
+            //    position++;
+            //    if (next is CharSymbol && ligKernSet.Get(next.LeftType))
+            //    {
+            //        atom.MarkAsTextSymbol();
+            //        CharFont l = atom.GetCharFont(tf), r = ((CharSymbol)next).GetCharFont(tf);
+            //        CharFont lig = tf.GetLigature(l, r);
+            //        if (lig == null)
+            //        {
+            //            kern = tf.GetKern(l, r, env.Style);
+            //            it.previous();
+            //            position--;
+            //            break; // iterator remains unchanged (no ligature!)
+            //        }
+            //        else
+            //        { // ligature
+            //            atom.ChangeAtom(new FixedCharAtom(lig)); // go on with the
+            //            // ligature
+            //        }
+            //    }
+            //    else
+            //    {
+            //        it.previous();
+            //        position--;
+            //        break;
+            //    }// iterator remains unchanged
+            //}
 
-            // insert glue, unless it's the first element of the row
-            // OR this element or the next is a Kern.
-            if (it.previousIndex() != 0 && previousAtom != null && !previousAtom.IsKern && !atom.IsKern)
-            {
-                hBox.Add(Glue.Get(previousAtom.RightType, atom.LeftType, env));
-            }
+            //// insert glue, unless it's the first element of the row
+            //// OR this element or the next is a Kern.
+            //if (it.previousIndex() != 0 && previousAtom != null && !previousAtom.IsKern && !atom.IsKern)
+            //{
+            //    hBox.Add(Glue.Get(previousAtom.RightType, atom.LeftType, env));
+            //}
 
             // insert atom's box
             atom.SetPreviousAtom(previousAtom);

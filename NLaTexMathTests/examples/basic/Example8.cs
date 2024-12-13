@@ -56,17 +56,17 @@ public class Example8
     {
         var latex = "\\text{A long division \\longdiv{12345}{13}";
         TeXFormula formula = new TeXFormula(latex);
-        TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).build();
-        icon.Insets = new Insets(5, 5, 5, 5);
-        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
-                                                BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = image.createGraphics();
-        g2.setColor(Color.white);
-        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        JLabel jl = new JLabel();
-        jl.setForeground(new Color(0, 0, 0));
-        icon.paintIcon(jl, g2, 0, 0);
-        File file = new File("target/Example8.png");
-        ImageIO.write(image, "png", file.getAbsoluteFile());
+        TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).Build();
+        //icon.Insets = new Insets(5, 5, 5, 5);
+        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
+        //                                        BufferedImage.TYPE_INT_ARGB);
+        //Graphics2D g2 = image.createGraphics();
+        //g2.setColor(Color.white);
+        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
+        //JLabel jl = new JLabel();
+        //jl.setForeground(new Color(0, 0, 0));
+        //icon.paintIcon(jl, g2, 0, 0);
+        //File file = new File("target/Example8.png");
+        //ImageIO.write(image, "png", file.getAbsoluteFile());
     }
 }

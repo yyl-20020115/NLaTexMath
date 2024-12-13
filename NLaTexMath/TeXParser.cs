@@ -43,6 +43,7 @@
  *
  */
 
+using NLaTexMath.Internal.util;
 using System.Drawing;
 using System.Text;
 

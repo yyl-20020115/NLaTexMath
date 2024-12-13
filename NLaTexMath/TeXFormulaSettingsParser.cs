@@ -44,6 +44,7 @@
  *
  */
 
+using NLaTexMath.Internal.util;
 using System.Xml.Linq;
 
 namespace NLaTexMath;
@@ -60,7 +61,7 @@ public class TeXFormulaSettingsParser
     private XElement root;
 
     public TeXFormulaSettingsParser()
-        : this(GlueSettingsParser.GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+        : this(typeof(GlueSettingsParser).GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
     }
 

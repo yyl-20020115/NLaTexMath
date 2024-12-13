@@ -2,29 +2,33 @@ using NLaTexMath;
 using System.Drawing;
 
 namespace org.scilab.forge.jlatexmath;
-public class Benchmarks {
+public class Benchmarks
+{
 
     private static readonly String LATEX_1 = createLatex1();
 
-    public Bitmap ParseAndRenderLatex() {
+    public Bitmap ParseAndRenderLatex()
+    {
         TeXFormula formula = new TeXFormula(LATEX_1);
-        TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
-                       .build();
-        icon.        Insets = new Insets(5, 5, 5, 5);
+        //TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
+        //               .build();
+        //icon.Insets = new Insets(5, 5, 5, 5);
 
-        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
-                                                BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = image.createGraphics();
-        g2.setColor(Color.white);
-        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        JLabel jl = new JLabel();
-        jl.setForeground(new Color(0, 0, 0));
-        icon.PaintIcon(jl, g2, 0, 0);
-        // must return the image to avoid dead code elimination
-        return image;
+        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
+        //                                        BufferedImage.TYPE_INT_ARGB);
+        //Graphics2D g2 = image.createGraphics();
+        //g2.setColor(Color.white);
+        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
+        //JLabel jl = new JLabel();
+        //jl.setForeground(new Color(0, 0, 0));
+        //icon.PaintIcon(jl, g2, 0, 0);
+        //// must return the image to avoid dead code elimination
+        //return image;
+        return null;
     }
 
-    private static String createLatex1() {
+    private static String createLatex1()
+    {
         // taken from Example2
         var latex = "\\begin{array}{l}";
         latex += "\\forall\\varepsilon\\in\\mathbb{R}_+^*\\ \\exists\\eta>0\\ |x-x_0|\\leq\\eta\\Longrightarrow|f(x)-f(x_0)|\\leq\\varepsilon\\\\";

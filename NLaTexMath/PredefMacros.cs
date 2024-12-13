@@ -167,7 +167,9 @@ public class PredefMacros
 
     public static Atom Set_macro(TeXParser tp, string[] args)
     {
-        string str = args[1].ReplaceFirst("\\|", "\\\\middle\\\\vert ");
+        //TODO:
+        string str = args[1].Replace
+            ("\\|", "\\\\middle\\\\vert ");
         return new TeXFormula(tp, "\\left\\{" + str + "\\right\\}").root;
     }
 

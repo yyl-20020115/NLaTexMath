@@ -45,6 +45,7 @@
  */
 
 /* Modified by Calixte Denizet */
+using NLaTexMath.Internal.util;
 using System.Drawing;
 using System.Reflection;
 using System.Xml.Linq;
@@ -180,7 +181,7 @@ public class DefaultTeXFontParser
     }
 
     public DefaultTeXFontParser()
-        : this(DefaultTeXFontParser.GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+        : this(typeof(DefaultTeXFontParser).GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
         ;
     }
@@ -326,7 +327,7 @@ public class DefaultTeXFontParser
                 string include = GetAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
                 if (_base == null)
                 {
-                    fi = parseFontDescriptions(fi, DefaultTeXFontParser.GetResourceAsStream(include), include);
+                    fi = parseFontDescriptions(fi, typeof(DefaultTeXFontParser).GetResourceAsStream(include), include);
                 }
                 else
                 {
@@ -394,7 +395,7 @@ public class DefaultTeXFontParser
 
     public static Font CreateFont(string name)
     {
-        return CreateFont(DefaultTeXFontParser.GetResourceAsStream(name), name);
+        return CreateFont(typeof(DefaultTeXFontParser).GetResourceAsStream(name), name);
     }
 
     public static Font CreateFont(Stream fontIn, string name)
@@ -470,11 +471,11 @@ public class DefaultTeXFontParser
                 {
                     if (_base == null)
                     {
-                        map = factory.newDocumentBuilder().parse(DefaultTeXFontParser.GetResourceAsStream(include)).getDocumentElement();
+                        map = XDocument.Load(typeof(DefaultTeXFontParser).GetResourceAsStream(include)).Root;
                     }
                     else
                     {
-                        map = factory.newDocumentBuilder().parse(_base.GetType().GetResourceAsStream(include)).getDocumentElement();
+                        map = XDocument.Load(_base.GetType().GetResourceAsStream(include)).Root;
                     }
                 }
                 catch (Exception e)

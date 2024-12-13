@@ -66,6 +66,6 @@ public class Example5
         latex += "\\end{array}";
 
         TeXFormula formula = new TeXFormula(latex);
-        formula.createPNG(TeXConstants.STYLE_DISPLAY, 20, "target/Example5.png", Color.white, Color.black);
+        //formula.createPNG(TeXConstants.STYLE_DISPLAY, 20, "target/Example5.png", Color.white, Color.black);
     }
 }

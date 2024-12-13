@@ -44,6 +44,7 @@
  *
  */
 
+using NLaTexMath.Internal.util;
 using System.Drawing;
 
 namespace NLaTexMath;
@@ -215,7 +216,10 @@ public class DefaultTeXFont : TeXFont
 
         try
         {
-            DefaultTeXFont.AddAlphabet(alphabet, TeXFormula.GetResourceAsStream(lg), lg, TeXFormula.GetResourceAsStream(sym), sym, TeXFormula.GetResourceAsStream(map), map);
+            DefaultTeXFont.AddAlphabet(alphabet,
+                typeof(TeXFormula).GetResourceAsStream(lg), lg, 
+                typeof(TeXFormula).GetResourceAsStream(sym), sym, 
+                typeof(TeXFormula).GetResourceAsStream(map), map);
         }
         catch (FontAlreadyLoadedException e) { }
     }

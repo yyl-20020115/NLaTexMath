@@ -67,8 +67,9 @@ public class TeXFormulaParser
 
     public class MethodInvocationParser : ActionParser
     {
-        private string formulaName;
-       
+
+        TeXFormulaParser parser;
+
         public MethodInvocationParser()
         {
             // avoids creation of special accessor type
@@ -80,7 +81,7 @@ public class TeXFormulaParser
             string methodName = getAttrValueAndCheckIfNotNull("name", el);
             string objectName = getAttrValueAndCheckIfNotNull(ARG_OBJ_ATTR, el);
             // check if temporary TeXFormula exists
-            if (!tempFormulas.TryGetValue(objectName, out var o))
+            if (!parser.tempFormulas.TryGetValue(objectName, out var o))
             {// doesn't exist
                 throw new XMLResourceParseException(
                     PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
@@ -94,7 +95,7 @@ public class TeXFormulaParser
                 List<XElement> args = el.Elements("Argument").ToList();
                 // get argument classes and values
                 Type[] argClasses = GetArgumentClasses(args);
-                object[] argValues = GetArgumentValues(args);
+                object[] argValues = parser.GetArgumentValues(args);
                 // invoke method
                 try
                 {
@@ -106,7 +107,7 @@ public class TeXFormulaParser
                         "Error invoking the method '" + methodName
                         + "' on the temporary TeXFormula '" + objectName
                         + "' while constructing the predefined TeXFormula '"
-                        + formulaName + "'!\n" + e.ToString());
+                        + parser.formulaName + "'!\n" + e.ToString());
                 }
             }
         }
@@ -114,6 +115,7 @@ public class TeXFormulaParser
 
     public class CreateTeXFormulaParser : ActionParser
     {
+        TeXFormulaParser parser;
 
         public CreateTeXFormulaParser()
         {
@@ -128,22 +130,22 @@ public class TeXFormulaParser
             List<XElement> args = el.Elements("Argument").ToList();
             // get argument classes and values
             Type[] argClasses = GetArgumentClasses(args);
-            object[] argValues = GetArgumentValues(args);
+            object[] argValues = parser.GetArgumentValues(args);
             // create TeXFormula object
             //string code = "TeXFormula.predefinedTeXFormulasAsString.Add(\"%s\", \"%s\");";
             //System._out.println(string.format(code, formulaName, argValues[0]));
             try
             {
-                TeXFormula? f = typeof(TeXFormula).GetConstructor(argClasses)?.Invoke( argValues ) as TeXFormula;
+                TeXFormula? f = typeof(TeXFormula).GetConstructor(argClasses)?.Invoke(argValues) as TeXFormula;
                 // succesfully created, so Add to "temporary formula's"-hashtable
-                tempFormulas.Add(name, f);
+                parser.tempFormulas.Add(name, f);
             }
             catch (Exception e)
             {
                 throw new XMLResourceParseException(
                     "Error creating the temporary TeXFormula '" + name
                     + "' while constructing the predefined TeXFormula '"
-                    + formulaName + "'!\n" + e.ToString());
+                    + parser.formulaName + "'!\n" + e.ToString());
             }
         }
     }
@@ -306,6 +308,13 @@ public class TeXFormulaParser
 
     public class ReturnParser : ActionParser
     {
+        private object result;
+
+        private Dictionary<string, MacroInfo> tempCommands;
+        private Dictionary<string, MacroInfo> tempFormulas;
+
+        private int type;
+        private string formulaName;
 
         public ReturnParser()
         {
@@ -316,7 +325,7 @@ public class TeXFormulaParser
         {
             // get required string attribute
             string name = getAttrValueAndCheckIfNotNull("name", el);
-            object res = type == COMMAND ? tempCommands.Get(name) : tempFormulas.Get(name);
+            object res = type == COMMAND ? tempCommands[(name)] : tempFormulas[(name)];
             if (res == null)
             {
                 throw new XMLResourceParseException(
@@ -348,7 +357,7 @@ public class TeXFormulaParser
 
     public class TeXFormulaValueParser : ArgumentValueParser
     {
-
+        TeXFormulaParser parser;
         public TeXFormulaValueParser()
         {
             // avoids creation of special accessor type
@@ -362,8 +371,7 @@ public class TeXFormulaParser
             }
             else
             {
-                object formula = tempFormulas.Get(value);
-                if (formula == null)
+                if (!parser.tempFormulas.TryGetValue(value, out var formula))
                 {// unknown temporary TeXFormula!
                     throw new XMLResourceParseException(
                         PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
@@ -393,7 +401,7 @@ public class TeXFormulaParser
             try
             {
                 // get constant value (if present)
-                int constant = (int) typeof(TeXConstants).GetField(value).GetValue(null);
+                int constant = (int)typeof(TeXConstants).GetField(value).GetValue(null);
                 // return constant integer value
                 return (constant);
             }

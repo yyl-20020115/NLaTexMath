@@ -583,12 +583,12 @@ public class TeXFormula
 
     public static void AddPredefinedTeXFormula(Stream xmlFile)
     {
-        new PredefinedTeXFormulaParser(xmlFile, "TeXFormula").Parse(predefinedTeXFormulas);
+        //new PredefinedTeXFormulaParser(xmlFile, "TeXFormula").Parse(predefinedTeXFormulas);
     }
 
     public static void AddPredefinedCommands(Stream xmlFile)
     {
-        new PredefinedTeXFormulaParser(xmlFile, "Command").Parse(MacroInfo.Commands);
+        //new PredefinedTeXFormulaParser(xmlFile, "Command").Parse(MacroInfo.Commands);
     }
 
     /**
@@ -646,15 +646,9 @@ public class TeXFormula
     /*
      * Convert this TeXFormula into a box, starting form the given style
      */
-    private Box createBox(TeXEnvironment style)
-    {
-        if (root == null)
-            return new StrutBox(0, 0, 0, 0);
-        else
-            return root.CreateBox(style);
-    }
+    public Box CreateBox(TeXEnvironment style) => root == null ? new StrutBox(0, 0, 0, 0) : root.CreateBox(style);
 
-    private DefaultTeXFont CreateFont(float size, int type)
+    public static DefaultTeXFont CreateFont(float size, int type)
     {
         DefaultTeXFont dtf = new DefaultTeXFont(size);
         if (type == 0)
@@ -692,6 +686,7 @@ public class TeXFormula
      */
     public class TeXIconBuilder
     {
+        TeXFormula f;
         private int style;
         private float size;
         private int type;
@@ -831,7 +826,7 @@ public class TeXFormula
          * (see Builder pattern)
          * @return the TeXIcon
          */
-        public TeXIcon build()
+        public TeXIcon Build()
         {
             if (style == null)
             {
@@ -857,7 +852,7 @@ public class TeXFormula
                 te.SetInterline(interLineUnit, interLineSpacing);
             }
 
-            Box box = createBox(te);
+            Box box = f.CreateBox(te);
             TeXIcon ti;
             if (widthUnit != null)
             {
@@ -899,22 +894,22 @@ public class TeXFormula
      */
     public TeXIcon CreateTeXIcon(int style, float size)
     {
-        return new TeXIconBuilder().SetStyle(style).SetSize(size).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).Build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int type)
     {
-        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).Build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int type, Color fgcolor)
     {
-        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetFGColor(fgcolor).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetFGColor(fgcolor).Build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, bool trueValues)
     {
-        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetTrueValues(trueValues).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetTrueValues(trueValues).Build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int widthUnit, float textwidth, int align)
@@ -924,7 +919,7 @@ public class TeXFormula
 
     public TeXIcon createTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align)
     {
-        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).Build();
     }
 
     public TeXIcon CreateTeXIcon(int style, float size, int widthUnit, float textwidth, int align, int interlineUnit, float interline)
@@ -934,7 +929,7 @@ public class TeXFormula
 
     public TeXIcon CreateTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align, int interlineUnit, float interline)
     {
-        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).Build();
     }
 
     public void CreateImage(string format, int style, float size, string _out, Color bg, Color fg, bool transparency)

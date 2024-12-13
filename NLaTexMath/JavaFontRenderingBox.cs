@@ -53,7 +53,7 @@ using System.Drawing;
 public class JavaFontRenderingBox : Box
 {
 
-    private static readonly Graphics TEMPGRAPHIC = new Bitmap(1, 1, Bitmap.TYPE_INT_ARGB).createGraphics();
+    //private static readonly Graphics TEMPGRAPHIC = new Bitmap(1, 1).createGraphics();
 
     //TODO:
     private static Font font = null;// new Font("Serif", Font.PLAIN, 10);
@@ -104,7 +104,8 @@ public class JavaFontRenderingBox : Box
 
     public static void SetFont(string name)
     {
-        font = new Font(name, Fonts.PLAIN, 10);
+        //TODO:
+        //font = new Font(name, Fonts.PLAIN, 10);
     }
 
     public override void Draw(Graphics g2, float x, float y)

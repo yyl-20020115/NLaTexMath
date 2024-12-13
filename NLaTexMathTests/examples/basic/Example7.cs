@@ -66,21 +66,21 @@ public class Example7
                        .SetSize(30)
                        .SetWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
                        .setInterLineSpacing(TeXConstants.UNIT_CM, 0.5f)
-                       .build();
+                       .Build();
 
 
         icon.
 
         Insets = new Insets(5, 5, 5, 5);
 
-        BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = image.createGraphics();
-        g2.setColor(Color.white);
-        g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        JLabel jl = new JLabel();
-        jl.setForeground(new Color(0, 0, 0));
-        icon.paintIcon(jl, g2, 0, 0);
-        File file = new File("target/Example7.png");
-        ImageIO.write(image, "png", file.getAbsoluteFile());
+        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        //Graphics2D g2 = image.createGraphics();
+        //g2.setColor(Color.white);
+        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
+        //JLabel jl = new JLabel();
+        //jl.setForeground(new Color(0, 0, 0));
+        //icon.paintIcon(jl, g2, 0, 0);
+        //File file = new File("target/Example7.png");
+        //ImageIO.write(image, "png", file.getAbsoluteFile());
     }
 }

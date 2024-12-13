@@ -44,6 +44,7 @@
  *
  */
 
+using NLaTexMath.Internal.util;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -62,7 +63,7 @@ public class TeXSymbolParser
 
     private XElement root;
 
-    public TeXSymbolParser() : this(TeXSymbolParser.GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
+    public TeXSymbolParser() : this(typeof(TeXSymbolParser).GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
     }
 
