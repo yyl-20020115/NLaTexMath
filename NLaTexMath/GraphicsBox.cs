@@ -85,7 +85,7 @@ public class GraphicsBox : Box
         //TODO:
         //AffineTransform oldAt = g2.getTransform();
         //object oldKey = null;
-        //if (interp != null)
+        //if (interp != null) 
         //{
         //    oldKey = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
         //    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interp);

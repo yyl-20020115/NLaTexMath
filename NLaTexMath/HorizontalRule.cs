@@ -90,7 +90,7 @@ public class HorizontalRule : Box
     public override void Draw(Graphics g2, float x, float y)
     {
         //TODO:
-        //Color old = g2.getColor();
+        //Color old = g2.getColor(); 
         //if (color != null)
         //    g2.setColor(color);
 

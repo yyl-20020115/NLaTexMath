@@ -78,7 +78,7 @@ public class URLAlphabetRegistration : AlphabetRegistration
                           + language[1..] + "Registration";
             //TODO:
             //try
-            //{
+            //{ 
             //    ClassLoader loader = new URLClassLoader(urls);
             //    pack = (AlphabetRegistration)Type.forName(name, true, loader).newInstance();
             //}

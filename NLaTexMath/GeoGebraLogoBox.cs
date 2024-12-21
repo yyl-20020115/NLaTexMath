@@ -70,7 +70,7 @@ public class GeoGebraLogoBox : Box
     public override void Draw(Graphics g2, float x, float y)
     {
         //TODO:
-        //AffineTransform oldAt = g2.getTransform();
+        //AffineTransform oldAt = g2.getTransform(); 
         //Color oldC = g2.getColor();
         //Stroke oldS = g2.getStroke();
         //g2.translate(x + 0.25f * height / 2.15f, y - 1.75f / 2.15f * height);

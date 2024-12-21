@@ -50,37 +50,38 @@ namespace NLaTexMathTests.Examples.Basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example7
+public class Example7 : TestBase
 {
     public static void _Main(string[] args)
     {
         var latex = "\\mbox{abc abc abc abc abc abc abc abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc}\\\\1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1";
-        TeXFormula formula = new TeXFormula(latex);
-        formula.SetDEBUG(true);
-
-        // Note: Old interface for creating icons:
-        //TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 30, TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT, TeXConstants.UNIT_CM, 0.5f);
-        // Note: New interface using builder pattern (inner class):
-        TeXIcon icon = new TeXFormula.TeXIconBuilder()
-                       .SetStyle(TeXConstants.STYLE_DISPLAY)
-                       .SetSize(30)
-                       .SetWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
-                       .setInterLineSpacing(TeXConstants.UNIT_CM, 0.5f)
-                       .Build();
+        //TeXFormula formula = new TeXFormula(latex);
+        //formula.SetDEBUG(true);
+        DoTest(latex, nameof(Example7));
 
 
-        icon.
+        //// Note: Old interface for creating icons:
+        ////TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 30, TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT, TeXConstants.UNIT_CM, 0.5f);
+        //// Note: New interface using builder pattern (inner class):
+        //TeXIcon icon = new TeXFormula.TeXIconBuilder()
+        //               .SetStyle(TeXConstants.STYLE_DISPLAY)
+        //               .SetSize(30)
+        //               .SetWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
+        //               .setInterLineSpacing(TeXConstants.UNIT_CM, 0.5f)
+        //               .Build();
 
-        Insets = new Insets(5, 5, 5, 5);
-        //TODO£º
-        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        //Graphics2D g2 = image.createGraphics();
-        //g2.setColor(Color.white);
-        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        //JLabel jl = new JLabel();
-        //jl.setForeground(new Color(0, 0, 0));
-        //icon.paintIcon(jl, g2, 0, 0);
-        //File file = new File("target/Example7.png");
-        //ImageIO.write(image, "png", file.getAbsoluteFile());
+
+        //icon.
+
+        ////TODO£º
+        ////BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        ////Graphics2D g2 = image.createGraphics();
+        ////g2.setColor(Color.white);
+        ////g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
+        ////JLabel jl = new JLabel();
+        ////jl.setForeground(new Color(0, 0, 0));
+        ////icon.paintIcon(jl, g2, 0, 0);
+        ////File file = new File("target/Example7.png");
+        ////ImageIO.write(image, "png", file.getAbsoluteFile());
     }
 }

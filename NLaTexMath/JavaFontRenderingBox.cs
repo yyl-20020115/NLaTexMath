@@ -55,7 +55,7 @@ public class JavaFontRenderingBox : Box
 
     //private static readonly Graphics TEMPGRAPHIC = new Bitmap(1, 1).createGraphics();
 
-    //TODO:
+    //TODO: 
     private static Font font = null;// new Font("Serif", Font.PLAIN, 10);
 
     //private TextLayout text;

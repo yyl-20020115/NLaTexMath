@@ -223,7 +223,7 @@ public class JLaTeXMathCache
     private static WeakReference<CachedImage> MakeImage(CachedTeXFormula cached)
     {
         //TODO:
-        //TeXFormula formula = new TeXFormula(cached.f);
+        //TeXFormula formula = new TeXFormula(cached.f); 
         //TeXIcon icon = formula.CreateTeXIcon(cached.style, cached.size, cached.type, cached.fgcolor);
         //icon.Insets = new Insets(cached.inset, cached.inset, cached.inset, cached.inset);
         //Bitmap image = new Bitmap(icon.GetIconWidth(), icon.GetIconHeight(), Bitmap.TYPE_INT_ARGB);

@@ -72,7 +72,7 @@ public class ScaleBox : Box
 
     public override void Draw(Graphics g2, float x, float y)
     {
-        //TODO:
+        //TODO: 
         //DrawDebug(g2, x, y);
         //if (xscl != 0 && yscl != 0)
         //{

@@ -90,7 +90,7 @@ public class NewCommandMacro
         int nbargs = args.Length - 11;
         int dec = 0;
 
-        //TODO:
+        //TODO: 
         //if (args[nbargs + 1] != null)
         //{
         //    dec = 1;

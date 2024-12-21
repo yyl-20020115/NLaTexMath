@@ -84,7 +84,7 @@ public class CharBox : Box
     }
 
     public override void Draw(Graphics g2, float x, float y)
-    {
+    { 
         DrawDebug(g2, x, y);
         //TODO:
         //AffineTransform at = g2.getTransform();

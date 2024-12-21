@@ -50,7 +50,7 @@ namespace NLaTexMathTests.Examples.Basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example5
+public class Example5 : TestBase
 {
     public static void _Main(string[] args)
     {
@@ -64,8 +64,7 @@ public class Example5
         latex += "\\hline";
         latex += "\\end{array}";
 
-        TeXFormula formula = new TeXFormula(latex);
-        //TODO:
-        //formula.createPNG(TeXConstants.STYLE_DISPLAY, 20, "target/Example5.png", Color.white, Color.black);
+        DoTest(latex, nameof(Example5));
+
     }
 }

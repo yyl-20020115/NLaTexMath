@@ -990,7 +990,7 @@ public class TeXFormula
      */
     public static Image CreateBufferedImage(string formula, int style, float size, Color fg, Color bg)
     {
-        //TODO:
+        //TODO: 
         //TeXFormula f = new TeXFormula(formula);
         //TeXIcon icon = f.CreateTeXIcon(style, size);
         //icon.Insets = new Insets(2, 2, 2, 2);
@@ -1021,7 +1021,7 @@ public class TeXFormula
      */
     public Image CreateBufferedImage(int style, float size, Color fg, Color bg)
     {
-        //TODO:
+        //TODO: 
         //TeXIcon icon = CreateTeXIcon(style, size);
         //icon.Insets = new Insets(2, 2, 2, 2);
         //int w = icon.GetIconWidth(), h = icon.GetIconHeight();

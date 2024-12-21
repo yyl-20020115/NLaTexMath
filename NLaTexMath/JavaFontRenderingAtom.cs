@@ -65,7 +65,7 @@ public class JavaFontRenderingAtom(string str, int type) : Atom
         }
         else
         {
-            //TODO:
+            //TODO: 
             //DefaultTeXFont dtf = (DefaultTeXFont)env.TeXFont;
             //int type = dtf.isIt ? Fonts.ITALIC : Fonts.PLAIN;
             //type = type | (dtf.isBold ? Fonts.BOLD : 0);

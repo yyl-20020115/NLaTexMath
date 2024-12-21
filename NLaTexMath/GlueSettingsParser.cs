@@ -70,7 +70,7 @@ public class GlueSettingsParser
         {
             SetTypeMappings();
             SetStyleMappings();
-            //TODO:
+            //TODO: 
             //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             //factory.setIgnoringElementContentWhitespace(true);
             //factory.setIgnoringComments(true);

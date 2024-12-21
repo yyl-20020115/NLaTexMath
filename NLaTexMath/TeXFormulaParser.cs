@@ -163,7 +163,7 @@ public class TeXFormulaParser
             //TODO:
             //// get required string attribute
             //string name = getAttrValueAndCheckIfNotNull("name", el);
-            //// parse arguments
+            //// parse arguments 
             //List<XElement> args = el.Elements("Argument").ToList();
             //// get argument classes and values
             //Type[] argClasses = GetArgumentClasses(args);

@@ -246,7 +246,7 @@ public abstract class Box
      */
     protected void StartDraw(Graphics g2, float x, float y)
     {
-        //TODO:
+        //TODO: 
 
         // old color
         //prevColor = g2.getColor();

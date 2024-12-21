@@ -127,7 +127,7 @@ public class HorizontalBox : Box
         float xPos = x;
         //TODO:
         foreach (Box box in Children)
-        {
+        { 
             /*int i = children.IndexOf(box);
               if (breakPositions != null && breakPositions.IndexOf(i) != -1) {
               box.markForDEBUG = java.awt.Color.BLUE;

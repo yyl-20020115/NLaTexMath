@@ -50,7 +50,7 @@ namespace NLaTexMathTests.Examples.Basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example4
+public class Example4 : TestBase
 {
     public static void _Main(string[] args)
     {
@@ -62,23 +62,7 @@ public class Example4
         latex += "\\text{\\backslash includegraphics\\{src/test/resources/lion.png\\}} & \\text{\\backslash includegraphics[width=3cm,interpolation=bicubic]\\{lion.png\\}} & \\text{\\backslash includegraphics[angle=45,width=3cm]\\{lion.png\\}} & \\text{\\backslash includegraphics[angle=160]\\{lion.png\\}}\\cr\n";
         latex += "\\hline\n";
         latex += "\\end{array}\n";
-        //TODO:
-        TeXFormula formula = new TeXFormula(latex);
-        // Note: Old interface for creating icons:
-        //TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 10);
-        // Note: New interface using builder pattern (inner class):
-        //TeXIcon icon = new  TeXFormula.TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(10).build();
 
-        //icon.Insets = new Insets(5, 5, 5, 5);
-
-        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        //Graphics2D g2 = image.createGraphics();
-        //g2.setColor(Color.white);
-        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        //JLabel jl = new JLabel();
-        //jl.setForeground(new Color(0, 0, 0));
-        //icon.paintIcon(jl, g2, 0, 0);
-        //File file = new File("target/Example4.png");
-        //ImageIO.write(image, "png", file.getAbsoluteFile());
+        DoTest(latex, nameof(Example4));
     }
 }

@@ -16,7 +16,7 @@ public static class LaTeXGenerator
 
         using var g2d = Graphics.FromImage(bitmap);
 
-        //TODO:
+        //TODO:  
         //g2d.setColor(Color.White);
         //g2d.fillRect(0, 0, ti.getIconWidth(), ti.getIconHeight());
         

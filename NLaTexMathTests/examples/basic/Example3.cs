@@ -50,7 +50,7 @@ namespace NLaTexMathTests.Examples.Basic;
  * A class to test LaTeX rendering.
  **/
 
-public class Example3
+public class Example3 : TestBase
 {
     public static void _Main(string[] args)
     {
@@ -75,25 +75,6 @@ public class Example3
         latex += "\\rotatebox{30}{\\sum_{n=1}^{+\\infty}}\\quad\\mbox{Mirror rorriM}\\reflectbox{\\mbox{Mirror rorriM}}";
         latex += "\\end{array}";
 
-        TeXFormula formula = new TeXFormula(latex);
-        //TODO:
-        // Note: Old interface for creating icons:
-        // TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-        // Note: New interface using builder pattern (inner class):
-        //TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
-        //               .build();
-
-        //icon.Insets = new Insets(5, 5, 5, 5);
-
-        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
-        //                                        BufferedImage.TYPE_INT_ARGB);
-        //Graphics2D g2 = image.createGraphics();
-        //g2.setColor(Color.white);
-        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        //JLabel jl = new JLabel();
-        //jl.setForeground(new Color(0, 0, 0));
-        //icon.paintIcon(jl, g2, 0, 0);
-        //File file = new File("target/Example3.png");
-        //ImageIO.write(image, "png", file.getAbsoluteFile());
+        DoTest(latex, nameof(Example3));
     }
 }

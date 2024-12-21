@@ -225,7 +225,7 @@ public class TeXIcon
     {
         //TODO:
         //Graphics g2 = (Graphics)g;
-        //// copy graphics settings
+        //// copy graphics settings 
         //RenderingHints oldHints = g2.getRenderingHints();
         //AffineTransform oldAt = g2.getTransform();
         //Color oldColor = g2.getColor();

@@ -50,7 +50,7 @@ namespace NLaTexMathTests.Examples.Basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example2
+public class Example2 : TestBase
 {
     public static void _Main(string[] args)
     {
@@ -65,22 +65,23 @@ public class Example2
         latex += "\\begin{array}{rl} s &= \\int_a^b\\left\\|\\frac{d}{dt}\\vec{r}\\,(u(t),v(t))\\right\\|\\,dt \\\\ &= \\int_a^b \\sqrt{u'(t)^2\\,\\vec{r}_u\\cdot\\vec{r}_u + 2u'(t)v'(t)\\, \\vec{r}_u\\cdot\\vec{r}_v+ v'(t)^2\\,\\vec{r}_v\\cdot\\vec{r}_v}\\,\\,\\, dt. \\end{array}\\\\";
         latex += "\\end{array}";
 
-        TeXFormula formula = new TeXFormula(latex);
-        // Note: Old interface for creating icons:
-        //TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-        // Note: New interface using builder pattern (inner class):
-        TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).Build();
-        icon.Insets = new Insets(5, 5, 5, 5);
-        //TODO:
+        DoTest(latex, nameof(Example2));
 
-        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        //Graphics2D g2 = image.createGraphics();
-        //g2.setColor(Color.white);
-        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        //JLabel jl = new JLabel();
-        //jl.setForeground(new Color(0, 0, 0));
-        //icon.paintIcon(jl, g2, 0, 0);
-        //File file = new File("target/Example2.png");
-        //ImageIO.write(image, "png", file.getAbsoluteFile());
+        //TeXFormula formula = new TeXFormula(latex);
+        //// Note: Old interface for creating icons:
+        ////TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
+        //// Note: New interface using builder pattern (inner class):
+        //TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).Build();
+        //icon.Insets = new Insets(5, 5, 5, 5);
+
+        ////BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        ////Graphics2D g2 = image.createGraphics();
+        ////g2.setColor(Color.white);
+        ////g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
+        ////JLabel jl = new JLabel();
+        ////jl.setForeground(new Color(0, 0, 0));
+        ////icon.paintIcon(jl, g2, 0, 0);
+        ////File file = new File("target/Example2.png");
+        ////ImageIO.write(image, "png", file.getAbsoluteFile());
     }
 }

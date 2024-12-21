@@ -1366,7 +1366,7 @@ public class PredefMacros
 
     public static Atom definecolor_macro(TeXParser tp, string[] args)
     {
-        ///TODO:
+        ///TODO: 
         //Color? color = null;
         //if ("gray" == (args[2]))
         //{

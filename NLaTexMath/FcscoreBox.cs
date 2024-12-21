@@ -70,7 +70,7 @@ public class FcscoreBox : Box
 
     public override void Draw(Graphics g2, float x, float y)
     {
-        //TODO:
+        //TODO: 
         //AffineTransform transf = g2.getTransform();
         //Stroke oldStroke = g2.getStroke(); 
 

@@ -57,7 +57,7 @@ public class ParseOption
         if (options == null || options.Length == 0)
         {
             return map;
-        }
+        } 
         //TODO:
         //StringTokenizer tokens = new StringTokenizer(options, ",");
         //while (tokens.hasMoreTokens())

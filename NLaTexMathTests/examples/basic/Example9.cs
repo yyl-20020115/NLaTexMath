@@ -50,13 +50,14 @@ namespace NLaTexMathTests.Examples.Basic;
 /**
  * A class to test LaTeX rendering.
  **/
-public class Example9
+public class Example9 : TestBase
 {
     public static void _Main(string[] args)
     {
-        //TODO:
         var latex = "{a \\bangle b} {c \\brace d} {e \\brack f} {g \\choose h}";
-        TeXFormula formula = new TeXFormula(latex);
+        DoTest(latex, nameof(Example9));
+
+        //TeXFormula formula = new TeXFormula(latex);
         //TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).Build();
         //icon.Insets = new Insets(5, 5, 5, 5);
         //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),

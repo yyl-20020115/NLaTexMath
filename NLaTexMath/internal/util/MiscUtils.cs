@@ -8,7 +8,7 @@ public static class MiscUtils
     public static Stream GetResourceAsStream(this Type type, string resourceName)
     {
         //TODO:
-        return null;
+        return null; 
     }
 
     public static StringBuilder Replace(this StringBuilder builder, int start,int end, string replace)
