@@ -1,4 +1,4 @@
-/* FcscoreBox.java
+/* FcscoreBox.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -70,6 +70,7 @@ public class FcscoreBox : Box
 
     public override void Draw(Graphics g2, float x, float y)
     {
+        //TODO:
         //AffineTransform transf = g2.getTransform();
         //Stroke oldStroke = g2.getStroke(); 
 

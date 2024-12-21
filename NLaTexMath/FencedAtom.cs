@@ -1,4 +1,4 @@
-/* FencedAtom.java
+/* FencedAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -64,8 +64,8 @@ public class FencedAtom : Atom
     private readonly Atom Base;
 
     // delimiters
-    private SymbolAtom? left;
-    private SymbolAtom? right;
+    private readonly SymbolAtom? left;
+    private readonly SymbolAtom? right;
     private readonly List<MiddleAtom> middle;
 
     /**
@@ -131,9 +131,9 @@ public class FencedAtom : Atom
             for (int i = 0; i < middle.Count; i++)
             {
                 MiddleAtom at = middle[(i)];
-                if (at.Base is SymbolAtom)
+                if (at.Base is SymbolAtom atom)
                 {
-                    Box b = DelimiterFactory.Create(((SymbolAtom)at.Base).Name, env, minHeight);
+                    Box b = DelimiterFactory.Create(atom.Name, env, minHeight);
                     Center(b, axis);
                     at.Box = b;
                 }

@@ -1,4 +1,4 @@
-/* DdotsAtom.java
+/* DdotsAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -54,13 +54,13 @@ public class DdotsAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box ldots = TeXFormula.Get("ldots").root.CreateBox(env);
+        var ldots = TeXFormula.Get("ldots").root.CreateBox(env);
         float w = ldots.Width;
-        Box dot = SymbolAtom.Get("ldotp").CreateBox(env);
+        var dot = SymbolAtom.Get("ldotp").CreateBox(env);
         var hb1 = new HorizontalBox(dot, w, TeXConstants.ALIGN_LEFT);
         var hb2 = new HorizontalBox(dot, w, TeXConstants.ALIGN_CENTER);
         var hb3 = new HorizontalBox(dot, w, TeXConstants.ALIGN_RIGHT);
-        Box pt4 = new SpaceAtom(TeXConstants.UNIT_MU, 0, 4, 0).CreateBox(env);
+        var pt4 = new SpaceAtom(TeXConstants.UNIT_MU, 0, 4, 0).CreateBox(env);
         var vb = new VerticalBox();
         vb.Add(hb1);
         vb.Add(pt4);

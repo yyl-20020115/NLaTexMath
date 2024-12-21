@@ -1,4 +1,4 @@
-/* TextCircledAtom.java
+/* TextCircledAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -55,10 +55,10 @@ public class TextCircledAtom(Atom atom) : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box circle = SymbolAtom.Get("bigcirc").CreateBox(env);
+        var circle = SymbolAtom.Get("bigcirc").CreateBox(env);
         circle.Shift = -0.07f * SpaceAtom.GetFactor(TeXConstants.UNIT_EX, env);
-        Box box = Base.CreateBox(env);
-        HorizontalBox hb = new HorizontalBox(box, circle.Width, TeXConstants.ALIGN_CENTER);
+        var box = Base.CreateBox(env);
+        var hb = new HorizontalBox(box, circle.Width, TeXConstants.ALIGN_CENTER);
         hb.Add(new StrutBox(-hb.Width, 0, 0, 0));
         hb.Add(circle);
         return hb;

@@ -1,4 +1,4 @@
-/* Box.java
+/* Box.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -84,8 +84,6 @@ public abstract class Box
      */
     protected Color? background;
 
-    private Color? prevColor; // used temporarily in startDraw and endDraw
-
     /**
      * The width of this box, i.e. the value that will be used for further
      * calculations.
@@ -164,7 +162,7 @@ public abstract class Box
     {
         foreground = fg;
         background = bg;
-        this.prevColor = fg;
+        //this.prevColor = fg;
     }
 
     public Box? Parent { get => parent; set => this.parent = value; }
@@ -248,6 +246,8 @@ public abstract class Box
      */
     protected void StartDraw(Graphics g2, float x, float y)
     {
+        //TODO:
+
         // old color
         //prevColor = g2.getColor();
         //if (background != null)
@@ -270,6 +270,7 @@ public abstract class Box
     {
         if (DEBUG)
         {
+            //TODO:
             //Stroke st = g2.getStroke();
             //if (markForDEBUG != null)
             //{
@@ -325,6 +326,8 @@ public abstract class Box
      */
     protected void EndDraw(Graphics g2)
     {
+        //TODO:
+
         //g2.setColor(prevColor);
     }
 }

@@ -1,4 +1,4 @@
-/* ArrayOfAtoms.java
+/* ArrayOfAtoms.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -87,11 +87,13 @@ public class ArrayOfAtoms : TeXFormula
 
     public VRowAtom GetAsVRow()
     {
-        var vr = new VRowAtom();
-        vr.AddInterline = true;
-        foreach (List<Atom> r in array)
+        var vr = new VRowAtom
         {
-            foreach (Atom a in r)
+            AddInterline = true
+        };
+        foreach (var r in array)
+        {
+            foreach (var a in r)
             {
                 vr.Append(a);
             }

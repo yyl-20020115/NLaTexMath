@@ -1,4 +1,4 @@
-/* UnderOverArrowAtom.java
+/* UnderOverArrowAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -50,8 +50,10 @@ namespace NLaTexMath;
  */
 public class UnderOverArrowAtom : Atom
 {
-    private Atom Base;
-    private bool over, left = false, dble = false;
+    private readonly Atom Base;
+    private readonly bool over;
+    private readonly bool left = false;
+    private readonly bool dble = false;
 
     public UnderOverArrowAtom(Atom _base, bool left, bool over)
     {

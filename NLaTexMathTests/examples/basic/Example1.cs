@@ -1,4 +1,4 @@
-/* Example1.java
+/* Example1.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -43,9 +43,8 @@
  *
  */
 using NLaTexMath;
-using System.Drawing;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 
 /**
@@ -53,7 +52,7 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
  **/
 public class Example1
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
 
         var latex = "\\begin{array}{lr}\\mbox{\\textcolor{Blue}{Russian}}&\\mbox{\\textcolor{Melon}{Greek}}\\\\";
@@ -77,6 +76,7 @@ public class Example1
 
         TeXFormula formula = new TeXFormula(latex);
 
+        //TODO:
         // Note: Old interface for creating icons:
         // TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
         // Note: New interface using builder pattern (inner class):

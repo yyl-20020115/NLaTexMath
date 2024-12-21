@@ -1,4 +1,4 @@
-/* MiddleAtom.java
+/* MiddleAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -50,9 +50,7 @@ namespace NLaTexMath;
  */
 public class MiddleAtom(Atom _base) : Atom
 {
-
     public readonly Atom Base = _base;
     public Box Box = new StrutBox(0, 0, 0, 0);
-
     public override Box CreateBox(TeXEnvironment env) => Box;
 }

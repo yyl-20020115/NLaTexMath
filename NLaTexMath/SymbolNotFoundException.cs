@@ -1,4 +1,4 @@
-/* SymbolNotFoundException.java
+/* SymbolNotFoundException.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -52,5 +52,4 @@ namespace NLaTexMath;
  * @author Kurt Vermeulen
  */
 public class SymbolNotFoundException(string name) 
-    : JMathTeXException("There's no symbol with the name '" + name + "' defined in '"
-              + TeXSymbolParser.RESOURCE_NAME + "'!") { }
+    : JMathTeXException($"There's no symbol with the name '{name}' defined in '" + TeXSymbolParser.RESOURCE_NAME + "'!") { }

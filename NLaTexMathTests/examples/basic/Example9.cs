@@ -1,4 +1,4 @@
-/* Example9.java
+/* Example9.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,7 +44,7 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 
 /**
@@ -52,10 +52,11 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
  **/
 public class Example9
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
-        //var latex = "{a \\bangle b} {c \\brace d} {e \\brack f} {g \\choose h}";
-        //TeXFormula formula = new TeXFormula(latex);
+        //TODO:
+        var latex = "{a \\bangle b} {c \\brace d} {e \\brack f} {g \\choose h}";
+        TeXFormula formula = new TeXFormula(latex);
         //TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).Build();
         //icon.Insets = new Insets(5, 5, 5, 5);
         //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),

@@ -1,4 +1,4 @@
-/* BreakFormula.java
+/* BreakFormula.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -48,7 +48,6 @@ namespace NLaTexMath;
 
 public class BreakFormula
 {
-
     public static Box Split(Box box, float width, float interline)
         => box is HorizontalBox hbox ? Split(hbox, width, interline) : box is VerticalBox vbox ? Split(vbox, width, interline) : box;
 
@@ -167,7 +166,6 @@ public class BreakFormula
 
     public class Position(int index, HorizontalBox hbox)
     {
-
         public int index = index;
         public HorizontalBox hbox = hbox;
     }

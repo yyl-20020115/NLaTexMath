@@ -1,4 +1,4 @@
-/* BigOperatorAtom.java
+/* BigOperatorAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -56,17 +56,18 @@ public class BigOperatorAtom : Atom
 {
 
     // limits
-    private Atom under, over;
+    private readonly Atom under;
+    private readonly Atom over;
 
     // atom representing a big operator
     protected Atom _base;
 
     // whether the "limits"-value should be taken into account
     // (otherwise the default rules will be applied)
-    private bool limitsSet = false;
+    private readonly bool limitsSet = false;
 
     // whether limits should be drawn over and under the _base (<-> as scripts)
-    private bool limits = false;
+    private readonly bool limits = false;
 
     /**
      * Creates a new BigOperatorAtom from the given atoms.
@@ -104,13 +105,13 @@ public class BigOperatorAtom : Atom
         TeXFont tf = env.TeXFont;
         int style = env.Style;
 
-        Box y;
+        Box? y;
         float delta;
-        RowAtom bbase = null;
+        RowAtom? bbase = null;
         Atom Base = _base;
-        if (_base is TypedAtom)
+        if (_base is TypedAtom a)
         {
-            Atom at = ((TypedAtom)_base).GetBase();
+            Atom at = a.GetBase();
             if (at is RowAtom atom && atom.lookAtLastAtom && _base.TypeLimits != TeXConstants.SCRIPT_LIMITS)
             {
                 _base = atom.GetLastAtom();
@@ -160,7 +161,7 @@ public class BigOperatorAtom : Atom
             }
 
             // limits
-            Box x = null, z = null;
+            Box? x = null, z = null;
             if (over != null)
                 x = over.CreateBox(env.SupStyle);
             if (under != null)
@@ -174,7 +175,7 @@ public class BigOperatorAtom : Atom
             z = ChangeWidth(z, maxWidth);
 
             // build vertical box
-            VerticalBox vBox = new VerticalBox();
+            var vBox = new VerticalBox();
 
             float bigop5 = tf.GetBigOpSpacing5(style), kern = 0;
             float xh = 0; // TODO: check why this is not used // NOPMD
@@ -230,7 +231,7 @@ public class BigOperatorAtom : Atom
     /*
      * Centers the given box in a new box that has the given width
      */
-    private static Box ChangeWidth(Box b, float maxWidth)
+    private static Box? ChangeWidth(Box? b, float maxWidth)
         => b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
             ? new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER)
             : b;

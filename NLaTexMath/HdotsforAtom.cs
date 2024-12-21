@@ -1,4 +1,4 @@
-/* HdotsforAtom.java
+/* HdotsforAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -53,7 +53,7 @@ public class HdotsforAtom(int n, float coeff) : MulticolumnAtom(n, "c", ldotp)
 
     private static readonly Atom ldotp = SymbolAtom.Get("ldotp");
     private static readonly Atom thin = new SpaceAtom(TeXConstants.THINMUSKIP);
-    private float coeff = coeff;
+    private readonly float coeff = coeff;
 
     public override Box CreateBox(TeXEnvironment env)
     {

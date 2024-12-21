@@ -1,4 +1,4 @@
-/* NewCommandMacro.java
+/* NewCommandMacro.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -73,15 +73,12 @@ public class NewCommandMacro
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs, 1));
     }
 
-    public static bool IsMacro(string name)
-    {
-        return macrocode.ContainsKey(name);
-    }
+    public static bool IsMacro(string name) => macrocode.ContainsKey(name);
 
     public static void AddReNewCommand(string name, string code, int nbargs)
     {
         if (macrocode[(name)] == null)
-            throw new ParseException("Command " + name + " is not defined ! Use newcommand instead ...");
+            throw new ParseException($"Command {name} is not defined ! Use newcommand instead ...");
         macrocode.Add(name, code);
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
@@ -93,7 +90,7 @@ public class NewCommandMacro
         int nbargs = args.Length - 11;
         int dec = 0;
 
-
+        //TODO:
         //if (args[nbargs + 1] != null)
         //{
         //    dec = 1;

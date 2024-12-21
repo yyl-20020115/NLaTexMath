@@ -1,4 +1,4 @@
-/* GraphicsAtom.java
+/* GraphicsAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -76,6 +76,7 @@ public class GraphicsAtom : Atom
 
         if (image != null)
         {
+            //TODO:
             //c = new Label();
             //MediaTracker tracker = new MediaTracker(c);
             //tracker.addImage(image, 0);
@@ -130,6 +131,7 @@ public class GraphicsAtom : Atom
     {
         if (image != null)
         {
+            //TODO:
             //w = image.getWidth(c);
             //h = image.getHeight(c);
             //bimage = new Bitmap(w, h, Bitmap.TYPE_INT_ARGB);

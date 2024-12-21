@@ -23,7 +23,7 @@ public static class Images
                 {
                     var ca = imgA.GetPixel(x, y);
                     var cb = imgB.GetPixel(x, y);
-                    double variance = Square(ca.R - cb.R) //
+                    var variance = Square(ca.R - cb.R) //
                                       + Square(ca.B - cb.B) //
                                       + Square(ca.G - cb.G) //
                                       + Square(ca.A - cb.A);

@@ -1,4 +1,4 @@
-/* TeXFormula.java
+/* TeXFormula.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -166,7 +166,7 @@ public class TeXFormula
 
     public static FontInfos GetExternalFont(UnicodeBlock block)
     {
-        FontInfos infos = externalFontMap[(block)];
+        var infos = externalFontMap[(block)];
         if (infos == null)
         {
             infos = new FontInfos("SansSerif", "Serif");
@@ -934,6 +934,7 @@ public class TeXFormula
 
     public void CreateImage(string format, int style, float size, string _out, Color bg, Color fg, bool transparency)
     {
+        //TODO:
         //TeXIcon icon = CreateTeXIcon(style, size);
         //icon.Insets = new Insets(1, 1, 1, 1);
         //int w = icon.GetIconWidth(), h = icon.GetIconHeight();
@@ -989,6 +990,7 @@ public class TeXFormula
      */
     public static Image CreateBufferedImage(string formula, int style, float size, Color fg, Color bg)
     {
+        //TODO:
         //TeXFormula f = new TeXFormula(formula);
         //TeXIcon icon = f.CreateTeXIcon(style, size);
         //icon.Insets = new Insets(2, 2, 2, 2);
@@ -1019,6 +1021,7 @@ public class TeXFormula
      */
     public Image CreateBufferedImage(int style, float size, Color fg, Color bg)
     {
+        //TODO:
         //TeXIcon icon = CreateTeXIcon(style, size);
         //icon.Insets = new Insets(2, 2, 2, 2);
         //int w = icon.GetIconWidth(), h = icon.GetIconHeight();

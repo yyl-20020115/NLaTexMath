@@ -1,4 +1,4 @@
-/* SymbolMappingNotFoundException.java
+/* SymbolMappingNotFoundException.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -52,7 +52,6 @@ namespace NLaTexMath;
  * @author Kurt Vermeulen
  */
 public class SymbolMappingNotFoundException(string symbolName) 
-    : JMathTeXException("No mapping found for the symbol '" + symbolName + "'! "
-              + "Insert a <" + DefaultTeXFontParser.SYMBOL_MAPPING_EL
+    : JMathTeXException($"No mapping found for the symbol '{symbolName}'! Insert a <" + DefaultTeXFontParser.SYMBOL_MAPPING_EL
               + ">-element in '" + DefaultTeXFontParser.RESOURCE_NAME + "'.")
 { }

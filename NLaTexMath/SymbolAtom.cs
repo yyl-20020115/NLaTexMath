@@ -1,4 +1,4 @@
-/* SymbolAtom.java
+/* SymbolAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -74,20 +74,22 @@ public class SymbolAtom : CharSymbol
         symbols = new TeXSymbolParser().ReadSymbols();
 
         // set valid symbol types
-        validSymbolTypes = new BitSet(16);
-        validSymbolTypes.Set(TeXConstants.TYPE_ORDINARY);
-        validSymbolTypes.Set(TeXConstants.TYPE_BIG_OPERATOR);
-        validSymbolTypes.Set(TeXConstants.TYPE_BINARY_OPERATOR);
-        validSymbolTypes.Set(TeXConstants.TYPE_RELATION);
-        validSymbolTypes.Set(TeXConstants.TYPE_OPENING);
-        validSymbolTypes.Set(TeXConstants.TYPE_CLOSING);
-        validSymbolTypes.Set(TeXConstants.TYPE_PUNCTUATION);
-        validSymbolTypes.Set(TeXConstants.TYPE_ACCENT);
+        validSymbolTypes = new BitSet(16)
+        {
+            [(TeXConstants.TYPE_ORDINARY)] = true,
+            [(TeXConstants.TYPE_BIG_OPERATOR)] = true,
+            [(TeXConstants.TYPE_BINARY_OPERATOR)] = true,
+            [(TeXConstants.TYPE_RELATION)] = true,
+            [(TeXConstants.TYPE_OPENING)] = true,
+            [(TeXConstants.TYPE_CLOSING)] = true,
+            [(TeXConstants.TYPE_PUNCTUATION)] = true,
+            [(TeXConstants.TYPE_ACCENT)] = true
+        };
     }
 
     public SymbolAtom(SymbolAtom s, int type)
     {
-        if (!validSymbolTypes.Get(type))
+        if (!validSymbolTypes[type])
             throw new InvalidSymbolTypeException(
                 "The symbol type was not valid! "
                 + "Use one of the symbol type constants from the class 'TeXConstants'.");

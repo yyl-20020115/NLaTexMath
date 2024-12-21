@@ -1,4 +1,4 @@
-/* VlineAtom.java
+/* VlineAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -52,7 +52,7 @@ public class VlineAtom(int n) : Atom
 {
     private float height;
     private float shift;
-    private int n = n;
+    private readonly int n = n;
 
     public void SetHeight(float height) => this.height = height;
 

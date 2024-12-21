@@ -1,4 +1,4 @@
-/* ScaleAtom.java
+/* ScaleAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -43,8 +43,6 @@
  *
  */
 
-using System.Drawing;
-
 namespace NLaTexMath;
 
 /**
@@ -57,10 +55,7 @@ public class JavaFontRenderingAtom(string str, int type) : Atom
     private readonly int type = type;
     private readonly TeXFormula.FontInfos? fontInfos;
 
-    public JavaFontRenderingAtom(string str, TeXFormula.FontInfos fontInfos) : this(str, 0)
-    {
-        this.fontInfos = fontInfos;
-    }
+    public JavaFontRenderingAtom(string str, TeXFormula.FontInfos fontInfos) : this(str, 0) => this.fontInfos = fontInfos;
 
     public override Box CreateBox(TeXEnvironment env)
     {
@@ -70,6 +65,7 @@ public class JavaFontRenderingAtom(string str, int type) : Atom
         }
         else
         {
+            //TODO:
             //DefaultTeXFont dtf = (DefaultTeXFont)env.TeXFont;
             //int type = dtf.isIt ? Fonts.ITALIC : Fonts.PLAIN;
             //type = type | (dtf.isBold ? Fonts.BOLD : 0);
@@ -103,9 +99,3 @@ public class JavaFontRenderingAtom(string str, int type) : Atom
     }
 }
 
-internal class Fonts
-{
-    public static int PLAIN { get; internal set; }
-    public static int BOLD { get; internal set; }
-    public static int ITALIC { get; internal set; }
-}

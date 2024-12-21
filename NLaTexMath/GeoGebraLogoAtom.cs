@@ -1,4 +1,4 @@
-/* GeoGebraLogoAtom.java
+/* GeoGebraLogoAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -56,7 +56,7 @@ public class GeoGebraLogoAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        var o = new CharBox(env.TeXFont.GetDefaultChar('o', env.Style));
-        return new GeoGebraLogoBox(o.Width, o.Height);
+        var box = new CharBox(env.TeXFont.GetDefaultChar('o', env.Style));
+        return new GeoGebraLogoBox(box.Width, box.Height);
     }
 }

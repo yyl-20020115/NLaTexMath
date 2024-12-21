@@ -1,4 +1,4 @@
-/* Example3.java
+/* Example3.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,7 +44,7 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 /**
  * A class to test LaTeX rendering.
@@ -52,7 +52,7 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
 
 public class Example3
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
         var latex = "\\definecolor{gris}{gray}{0.9}";
         latex += "\\definecolor{noir}{rgb}{0,0,0}";
@@ -76,6 +76,7 @@ public class Example3
         latex += "\\end{array}";
 
         TeXFormula formula = new TeXFormula(latex);
+        //TODO:
         // Note: Old interface for creating icons:
         // TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
         // Note: New interface using builder pattern (inner class):

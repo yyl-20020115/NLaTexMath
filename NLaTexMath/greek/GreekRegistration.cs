@@ -1,4 +1,4 @@
-/* GreekRegistration.java
+/* GreekRegistration.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *

@@ -1,6 +1,6 @@
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 [TestClass]
 public class ExampleSwing2
@@ -8,6 +8,7 @@ public class ExampleSwing2
     [TestMethod]
     public void Test()
     {
+        //TODO:
         var latex = "\\text{hello world}";
         TeXFormula formula = new TeXFormula(latex);
         TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY)

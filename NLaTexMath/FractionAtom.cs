@@ -1,4 +1,4 @@
-/* FractionAtom.java
+/* FractionAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -53,26 +53,27 @@ public class FractionAtom : Atom
 {
 
     // whether the default thickness should not be used for the fraction line
-    private bool noDefault = false;
+    private readonly bool noDefault = false;
 
     // unit used for the thickness of the fraction line
-    private int unit;
+    private readonly int unit;
 
     // alignment settings for the numerator and denominator
-    private int numAlign = TeXConstants.ALIGN_CENTER,
-                denomAlign = TeXConstants.ALIGN_CENTER;
+    private readonly int numAlign = TeXConstants.ALIGN_CENTER;
+    private readonly int denomAlign = TeXConstants.ALIGN_CENTER;
 
     // the atoms representing the numerator and denominator
-    private Atom numerator, denominator;
+    private readonly Atom numerator;
+    private readonly Atom denominator;
 
     // thickness of the fraction line
     private float thickness;
 
     // thickness of the fraction line relative to the default thickness
-    private float defFactor;
+    private readonly float defFactor;
 
     // whether the "defFactor" value should be used
-    private bool defFactorSet = false;
+    private readonly bool defFactorSet = false;
 
     /**
      * Uses the default thickness for the fraction line
@@ -185,7 +186,7 @@ public class FractionAtom : Atom
 
     // Checks if the alignment constant is valid.
     // If not, a default value will be used.
-    private int CheckAlignment(int align) => align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT
+    private static int CheckAlignment(int align) => align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT
             ? align
             : TeXConstants.ALIGN_CENTER;
 

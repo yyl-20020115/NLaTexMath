@@ -1,4 +1,4 @@
-/* Example6.java
+/* Example6.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,7 +44,7 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 
 /**
@@ -52,7 +52,7 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
  **/
 public class Example7
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
         var latex = "\\mbox{abc abc abc abc abc abc abc abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc\\\\abc abc abc abc abc abc abc}\\\\1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1+1";
         TeXFormula formula = new TeXFormula(latex);
@@ -72,7 +72,7 @@ public class Example7
         icon.
 
         Insets = new Insets(5, 5, 5, 5);
-
+        //TODO£º
         //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
         //Graphics2D g2 = image.createGraphics();
         //g2.setColor(Color.white);

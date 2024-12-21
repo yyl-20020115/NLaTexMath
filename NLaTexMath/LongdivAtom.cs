@@ -1,4 +1,4 @@
-/* GraphicsAtom.java
+/* GraphicsAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -54,13 +54,13 @@ public class LongdivAtom : VRowAtom
     {
         Halign = TeXConstants.ALIGN_RIGHT;
         Vtop = true;
-        string[] res = MakeResults(divisor, dividend);
-        Atom rule = new RuleAtom(TeXConstants.UNIT_EX, 0f,
+        var res = MakeResults(divisor, dividend);
+        var rule = new RuleAtom(TeXConstants.UNIT_EX, 0f,
                                  TeXConstants.UNIT_EX, 2.6f,
                                  TeXConstants.UNIT_EX, 0.5f);
         for (int i = 0; i < res.Length; ++i)
         {
-            Atom num = new TeXFormula(res[i]).root;
+            var num = new TeXFormula(res[i]).root;
             if (i % 2 == 0)
             {
                 var ra = new RowAtom(num);
@@ -76,10 +76,10 @@ public class LongdivAtom : VRowAtom
             }
             else if (i == 1)
             {
-                string div = (divisor.ToString());
-                SymbolAtom rparen = SymbolAtom.Get(TeXFormula.symbolMappings[')']);
-                Atom big = new BigDelimiterAtom(rparen, 1);
-                Atom ph = new PhantomAtom(big, false, true, true);
+                var div = (divisor.ToString());
+                var rparen = SymbolAtom.Get(TeXFormula.symbolMappings[')']);
+                var big = new BigDelimiterAtom(rparen, 1);
+                var ph = new PhantomAtom(big, false, true, true);
                 var ra = new RowAtom(ph);
                 Atom raised = new RaiseAtom(big,
                                             TeXConstants.UNIT_X8, 3.5f,

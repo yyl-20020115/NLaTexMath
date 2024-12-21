@@ -1,4 +1,4 @@
-/* TeXFormulaSettingsParser.java
+/* TeXFormulaSettingsParser.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -79,14 +79,14 @@ public class TeXFormulaSettingsParser
 
     public void ParseSymbolToFormulaMappings(string[] mappings, string[] textMappings)
     {
-        XElement charToSymbol = root.Element("CharacterToFormulaMappings");
+        var charToSymbol = root.Element("CharacterToFormulaMappings");
         if (charToSymbol != null) // element present
             AddFormulaToMap(charToSymbol.Elements("Map").ToList(), mappings, textMappings);
     }
 
     public void ParseSymbolMappings(string[] mappings, string[] textMappings)
     {
-        XElement charToSymbol = (XElement)root.Element("CharacterToSymbolMappings");
+        var charToSymbol = root.Element("CharacterToSymbolMappings");
         if (charToSymbol != null) // element present
             AddToMap(charToSymbol.Elements("Map").ToList(), mappings, textMappings);
     }
@@ -95,7 +95,7 @@ public class TeXFormulaSettingsParser
     {
         for (int i = 0; i < mapList.Count; i++)
         {
-            XElement map = (XElement)mapList[i];
+            var map = mapList[i];
             string ch = map.Attribute("char")?.Value ?? "";
             string symbol = map.Attribute("symbol")?.Value ?? "";
             string text = map.Attribute("text")?.Value ?? "";
@@ -130,7 +130,7 @@ public class TeXFormulaSettingsParser
     {
         for (int i = 0; i < mapList.Count; i++)
         {
-            XElement map = (XElement)mapList[i];
+            var map = mapList[i];
             string ch = map.Attribute("char")?.Value ?? "";
             string formula = map.Attribute("formula")?.Value ?? "";
             string text = map.Attribute("text")?.Value ?? "";

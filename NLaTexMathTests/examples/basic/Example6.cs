@@ -1,4 +1,4 @@
-/* Example6.java
+/* Example6.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,7 +44,7 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 
 /**
@@ -52,13 +52,13 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
  **/
 public class Example6
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
         var latex = "\\begin{array}{cc}";
         latex += "\\fbox{\\text{A framed box with \\textdbend}}&\\shadowbox{\\text{A shadowed box}}\\cr";
         latex += "\\doublebox{\\text{A double framed box}}&\\ovalbox{\\text{An oval framed box}}\\cr";
         latex += "\\end{array}";
-
+        //TODO:
         TeXFormula formula = new TeXFormula(latex);
         // Note: Old interface for creating icons:
         //TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 30);

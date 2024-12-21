@@ -1,4 +1,4 @@
-/* SmashedAtom.java
+/* SmashedAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -63,10 +63,7 @@ public class SmashedAtom : Atom
             h = false;
     }
 
-    public SmashedAtom(Atom at)
-    {
-        this.at = at;
-    }
+    public SmashedAtom(Atom at) => this.at = at;
 
     public override Box CreateBox(TeXEnvironment env)
     {

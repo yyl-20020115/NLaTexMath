@@ -1,4 +1,4 @@
-/* DefaultTeXFont.java
+/* DefaultTeXFont.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -171,7 +171,7 @@ public class DefaultTeXFont : TeXFont
     {
         var dtfp = new DefaultTeXFontParser(_base, _in, name);
         fontInfo = dtfp.ParseFontDescriptions(fontInfo);
-        dtfp.parseExtraPath();
+        dtfp.ParseExtraPath();
         foreach (var v in dtfp.ParseTextStyleMappings())
             textStyleMappings.Add(v.Key, v.Value);
         foreach (var v in dtfp.ParseSymbolMappings())
@@ -584,7 +584,7 @@ public class DefaultTeXFont : TeXFont
             generalSettings.Add("scriptfactor", Math.Abs(ss / ds));
             generalSettings.Add("scriptscriptfactor", Math.Abs(sss / ds));
             generalSettings.Add("textfactor", Math.Abs(ts / ds));
-            TeXIcon.defaultSize = Math.Abs(ds);
+            TeXIcon.DefaultSize = Math.Abs(ds);
         }
     }
 
@@ -592,7 +592,7 @@ public class DefaultTeXFont : TeXFont
     {
         if (magnificationEnable)
         {
-            TeXIcon.magFactor = mag / 1000f;
+            TeXIcon.MagFactor = mag / 1000f;
         }
     }
 

@@ -1,4 +1,4 @@
-﻿/* JLaTeXMathCache.java
+﻿/* JLaTeXMathCache.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/p/jlatexmath
  *
@@ -47,4 +47,5 @@ namespace NLaTexMath.cache;
  
 public class AffineTransform
 {
+    //TODO:
 }

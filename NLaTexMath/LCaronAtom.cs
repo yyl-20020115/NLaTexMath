@@ -1,4 +1,4 @@
-/* LCaronAtom.java
+/* LCaronAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -58,10 +58,7 @@ public class LCaronAtom(bool upper) : Atom
         var A = new CharBox(env.TeXFont.GetChar("textapos", env.Style));
         var L = new CharBox(env.TeXFont.GetChar(upper ? 'L' : 'l', "mathnormal", env.Style));
         var hb = new HorizontalBox(L);
-        if (upper)
-            hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.3f, 0, 0).CreateBox(env));
-        else
-            hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.13f, 0, 0).CreateBox(env));
+        hb.Add(new SpaceAtom(TeXConstants.UNIT_EM, upper ? -0.3f : -0.13f, 0, 0).CreateBox(env));
         hb.Add(A);
         return hb;
     }

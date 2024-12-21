@@ -1,4 +1,4 @@
-/* FramedBox.java
+/* FramedBox.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -53,12 +53,11 @@ namespace NLaTexMath;
  */
 public class FramedBox : Box
 {
-
     public Box box;
     public float thickness;
     public float space;
-    private Color? line;
-    private Color? bg;
+    private readonly Color? line;
+    private readonly Color? bg;
 
     public FramedBox(Box box, float thickness, float space)
     {
@@ -79,6 +78,7 @@ public class FramedBox : Box
 
     public override void Draw(Graphics g2, float x, float y)
     {
+        //TODO:
         //Stroke st = g2.getStroke();
         //g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         //float th = thickness / 2;

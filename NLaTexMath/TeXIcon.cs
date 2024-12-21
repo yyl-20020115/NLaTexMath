@@ -1,4 +1,4 @@
-/* TeXIcon.java
+/* TeXIcon.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -66,16 +66,16 @@ public class TeXIcon
 
     private static readonly Color defaultColor = new();
 
-    public static float defaultSize = -1;
-    public static float magFactor = 0;
+    public static float DefaultSize = -1;
+    public static float MagFactor = 0;
 
     private Box box;
 
     private float size;
 
-    private Insets insets = new Insets(0, 0, 0, 0);
+    private Insets insets = new(0, 0, 0, 0);
 
-    private Color fg = new();
+    private Color fg;
 
     public bool isColored = false;
 
@@ -93,14 +93,14 @@ public class TeXIcon
     {
         box = b;
 
-        if (defaultSize != -1)
+        if (DefaultSize != -1)
         {
-            size = defaultSize;
+            size = DefaultSize;
         }
 
-        if (magFactor != 0)
+        if (MagFactor != 0)
         {
-            this.size = size * Math.Abs(magFactor);
+            this.size = size * Math.Abs(MagFactor);
         }
         else
         {
@@ -119,10 +119,7 @@ public class TeXIcon
         }
     }
 
-    public void SetForeground(Color fg)
-    {
-        this.fg = fg;
-    }
+    public void SetForeground(Color fg) => this.fg = fg;
 
     /**
      * Get the insets of the TeXIcon.
@@ -166,7 +163,7 @@ public class TeXIcon
      */
     public void SetIconWidth(int width, int alignment)
     {
-        float diff = width - GetIconWidth();
+        float diff = width - IconWidth;
         if (diff > 0)
             box = new HorizontalBox(box, box.Width + diff, alignment);
     }
@@ -182,7 +179,7 @@ public class TeXIcon
      */
     public void SetIconHeight(int height, int alignment)
     {
-        float diff = height - GetIconHeight();
+        float diff = height - IconHeight;
         if (diff > 0)
             box = new VerticalBox(box, diff, alignment);
     }
@@ -190,55 +187,34 @@ public class TeXIcon
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public int GetIconHeight()
-    {
-        return ((int)((box.Height) * size + 0.99 + insets.top)) + ((int)((box.Depth) * size + 0.99 + insets.bottom));
-    }
+    public int IconHeight => ((int)((box.Height) * size + 0.99 + insets.top)) + ((int)((box.Depth) * size + 0.99 + insets.bottom));
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public int GetIconDepth()
-    {
-        return (int)(box.Depth * size + 0.99 + insets.bottom);
-    }
+    public int IconDepth => (int)(box.Depth * size + 0.99 + insets.bottom);
 
     /**
      * Get the total width of the TeXIcon. This also includes the insets.
      */
 
-    public int GetIconWidth()
-    {
-        return (int)(box.Width * size + 0.99 + insets.left + insets.right);
-    }
+    public int IconWidth => (int)(box.Width * size + 0.99 + insets.left + insets.right);
 
-    public float GetTrueIconHeight()
-    {
-        return (box.Height + box.Depth) * size;
-    }
+    public float TrueIconHeight => (box.Height + box.Depth) * size;
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public float GetTrueIconDepth()
-    {
-        return box.Depth * size;
-    }
+    public float TrueIconDepth => box.Depth * size;
 
     /**
      * Get the total width of the TeXIcon. This also includes the insets.
      */
 
-    public float GetTrueIconWidth()
-    {
-        return box.Width * size;
-    }
+    public float TrueIconWidth => box.Width * size;
 
-    public float GetBaseLine()
-    {
-        return (float)((box.Height * size + 0.99 + insets.top) /
+    public float BaseLine => (float)(((box.Height * size) + 0.99 + insets.top) /
                         ((box.Height + box.Depth) * size + 0.99 + insets.top + insets.bottom));
-    }
 
     public Box Box => box;
 
@@ -247,6 +223,7 @@ public class TeXIcon
      */
     public void PaintIcon(Component c, Graphics g, int x, int y)
     {
+        //TODO:
         //Graphics g2 = (Graphics)g;
         //// copy graphics settings
         //RenderingHints oldHints = g2.getRenderingHints();

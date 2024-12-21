@@ -1,4 +1,4 @@
-/* ColorAtom.java
+/* ColorAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -130,10 +130,12 @@ public class ColorAtom : Atom, Row
             {
                 if (s[0] == '#')
                 {
+                    //TODO:
                     //return Color.Decode(s);
                 }
                 else if (s.Contains(',') || s.Contains(';'))
                 {
+                    //TODO:
                     //StringTokenizer toks = new StringTokenizer(s, ";,");
                     //int n = toks.countTokens();
                     //if (n == 3)

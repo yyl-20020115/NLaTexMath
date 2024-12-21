@@ -1,4 +1,4 @@
-/* ScaleAtom.java
+/* ScaleAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -70,5 +70,6 @@ public class ScaleAtom : Atom
         this.yscl = scl;
     }
 
-    public override Box CreateBox(TeXEnvironment env) => new ScaleBox(_base.CreateBox(env), xscl, yscl);
+    public override Box CreateBox(TeXEnvironment env) 
+        => new ScaleBox(_base.CreateBox(env), xscl, yscl);
 }

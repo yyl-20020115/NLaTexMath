@@ -1,4 +1,4 @@
-/* TeXSymbolParser.java
+/* TeXSymbolParser.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -59,9 +59,9 @@ public class TeXSymbolParser
     public static readonly string RESOURCE_NAME = "TeXSymbols.xml",
                                DELIMITER_ATTR = "del", TYPE_ATTR = "type";
 
-    private static Dictionary<string, int> typeMappings = [];
+    private static readonly Dictionary<string, int> typeMappings = [];
 
-    private XElement root;
+    private readonly XElement? root;
 
     public TeXSymbolParser() : this(typeof(TeXSymbolParser).GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
@@ -71,9 +71,6 @@ public class TeXSymbolParser
     {
         try
         {
-            //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            //factory.setIgnoringElementContentWhitespace(true);
-            //factory.setIgnoringComments(true);
             root = XDocument.Load(file).Root;
             // set possible valid symbol type mappings
             SetTypeMappings();
@@ -88,7 +85,7 @@ public class TeXSymbolParser
     {
         Dictionary<string, SymbolAtom> res = [];
         // iterate all "symbol"-elements
-        List<XElement> list = root.XPathSelectElements("Symbol").ToList();
+        var list = root?.XPathSelectElements("Symbol").ToList();
         for (int i = 0; i < list.Count; i++)
         {
             XElement symbol = (XElement)list[i];
@@ -99,8 +96,7 @@ public class TeXSymbolParser
             string del = symbol.Attribute(DELIMITER_ATTR)?.Value ?? "";
             bool isDelimiter = (del != null && del == "true");
             // check if type is known
-            var typeVal = typeMappings[(type)];
-            if (typeVal == null) // unknown type
+            if (typeMappings.TryGetValue(type,out var typeVal)) // unknown type
                 throw new XMLResourceParseException(RESOURCE_NAME, "Symbol",
                                                     "type", "has an unknown value '" + type + "'!");
             // Add symbol to the hash table
@@ -109,7 +105,7 @@ public class TeXSymbolParser
         return res;
     }
 
-    private void SetTypeMappings()
+    private static void SetTypeMappings()
     {
         typeMappings.Add("ord", TeXConstants.TYPE_ORDINARY);
         typeMappings.Add("op", TeXConstants.TYPE_BIG_OPERATOR);
@@ -121,10 +117,9 @@ public class TeXSymbolParser
         typeMappings.Add("acc", TeXConstants.TYPE_ACCENT);
     }
 
-    private static string GetAttrValueAndCheckIfNotNull(string attrName,
-            XElement element)
+    private static string GetAttrValueAndCheckIfNotNull(string attrName, XElement element)
     {
-        string attrValue = element.Attribute(attrName)?.Value ?? "";
+        var attrValue = element.Attribute(attrName)?.Value ?? "";
         return attrValue == "" ? throw new XMLResourceParseException(RESOURCE_NAME, element.Name.LocalName, attrName, null) : attrValue;
     }
 }

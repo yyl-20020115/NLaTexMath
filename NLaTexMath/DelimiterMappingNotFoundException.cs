@@ -1,4 +1,4 @@
-/* DelimiterMappingNotFoundException.java
+/* DelimiterMappingNotFoundException.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -52,7 +52,5 @@ namespace NLaTexMath;
  * @author Kurt Vermeulen
  */
 public class DelimiterMappingNotFoundException(char delimiter)
-    : JMathTeXException("No mapping found for the character '" + delimiter + "'! "
-              + "Insert a <" + TeXFormulaSettingsParser.CHARTODEL_MAPPING_EL
-              + ">-element in '" + TeXFormulaSettingsParser.RESOURCE_NAME + "'.")
+    : JMathTeXException($"No mapping found for the character '{delimiter}'! Insert a <{TeXFormulaSettingsParser.CHARTODEL_MAPPING_EL}>-element in '{TeXFormulaSettingsParser.RESOURCE_NAME}'.")
 { }

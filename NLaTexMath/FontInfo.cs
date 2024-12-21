@@ -1,4 +1,4 @@
-/* FontInfo.java
+/* FontInfo.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -82,10 +82,10 @@ public class FontInfo
     private readonly string fontName;
     private readonly Dictionary<CharCouple, char> lig = [];
     private readonly Dictionary<CharCouple, float> kern = [];
-    private float[][] metrics;
-    private CharFont[] nextLarger;
-    private int[][] extensions;
-    private Dictionary<char, char> unicode = null;
+    private readonly float[][] metrics;
+    private readonly CharFont[] nextLarger;
+    private readonly int[][] extensions;
+    private readonly Dictionary<char, char> unicode_dict;
 
     // skew character of the font (used for positioning accents)
     private char skewChar = '\uffff';
@@ -122,8 +122,12 @@ public class FontInfo
         int num = NUMBER_OF_CHAR_CODES;
         if (unicode != 0)
         {
-            this.unicode = new(unicode);
+            this.unicode_dict = new(unicode);
             num = unicode;
+        }
+        else
+        {
+            this.unicode_dict = [];
         }
         metrics = new float[num][];
         nextLarger = new CharFont[num];
@@ -158,21 +162,16 @@ public class FontInfo
         lig.Add(new CharCouple(left, right), (ligChar));
     }
 
-    public int[] GetExtension(char ch) => unicode == null ? extensions[ch] : extensions[unicode[(ch)]];
+    public int[] GetExtension(char ch) => unicode_dict.Count > 0 ? extensions[ch] : extensions[unicode_dict[(ch)]];
 
     public float GetKern(char left, char right, float factor) => kern.TryGetValue(new CharCouple(left, right), out var f) ? f : 0;
 
-    public CharFont GetLigature(char left, char right) =>
+    public CharFont? GetLigature(char left, char right) =>
         lig.TryGetValue(new(left, right), out var c) ? new CharFont(c, fontId) : null;
 
-    public float[] GetMetrics(char c) => unicode == null ? metrics[c] : metrics[unicode[c]];
+    public float[] GetMetrics(char c) => unicode_dict.Count == 0 ? metrics[c] : metrics[unicode_dict[c]];
 
-    public CharFont GetNextLarger(char ch)
-    {
-        if (unicode == null)
-            return nextLarger[ch];
-        return nextLarger[unicode[(ch)]];
-    }
+    public CharFont GetNextLarger(char ch) => unicode_dict.Count == 0 ? nextLarger[ch] : nextLarger[unicode_dict[(ch)]];
 
     public float GetQuad(float factor) => quad * factor;
 
@@ -190,12 +189,12 @@ public class FontInfo
 
     public void SetExtension(char ch, int[] ext)
     {
-        if (unicode == null)
+        if (unicode_dict.Count == 0)
             extensions[ch] = ext;
-        else if (!unicode.TryGetValue(ch, out char value))
+        else if (!unicode_dict.TryGetValue(ch, out char value))
         {
-            char s = (char)unicode.Count;
-            unicode.Add(ch, s);
+            char s = (char)unicode_dict.Count;
+            unicode_dict.Add(ch, s);
             extensions[s] = ext;
         }
         else
@@ -204,12 +203,12 @@ public class FontInfo
 
     public void SetMetrics(char c, float[] arr)
     {
-        if (unicode == null)
+        if (unicode_dict.Count == 0)
             metrics[c] = arr;
-        else if (!unicode.TryGetValue(c, out char value))
+        else if (!unicode_dict.TryGetValue(c, out char value))
         {
-            char s = (char)unicode.Count;
-            unicode.Add(c, s);
+            char s = (char)unicode_dict.Count;
+            unicode_dict.Add(c, s);
             metrics[s] = arr;
         }
         else
@@ -218,12 +217,12 @@ public class FontInfo
 
     public void SetNextLarger(char ch, char larger, int fontLarger)
     {
-        if (unicode == null)
+        if (unicode_dict.Count == 0)
             nextLarger[ch] = new CharFont(larger, fontLarger);
-        else if (!unicode.TryGetValue(ch, out char value))
+        else if (!unicode_dict.TryGetValue(ch, out char value))
         {
-            char s = (char)unicode.Count;
-            unicode.Add(ch, s);
+            char s = (char)unicode_dict.Count;
+            unicode_dict.Add(ch, s);
             nextLarger[s] = new CharFont(larger, fontLarger);
         }
         else

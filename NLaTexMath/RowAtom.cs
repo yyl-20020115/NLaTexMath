@@ -1,4 +1,4 @@
-/* RowAtom.java
+/* RowAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -75,22 +75,26 @@ public class RowAtom : Atom, Row
     static RowAtom()
     {
         // fill binSet
-        binSet = new BitSet(16);
-        binSet.Set(TeXConstants.TYPE_BINARY_OPERATOR);
-        binSet.Set(TeXConstants.TYPE_BIG_OPERATOR);
-        binSet.Set(TeXConstants.TYPE_RELATION);
-        binSet.Set(TeXConstants.TYPE_OPENING);
-        binSet.Set(TeXConstants.TYPE_PUNCTUATION);
+        binSet = new BitSet(16)
+        {
+            [(TeXConstants.TYPE_BINARY_OPERATOR)] = true,
+            [(TeXConstants.TYPE_BIG_OPERATOR)] = true,
+            [(TeXConstants.TYPE_RELATION)] = true,
+            [(TeXConstants.TYPE_OPENING)] = true,
+            [(TeXConstants.TYPE_PUNCTUATION)] = true
+        };
 
         // fill ligKernSet
-        ligKernSet = new BitSet(16);
-        ligKernSet.Set(TeXConstants.TYPE_ORDINARY);
-        ligKernSet.Set(TeXConstants.TYPE_BIG_OPERATOR);
-        ligKernSet.Set(TeXConstants.TYPE_BINARY_OPERATOR);
-        ligKernSet.Set(TeXConstants.TYPE_RELATION);
-        ligKernSet.Set(TeXConstants.TYPE_OPENING);
-        ligKernSet.Set(TeXConstants.TYPE_CLOSING);
-        ligKernSet.Set(TeXConstants.TYPE_PUNCTUATION);
+        ligKernSet = new BitSet(16)
+        {
+            [(TeXConstants.TYPE_ORDINARY)] = true,
+            [(TeXConstants.TYPE_BIG_OPERATOR)] = true,
+            [(TeXConstants.TYPE_BINARY_OPERATOR)] = true,
+            [(TeXConstants.TYPE_RELATION)] = true,
+            [(TeXConstants.TYPE_OPENING)] = true,
+            [(TeXConstants.TYPE_CLOSING)] = true,
+            [(TeXConstants.TYPE_PUNCTUATION)] = true
+        };
     }
 
     public RowAtom()
@@ -140,7 +144,7 @@ public class RowAtom : Atom, Row
     private void ChangeToOrd(Dummy cur, Dummy prev, Atom next)
     {
         int type = cur.LeftType;
-        if (type == TeXConstants.TYPE_BINARY_OPERATOR && ((prev == null || binSet.Get(prev.RightType)) || next == null))
+        if (type == TeXConstants.TYPE_BINARY_OPERATOR && (prev == null || binSet[prev.RightType] || next == null))
         {
             cur.Type = TeXConstants.TYPE_ORDINARY;
         }
@@ -156,13 +160,14 @@ public class RowAtom : Atom, Row
 
     public override Box CreateBox(TeXEnvironment env)
     {
+        //TODO:
         TeXFont tf = env.TeXFont;
         var hBox = new HorizontalBox(env.Color, env.Background);
         int position = 0;
         env.Reset();
 
         // convert atoms to boxes and Add to the horizontal box
-        for (int i = 0;i<elements.Count;i++)
+        for (int i = 0; i < elements.Count; i++)
         {
             var at = elements[i];
             position++;
@@ -174,7 +179,7 @@ public class RowAtom : Atom, Row
                 {
                     markAdded = true;
                 }
-                if (i<elements.Count)
+                if (i < elements.Count)
                 {
                     at = elements[++i];
                     position++;
@@ -294,10 +299,7 @@ public class RowAtom : Atom, Row
         return hBox;
     }
 
-    public void SetPreviousAtom(Dummy prev)
-    {
-        previousAtom = prev;
-    }
+    public void SetPreviousAtom(Dummy prev) => previousAtom = prev;
 
     public override int LeftType => elements.Count == 0 ? TeXConstants.TYPE_ORDINARY : elements[0].LeftType;
 

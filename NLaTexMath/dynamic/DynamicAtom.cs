@@ -1,4 +1,4 @@
-/* DynamicAtom.java
+/* DynamicAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -53,13 +53,17 @@ namespace NLaTexMath.dynamic;
  */
 public class DynamicAtom : Atom
 {
+    private ExternalConverter? converter = null;
+    private readonly TeXFormula formula = new();
+    private readonly string externalCode;
+    private readonly bool insert;
+    private bool refreshed;
 
     private static ExternalConverterFactory? ecFactory;
-    private ExternalConverter converter;
-    private TeXFormula formula = new();
-    private string externalCode;
-    private bool insert;
-    private bool refreshed;
+    public static void SetExternalConverterFactory(ExternalConverterFactory factory)
+    {
+        ecFactory = factory;
+    }
 
     public DynamicAtom(string externalCode, string option)
     {
@@ -76,11 +80,6 @@ public class DynamicAtom : Atom
 
     public static bool HasAnExternalConverterFactory => ecFactory != null;
 
-    public static void SetExternalConverterFactory(ExternalConverterFactory factory)
-    {
-        ecFactory = factory;
-    }
-
     public bool InsertMode => insert;
 
     public Atom GetAtom()
@@ -91,12 +90,7 @@ public class DynamicAtom : Atom
             refreshed = true;
         }
 
-        if (formula.root == null)
-        {
-            return new EmptyAtom();
-        }
-
-        return formula.root;
+        return formula.root?? new EmptyAtom();
     }
 
     public override Box CreateBox(TeXEnvironment env)

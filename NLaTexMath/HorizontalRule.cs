@@ -1,4 +1,4 @@
-/* HorizontalRule.java
+/* HorizontalRule.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -54,8 +54,8 @@ namespace NLaTexMath;
 public class HorizontalRule : Box
 {
 
-    private Color color = new();
-    private float speShift = 0;
+    private readonly Color color = new();
+    private readonly float speShift = 0;
 
     public HorizontalRule(float thickness, float width, float s)
     {

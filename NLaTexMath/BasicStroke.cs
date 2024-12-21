@@ -1,4 +1,4 @@
-﻿/* GraphicsBox.java
+﻿/* GraphicsBox.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -47,10 +47,7 @@ namespace NLaTexMath;
 
 public class BasicStroke
 {
-    public BasicStroke(float v, object CAP_BUTT1, object CAP_BUTT, object JOIN_MITER)
-    {
-    }
-
+    public BasicStroke(float v, object CAP_BUTT1, object CAP_BUTT, object JOIN_MITER) { }
     public static object CAP_BUTT { get; internal set; }
     public static object JOIN_MITER { get; internal set; }
 }

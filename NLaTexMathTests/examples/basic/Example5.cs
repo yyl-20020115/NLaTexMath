@@ -1,4 +1,4 @@
-/* Example5.java
+/* Example5.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -43,9 +43,8 @@
  *
  */
 using NLaTexMath;
-using System.Drawing;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 
 /**
@@ -53,7 +52,7 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
  **/
 public class Example5
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
         var latex = "\\begin{array}{|c|l|||r|c|}";
         latex += "\\hline";
@@ -66,6 +65,7 @@ public class Example5
         latex += "\\end{array}";
 
         TeXFormula formula = new TeXFormula(latex);
+        //TODO:
         //formula.createPNG(TeXConstants.STYLE_DISPLAY, 20, "target/Example5.png", Color.white, Color.black);
     }
 }

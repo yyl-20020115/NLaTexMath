@@ -1,4 +1,4 @@
-/* AccentedAtom.java
+/* AccentedAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -52,9 +52,9 @@ namespace NLaTexMath;
 public class AccentedAtom : Atom
 {
     // accent symbol
-    private SymbolAtom accent;
-    private bool acc = false;
-    private bool changeSize = true;
+    private readonly SymbolAtom accent;
+    private readonly bool acc = false;
+    private readonly bool changeSize = true;
 
     // _base atom
     public readonly Atom Base;
@@ -72,7 +72,8 @@ public class AccentedAtom : Atom
         this.acc = true;
     }
 
-    public AccentedAtom(Atom _base, Atom accent, bool changeSize) : this(_base, accent) => this.changeSize = changeSize;
+    public AccentedAtom(Atom _base, Atom accent, bool changeSize) 
+        : this(_base, accent) => this.changeSize = changeSize;
 
     /**
      * Creates an AccentedAtom from a _base atom and an accent symbol defined by its name
@@ -91,10 +92,7 @@ public class AccentedAtom : Atom
             Underbase = _base is AccentedAtom atom ? atom.Underbase : _base;
         }
         else
-            throw new InvalidSymbolTypeException("The symbol with the name '"
-                                                 + accentName + "' is not defined as an accent ("
-                                                 + TeXSymbolParser.TYPE_ATTR + "='acc') in '"
-                                                 + TeXSymbolParser.RESOURCE_NAME + "'!");
+            throw new InvalidSymbolTypeException($"The symbol with the name '{accentName}' is not defined as an accent ({TeXSymbolParser.TYPE_ATTR}='acc') in '{TeXSymbolParser.RESOURCE_NAME}'!");
     }
 
     /**

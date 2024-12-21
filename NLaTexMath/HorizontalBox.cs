@@ -1,4 +1,4 @@
-/* HorizontalBox.java
+/* HorizontalBox.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -51,60 +51,83 @@ namespace NLaTexMath;
 /**
  * A box composed of a horizontal row of child boxes.
  */
-public class HorizontalBox : Box {
+public class HorizontalBox : Box
+{
 
-    private float curPos = 0; // NOPMD
-    public List<int> breakPositions;
+    private readonly float curPos = 0; // NOPMD
+    public List<int> breakPositions = [];
 
-    public HorizontalBox(Box b, float w, int alignment) {
-        if (w != float.PositiveInfinity) {
+    public HorizontalBox(Box b, float w, int alignment)
+    {
+        if (w != float.PositiveInfinity)
+        {
             float rest = w - b.Width;
-            if (rest > 0) {
-                if (alignment == TeXConstants.ALIGN_CENTER || alignment == TeXConstants.ALIGN_NONE) {
-                    StrutBox s = new StrutBox(rest / 2, 0, 0, 0);
+            if (rest > 0)
+            {
+                if (alignment == TeXConstants.ALIGN_CENTER || alignment == TeXConstants.ALIGN_NONE)
+                {
+                    var s = new StrutBox(rest / 2, 0, 0, 0);
                     Add(s);
                     Add(b);
                     Add(s);
-                } else if (alignment == TeXConstants.ALIGN_LEFT) {
+                }
+                else if (alignment == TeXConstants.ALIGN_LEFT)
+                {
                     Add(b);
                     Add(new StrutBox(rest, 0, 0, 0));
-                } else if (alignment == TeXConstants.ALIGN_RIGHT) {
+                }
+                else if (alignment == TeXConstants.ALIGN_RIGHT)
+                {
                     Add(new StrutBox(rest, 0, 0, 0));
-                    Add(b);
-                } else {
                     Add(b);
                 }
-            } else {
+                else
+                {
+                    Add(b);
+                }
+            }
+            else
+            {
                 Add(b);
             }
-        } else {
+        }
+        else
+        {
             Add(b);
         }
     }
 
-    public HorizontalBox(Box b) {
+    public HorizontalBox(Box b)
+    {
         Add(b);
     }
 
-    public HorizontalBox() {
+    public HorizontalBox()
+    {
         // basic horizontal box
     }
 
-    public HorizontalBox(Color? fg, Color? bg): base(fg, bg)
+    public HorizontalBox(Color? fg, Color? bg) : base(fg, bg)
     {
     }
 
-    public HorizontalBox CloneBox() {
-        var b = new HorizontalBox(foreground, background);
-        b.shift = shift;
+    public HorizontalBox CloneBox()
+    {
+        var b = new HorizontalBox(foreground, background)
+        {
+            shift = shift
+        };
 
         return b;
     }
 
-    public override void Draw(Graphics g2, float x, float y) {
+    public override void Draw(Graphics g2, float x, float y)
+    {
         StartDraw(g2, x, y);
         float xPos = x;
-        foreach (Box box in Children) {
+        //TODO:
+        foreach (Box box in Children)
+        {
             /*int i = children.IndexOf(box);
               if (breakPositions != null && breakPositions.IndexOf(i) != -1) {
               box.markForDEBUG = java.awt.Color.BLUE;
@@ -116,17 +139,20 @@ public class HorizontalBox : Box {
         EndDraw(g2);
     }
 
-    public override void Add(Box b) {
+    public override void Add(Box b)
+    {
         Recalculate(b);
         base.Add(b);
     }
 
-    public override void Add(int pos, Box b) {
+    public override void Add(int pos, Box b)
+    {
         Recalculate(b);
         base.Add(pos, b);
     }
 
-    private void Recalculate(Box b) {
+    private void Recalculate(Box b)
+    {
         // Commented for ticket 764
         // \left(\!\!\!\begin{array}{c}n\\\\r\end{array}\!\!\!\right)+123
         //curPos += b.getWidth();
@@ -155,33 +181,36 @@ public class HorizontalBox : Box {
         }
     }
 
-    public void AddBreakPosition(int pos) {
+    public void AddBreakPosition(int pos)
+    {
         breakPositions ??= [];
         breakPositions.Add(pos);
     }
 
-    public HorizontalBox[] Split(int position) {
-        return Split(position, 1);
-    }
+    public HorizontalBox[] Split(int position) => Split(position, 1);
 
-    public HorizontalBox[] SplitRemove(int position) {
-        return Split(position, 2);
-    }
+    public HorizontalBox[] SplitRemove(int position) => Split(position, 2);
 
-    public HorizontalBox[] Split(int position, int shift) {
-        HorizontalBox hb1 = CloneBox();
-        HorizontalBox hb2 = CloneBox();
-        for (int i = 0; i <= position; i++) {
+    public HorizontalBox[] Split(int position, int shift)
+    {
+        var hb1 = CloneBox();
+        var hb2 = CloneBox();
+        for (int i = 0; i <= position; i++)
+        {
             hb1.Add(Children[(i)]);
         }
 
-        for (int i = position + shift; i < Children.Count; i++) {
+        for (int i = position + shift; i < Children.Count; i++)
+        {
             hb2.Add(Children[(i)]);
         }
 
-        if (breakPositions != null) {
-            for (int i = 0; i < breakPositions.Count; i++) {
-                if (breakPositions[(i)] > position + 1) {
+        if (breakPositions != null)
+        {
+            for (int i = 0; i < breakPositions.Count; i++)
+            {
+                if (breakPositions[(i)] > position + 1)
+                {
                     hb2.AddBreakPosition(breakPositions[(i)] - position - 1);
                 }
             }

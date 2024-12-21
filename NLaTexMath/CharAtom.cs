@@ -1,4 +1,4 @@
-/* CharAtom.java
+/* CharAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -52,7 +52,6 @@ namespace NLaTexMath;
  */
 public class CharAtom(char c, string textStyle, bool mathMode) : CharSymbol
 {
-
     // alphanumeric character
     private readonly char c = c;
 
@@ -101,7 +100,8 @@ public class CharAtom(char c, string textStyle, bool mathMode) : CharSymbol
         return textStyle == null ? tf.GetDefaultChar(chr, style) : tf.GetChar(chr, textStyle, style);
     }
 
-    public override CharFont GetCharFont(TeXFont tf) => GetChar(tf, TeXConstants.STYLE_DISPLAY, false).CharFont;
+    public override CharFont GetCharFont(TeXFont tf) 
+        => GetChar(tf, TeXConstants.STYLE_DISPLAY, false).CharFont;
 
     public override string ToString() => $"CharAtom: \'{c}\'";
 }

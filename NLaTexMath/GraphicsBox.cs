@@ -1,4 +1,4 @@
-/* GraphicsBox.java
+/* GraphicsBox.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -58,9 +58,9 @@ public class GraphicsBox : Box
     public readonly static int NEAREST_NEIGHBOR = 1;
     public readonly static int BICUBIC = 2;
 
-    private Image image;
-    private float scl;
-    private object interp;
+    private readonly Image image;
+    private readonly float scl;
+    private readonly object interp;
 
     public GraphicsBox(Image image, float width, float height, float size, int interpolation)
     {
@@ -70,6 +70,7 @@ public class GraphicsBox : Box
         this.scl = 1 / size;
         depth = 0;
         shift = 0;
+        //TODO:
         interp = interpolation switch
         {
             //BILINEAR => (object)RenderingHints.VALUE_INTERPOLATION_BILINEAR,

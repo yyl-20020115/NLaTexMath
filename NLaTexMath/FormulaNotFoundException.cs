@@ -1,4 +1,4 @@
-/* FormulaNotFoundException.java
+/* FormulaNotFoundException.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -52,6 +52,4 @@ namespace NLaTexMath;
  * @author Kurt Vermeulen
  */
 public class FormulaNotFoundException(string name)
-    : JMathTeXException("There's no predefined TeXFormula with the name '" + name
-              + "' defined in '" + PredefinedTeXFormulaParser.RESOURCE_NAME
-              + "'!") { }
+    : JMathTeXException($"There's no predefined TeXFormula with the name '{name}' defined in '{PredefinedTeXFormulaParser.RESOURCE_NAME}'!") { }

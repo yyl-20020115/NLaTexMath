@@ -1,4 +1,4 @@
-/* URLAlphabetRegistration.java
+/* URLAlphabetRegistration.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -73,10 +73,10 @@ public class URLAlphabetRegistration : AlphabetRegistration
         {
             Uri[] urls = [url];
             language = language.ToLower();
-            string name = "NLaTexMath." + language
+            var name = "NLaTexMath." + language
                           + "." + char.ToString(char.ToUpper(language[0]))
                           + language[1..] + "Registration";
-
+            //TODO:
             //try
             //{
             //    ClassLoader loader = new URLClassLoader(urls);

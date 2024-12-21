@@ -1,4 +1,4 @@
-/* Example2.java
+/* Example2.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,7 +44,7 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 
 /**
@@ -52,7 +52,7 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
  **/
 public class Example2
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
         var latex = "\\begin{array}{l}";
         latex += "\\forall\\varepsilon\\in\\mathbb{R}_+^*\\ \\exists\\eta>0\\ |x-x_0|\\leq\\eta\\Longrightarrow|f(x)-f(x_0)|\\leq\\varepsilon\\\\";
@@ -71,6 +71,7 @@ public class Example2
         // Note: New interface using builder pattern (inner class):
         TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).Build();
         icon.Insets = new Insets(5, 5, 5, 5);
+        //TODO:
 
         //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
         //Graphics2D g2 = image.createGraphics();

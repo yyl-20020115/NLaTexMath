@@ -1,4 +1,4 @@
-/* AlphabetRegistrationException.java
+/* AlphabetRegistrationException.cs
  * =========================================================================
  * This file is originally of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *

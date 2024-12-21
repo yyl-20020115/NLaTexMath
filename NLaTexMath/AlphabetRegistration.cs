@@ -1,4 +1,4 @@
-/* AlphabetRegistration.java
+/* AlphabetRegistration.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -48,12 +48,12 @@ namespace NLaTexMath;
 public interface AlphabetRegistration
 {
 
-    public static readonly UnicodeBlock[] JLM_GREEK = [UnicodeBlock.GREEK, UnicodeBlock.GREEK_EXTENDED];
-    public static readonly UnicodeBlock[] JLM_CYRILLIC = [UnicodeBlock.CYRILLIC];
+    static readonly UnicodeBlock[] JLM_GREEK = [UnicodeBlock.GREEK, UnicodeBlock.GREEK_EXTENDED];
+    static readonly UnicodeBlock[] JLM_CYRILLIC = [UnicodeBlock.CYRILLIC];
 
-    public UnicodeBlock[] UnicodeBlocks { get; }
+    UnicodeBlock[] UnicodeBlocks { get; }
 
-    public object Package { get; }
+    object Package { get; }
 
-    public string TeXFontFileName { get; }
+    string TeXFontFileName { get; }
 }

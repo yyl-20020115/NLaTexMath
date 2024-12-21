@@ -1,4 +1,4 @@
-/* TStrokeAtom.java
+/* TStrokeAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *

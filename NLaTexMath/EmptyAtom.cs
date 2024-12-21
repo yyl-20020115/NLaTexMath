@@ -1,4 +1,4 @@
-/* EmptyAtom.java
+/* EmptyAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -50,7 +50,6 @@ namespace NLaTexMath;
  */
 public class EmptyAtom : Atom
 {
-
     public EmptyAtom() { }
 
     public override Box CreateBox(TeXEnvironment env)

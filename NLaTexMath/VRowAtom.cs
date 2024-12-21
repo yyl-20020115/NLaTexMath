@@ -1,4 +1,4 @@
-/* VRowAtom.java
+/* VRowAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -85,9 +85,9 @@ public class VRowAtom : Atom
         raise = new SpaceAtom(unit, r, 0, 0);
     }
 
-    public Atom getLastAtom()
+    public Atom? GetLastAtom()
     {
-        Atom? a = elements.LastOrDefault();
+        var a = elements.LastOrDefault();
         elements.RemoveAt(elements.Count - 1);
         return a;
     }
@@ -106,7 +106,7 @@ public class VRowAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        VerticalBox vb = new VerticalBox();
+        var vb = new VerticalBox();
         if (halign != TeXConstants.ALIGN_NONE)
         {
             float maxWidth = -float.PositiveInfinity;

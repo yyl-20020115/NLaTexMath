@@ -1,4 +1,4 @@
-/* XLeftRightArrowFactory.java
+/* XLeftRightArrowFactory.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *

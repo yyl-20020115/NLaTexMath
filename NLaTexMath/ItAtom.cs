@@ -1,4 +1,4 @@
-/* ItAtom.java
+/* ItAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -58,7 +58,7 @@ public class ItAtom(Atom Base) : Atom
         if (Base != null)
         {
             env = env.Copy(env.TeXFont.Copy());
-            env.TeXFont.            It = true;
+            env.TeXFont.It = true;
             box = Base.CreateBox(env);
         }
         else

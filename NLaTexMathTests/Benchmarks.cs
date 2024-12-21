@@ -1,15 +1,18 @@
 using NLaTexMath;
 using System.Drawing;
 
-namespace org.scilab.forge.jlatexmath;
+namespace NLaTexMathTests.Examples.Basic;
+
 public class Benchmarks
 {
 
-    private static readonly String LATEX_1 = createLatex1();
+    private static readonly string LATEX_1 = CreateLatex1();
 
-    public Bitmap ParseAndRenderLatex()
+    public static Bitmap? ParseAndRenderLatex()
     {
         TeXFormula formula = new TeXFormula(LATEX_1);
+        //TODO:
+
         //TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
         //               .build();
         //icon.Insets = new Insets(5, 5, 5, 5);
@@ -27,7 +30,7 @@ public class Benchmarks
         return null;
     }
 
-    private static String createLatex1()
+    private static string CreateLatex1()
     {
         // taken from Example2
         var latex = "\\begin{array}{l}";

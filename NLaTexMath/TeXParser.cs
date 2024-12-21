@@ -1,4 +1,4 @@
-/* TeXParser.java
+/* TeXParser.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/p/jlatexmath
  *
@@ -1688,83 +1688,83 @@ public class TeXParser
         {//Arabic dot
             return '.';
         }
-        else if (0x660 <= c && c <= 0x669)
+        else if (c is >= (char)0x660 and <= (char)0x669)
         {//Arabic
             return (char)(c - (char)0x630);
         }
-        else if (0x6f0 <= c && c <= 0x6f9)
+        else if (c is >= (char)0x6f0 and <= (char)0x6f9)
         {//Arabic
             return (char)(c - (char)0x6c0);
         }
-        else if (0x966 <= c && c <= 0x96f)
+        else if (c is >= (char)0x966 and <= (char)0x96f)
         {//Devanagari
             return (char)(c - (char)0x936);
         }
-        else if (0x9e6 <= c && c <= 0x9ef)
+        else if (c is >= (char)0x9e6 and <= (char)0x9ef)
         {//Bengali
             return (char)(c - (char)0x9b6);
         }
-        else if (0xa66 <= c && c <= 0xa6f)
+        else if (c is >= (char)0xa66 and <= (char)0xa6f)
         {//Gurmukhi
             return (char)(c - (char)0xa36);
         }
-        else if (0xae6 <= c && c <= 0xaef)
+        else if (c is >= (char)0xae6 and <= (char)0xaef)
         {//Gujarati
             return (char)(c - (char)0xab6);
         }
-        else if (0xb66 <= c && c <= 0xb6f)
+        else if (c is >= (char)0xb66 and <= (char)0xb6f)
         {//Oriya
             return (char)(c - (char)0xb36);
         }
-        else if (0xc66 <= c && c <= 0xc6f)
+        else if (c is >= (char)0xc66 and <= (char)0xc6f)
         {//Telugu
             return (char)(c - (char)0xc36);
         }
-        else if (0xd66 <= c && c <= 0xd6f)
+        else if (c is >= (char)0xd66 and <= (char)0xd6f)
         {//Malayalam
             return (char)(c - (char)0xd36);
         }
-        else if (0xe50 <= c && c <= 0xe59)
+        else if (c is >= (char)0xe50 and <= (char)0xe59)
         {//Thai
             return (char)(c - (char)0xe20);
         }
-        else if (0xed0 <= c && c <= 0xed9)
+        else if (c is >= (char)0xed0 and <= (char)0xed9)
         {//Lao
             return (char)(c - (char)0xea0);
         }
-        else if (0xf20 <= c && c <= 0xf29)
+        else if (c is >= (char)0xf20 and <= (char)0xf29)
         {//Tibetan
             return (char)(c - (char)0xe90);
         }
-        else if (0x1040 <= c && c <= 0x1049)
+        else if (c is >= (char)0x1040 and <= (char)0x1049)
         {//Myanmar
             return (char)(c - (char)0x1010);
         }
-        else if (0x17e0 <= c && c <= 0x17e9)
+        else if (c is >= (char)0x17e0 and <= (char)0x17e9)
         {//Khmer
             return (char)(c - (char)0x17b0);
         }
-        else if (0x1810 <= c && c <= 0x1819)
+        else if (c is >= (char)0x1810 and <= (char)0x1819)
         {//Mongolian
             return (char)(c - (char)0x17e0);
         }
-        else if (0x1b50 <= c && c <= 0x1b59)
+        else if (c is >= (char)0x1b50 and <= (char)0x1b59)
         {//Balinese
             return (char)(c - (char)0x1b20);
         }
-        else if (0x1bb0 <= c && c <= 0x1bb9)
+        else if (c is >= (char)0x1bb0 and <= (char)0x1bb9)
         {//Sundanese
             return (char)(c - (char)0x1b80);
         }
-        else if (0x1c40 <= c && c <= 0x1c49)
+        else if (c is >= (char)0x1c40 and <= (char)0x1c49)
         {//Lepcha
             return (char)(c - (char)0x1c10);
         }
-        else if (0x1c50 <= c && c <= 0x1c59)
+        else if (c is >= (char)0x1c50 and <= (char)0x1c59)
         {//Ol Chiki
             return (char)(c - (char)0x1c20);
         }
-        else if (0xa8d0 <= c && c <= 0xa8d9)
+        else if (c is >= (char)0xa8d0 and <= (char)0xa8d9)
         {//Saurashtra
             return (char)(c - (char)0xa8a0);
         }

@@ -1,4 +1,4 @@
-/* VCenteredAtom.java
+/* VCenteredAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -58,7 +58,7 @@ public class VCenteredAtom(Atom atom) : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        Box b = atom.CreateBox(env);
+        var b = atom.CreateBox(env);
 
         float total = b.Height + b.Depth, axis = env.TeXFont
                       .GetAxisHeight(env.Style);

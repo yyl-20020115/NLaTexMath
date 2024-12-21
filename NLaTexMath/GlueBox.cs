@@ -1,4 +1,4 @@
-/* GlueBox.java
+/* GlueBox.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -54,7 +54,8 @@ namespace NLaTexMath;
 public class GlueBox : Box
 {
 
-    protected float stretch = 0, shrink = 0;
+    protected float stretch = 0;
+    protected float shrink = 0;
 
     public GlueBox(float space, float stretch, float shrink)
     {

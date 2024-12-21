@@ -1,4 +1,4 @@
-/* InvalidDelimiterException.java
+/* InvalidDelimiterException.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -55,16 +55,10 @@ namespace NLaTexMath;
 public class InvalidDelimiterException : JMathTeXException
 {
     public InvalidDelimiterException(string symbolName) :
-        base("The symbol with the name '" + symbolName
-              + "' is not defined as a delimiter ("
-              + TeXSymbolParser.DELIMITER_ATTR + "='true') in '"
-              + TeXSymbolParser.RESOURCE_NAME + "'!")
+        base($"The symbol with the name '{symbolName}' is not defined as a delimiter ({TeXSymbolParser.DELIMITER_ATTR}='true') in '{TeXSymbolParser.RESOURCE_NAME}'!")
     { }
 
     protected InvalidDelimiterException(char ch, string symbolName) :
-        base("The character '" + ch + "' is mapped to a symbol with the name '"
-              + symbolName + "', but that symbol is not defined as a delimiter ("
-              + TeXSymbolParser.DELIMITER_ATTR + "='true') in '"
-              + TeXSymbolParser.RESOURCE_NAME + "'!")
+        base($"The character '{ch}' is mapped to a symbol with the name '{symbolName}', but that symbol is not defined as a delimiter ({TeXSymbolParser.DELIMITER_ATTR}='true') in '{TeXSymbolParser.RESOURCE_NAME}'!")
     { }
 }

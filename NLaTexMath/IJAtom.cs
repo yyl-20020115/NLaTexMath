@@ -1,4 +1,4 @@
-/* IJAtom.java
+/* IJAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -51,7 +51,7 @@ namespace NLaTexMath;
 public class IJAtom(bool upper) : Atom
 {
 
-    private bool upper = upper;
+    private readonly bool upper = upper;
 
     public override Box CreateBox(TeXEnvironment env)
     {

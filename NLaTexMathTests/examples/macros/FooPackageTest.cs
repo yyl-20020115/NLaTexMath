@@ -1,4 +1,4 @@
-/* Main.java
+/* Main.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,7 +44,7 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.macros;
+namespace NLaTexMathTests.Examples.Macros;
 
 
 /**
@@ -61,14 +61,14 @@ public class FooPackageTest
         //InputStream _is = FooPackageTest.getResourceAsStream("/Package_Foo.xml");
         //assertNotNull(_is);
         //TeXFormula.addPredefinedCommands(_is);
-        //String latex = "\\begin{array}{l}";
-        //latex += "\\fooA{\\pi}{C}\\\\";
-        //latex += "\\mbox{A red circle }\\fooB{75.3}\\\\";
-        //latex += "\\mbox{A red disk }\\fooC[abc]{126.7}\\\\";
-        //latex += "\\mbox{An other red circle }\\fooD{159.81}[ab]";
-        //latex += "\\end{array}";
+        var latex = "\\begin{array}{l}";
+        latex += "\\fooA{\\pi}{C}\\\\";
+        latex += "\\mbox{A red circle }\\fooB{75.3}\\\\";
+        latex += "\\mbox{A red disk }\\fooC[abc]{126.7}\\\\";
+        latex += "\\mbox{An other red circle }\\fooD{159.81}[ab]";
+        latex += "\\end{array}";
 
-        //TeXFormula formula = new TeXFormula(latex);
+        TeXFormula formula = new TeXFormula(latex);
         //TeXIcon icon = formula.CreateTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
         //icon.Insets = new Insets(5, 5, 5, 5);
 

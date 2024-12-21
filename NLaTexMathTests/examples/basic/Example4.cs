@@ -1,4 +1,4 @@
-/* Example4.java
+/* Example4.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,7 +44,7 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 
 /**
@@ -52,7 +52,7 @@ namespace org.scilab.forge.jlatexmath.examples.basic;
  **/
 public class Example4
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
         var latex = "\\begin{array}{|c|c|c|c|}\n";
         latex += "\\multicolumn{4}{c}{\\shadowbox{\\text{\\Huge An image from the \\LaTeX3 project}}}\\cr\n";
@@ -62,7 +62,7 @@ public class Example4
         latex += "\\text{\\backslash includegraphics\\{src/test/resources/lion.png\\}} & \\text{\\backslash includegraphics[width=3cm,interpolation=bicubic]\\{lion.png\\}} & \\text{\\backslash includegraphics[angle=45,width=3cm]\\{lion.png\\}} & \\text{\\backslash includegraphics[angle=160]\\{lion.png\\}}\\cr\n";
         latex += "\\hline\n";
         latex += "\\end{array}\n";
-
+        //TODO:
         TeXFormula formula = new TeXFormula(latex);
         // Note: Old interface for creating icons:
         //TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 10);

@@ -1,4 +1,4 @@
-/* BigDelimiterAtom.java
+/* BigDelimiterAtom.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -56,13 +56,13 @@ public class BigDelimiterAtom(SymbolAtom delim, int size) : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        var b = DelimiterFactory.Create(delim, env, size);
+        var _box = DelimiterFactory.Create(delim, env, size);
         var hbox = new HorizontalBox();
-        float h = b.Height;
-        float total = h + b.Depth;
+        float h = _box.Height;
+        float total = h + _box.Depth;
         float axis = env.TeXFont.GetAxisHeight(env.Style);
-        b.Shift = -total / 2 + h - axis;
-        hbox.Add(b);
+        _box.Shift = -total / 2 + h - axis;
+        hbox.Add(_box);
         return hbox;
     }
 }

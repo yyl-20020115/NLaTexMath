@@ -1,8 +1,7 @@
-/* PhantomAtom.cs
+﻿/* ScaleAtom.cs
  * =========================================================================
- * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
+ * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
- * Copyright (C) 2004-2007 Universiteit Gent
  * Copyright (C) 2009 DENIZET Calixte
  *
  * This program is free software; you can redistribute it and/or modify
@@ -46,35 +45,9 @@
 
 namespace NLaTexMath;
 
-/**
- * An atom representing another atom that should be drawn invisibly.
- */
-public class PhantomAtom(Atom el) : Atom, Row
+public class Fonts
 {
-
-    // RowAtom to be drawn invisibly
-    private RowAtom elements = el == null ? new RowAtom() : new RowAtom(el);
-
-    // dimensions to be taken into account
-    private bool w = true, h = true, d = true;
-
-    public PhantomAtom(Atom el, bool width, bool height, bool depth) : this(el)
-    {
-        w = width;
-        h = height;
-        d = depth;
-    }
-
-    public override Box CreateBox(TeXEnvironment env)
-    {
-        Box res = elements.CreateBox(env);
-        return new StrutBox((w ? res.Width : 0), (h ? res.Height : 0),
-                            (d ? res.Depth : 0), res.Shift);
-    }
-
-    public override int LeftType => elements.LeftType;
-
-    public override int RightType => elements.RightType;
-
-    public void SetPreviousAtom(Dummy prev) => elements.SetPreviousAtom(prev);
+    public static int PLAIN { get; internal set; }
+    public static int BOLD { get; internal set; }
+    public static int ITALIC { get; internal set; }
 }

@@ -1,4 +1,4 @@
-/* OverUnderDelimiter.java
+/* OverUnderDelimiter.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -77,10 +77,7 @@ public class OverUnderDelimiter : Atom
         this.over = over;
     }
 
-    public void AddScript(Atom script)
-    {
-        this.script = script;
-    }
+    public void AddScript(Atom script) => this.script = script;
 
     public bool IsOver => over;
 

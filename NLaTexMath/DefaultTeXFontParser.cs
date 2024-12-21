@@ -1,4 +1,4 @@
-/* DefaultTeXFontParser.java
+/* DefaultTeXFontParser.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -296,7 +296,7 @@ public class DefaultTeXFontParser
         // process all "Char"-elements
         List<XElement> listF = font.Elements("Char").ToList();
         for (int j = 0; j < listF.Count; j++)
-            processCharElement((XElement)listF[(j)], info);
+            ProcessCharElement((XElement)listF[(j)], info);
 
         // parsing OK, Add to table
         res.Add(info);
@@ -338,7 +338,7 @@ public class DefaultTeXFontParser
         return fi;
     }
 
-    public void parseExtraPath()
+    public void ParseExtraPath()
     {
         XElement syms = root.XPathSelectElement("TeXSymbols");
         if (syms != null)
@@ -356,7 +356,7 @@ public class DefaultTeXFontParser
         }
     }
 
-    private static void processCharElement(XElement charElement, FontInfo info)
+    private static void ProcessCharElement(XElement charElement, FontInfo info)
     {
         // retrieve required integer attribute
         char ch = (char)GetIntAndCheck("code", charElement);

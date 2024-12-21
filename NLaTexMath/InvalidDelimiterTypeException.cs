@@ -1,4 +1,4 @@
-/* InvalidDelimiterTypeException.java
+/* InvalidDelimiterTypeException.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -55,7 +55,6 @@ public class InvalidDelimiterTypeException : JMathTeXException
 {
     public InvalidDelimiterTypeException() :
         base(
-            "The delimiter type was not valid! "
-            + "Use one of the delimiter type constants from the class 'TeXConstants'.")
+            "The delimiter type was not valid! Use one of the delimiter type constants from the class 'TeXConstants'.")
     { }
 }

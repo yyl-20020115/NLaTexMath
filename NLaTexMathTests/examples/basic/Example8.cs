@@ -1,4 +1,4 @@
-/* Example8.java
+/* Example8.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -44,19 +44,20 @@
  */
 using NLaTexMath;
 
-namespace org.scilab.forge.jlatexmath.examples.basic;
-
+namespace NLaTexMathTests.Examples.Basic;
 
 /**
  * A class to test LaTeX rendering.
  **/
 public class Example8
 {
-    public static void main(String[] args)
+    public static void _Main(string[] args)
     {
         var latex = "\\text{A long division \\longdiv{12345}{13}";
         TeXFormula formula = new TeXFormula(latex);
         TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20).Build();
+
+        //TODO:
         //icon.Insets = new Insets(5, 5, 5, 5);
         //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
         //                                        BufferedImage.TYPE_INT_ARGB);

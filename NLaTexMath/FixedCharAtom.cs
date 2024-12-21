@@ -1,4 +1,4 @@
-/* FixedCharAtom.java
+/* FixedCharAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -62,5 +62,4 @@ public class FixedCharAtom(CharFont c) : CharSymbol
         var c = tf.GetChar(cf, env.Style);
         return new CharBox(c);
     }
-
 }

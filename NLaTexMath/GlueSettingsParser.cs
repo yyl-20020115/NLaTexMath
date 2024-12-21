@@ -1,4 +1,4 @@
-/* GlueSettingsParser.java
+/* GlueSettingsParser.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -56,13 +56,13 @@ public class GlueSettingsParser
 
     private const string RESOURCE_NAME = "GlueSettings.xml";
 
-    private Dictionary<string, int> typeMappings = [];
-    private Dictionary<string, int> glueTypeMappings = [];
+    private readonly Dictionary<string, int> typeMappings = [];
+    private readonly Dictionary<string, int> glueTypeMappings = [];
     private Glue[] glueTypes;
 
-    private Dictionary<string, int> styleMappings = [];
+    private readonly Dictionary<string, int> styleMappings = [];
 
-    private XElement root;
+    private readonly XElement root;
 
     public GlueSettingsParser()
     {
@@ -70,6 +70,7 @@ public class GlueSettingsParser
         {
             SetTypeMappings();
             SetStyleMappings();
+            //TODO:
             //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             //factory.setIgnoringElementContentWhitespace(true);
             //factory.setIgnoringComments(true);
@@ -104,7 +105,7 @@ public class GlueSettingsParser
                 XElement type = (XElement)list[i];
                 // retrieve required attribute value, throw exception if not set
                 string name = GetAttrValueAndCheckIfNotNull("name", type);
-                Glue glue = createGlue(type, name);
+                Glue glue = CreateGlue(type, name);
                 if (name.Equals("default", StringComparison.OrdinalIgnoreCase)) // default must have value
                     defaultIndex = index;
                 glueTypesList.Add(glue);
@@ -118,14 +119,12 @@ public class GlueSettingsParser
             glueTypesList.Add(new Glue(0, 0, 0, "default"));
         }
 
-        glueTypes = glueTypesList.ToArray();
+        glueTypes = [.. glueTypesList];
 
         // make sure default glue is at the front
         if (defaultIndex > 0)
         {
-            Glue tmp = glueTypes[defaultIndex];
-            glueTypes[defaultIndex] = glueTypes[0];
-            glueTypes[0] = tmp;
+            (glueTypes[0], glueTypes[defaultIndex]) = (glueTypes[defaultIndex], glueTypes[0]);
         }
 
         // make reverse map
@@ -135,9 +134,9 @@ public class GlueSettingsParser
         }
     }
 
-    private Glue createGlue(XElement type, string name)
+    private Glue CreateGlue(XElement type, string name)
     {
-        string[] names = { "space", "stretch", "shrink" };
+        string[] names = ["space", "stretch", "shrink"];
         float[] values = new float[names.Length];
         for (int i = 0; i < names.Length; i++)
         {
@@ -152,7 +151,7 @@ public class GlueSettingsParser
             catch (Exception e)
             {
                 throw new XMLResourceParseException(RESOURCE_NAME, "GlueType",
-                                                    names[i], "has an invalid real value '" + attrVal + "'!");
+                                                    names[i], $"has an invalid real value '{attrVal}'!");
             }
             values[i] = (float)val;
         }

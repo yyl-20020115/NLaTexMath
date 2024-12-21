@@ -1,4 +1,4 @@
-/* Dummy.java
+/* Dummy.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *

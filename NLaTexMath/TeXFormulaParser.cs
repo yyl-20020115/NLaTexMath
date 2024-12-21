@@ -1,4 +1,4 @@
-/* TeXFormulaParser.java
+/* TeXFormulaParser.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -78,8 +78,8 @@ public class TeXFormulaParser
         public void Parse(XElement el)
         {
             // get required string attributes
-            string methodName = getAttrValueAndCheckIfNotNull("name", el);
-            string objectName = getAttrValueAndCheckIfNotNull(ARG_OBJ_ATTR, el);
+            var methodName = GetAttrValueAndCheckIfNotNull("name", el);
+            var objectName = GetAttrValueAndCheckIfNotNull(ARG_OBJ_ATTR, el);
             // check if temporary TeXFormula exists
             if (!parser.tempFormulas.TryGetValue(objectName, out var o))
             {// doesn't exist
@@ -125,7 +125,7 @@ public class TeXFormulaParser
         public void Parse(XElement el)
         {
             // get required string attribute
-            string name = getAttrValueAndCheckIfNotNull("name", el);
+            string name = GetAttrValueAndCheckIfNotNull("name", el);
             // parse arguments
             List<XElement> args = el.Elements("Argument").ToList();
             // get argument classes and values
@@ -160,6 +160,7 @@ public class TeXFormulaParser
 
         public void Parse(XElement el)
         {
+            //TODO:
             //// get required string attribute
             //string name = getAttrValueAndCheckIfNotNull("name", el);
             //// parse arguments
@@ -324,7 +325,7 @@ public class TeXFormulaParser
         public void Parse(XElement el)
         {
             // get required string attribute
-            string name = getAttrValueAndCheckIfNotNull("name", el);
+            var name = GetAttrValueAndCheckIfNotNull("name", el);
             object res = type == COMMAND ? tempCommands[(name)] : tempFormulas[(name)];
             if (res == null)
             {
@@ -527,7 +528,7 @@ public class TeXFormulaParser
         {
             var arg = (XElement)args[(j)];
             // get required string attribute
-            string type = getAttrValueAndCheckIfNotNull("type", arg);
+            string type = GetAttrValueAndCheckIfNotNull("type", arg);
             // get value, not present means a nullpointer
             string value = arg.Attribute(ARG_VAL_ATTR)?.Value ?? "";
             // parse value, hashtable will certainly contain a parser for the class type,
@@ -546,7 +547,7 @@ public class TeXFormulaParser
         {
             XElement arg = (XElement)args[(j)];
             // get required string attribute
-            string type = getAttrValueAndCheckIfNotNull("type", arg);
+            string type = GetAttrValueAndCheckIfNotNull("type", arg);
             // find class mapping
             object cl = classMappings[(type)];
             if (cl == null)
@@ -575,7 +576,7 @@ public class TeXFormulaParser
         }
     }
 
-    private static string getAttrValueAndCheckIfNotNull(string attrName, XElement element)
+    private static string GetAttrValueAndCheckIfNotNull(string attrName, XElement element)
     {
         var attrValue = element.Attribute(attrName)?.Value ?? "";
         return attrValue == ""

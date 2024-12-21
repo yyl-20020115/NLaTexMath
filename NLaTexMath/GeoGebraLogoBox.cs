@@ -1,4 +1,4 @@
-/* GraphicsBox.java
+/* GraphicsBox.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://forge.scilab.org/jlatexmath
  *
@@ -57,7 +57,7 @@ public class GeoGebraLogoBox : Box
     private static readonly Color gray = Color.FromArgb(102, 102, 102);
     private static readonly Color blue = Color.FromArgb(153, 153, 255);
 
-    private static readonly BasicStroke st = new (3.79999995f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
+    private static readonly BasicStroke basic = new (3.79999995f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
 
     public GeoGebraLogoBox(float w, float h)
     {

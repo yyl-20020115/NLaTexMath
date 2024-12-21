@@ -1,4 +1,4 @@
-/* Main.java
+/* Main.cs
  * =========================================================================
  * This file is part of the JLaTeXMath Library - http://jlatexmath.sourceforge.net
  *
@@ -42,7 +42,7 @@
  * version.
  *
  */
-namespace org.scilab.forge.jlatexmath.examples.basic;
+namespace NLaTexMathTests.Examples.Basic;
 
 [TestClass]
 public class ExamplesTest
@@ -51,63 +51,64 @@ public class ExamplesTest
     [TestMethod]
     public void TestExample1()
     {
-        Example1.main([]);
+        Example1._Main([]);
         Check("Example1.png");
     }
 
     [TestMethod]
     public void TestExample2()
     {
-        Example2.main([]);
+        Example2._Main([]);
         Check("Example2.png");
     }
 
     [TestMethod]
     public void TestExample3()
     {
-        Example3.main([]);
+        Example3._Main([]);
         Check("Example3.png");
     }
 
     [TestMethod]
     public void TestExample4()
     {
-        Example4.main([]);
+        Example4._Main([]);
         Check("Example4.png");
     }
 
     [TestMethod]
     public void TestExample5()
     {
-        Example5.main([]);
+        Example5._Main([]);
         Check("Example5.png");
     }
 
     [TestMethod]
     public void TestExample6()
     {
-        Example6.main([]);
+        Example6._Main([]);
         Check("Example6.png");
     }
 
     [TestMethod]
     public void TestExample8()
     {
-        Example8.main([]);
+        Example8._Main([]);
         Check("Example8.png");
     }
 
     [TestMethod]
     public void TestExample9()
     {
-        Example9.main([]);
+        Example9._Main([]);
         Check("Example9.png");
     }
 
-    private static void Check(String filename)
+    private static void Check(string filename)
     {
         try
         {
+            //TODO:
             //System._out.println("checking image " + filename);
             //BufferedImage a = ImageIO.read(new File("src/test/resources/expected/" + filename));
             //BufferedImage b = ImageIO.read(new File("target/" + filename));

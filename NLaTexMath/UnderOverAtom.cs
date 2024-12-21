@@ -1,4 +1,4 @@
-/* UnderOverAtom.java
+/* UnderOverAtom.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -127,7 +127,7 @@ public class UnderOverAtom : Atom
     {
         // create boxes in right style and calculate maximum width
         Box b = (Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env));
-        Box o = null, u = null;
+        Box? o = null, u = null;
         float max = b.Width;
         if (over != null)
         {
@@ -178,7 +178,7 @@ public class UnderOverAtom : Atom
         return vBox;
     }
 
-    private static Box ChangeWidth(Box b, float maxWidth) 
+    private static Box? ChangeWidth(Box? b, float maxWidth) 
         => b != null && Math.Abs(maxWidth - b.Width) > TeXFormula.PREC
             ? new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER)
             : b

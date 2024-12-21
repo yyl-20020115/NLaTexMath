@@ -1,4 +1,4 @@
-/* PredefinedTeXFormulaParser.java
+/* PredefinedTeXFormulaParser.cs
  * =========================================================================
  * This file is originally part of the JMathTeX Library - http://jmathtex.sourceforge.net
  *
@@ -65,9 +65,6 @@ public class PredefinedTeXFormulaParser
         try
         {
             this.type = type;
-            //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            //factory.setIgnoringElementContentWhitespace(true);
-            //factory.setIgnoringComments(true);
             root = XDocument.Load(file).Root;
         }
         catch (Exception e)
@@ -83,20 +80,20 @@ public class PredefinedTeXFormulaParser
     public void Parse(Dictionary<string, string> predefinedTeXFormulas)
     {
         // get required string attribute
-        string enabledAll = GetAttrValueAndCheckIfNotNull("enabled", root);
-        if ("true" == (enabledAll))
+        var enabledAll = GetAttrValueAndCheckIfNotNull("enabled", root);
+        if (enabledAll.Equals("true", System.StringComparison.OrdinalIgnoreCase))
         { // parse formula's
             // iterate all "Font"-elements
-            List<XElement> list = root.Elements(this.type).ToList();
+            var list = root.Elements(this.type).ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                XElement formula = (XElement)list[i];
+                var formula = list[i];
                 // get required string attribute
-                string enabled = GetAttrValueAndCheckIfNotNull("enabled", formula);
+                var enabled = GetAttrValueAndCheckIfNotNull("enabled", formula);
                 if ("true" == (enabled))
                 { // parse this formula
                     // get required string attribute
-                    string name = GetAttrValueAndCheckIfNotNull("name", formula);
+                    var name = GetAttrValueAndCheckIfNotNull("name", formula);
 
                     // parse and build the formula and Add it to the table
                     if ("TeXFormula" == (this.type))
