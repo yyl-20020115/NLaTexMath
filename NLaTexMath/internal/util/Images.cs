@@ -6,10 +6,10 @@ public static class Images
 {
     public const double DISTANCE_THRESHOLD = 40;
 
-    public static double Distance(Bitmap imgA, Bitmap imgB)
+    public static double Distance(Bitmap? imgA, Bitmap? imgB)
     {
         // The images must be the same size.
-        if (imgA.Width == imgB.Width && imgA.Height == imgB.Height)
+        if (imgA!=null && imgB!=null && imgA.Width == imgB.Width && imgA.Height == imgB.Height)
         {
             var width = imgA.Width;
             var height = imgA.Height;

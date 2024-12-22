@@ -59,4 +59,10 @@ public class UnicodeBlock(char start, char end)
 
     public static UnicodeBlock Of(char v)
         => new(v, v);
+
+    public override string ToString() => $"{this.Start}-{this.End}";
+    public override bool Equals(object? obj)
+    {
+        return  base.Equals(obj);
+    }
 }

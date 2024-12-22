@@ -170,27 +170,26 @@ public class DefaultTeXFontParser
     private Dictionary<string, CharFont[]> parsedTextStyles;
 
     private XElement root;
-    private object _base = null;
+    private object? _base = null;
 
     static DefaultTeXFontParser()
     {
         // string-to-constant mappings
         SetRangeTypeMappings();
         // parsers for the child elements of a "Char"-element
-        setCharChildParsers();
+        SetCharChildParsers();
     }
 
     public DefaultTeXFontParser()
         : this(typeof(DefaultTeXFontParser).GetResourceAsStream(RESOURCE_NAME), RESOURCE_NAME)
     {
-        ;
     }
 
     public DefaultTeXFontParser(Stream file, string name)
     {
         try
         {
-            root = XDocument.Load(file).Root;
+            root = XDocument.Load(file)?.Root;
         }
         catch (Exception e)
         { // JDOMException or IOException
@@ -211,7 +210,7 @@ public class DefaultTeXFontParser
         }
     }
 
-    private static void setCharChildParsers()
+    private static void SetCharChildParsers()
     {
         charChildParsers.Add("Kern", new KernParser());
         charChildParsers.Add("Lig", new LigParser());
@@ -219,7 +218,7 @@ public class DefaultTeXFontParser
         charChildParsers.Add("Extension", new ExtensionParser());
     }
 
-    public FontInfo[] parseFontDescriptions(FontInfo[] fi, Stream file, string name)
+    public FontInfo[] ParseFontDescriptions(FontInfo[] fi, Stream file, string name)
     {
         if (file == null)
         {
@@ -317,22 +316,17 @@ public class DefaultTeXFontParser
 
     public FontInfo[] ParseFontDescriptions(FontInfo[] fi)
     {
-        XElement fontDescriptions = root.XPathSelectElement("FontDescriptions");
+        var fontDescriptions = root.XPathSelectElement("FontDescriptions");
         if (fontDescriptions != null)
         { // element present
-            List<XElement> list = fontDescriptions.XPathSelectElements("Metrics").ToList();
+            var list = fontDescriptions.XPathSelectElements("Metrics").ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 // get required string attribute
-                string include = GetAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
-                if (_base == null)
-                {
-                    fi = parseFontDescriptions(fi, typeof(DefaultTeXFontParser).GetResourceAsStream(include), include);
-                }
-                else
-                {
-                    fi = parseFontDescriptions(fi, _base.GetType().GetResourceAsStream(include), include);
-                }
+                var include = GetAttrValueAndCheckIfNotNull("include", list[i]);
+                fi = _base == null
+                    ? ParseFontDescriptions(fi, typeof(DefaultTeXFontParser).GetResourceAsStream(include), include)
+                    : ParseFontDescriptions(fi, _base.GetType().GetResourceAsStream(include), include);
             }
         }
         return fi;
@@ -340,14 +334,14 @@ public class DefaultTeXFontParser
 
     public void ParseExtraPath()
     {
-        XElement syms = root.XPathSelectElement("TeXSymbols");
+        var syms = root.XPathSelectElement("TeXSymbols");
         if (syms != null)
         { // element present
           // get required string attribute
             string include = GetAttrValueAndCheckIfNotNull("include", syms);
             SymbolAtom.AddSymbolAtom(_base.GetType().GetResourceAsStream(include), include);
         }
-        XElement settings = (XElement)root.XPathSelectElement("FormulaSettings");
+        var settings = root.XPathSelectElement("FormulaSettings");
         if (settings != null)
         { // element present
           // get required string attribute
@@ -361,11 +355,13 @@ public class DefaultTeXFontParser
         // retrieve required integer attribute
         char ch = (char)GetIntAndCheck("code", charElement);
         // retrieve optional float attributes
-        float[] metrics = new float[4];
-        metrics[DefaultTeXFont.WIDTH] = GetOptionalFloat("width", charElement, 0);
-        metrics[DefaultTeXFont.HEIGHT] = GetOptionalFloat("height", charElement, 0);
-        metrics[DefaultTeXFont.DEPTH] = GetOptionalFloat("depth", charElement, 0);
-        metrics[DefaultTeXFont.IT] = GetOptionalFloat("italic", charElement, 0);
+        float[] metrics =
+        [
+            GetOptionalFloat("width", charElement, 0),
+            GetOptionalFloat("height", charElement, 0),
+            GetOptionalFloat("depth", charElement, 0),
+            GetOptionalFloat("italic", charElement, 0),
+        ];
         // set metrics
         info.SetMetrics(ch, metrics);
 
@@ -383,7 +379,7 @@ public class DefaultTeXFontParser
                                                         + el.Name.LocalName + "'!");
                 else
                     // process the child element
-                    ((CharChildParser)parser).Parse(el, ch, info);
+                    parser.Parse(el, ch, info);
             }
         }
     }

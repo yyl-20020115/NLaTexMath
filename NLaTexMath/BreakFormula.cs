@@ -54,8 +54,8 @@ public class BreakFormula
     public static Box Split(HorizontalBox hbox, float width, float interline)
     {
         var vbox = new VerticalBox();
-        HorizontalBox first;
-        HorizontalBox second = null;
+        HorizontalBox? first = null;
+        HorizontalBox? second = null;
         var positions = new Stack<Position>();
         float w = -1;
         while (hbox.Width > width && (w = CanBreak(positions, hbox, width)) != hbox.Width)

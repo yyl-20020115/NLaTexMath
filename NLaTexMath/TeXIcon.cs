@@ -63,7 +63,7 @@ using System.Drawing;
 public class TeXIcon
 {
 
-    private static readonly Color DefaultColor = new();
+    private static readonly Color DefaultColor = Color.Black;
 
     public static float DefaultSize = -1;
     public static float MagFactor = 0;

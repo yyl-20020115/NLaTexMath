@@ -112,7 +112,7 @@ public class AccentedAtom : Atom
                 "The accent TeXFormula can't be null!");
         else
         {
-            Atom root = acc.root;
+            Atom? root = acc.root;
             if (root is SymbolAtom atom)
             {
                 accent = atom;

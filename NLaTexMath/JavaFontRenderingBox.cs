@@ -63,8 +63,8 @@ public class JavaFontRenderingBox : Box
     private readonly float size;
     //private static TextAttribute KERNING;
     //private static TextAttribute LIGATURES;
-    private static int KERNING_ON;
-    private static int LIGATURES_ON;
+    //private static int KERNING_ON;
+    //private static int LIGATURES_ON;
 
     static JavaFontRenderingBox()
     {

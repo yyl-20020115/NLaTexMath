@@ -76,7 +76,7 @@ public class FontInfo
     private readonly int fontId;
 
     // font
-    private Font font;
+    private Font? font = null;
     private readonly object _base;
     private readonly string path;
     private readonly string fontName;

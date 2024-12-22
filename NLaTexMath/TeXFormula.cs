@@ -124,10 +124,13 @@ public partial class TeXFormula
 
         try
         {
-            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.GetType("NLaTexMath.cyrillic.CyrillicRegistration").GetConstructor([]).Invoke([]));
-            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.GetType("NLaTexMath.greek.GreekRegistration").GetConstructor([]).Invoke([]));
+            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)(Type.GetType("NLaTexMath.cyrillic.CyrillicRegistration")?.GetConstructor([])?.Invoke([])));
+            DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)(Type.GetType("NLaTexMath.greek.GreekRegistration")?.GetConstructor([])?.Invoke([])));
         }
-        catch (Exception e) { }
+        catch
+        {
+
+        }
     }
 
     public static void AddSymbolMappings(string file)
@@ -208,7 +211,7 @@ public partial class TeXFormula
     //}
 
     // the root atom of the "atom tree" that represents the formula
-    public Atom root;
+    public Atom? root;
 
     // the current text style
     public string textStyle;
@@ -675,7 +678,7 @@ public partial class TeXFormula
      */
     public class TeXIconBuilder
     {
-        readonly TeXFormula f;
+        private readonly TeXFormula? f;
         private int style = -1;
         private float size;
         private int type;

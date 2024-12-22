@@ -48,7 +48,7 @@ namespace NLaTexMath;
 public class ArrayOfAtoms : TeXFormula
 {
 
-    public List<List<Atom>> array;
+    public List<List<Atom?>> array;
     public int col, row;
 
     public ArrayOfAtoms() : base()
@@ -66,10 +66,10 @@ public class ArrayOfAtoms : TeXFormula
 
     public void AddCol(int n)
     {
-        array[(row)].Add(root);
+        array[row].Add(root);
         for (int i = 1; i < n - 1; i++)
         {
-            array[(row)].Add(null);
+            array[row].Add(null);
         }
         root = null;
     }
@@ -127,7 +127,7 @@ public class ArrayOfAtoms : TeXFormula
             int j = array[i].Count;
             if (j != col && array[i][0] != null && array[i][0].Type != TeXConstants.TYPE_INTERTEXT)
             {
-                List<Atom> r = array[i];
+                var r = array[i];
                 for (; j < col; j++)
                 {
                     r.Add(null);

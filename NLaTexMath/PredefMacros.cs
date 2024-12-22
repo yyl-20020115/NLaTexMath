@@ -996,9 +996,9 @@ public class PredefMacros
         if (args[3] == null)
             nbArgs = (0);
         else
-            nbArgs = int.TryParse(args[3], out var v) ? v : 0;
+            nbArgs = int.TryParse(args[3], out var v) ? v : -1;
 
-        if (nbArgs == null)
+        if (nbArgs == -1)
         {
             throw new ParseException("The optional argument should be an integer !");
         }
@@ -1023,9 +1023,9 @@ public class PredefMacros
         if (args[3] == null)
             nbArgs = (0);
         else
-            nbArgs = int.TryParse(args[3], out var v) ? v : 0;
+            nbArgs = int.TryParse(args[3], out var v) ? v : -1;
 
-        if (nbArgs == null)
+        if (nbArgs == -1)
             throw new ParseException("The optional argument should be an integer !");
 
         NewCommandMacro.AddReNewCommand(newcom.Substring(1), args[2], nbArgs);

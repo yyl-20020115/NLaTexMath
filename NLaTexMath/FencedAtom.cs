@@ -76,7 +76,7 @@ public class FencedAtom : Atom
      * @param r the right delimiter
      */
     public FencedAtom(Atom Base, SymbolAtom l, SymbolAtom r)
-        : this(Base, l, null, r)
+        : this(Base, l, [], r)
     {
     }
 
@@ -86,6 +86,7 @@ public class FencedAtom : Atom
             this.Base = new RowAtom(); // empty _base
         else
             this.Base = Base;
+
         if (l == null || l.Name != "normaldot")
         {
             left = l;

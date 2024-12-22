@@ -241,7 +241,7 @@ public class DefaultTeXFont : TeXFont
             Console.Error.WriteLine(e.ToString());
         }
     }
-
+   
     public static void RegisterAlphabet(AlphabetRegistration reg)
     {
         UnicodeBlock[] blocks = reg.UnicodeBlocks;

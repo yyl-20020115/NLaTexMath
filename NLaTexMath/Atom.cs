@@ -107,7 +107,7 @@ public abstract class Atom : ICloneable
      */
     public virtual int RightType => Type;
 
-    public Atom Clone()
+    public virtual Atom? Clone()
     {
         try
         {
@@ -119,5 +119,5 @@ public abstract class Atom : ICloneable
         }
     }
 
-    object ICloneable.Clone() => this.Clone();
+    object ICloneable.Clone() => this.Clone() ?? new object();
 }

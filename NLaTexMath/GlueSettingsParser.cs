@@ -90,8 +90,8 @@ public class GlueSettingsParser
 
     private void ParseGlueTypes()
     {
-        List<Glue> glueTypesList = new();
-        XElement types = (XElement)root.Element("GlueTypes");
+        List<Glue> glueTypesList = [];
+        var types = root.Element("GlueTypes");
         int defaultIndex = -1;
         int index = 0;
         if (types != null)
@@ -99,10 +99,10 @@ public class GlueSettingsParser
             var list = types.Elements("GlueType").ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                XElement type = (XElement)list[i];
+                var type = list[i];
                 // retrieve required attribute value, throw exception if not set
-                string name = GetAttrValueAndCheckIfNotNull("name", type);
-                Glue glue = CreateGlue(type, name);
+                var name = GetAttrValueAndCheckIfNotNull("name", type);
+                var glue = CreateGlue(type, name);
                 if (name.Equals("default", StringComparison.OrdinalIgnoreCase)) // default must have value
                     defaultIndex = index;
                 glueTypesList.Add(glue);
@@ -173,23 +173,23 @@ public class GlueSettingsParser
     {
         int size = typeMappings.Count;
         int[,,] table = new int[size, size, styleMappings.Count];
-        XElement glueTable = root.Element("GlueTable");
+        var glueTable = root.Element("GlueTable");
         if (glueTable != null)
         { // element present
             // iterate all the "Glue"-elements
-            List<XElement> list = glueTable.Elements("Glue").ToList();
+            var list = glueTable.Elements("Glue").ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                XElement glue = (XElement)list[i];
+                var glue = list[i];
                 // retrieve required attribute values and throw exception if they're not set
                 string left = GetAttrValueAndCheckIfNotNull("lefttype", glue);
                 string right = GetAttrValueAndCheckIfNotNull("righttype", glue);
                 string type = GetAttrValueAndCheckIfNotNull("gluetype", glue);
                 // iterate all the "Style"-elements
-                List<XElement> listG = glue.Elements("Style").ToList();
+                var listG = glue.Elements("Style").ToList();
                 for (int j = 0; j < listG.Count; j++)
                 {
-                    XElement style = (XElement)listG[(j)];
+                    var style = listG[(j)];
                     string styleName = GetAttrValueAndCheckIfNotNull("name", style);
                     // retrieve mappings
                     object l = typeMappings[(left)];

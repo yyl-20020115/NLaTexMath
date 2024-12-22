@@ -872,8 +872,8 @@ public class TeXParser
     private Atom GetScripts(char f)
     {
         pos++;
-        Atom first = GetArgument();
-        Atom second = null;
+        Atom? first = GetArgument();
+        Atom? second = null;
         char s = '\0';
 
         if (pos < len)

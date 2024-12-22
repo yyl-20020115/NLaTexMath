@@ -54,7 +54,7 @@ public class IddotsAtom : Atom
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        var ldots = TeXFormula.Get("ldots").root.CreateBox(env);
+        var ldots = TeXFormula.Get("ldots")?.root?.CreateBox(env);
         var w = ldots.Width;
         var dot = SymbolAtom.Get("ldotp").CreateBox(env);
         var hb1 = new HorizontalBox(dot, w, TeXConstants.ALIGN_RIGHT);

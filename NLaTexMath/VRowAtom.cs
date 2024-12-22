@@ -62,7 +62,7 @@ public class VRowAtom : Atom
 
     public VRowAtom() { }
 
-    public VRowAtom(Atom el)
+    public VRowAtom(Atom? el)
     {
         if (el != null)
         {
@@ -92,13 +92,13 @@ public class VRowAtom : Atom
         return a;
     }
 
-    public void Add(Atom el)
+    public void Add(Atom? el)
     {
         if (el != null)
             elements.Insert(0, el);
     }
 
-    public void Append(Atom el)
+    public void Append(Atom? el)
     {
         if (el != null)
             elements.Add(el);

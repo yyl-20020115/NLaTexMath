@@ -54,21 +54,22 @@ public class FooPackage
     /*
      * The macro fooA is equivalent to \newcommand{\fooA}[2]{\frac{\textcolor{red}{#2}}{#1}}
      */
-    public Atom FooA_macro(TeXParser tp, string[] args) => new TeXFormula("\\frac{\\textcolor{red}{" + args[2] + "}}{" + args[1] + "}").root;
+    public Atom? FooA_macro(TeXParser tp, string[] args) 
+        => new TeXFormula("\\frac{\\textcolor{red}{" + args[2] + "}}{" + args[1] + "}").root;
 
-    public Atom FooB_macro(TeXParser tp, string[] args)
+    public Atom? FooB_macro(TeXParser tp, string[] args)
     {
         float f = float.TryParse(args[1],out var v)?v:0;
         return new MyAtom(f);
     }
 
-    public Atom FooC_macro(TeXParser tp, string[] args)
+    public Atom? FooC_macro(TeXParser tp, string[] args)
     {
         float f = float.TryParse(args[1], out var v) ? v : 0;
         return new MyAtom(f, args[2].Length != 0);
     }
 
-    public Atom FooD_macro(TeXParser tp, string[] args)
+    public Atom? FooD_macro(TeXParser tp, string[] args)
     {
         float f = float.TryParse(args[1], out var v) ? v : 0;
         return new MyAtom(f, args[2].Length == 0);
