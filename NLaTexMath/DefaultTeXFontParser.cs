@@ -235,9 +235,9 @@ public class DefaultTeXFontParser
             throw new XMLResourceParseException("Cannot find the file " + name + "!" + e.ToString());
         }
 
-        string fontName = GetAttrValueAndCheckIfNotNull("name", font);
+        var fontName = GetAttrValueAndCheckIfNotNull("name", font);
         // get required integer attribute
-        string fontId = GetAttrValueAndCheckIfNotNull("id", font);
+        var fontId = GetAttrValueAndCheckIfNotNull("id", font);
         if (Font_ID.IndexOf(fontId) < 0)
             Font_ID.Add(fontId);
         else throw new FontAlreadyLoadedException("Font " + fontId + " is already loaded !");
@@ -284,25 +284,25 @@ public class DefaultTeXFontParser
         }
         catch (ResourceParseException e) { }
 
-        string path = name.Substring(0, name.LastIndexOf("/") + 1) + fontName;
+        string path = name[..(name.LastIndexOf('/') + 1)] + fontName;
 
         // create FontInfo-object
-        FontInfo info = new FontInfo(Font_ID.IndexOf(fontId), _base, path, fontName, unicode, xHeight, space, quad, bold, roman, ss, tt, it);
+        var info = new FontInfo(Font_ID.IndexOf(fontId), _base, path, fontName, unicode, xHeight, space, quad, bold, roman, ss, tt, it);
 
         if (skewChar != -1) // attribute set
             info.SkewChar = (char)skewChar;
 
         // process all "Char"-elements
-        List<XElement> listF = font.Elements("Char").ToList();
+        var listF = font.Elements("Char").ToList();
         for (int j = 0; j < listF.Count; j++)
-            ProcessCharElement((XElement)listF[(j)], info);
+            ProcessCharElement(listF[(j)], info);
 
         // parsing OK, Add to table
         res.Add(info);
 
         for (int i = 0; i < res.Count; i++)
         {
-            FontInfo fin = res[i];
+            var fin = res[i];
             fin.BoldId = Font_ID.IndexOf(fin.boldVersion);
             fin.RomanId = Font_ID.IndexOf(fin.romanVersion);
             fin.SsId = Font_ID.IndexOf(fin.ssVersion);
@@ -366,13 +366,13 @@ public class DefaultTeXFontParser
         info.SetMetrics(ch, metrics);
 
         // process children
-        List<XNode> list = charElement.Nodes().ToList();
+        var list = charElement.Elements().ToList();
         for (int i = 0; i < list.Count; i++)
         {
-            XNode node = list[i];
+            var node = list[i];
             if (node.NodeType != System.Xml.XmlNodeType.Text)
             {
-                XElement el = (XElement)node;
+                var el = node;
                 if (!charChildParsers.TryGetValue(el.Name.LocalName, out var parser)) // unknown element
                     throw new XMLResourceParseException(RESOURCE_NAME
                                                         + ": a <Char>-element has an unknown child element '"
@@ -438,8 +438,7 @@ public class DefaultTeXFontParser
         {
             try
             {
-                if (fontIn != null)
-                    fontIn.Close();
+                fontIn?.Close();
             }
             catch (IOException ioex)
             {
@@ -450,29 +449,24 @@ public class DefaultTeXFontParser
 
     public Dictionary<string, CharFont> ParseSymbolMappings()
     {
-        Dictionary<string, CharFont> res = new();
-        XElement symbolMappings = (XElement)root.Element("SymbolMappings");
+        Dictionary<string, CharFont> res = [];
+        var symbolMappings = root.Element("SymbolMappings");
         if (symbolMappings == null)
             // "SymbolMappings" is required!
             throw new XMLResourceParseException(RESOURCE_NAME, "SymbolMappings");
         else
         { // element present
           // iterate all mappings
-            List<XElement> list = symbolMappings.Elements("Mapping").ToList();
+            var list = symbolMappings.Elements("Mapping").ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                string include = GetAttrValueAndCheckIfNotNull("include", (XElement)list[i]);
-                XElement map;
+                string include = GetAttrValueAndCheckIfNotNull("include", list[i]);
+                XElement? map;
                 try
                 {
-                    if (_base == null)
-                    {
-                        map = XDocument.Load(typeof(DefaultTeXFontParser).GetResourceAsStream(include)).Root;
-                    }
-                    else
-                    {
-                        map = XDocument.Load(_base.GetType().GetResourceAsStream(include)).Root;
-                    }
+                    map = _base == null
+                        ? XDocument.Load(typeof(DefaultTeXFontParser).GetResourceAsStream(include)).Root
+                        : XDocument.Load(_base.GetType().GetResourceAsStream(include)).Root;
                 }
                 catch (Exception e)
                 {
@@ -513,16 +507,16 @@ public class DefaultTeXFontParser
     public string[] ParseDefaultTextStyleMappings()
     {
         string[] res = new string[4];
-        XElement defaultTextStyleMappings = (XElement)root.Element("DefaultTextStyleMapping");
+        var defaultTextStyleMappings = root.Element("DefaultTextStyleMapping");
         if (defaultTextStyleMappings == null)
             return res;
         else
         { // element present
           // iterate all mappings
-            List<XElement> list = defaultTextStyleMappings.Elements("MapStyle").ToList();
+            var list = defaultTextStyleMappings.Elements("MapStyle").ToList();
             for (int i = 0; i < list.Count; i++)
             {
-                XElement mapping = (XElement)list[i];
+                var mapping = list[i];
                 // get range name and check if it's valid
                 string code = GetAttrValueAndCheckIfNotNull("code", mapping);
                 object codeMapping = rangeTypeMappings[(code)];
@@ -533,15 +527,13 @@ public class DefaultTeXFontParser
                 // get mapped style and check if it exists
                 string textStyleName = GetAttrValueAndCheckIfNotNull("textStyle",
                                        mapping);
-                object styleMapping = parsedTextStyles[(textStyleName)];
-                if (styleMapping == null) // unknown text style
+                if (!parsedTextStyles.TryGetValue(textStyleName,out var styleMapping)) // unknown text style
                     throw new XMLResourceParseException(RESOURCE_NAME, "MapStyle",
                                                         "textStyle", "Contains an unknown text style '"
                                                         + textStyleName + "'!");
                 // now check if the range is defined within the mapped text style
-                CharFont[] charFonts = parsedTextStyles[(textStyleName)];
                 int index = ((int)codeMapping);
-                if (charFonts[index] == null) // range not defined
+                if (styleMapping[index] == null) // range not defined
                     throw new XMLResourceParseException(RESOURCE_NAME
                                                         + ": the default text style mapping '" + textStyleName
                                                         + "' for the range '" + code

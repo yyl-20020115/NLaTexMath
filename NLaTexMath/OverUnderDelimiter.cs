@@ -86,7 +86,7 @@ public class OverUnderDelimiter : Atom
         Box b = (Base == null ? new StrutBox(0, 0, 0, 0) : Base.CreateBox(env));
         Box del = DelimiterFactory.Create(symbol.Name, env, b.Width);
 
-        Box scriptBox = null;
+        Box? scriptBox = null;
         if (script != null)
         {
             scriptBox = script.CreateBox((over ? env.SupStyle : env.SubStyle));

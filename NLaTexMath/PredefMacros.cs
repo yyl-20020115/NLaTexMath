@@ -406,18 +406,18 @@ public class PredefMacros
         if (num == null || denom == null)
             throw new ParseException("Both numerator and denominator of a fraction can't be empty!");
 
-        Atom left = new TeXFormula(tp, args[1], false).root;
-        if (left is BigDelimiterAtom)
-            left = ((BigDelimiterAtom)left).delim;
-        Atom right = new TeXFormula(tp, args[2], false).root;
-        if (right is BigDelimiterAtom)
-            right = ((BigDelimiterAtom)right).delim;
-        if (left is SymbolAtom && right is SymbolAtom)
+        var left = new TeXFormula(tp, args[1], false).root;
+        if (left is BigDelimiterAtom atom2)
+            left = atom2.delim;
+        var right = new TeXFormula(tp, args[2], false).root;
+        if (right is BigDelimiterAtom atom)
+            right = atom.delim;
+        if (left is SymbolAtom atom1 && right is SymbolAtom atom3)
         {
-            return new FencedAtom(new FractionAtom(num, denom, false), (SymbolAtom)left, (SymbolAtom)right);
+            return new FencedAtom(new FractionAtom(num, denom, false), atom1, atom3);
         }
 
-        RowAtom ra = new RowAtom();
+        var ra = new RowAtom();
         ra.Add(left);
         ra.Add(new FractionAtom(num, denom, false));
         ra.Add(right);

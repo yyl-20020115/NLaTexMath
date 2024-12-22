@@ -54,8 +54,8 @@ namespace NLaTexMath;
 public class GraphicsAtom : Atom
 {
 
-    private readonly Image image;
-    private Image bimage;
+    private readonly Image? image;
+    private Image? bimage;
     private int w, h;
 
     private Atom _base;
@@ -141,6 +141,6 @@ public class GraphicsAtom : Atom
             }
         }
 
-        return new TeXFormula("\\text{ No such image file ! }").root.CreateBox(env);
+        return new TeXFormula("\\text{ No such image file ! }").root?.CreateBox(env);
     }
 }

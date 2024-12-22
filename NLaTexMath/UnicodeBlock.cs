@@ -62,7 +62,6 @@ public class UnicodeBlock(char start, char end)
 
     public override string ToString() => $"{this.Start}-{this.End}";
     public override bool Equals(object? obj)
-    {
-        return  base.Equals(obj);
-    }
+        => obj is UnicodeBlock u ? this.Start == u.Start && this.End == u.End : base.Equals(obj);
+    public override int GetHashCode() => this.Start ^ this.End;
 }
