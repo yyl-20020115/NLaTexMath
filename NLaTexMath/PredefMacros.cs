@@ -318,13 +318,13 @@ public class PredefMacros
     public static Atom Genfrac_macro(TeXParser tp, string[] args)
     {
         var left = new TeXFormula(tp, args[1], false);
-        SymbolAtom L = null, R = null;
+        SymbolAtom? L = null, R = null;
         if (left != null && left.root is SymbolAtom symbolAtom)
         {
             L = symbolAtom;
         }
 
-        TeXFormula right = new TeXFormula(tp, args[2], false);
+        var right = new TeXFormula(tp, args[2], false);
         if (right != null && right.root is SymbolAtom)
         {
             R = (SymbolAtom)right.root;

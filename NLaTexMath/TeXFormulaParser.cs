@@ -65,15 +65,9 @@ public class TeXFormulaParser
         public object ParseValue(string value, string type);
     }
 
-    public class MethodInvocationParser : ActionParser
+    public class MethodInvocationParser(TeXFormulaParser parser) : ActionParser
     {
-
-        TeXFormulaParser parser;
-
-        public MethodInvocationParser()
-        {
-            // avoids creation of special accessor type
-        }
+        private readonly TeXFormulaParser parser = parser;
 
         public void Parse(XElement el)
         {
@@ -113,19 +107,14 @@ public class TeXFormulaParser
         }
     }
 
-    public class CreateTeXFormulaParser : ActionParser
+    public class CreateTeXFormulaParser(TeXFormulaParser parser) : ActionParser
     {
-        TeXFormulaParser parser;
-
-        public CreateTeXFormulaParser()
-        {
-            // avoids creation of special accessor type
-        }
+        private readonly TeXFormulaParser parser = parser;
 
         public void Parse(XElement el)
         {
             // get required string attribute
-            string name = GetAttrValueAndCheckIfNotNull("name", el);
+            var name = GetAttrValueAndCheckIfNotNull("name", el);
             // parse arguments
             List<XElement> args = el.Elements("Argument").ToList();
             // get argument classes and values
@@ -150,55 +139,44 @@ public class TeXFormulaParser
         }
     }
 
-    public class CreateCommandParser : ActionParser
+    public class CreateCommandParser(TeXFormulaParser parser, string formulaName) : ActionParser
     {
-
-        public CreateCommandParser()
-        {
-            // avoids creation of special accessor type
-        }
+        private readonly TeXFormulaParser parser = parser;
+        private string formulaName = formulaName;
 
         public void Parse(XElement el)
         {
-            //TODO:
-            //// get required string attribute
-            //string name = getAttrValueAndCheckIfNotNull("name", el);
-            //// parse arguments 
-            //List<XElement> args = el.Elements("Argument").ToList();
-            //// get argument classes and values
-            //Type[] argClasses = GetArgumentClasses(args);
-            //object[] argValues = GetArgumentValues(args);
-            //// create TeXFormula object
-            //try
-            //{
-            //    MacroInfo f = MacroInfo.GetConstructor(argClasses).newInstance(argValues);
-            //    // succesfully created, so Add to "temporary formula's"-hashtable
-            //    tempCommands.Add(name, f);
-            //}
-            //catch (Exception e)
-            //{
-            //    string err = "IllegalArgumentException:\n";
-            //    err += "ClassLoader to load this class (TeXFormulaParser): " + this.GetType().getClassLoader() + "\n";
-            //    foreach (Type cl in argClasses)
-            //    {
-            //        err += "Created class: " + cl + " loaded with the ClassLoader: " + cl.getClassLoader() + "\n";
-            //    }
-            //    foreach (object obj in argValues)
-            //    {
-            //        err += "Created object: " + obj + "\n";
-            //    }
-            //    throw new XMLResourceParseException(
-            //        "Error creating the temporary command '" + name
-            //        + "' while constructing the predefined command '"
-            //        + formulaName + "'!\n" + err);
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new XMLResourceParseException(
-            //        "Error creating the temporary command '" + name
-            //        + "' while constructing the predefined command '"
-            //        + formulaName + "'!\n" + e.ToString());
-            //}
+            // get required string attribute
+            var name = GetAttrValueAndCheckIfNotNull("name", el);
+            // parse arguments 
+            List<XElement> args = el.Elements("Argument").ToList();
+            // get argument classes and values
+            Type[] argClasses = GetArgumentClasses(args);
+            object[] argValues = parser.GetArgumentValues(args);
+            // create TeXFormula object
+            try
+            {
+                var f = typeof(MacroInfo).GetConstructor(argClasses).Invoke(argValues) as MacroInfo;
+                // succesfully created, so Add to "temporary formula's"-hashtable
+                parser.tempCommands.Add(name, f);
+            }
+            catch (Exception e)
+            {
+                string err = "IllegalArgumentException:\n";
+                err += "ClassLoader to load this class (TeXFormulaParser): " + this.GetType() + "\n";
+                foreach (Type cl in argClasses)
+                {
+                    err += "Created class: " + cl + " loaded with the ClassLoader: " + cl + "\n";
+                }
+                foreach (object obj in argValues)
+                {
+                    err += "Created object: " + obj + "\n";
+                }
+                throw new XMLResourceParseException(
+                    "Error creating the temporary command '" + name
+                    + "' while constructing the predefined command '"
+                    + formulaName + "'!\n" + err);
+            }
         }
     }
 
@@ -226,13 +204,9 @@ public class TeXFormulaParser
         }
     }
 
-    public class CharValueParser : ArgumentValueParser
+    public class CharValueParser(TeXFormulaParser parser) : ArgumentValueParser
     {
-
-        public CharValueParser()
-        {
-            // avoids creation of special accessor type
-        }
+        private readonly TeXFormulaParser parser = parser;
 
         public object ParseValue(string value, string type)
         {
@@ -298,20 +272,16 @@ public class TeXFormulaParser
         }
     }
 
-    public class ReturnParser : ActionParser
+    public class ReturnParser(TeXFormulaParser parser) : ActionParser
     {
-        private object result;
+        protected TeXFormulaParser parser = parser;
+        private MacroInfo result;
 
         private Dictionary<string, MacroInfo> tempCommands;
         private Dictionary<string, MacroInfo> tempFormulas;
 
         private int type;
         private string formulaName;
-
-        public ReturnParser()
-        {
-            // avoids creation of special accessor type
-        }
 
         public void Parse(XElement el)
         {
@@ -347,13 +317,9 @@ public class TeXFormulaParser
         }
     }
 
-    public class TeXFormulaValueParser : ArgumentValueParser
+    public class TeXFormulaValueParser(TeXFormulaParser parser) : ArgumentValueParser
     {
-        private readonly TeXFormulaParser parser;
-        public TeXFormulaValueParser()
-        {
-            // avoids creation of special accessor type
-        }
+        private readonly TeXFormulaParser parser = parser;
 
         public object ParseValue(string value, string type)
         {
@@ -406,13 +372,9 @@ public class TeXFormulaParser
         }
     }
 
-    public class ColorConstantValueParser : ArgumentValueParser
+    public class ColorConstantValueParser(TeXFormulaParser parser) : ArgumentValueParser
     {
-
-        public ColorConstantValueParser()
-        {
-            // avoids creation of special accessor type
-        }
+        private readonly TeXFormulaParser parser = parser;
 
         public object ParseValue(string value, string type)
         {
@@ -441,7 +403,7 @@ public class TeXFormulaParser
     private readonly Dictionary<string, TeXFormula> tempFormulas = [];
     private readonly Dictionary<string, MacroInfo> tempCommands = [];
 
-    private readonly object result = new ();
+    private readonly object result = new();
 
     private readonly string formulaName;
 
@@ -472,23 +434,23 @@ public class TeXFormulaParser
         this.type = "Command" == (type) ? COMMAND : TEXFORMULA;
 
         // action parsers
-        if ("Command" == (type))
-            actionParsers.Add("CreateCommand", new CreateCommandParser());
+        if (this.type == COMMAND)
+            actionParsers.Add("CreateCommand", new CreateCommandParser(this, formulaName));
         else
-            actionParsers.Add("CreateTeXFormula", new CreateTeXFormulaParser());
+            actionParsers.Add("CreateTeXFormula", new CreateTeXFormulaParser(this));
 
-        actionParsers.Add("MethodInvocation", new MethodInvocationParser());
-        actionParsers.Add(RETURN_EL, new ReturnParser());
+        actionParsers.Add("MethodInvocation", new MethodInvocationParser(this));
+        actionParsers.Add(RETURN_EL, new ReturnParser(this));
 
         // argument value parsers
         argValueParsers.Add("TeXConstants", new TeXConstantsValueParser());
-        argValueParsers.Add("TeXFormula", new TeXFormulaValueParser());
+        argValueParsers.Add("TeXFormula", new TeXFormulaValueParser(this));
         argValueParsers.Add("string", new StringValueParser());
         argValueParsers.Add("float", new FloatValueParser());
         argValueParsers.Add("int", new IntValueParser());
         argValueParsers.Add("boolean", new BooleanValueParser());
-        argValueParsers.Add("char", new CharValueParser());
-        argValueParsers.Add("ColorConstant", new ColorConstantValueParser());
+        argValueParsers.Add("char", new CharValueParser(this));
+        argValueParsers.Add("ColorConstant", new ColorConstantValueParser(this));
     }
 
     public object Parse()

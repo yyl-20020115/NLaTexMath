@@ -11,24 +11,19 @@ public class Benchmarks
     public static Bitmap? ParseAndRenderLatex()
     {
         var formula = new TeXFormula(LATEX_1);
-        
-        //TODO:
 
-        //TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)
-        //               .build();
-        //icon.Insets = new Insets(5, 5, 5, 5);
+        TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY).SetSize(20)
+                       .Build();
+        icon.Insets = new Insets(5, 5, 5, 5);
 
-        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
-        //                                        BufferedImage.TYPE_INT_ARGB);
-        //Graphics2D g2 = image.createGraphics();
-        //g2.setColor(Color.white);
-        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        //JLabel jl = new JLabel();
-        //jl.setForeground(new Color(0, 0, 0));
-        //icon.PaintIcon(jl, g2, 0, 0);
-        //// must return the image to avoid dead code elimination
-        //return image;
-        return null;
+        using var image = new Bitmap(icon.IconWidth, icon.IconHeight);
+        using var g2 = Graphics.FromImage(image);
+        using var brush = new SolidBrush(Color.White);
+        g2.FillRectangle(brush, new RectangleF(0, 0, icon.IconWidth, icon.IconHeight));
+
+        icon.PaintIcon(g2, 0, 0);
+        // must return the image to avoid dead code elimination
+        return image;
     }
 
     private static string CreateLatex1()

@@ -232,7 +232,7 @@ public class JLaTeXMathCache
         icon.PaintIcon(g2, 0, 0);
 
         cached.SetDimensions(icon.IconWidth, icon.IconHeight, icon.IconDepth);
-        WeakReference<CachedImage> img = new WeakReference<CachedImage>(new CachedImage(image, cached));
+        var img = new WeakReference<CachedImage>(new CachedImage(image, cached));
         //TODO:
         //if (cache.Count >= max)
         //{

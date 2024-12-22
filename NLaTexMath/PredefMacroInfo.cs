@@ -57,7 +57,7 @@ public class PredefMacroInfo : MacroInfo
 
     public PredefMacroInfo(int id, int nbArgs) : base(nbArgs) => this.id = id;
 
-    public object? Invoke(TeXParser tp, string[] args) => InvokeID(id, tp, args);
+    public override object? Invoke(TeXParser tp, string[] args) => InvokeID(id, tp, args);
 
     private static object? InvokeID(int id, TeXParser tp, string[] args)
     {

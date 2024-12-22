@@ -311,7 +311,6 @@ public class TeXFormula
      */
     public TeXFormula(TeXParser tp, string s) : this(tp, s, null)
     {
-        ;
     }
 
     public TeXFormula(TeXParser tp, string s, bool firstpass)
@@ -683,12 +682,12 @@ public class TeXFormula
     public class TeXIconBuilder
     {
         readonly TeXFormula f;
-        private int style;
+        private int style = -1;
         private float size;
         private int type;
         private Color fgcolor;
         private bool trueValues = false;
-        private int widthUnit;
+        private int widthUnit = -1;
         private float textWidth;
         private int align;
         private bool isMaxWidth = false;
@@ -773,7 +772,7 @@ public class TeXFormula
          */
         public TeXIconBuilder SetIsMaxWidth(bool isMaxWidth)
         {
-            if (widthUnit == null)
+            if (widthUnit == -1)
             {
                 throw new Exception("Cannot set 'isMaxWidth' without having specified a width!");
             }
@@ -808,7 +807,7 @@ public class TeXFormula
          */
         public TeXIconBuilder SetInterLineSpacing(int interLineUnit, float interLineSpacing)
         {
-            if (widthUnit == null)
+            if (widthUnit == -1)
             {
                 throw new Exception("Cannot set inter line spacing without having specified a width!");
             }
@@ -824,17 +823,17 @@ public class TeXFormula
          */
         public TeXIcon Build()
         {
-            if (style == null)
+            if (style == -1)
             {
                 throw new Exception("A style is required. Use setStyle()");
             }
-            if (size == null)
+            if (size == -1.0f)
             {
                 throw new Exception("A size is required. Use setStyle()");
             }
-            DefaultTeXFont font = (type == null) ? new DefaultTeXFont(size) : CreateFont(size, type);
+            DefaultTeXFont font = (type == -1) ? new DefaultTeXFont(size) : CreateFont(size, type);
             TeXEnvironment te;
-            if (widthUnit != null)
+            if (widthUnit != -1)
             {
                 te = new TeXEnvironment(style, font, widthUnit, textWidth);
             }
@@ -850,10 +849,10 @@ public class TeXFormula
 
             Box box = f.CreateBox(te);
             TeXIcon ti;
-            if (widthUnit != null)
+            if (widthUnit != -1)
             {
                 HorizontalBox hb;
-                if (interLineUnit != null)
+                if (interLineUnit != -1)
                 {
                     float il = interLineSpacing * SpaceAtom.GetFactor(interLineUnit, te);
                     Box b = BreakFormula.Split(box, te.Textwidth, il);
@@ -869,7 +868,7 @@ public class TeXFormula
             {
                 ti = new TeXIcon(box, size, trueValues);
             }
-            if (fgcolor != null)
+            if (fgcolor != Color.Empty)
             {
                 ti.SetForeground(fgcolor);
             }
@@ -930,44 +929,40 @@ public class TeXFormula
 
     public void CreateImage(string format, int style, float size, string _out, Color bg, Color fg, bool transparency)
     {
-        //TODO:
-        //TeXIcon icon = CreateTeXIcon(style, size);
-        //icon.Insets = new Insets(1, 1, 1, 1);
-        //int w = icon.GetIconWidth(), h = icon.GetIconHeight();
+        TeXIcon icon = CreateTeXIcon(style, size);
+        icon.Insets = new Insets(1, 1, 1, 1);
+        int w = icon.IconWidth, h = icon.IconHeight;
 
-        //Bitmap image = new Bitmap(w, h, transparency ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
-        //Graphics g2 = image.createGraphics();
-        //if (bg != null && !transparency)
-        //{
-        //    g2.setColor(bg);
-        //    g2.fillRect(0, 0, w, h);
-        //}
+        using var image = new Bitmap(w, h);
+        using var g2 = Graphics.FromImage(image);
+        if (bg != Color.Empty && !transparency)
+        {
+            //transparency
+            using var brush = new SolidBrush(bg);
+            g2.FillRectangle(brush, new RectangleF(0, 0, w, h));
+        }
 
-        //icon.SetForeground(fg);
-        //icon.PaintIcon(null, g2, 0, 0);
-        //try
-        //{
-        //    FileImageOutputStream imout = new FileImageOutputStream(new File(_out));
-        //    ImageIO.write(image, format, imout);
-        //    imout.flush();
-        //    imout.close();
-        //}
-        //catch (IOException ex)
-        //{
-        //    Console.Error.WriteLine("I/O error : Cannot generate " + _out);
-        //}
+        icon.SetForeground(fg);
+        icon.PaintIcon(g2, 0, 0);
+        try
+        {
+            image.Save(_out);
+        }
+        catch (IOException ex)
+        {
+            Console.Error.WriteLine($"I/O error : Cannot generate {_out},{ex}");
+        }
 
-        //g2.dispose();
     }
 
     public void CreatePNG(int style, float size, string _out, Color bg, Color fg)
     {
-        CreateImage("png", style, size, _out, bg, fg, bg == null);
+        CreateImage("png", style, size, _out, bg, fg, bg == Color.Empty);
     }
 
     public void CreateGIF(int style, float size, string _out, Color bg, Color fg)
     {
-        CreateImage("gif", style, size, _out, bg, fg, bg == null);
+        CreateImage("gif", style, size, _out, bg, fg, bg == Color.Empty);
     }
 
     public void CreateJPEG(int style, float size, string _out, Color bg, Color fg)
@@ -986,26 +981,23 @@ public class TeXFormula
      */
     public static Image CreateBufferedImage(string formula, int style, float size, Color fg, Color bg)
     {
-        //TODO: 
-        //TeXFormula f = new TeXFormula(formula);
-        //TeXIcon icon = f.CreateTeXIcon(style, size);
-        //icon.Insets = new Insets(2, 2, 2, 2);
-        //int w = icon.GetIconWidth(), h = icon.GetIconHeight();
+        TeXFormula f = new TeXFormula(formula);
+        TeXIcon icon = f.CreateTeXIcon(style, size);
+        icon.Insets = new Insets(2, 2, 2, 2);
+        int w = icon.IconWidth, h = icon.IconHeight;
 
-        //Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
-        //Graphics g2 = image.createGraphics();
-        //if (bg != null)
-        //{
-        //    g2.setColor(bg);
-        //    g2.fillRect(0, 0, w, h);
-        //}
+        using var image = new Bitmap(w, h);
+        using var g2 = Graphics.FromImage(image);
+        if (bg != Color.Empty)
+        {
+            using var brush = new SolidBrush(bg);
+            g2.FillRectangle(brush, new RectangleF(0, 0, w, h));
+        }
 
         //icon.SetForeground(fg == null ? Color.Black : fg);
-        //icon.PaintIcon(null, g2, 0, 0);
-        //g2.dispose();
+        icon.PaintIcon(g2, 0, 0);
 
-        //return image;
-        return null;
+        return image;
     }
 
     /**
@@ -1017,30 +1009,27 @@ public class TeXFormula
      */
     public Image CreateBufferedImage(int style, float size, Color fg, Color bg)
     {
-        //TODO: 
-        //TeXIcon icon = CreateTeXIcon(style, size);
-        //icon.Insets = new Insets(2, 2, 2, 2);
-        //int w = icon.GetIconWidth(), h = icon.GetIconHeight();
+        TeXIcon icon = CreateTeXIcon(style, size);
+        icon.Insets = new Insets(2, 2, 2, 2);
+        int w = icon.IconWidth, h = icon.IconHeight;
 
-        //Bitmap image = new Bitmap(w, h, bg == null ? Bitmap.TYPE_INT_ARGB : Bitmap.TYPE_INT_RGB);
-        //Graphics g2 = image.createGraphics();
-        //if (bg != null)
-        //{
-        //    g2.setColor(bg);
-        //    g2.fillRect(0, 0, w, h);
-        //}
+        using var image = new Bitmap(w, h);
+        using var g2 = Graphics.FromImage(image);
+        if (bg != Color.Empty)
+        {
+            using var brush = new SolidBrush(bg);
+            g2.FillRectangle(brush, new RectangleF(0, 0, w, h));
+        }
+        var vfg = fg == Color.Empty ? Color.Black : fg;
+        //use vfg as foreground
+        icon.PaintIcon(g2, 0, 0);
 
-        //icon.SetForeground(fg == null ? Color.Black : fg);
-        //icon.PaintIcon(null, g2, 0, 0);
-        //g2.dispose();
-
-        //return image;
-        return null;
+        return image;
     }
 
-    public void SetDEBUG(bool b)
+    public void SetDebug(bool b)
     {
-        Box.DEBUG = b;
+        Box.Debug = b;
     }
 
     /**
@@ -1056,12 +1045,9 @@ public class TeXFormula
      */
     public TeXFormula SetBackground(Color c)
     {
-        if (c != null)
+        if (c != Color.Empty)
         {
-            if (root is ColorAtom)
-                root = new ColorAtom(c, null, (ColorAtom)root);
-            else
-                root = new ColorAtom(root, c, null);
+            root = root is ColorAtom atom ? new ColorAtom(c, null, atom) : (Atom)new ColorAtom(root, c, null);
         }
         return this;
     }

@@ -560,8 +560,8 @@ public class DefaultTeXFontParser
 
     public Dictionary<string, float> ParseParameters()
     {
-        Dictionary<string, float> res = new();
-        XElement parameters = root.Element("Parameters");
+        Dictionary<string, float> res = [];
+        var parameters = root.Element("Parameters");
         if (parameters == null)
             // "Parameters" is required!
             throw new XMLResourceParseException(RESOURCE_NAME, "Parameters");

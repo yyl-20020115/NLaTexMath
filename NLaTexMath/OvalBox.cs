@@ -60,11 +60,10 @@ public class OvalBox(FramedBox fbox) : FramedBox(fbox.box, fbox.thickness, fbox.
         float th = thickness / 2;
         float r = 0.5f * Math.Min(width - thickness, height + depth - thickness);
         //TODO:how to use round angle
-        using var brush = new SolidBrush(this.foreground.Value);
+        using var brush = new SolidBrush(this.foreground != null ? this.foreground.Value : Color.Black);
         using var pen = new Pen(brush);
         g.DrawRectangle(pen, new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
         //drawDebug(g2, x, y);
-        //g2.setStroke(st);
     }
 
     public override int LastFontId => box.LastFontId;

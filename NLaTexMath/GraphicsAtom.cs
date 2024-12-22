@@ -54,10 +54,8 @@ namespace NLaTexMath;
 public class GraphicsAtom : Atom
 {
 
-    private Image image;
+    private readonly Image image;
     private Image bimage;
-    //TODO:
-    //private Label c;
     private int w, h;
 
     private Atom _base;
@@ -91,6 +89,11 @@ public class GraphicsAtom : Atom
         }
         Draw();
         BuildAtom(option);
+    }
+    ~GraphicsAtom()
+    {
+        this.image?.Dispose();
+        this.bimage?.Dispose();
     }
 
     protected void BuildAtom(string option)
@@ -131,13 +134,11 @@ public class GraphicsAtom : Atom
     {
         if (image != null)
         {
-            //TODO:
-            //w = image.getWidth(c);
-            //h = image.getHeight(c);
-            //bimage = new Bitmap(w, h, Bitmap.TYPE_INT_ARGB);
-            //Graphics g2d = bimage.createGraphics();
-            //g2d.drawImage(image, 0, 0, null);
-            //g2d.dispose();
+            w = image.Width;
+            h = image.Height;
+            bimage = new Bitmap(w, h);
+            using var g = Graphics.FromImage(bimage);
+            g.DrawImage(image, new PointF());
         }
     }
 

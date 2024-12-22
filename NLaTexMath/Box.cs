@@ -68,7 +68,7 @@ using System.Drawing;
 public abstract class Box(Color? fg, Color? bg)
 {
 
-    public static bool DEBUG = false;
+    public static bool Debug = false;
 
     /**
      * The foreground color of the whole box. Child boxes can override this color.
@@ -244,7 +244,7 @@ public abstract class Box(Color? fg, Color? bg)
 
     public void DrawDebug(Graphics g, float x, float y, bool showDepth = true)
     {
-        if (DEBUG)
+        if (Debug)
         {
             if (this.debugMark != null)
             {

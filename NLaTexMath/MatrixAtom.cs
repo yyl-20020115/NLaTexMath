@@ -471,8 +471,8 @@ public class MatrixAtom : Atom
                 }
                 else
                 {
-                    ((MulticolumnAtom)at).SetRowColumn(i, j);
-                    listMulti.Add((MulticolumnAtom)at);
+                    (at as MulticolumnAtom).SetRowColumn(i, j);
+                    listMulti.Add(at as MulticolumnAtom);
                 }
             }
         }

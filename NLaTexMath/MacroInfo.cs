@@ -133,7 +133,7 @@ public class MacroInfo
         }
     }
 
-    public object Invoke(TeXParser tp, string[] args)
+    public virtual object? Invoke(TeXParser tp, string[] args)
     {
         object[] argsMethod = [tp, args];
         try
