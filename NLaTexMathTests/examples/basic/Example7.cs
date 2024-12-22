@@ -42,8 +42,6 @@
  * version.
  *
  */
-using NLaTexMath;
-
 namespace NLaTexMathTests.Examples.Basic;
 
 
@@ -58,30 +56,5 @@ public class Example7 : TestBase
         //TeXFormula formula = new TeXFormula(latex);
         //formula.SetDEBUG(true);
         DoTest(latex, nameof(Example7));
-
-
-        //// Note: Old interface for creating icons:
-        ////TeXIcon icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY, 30, TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT, TeXConstants.UNIT_CM, 0.5f);
-        //// Note: New interface using builder pattern (inner class):
-        //TeXIcon icon = new TeXFormula.TeXIconBuilder()
-        //               .SetStyle(TeXConstants.STYLE_DISPLAY)
-        //               .SetSize(30)
-        //               .SetWidth(TeXConstants.UNIT_CM, 4, TeXConstants.ALIGN_LEFT)
-        //               .setInterLineSpacing(TeXConstants.UNIT_CM, 0.5f)
-        //               .Build();
-
-
-        //icon.
-
-        ////TODO£º
-        ////BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        ////Graphics2D g2 = image.createGraphics();
-        ////g2.setColor(Color.white);
-        ////g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        ////JLabel jl = new JLabel();
-        ////jl.setForeground(new Color(0, 0, 0));
-        ////icon.paintIcon(jl, g2, 0, 0);
-        ////File file = new File("target/Example7.png");
-        ////ImageIO.write(image, "png", file.getAbsoluteFile());
     }
 }

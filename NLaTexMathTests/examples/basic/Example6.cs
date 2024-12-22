@@ -42,8 +42,6 @@
  * version.
  *
  */
-using NLaTexMath;
-
 namespace NLaTexMathTests.Examples.Basic;
 
 

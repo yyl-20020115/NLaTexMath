@@ -112,13 +112,10 @@ public class ExamplesTest
         try
         {
             Console.WriteLine("checking image " + filename);
-            var a = Bitmap.FromFile("src/test/resources/expected/" + filename) as Bitmap;
-            var b = Bitmap.FromFile("target/" + filename) as Bitmap;
+            var a = Image.FromFile("src/test/resources/expected/" + filename) as Bitmap;
+            var b = Image.FromFile("target/" + filename) as Bitmap;
             var distance = Images.Distance(a, b);
             Console.WriteLine("distance=" + distance);
-            // TODO establish a reasonable threshold after running the tests on
-            // different platforms (windows, osx, linux, others?) and different
-            // jdks
             var THRESHOLD = Images.DISTANCE_THRESHOLD;
             Assert.IsTrue(distance >= 0, $"actual and expected images for {filename} are different sizes!");
             Assert.IsTrue(distance <= THRESHOLD,

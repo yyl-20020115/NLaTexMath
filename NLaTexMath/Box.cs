@@ -235,7 +235,6 @@ public abstract class Box(Color fg, Color bg)
      */
     protected void StartDraw(Graphics g, float x, float y)
     {
-
         if (this.background != Color.Empty)
         {
             using var brush = new SolidBrush(this.background);
@@ -257,7 +256,7 @@ public abstract class Box(Color fg, Color bg)
             float scale = 1.0f;
             float s = Math.Abs(1.0f / scale);
             using var brush = new SolidBrush(this.foreground);
-            using var pen = new Pen(brush, (float)(Math.Abs(1/this.scaleX)));
+            using var pen = new Pen(brush, (float)(Math.Abs(1 / this.scaleX)));
             if (width < 0)
             {
                 x += width;
@@ -268,7 +267,7 @@ public abstract class Box(Color fg, Color bg)
             {
                 using var rb = new SolidBrush(Color.Red);
                 using var cb = new SolidBrush(this.foreground);
-                using var fp = new Pen(cb,s);
+                using var fp = new Pen(cb, s);
                 if (depth > 0)
                 {
                     g.FillRectangle(rb, new RectangleF(x, y, width, height));
