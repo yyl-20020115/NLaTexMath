@@ -379,14 +379,13 @@ public class DefaultTeXFont : TeXFont
 
     public Char GetChar(string symbolName, int style)
     {
-        object obj = symbolMappings[(symbolName)];
-        if (obj == null)
+        if (!symbolMappings.TryGetValue(symbolName,out var cf))
         {// no symbol mapping found!
             throw new SymbolMappingNotFoundException(symbolName);
         }
         else
         {
-            return GetChar((CharFont)obj, style);
+            return GetChar(cf, style);
         }
     }
 

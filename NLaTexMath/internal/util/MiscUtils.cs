@@ -6,11 +6,8 @@ namespace NLaTexMath.Internal.Util;
 public static class MiscUtils
 {
     public static double ToDegrees(this double arc) => arc / Math.PI * 180.0;
-    public static Stream GetResourceAsStream(this Type type, string resourceName)
-    {
-        //TODO:
-        return null; 
-    }
+    public static Stream GetResourceAsStream(this Type type, string resourceName) 
+        => type.Assembly.GetManifestResourceStream(resourceName);
 
     public static StringBuilder Replace(this StringBuilder builder, int start,int end, string replace)
     {

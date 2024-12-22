@@ -107,7 +107,7 @@ public class HorizontalBox : Box
         // basic horizontal box
     }
 
-    public HorizontalBox(Color? fg, Color? bg) : base(fg, bg)
+    public HorizontalBox(Color fg, Color bg) : base(fg, bg)
     {
     }
 

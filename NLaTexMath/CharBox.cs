@@ -95,8 +95,8 @@ public class CharBox : Box
             g2.Transform.Scale(size / TeXFormula.FONT_SCALE_FACTOR,
                      size / TeXFormula.FONT_SCALE_FACTOR);
         }
-        using var brush = this.foreground != null
-            ? new SolidBrush(this.foreground.Value)
+        using var brush = this.foreground != Color.Empty
+            ? new SolidBrush(this.foreground)
             : new SolidBrush(Color.Black);
         g2.DrawString(cf.ToString(), font, brush, new PointF());
         g2.Transform = at;

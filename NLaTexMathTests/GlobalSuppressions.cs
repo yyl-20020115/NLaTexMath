@@ -9,3 +9,4 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Interoperability", "CA1416:验证平台兼容性", Justification = "<挂起>", Scope = "member", Target = "~M:NLaTexMathTests.Examples.Basic.TestBase.DoTest(System.String,System.String)")]
 [assembly: SuppressMessage("Interoperability", "CA1416:验证平台兼容性", Justification = "<挂起>", Scope = "member", Target = "~M:NLaTexMathTests.Examples.Basic.Benchmarks.ParseAndRenderLatex~System.Drawing.Bitmap")]
 [assembly: SuppressMessage("Interoperability", "CA1416:验证平台兼容性", Justification = "<挂起>", Scope = "member", Target = "~M:NLaTexMathTests.Examples.Basic.ExamplesFile.Test")]
+[assembly: SuppressMessage("Interoperability", "CA1416:验证平台兼容性", Justification = "<挂起>", Scope = "member", Target = "~M:NLaTexMathTests.Examples.Macros.FooPackage.MyBox.Draw(System.Drawing.Graphics,System.Single,System.Single)")]

@@ -65,7 +65,7 @@ using System.Drawing;
  * {@link #getLastFontId()} method (the last font
  * that will be used when this box will be painted).
  */
-public abstract class Box(Color? fg, Color? bg)
+public abstract class Box(Color fg, Color bg)
 {
 
     public static bool Debug = false;
@@ -76,13 +76,13 @@ public abstract class Box(Color? fg, Color? bg)
      * be used. If it has no parent, the foreground color of the component on which it
      * will be painted, will be used.
      */
-    protected Color? foreground = fg;
+    protected Color foreground = fg;
 
     /**
      * The background color of the whole box. Child boxes can paint a background on top of
      * this background. If it's null, no background will be painted.
      */
-    protected Color? background = bg;
+    protected Color background = bg;
 
     /**
      * The width of this box, i.e. the value that will be used for further
@@ -107,6 +107,9 @@ public abstract class Box(Color? fg, Color? bg)
      * (up, down, left, right)
      */
     protected float shift = 0;
+
+    protected float scaleX = 1.0f;
+    protected float scaleY = 1.0f;
 
     private int type = -1;
 
@@ -147,7 +150,7 @@ public abstract class Box(Color? fg, Color? bg)
      * Creates an empty box (no children) with all dimensions set to 0 and no
      * foreground and background color set (default values will be used: null)
      */
-    protected Box() : this(null, null)
+    protected Box() : this(Color.Empty, Color.Empty)
     {
     }
 
@@ -233,9 +236,9 @@ public abstract class Box(Color? fg, Color? bg)
     protected void StartDraw(Graphics g, float x, float y)
     {
 
-        if (this.background != null)
+        if (this.background != Color.Empty)
         {
-            using var brush = new SolidBrush(this.background.Value);
+            using var brush = new SolidBrush(this.background);
             g.FillRectangle(brush, new RectangleF(x, y - height, width, height + depth));
         }
 
@@ -253,42 +256,30 @@ public abstract class Box(Color? fg, Color? bg)
             }
             float scale = 1.0f;
             float s = Math.Abs(1.0f / scale);
-
+            using var brush = new SolidBrush(this.foreground);
+            using var pen = new Pen(brush, (float)(Math.Abs(1/this.scaleX)));
+            if (width < 0)
+            {
+                x += width;
+                width = -width;
+            }
+            g.DrawRectangle(pen, new RectangleF(x, y - height, width, height + depth));
             if (showDepth)
             {
-
-
+                using var rb = new SolidBrush(Color.Red);
+                using var cb = new SolidBrush(this.foreground);
+                using var fp = new Pen(cb,s);
+                if (depth > 0)
+                {
+                    g.FillRectangle(rb, new RectangleF(x, y, width, height));
+                    g.DrawRectangle(fp, new RectangleF(x, y, width, height));
+                }
+                else if (depth < 0)
+                {
+                    g.FillRectangle(rb, new RectangleF(x, y, width, -depth));
+                    g.DrawRectangle(fp, new RectangleF(x, y, width, -depth));
+                }
             }
-            //TODO:
-            //g2.setStroke(new BasicStroke((float)(Math.Abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            //if (width < 0)
-            //{
-            //    x += width;
-            //    width = -width;
-            //}
-            //g2.draw(new RectangleF(x, y - height, width, height + depth));
-            //if (showDepth)
-            //{
-            //    Color c = g2.getColor();
-            //    g2.setColor(Color.Red);
-            //    if (depth > 0)
-            //    {
-            //        g2.fill(new RectangleF(x, y, width, depth));
-            //        g2.setColor(c);
-            //        g2.draw(new RectangleF(x, y, width, depth));
-            //    }
-            //    else if (depth < 0)
-            //    {
-            //        g2.fill(new RectangleF(x, y + depth, width, -depth));
-            //        g2.setColor(c);
-            //        g2.draw(new RectangleF(x, y + depth, width, -depth));
-            //    }
-            //    else
-            //    {
-            //        g2.setColor(c);
-            //    }
-            //}
-            //g2.setStroke(st);
         }
     }
 

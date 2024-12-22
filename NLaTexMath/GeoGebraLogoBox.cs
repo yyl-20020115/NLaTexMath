@@ -43,6 +43,7 @@
  *
  */
 
+using NLaTexMath.Internal.Util;
 using System.Drawing;
 
 namespace NLaTexMath;
@@ -69,37 +70,29 @@ public class GeoGebraLogoBox : Box
 
     public override void Draw(Graphics g, float x, float y)
     {
-        //TODO:
-        //AffineTransform oldAt = g2.getTransform(); 
-        //Color oldC = g2.getColor();
-        //Stroke oldS = g2.getStroke();
-        //g2.translate(x + 0.25f * height / 2.15f, y - 1.75f / 2.15f * height);
-        //g2.setColor(gray);
-        //g2.setStroke(st);
-        //g2.scale(0.05f * height / 2.15f, 0.05f * height / 2.15f);
-        //g2.rotate(-26 * Math.PI / 180, 20.5, 17.5);
-        //g2.drawArc(0, 0, 43, 32, 0, 360);
-        //g2.rotate(26 * Math.PI / 180, 20.5, 17.5);
-        //g2.setStroke(oldS);
-        //drawCircle(g2, 16f, -5f);
-        //drawCircle(g2, -1f, 7f);
-        //drawCircle(g2, 5f, 28f);
-        //drawCircle(g2, 27f, 24f);
-        //drawCircle(g2, 36f, 3f);
-        //g2.setStroke(oldS);
-        //g2.setTransform(oldAt);
-        //g2.setColor(oldC);
+        var oldAt = g.Transform.Clone();
+        using var pen = new Pen(Color.Gray, 1);
+        g.Transform.Translate(x + 0.25f * height / 2.15f, y - 1.75f / 2.15f * height);
+        g.Transform.Scale(0.05f * height / 2.15f, 0.05f * height / 2.15f);
+        g.Transform.Rotate((float)(-26 * Math.PI / 180).ToDegrees()/*, 20.5, 17.5*/);
+        g.DrawArc(pen,0, 0, 43, 32, 0, 360);
+        g.Transform.Rotate((float)(26 * Math.PI / 180).ToDegrees()/*, 20.5, 17.5*/);
+        DrawCircle(g, 16f, -5f);
+        DrawCircle(g, -1f, 7f);
+        DrawCircle(g, 5f, 28f);
+        DrawCircle(g, 27f, 24f);
+        DrawCircle(g, 36f, 3f);
+        g.Transform = oldAt;
     }
 
     private static void DrawCircle(Graphics g, float x, float y)
     {
-        //TODO:
-        //g2.setColor(blue);
-        //g2.translate(x, y);
-        //g2.fillArc(0, 0, 8, 8, 0, 360);
-        //g2.setColor(Color.Black);
-        //g2.drawArc(0, 0, 8, 8, 0, 360);
-        //g2.translate(-x, -y);
+        using var brush = new SolidBrush(Color.Blue);
+        g.Transform.Translate(x, y);
+        g.FillPie(brush,0, 0, 8, 8, 0, 360);
+        using var pen = new Pen(Color.Black);
+        g.DrawArc(pen,0, 0, 8, 8, 0, 360);
+        g.Transform.Translate(-x, -y);
     }
 
     public override int LastFontId => 0;

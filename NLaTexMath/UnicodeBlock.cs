@@ -47,17 +47,16 @@
 
 namespace NLaTexMath;
 
-public class UnicodeBlock
+public class UnicodeBlock(char start, char end)
 {
-    //TODO:
-    public static readonly UnicodeBlock GREEK;
-    public static readonly UnicodeBlock GREEK_EXTENDED;
-    public static readonly UnicodeBlock CYRILLIC;
-    public static readonly UnicodeBlock BASIC_LATIN;
+    public static readonly UnicodeBlock GREEK = new('\u0370', '\u03ff');
+    public static readonly UnicodeBlock GREEK_EXTENDED = new('\u1f00', '\u1fff');
+    public static readonly UnicodeBlock CYRILLIC = new('\u0400', '\u04ff');
+    public static readonly UnicodeBlock BASIC_LATIN = new('\u0020', '\u007f');
+
+    public readonly char Start = start;
+    public readonly char End = end;
 
     public static UnicodeBlock Of(char v)
-    {
-        //TODO: 
-        throw new NotImplementedException();
-    }
+        => new(v, v);
 }

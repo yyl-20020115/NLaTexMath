@@ -224,8 +224,8 @@ public class JLaTeXMathCache
 
     private static WeakReference<CachedImage> MakeImage(CachedTeXFormula cached)
     {
-        TeXFormula formula = new TeXFormula(cached.f);
-        TeXIcon icon = formula.CreateTeXIcon(cached.style, cached.size, cached.type, cached.fgcolor);
+        var formula = new TeXFormula(cached.f);
+        var icon = formula.CreateTeXIcon(cached.style, cached.size, cached.type, cached.fgcolor);
         icon.Insets = new Insets(cached.inset, cached.inset, cached.inset, cached.inset);
         using var image = new Bitmap(icon.IconWidth, icon.IconHeight);
         using var g2 = Graphics.FromImage(image);
@@ -233,29 +233,27 @@ public class JLaTeXMathCache
 
         cached.SetDimensions(icon.IconWidth, icon.IconHeight, icon.IconDepth);
         var img = new WeakReference<CachedImage>(new CachedImage(image, cached));
-        //TODO:
-        //if (cache.Count >= max)
-        //{
-        //    WeakReference<CachedImage> soft;
-        //    while (queue.TryDequeue(out soft))
-        //    {
-        //        if (soft.TryGetTarget(out var ci))
-        //        {
-        //            cache.Remove(ci.cachedTf);
-        //        }
-        //    }
-        //    Iterator<CachedTeXFormula> iter = cache.keySet().iterator();
-        //    if (iter.hasNext())
-        //    {
-        //        CachedTeXFormula c = iter.next();
-        //        if (cache.TryGetValue(out var cachedImage))
-        //        {
-        //            cachedImage.SetTarget(null);
-        //        }
-        //        cache.Remove(c);
-        //    }
-        //}
-        //cache.TryAdd(cached, img);
+        if (cache.Count >= max)
+        {
+            while (queue.TryDequeue(out var soft))
+            {
+                if (soft.TryGetTarget(out var ci))
+                {
+                    cache.TryRemove(ci.cachedTf, out var _);
+                }
+            }
+            var iter = cache.Keys.GetEnumerator();
+            if (iter.MoveNext())
+            {
+                var c = iter.Current;
+                if (cache.TryGetValue(c,out var cachedImage))
+                {
+                    cachedImage.SetTarget(null);
+                }
+                cache.TryRemove(c,out var _);
+            }
+        }
+        cache.TryAdd(cached, img);
         return img;
     }
 

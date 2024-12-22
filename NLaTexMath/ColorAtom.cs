@@ -54,13 +54,13 @@ namespace NLaTexMath;
 public class ColorAtom : Atom, Row
 {
 
-    public static Dictionary<string, Color> Colors = [];
+    public readonly static Dictionary<string, Color> Colors = [];
 
     // background color
-    private readonly Color? background;
+    private readonly Color background;
 
     // foreground color
-    private readonly Color? color;
+    private readonly Color color;
 
     // RowAtom for which the colorsettings apply
     private readonly RowAtom elements;
@@ -78,7 +78,7 @@ public class ColorAtom : Atom, Row
      * @param bg the background color
      * @param c the foreground color
      */
-    public ColorAtom(Atom atom, Color? bg, Color? c)
+    public ColorAtom(Atom atom, Color bg, Color c)
     {
         elements = new RowAtom(atom);
         background = bg;
@@ -94,20 +94,20 @@ public class ColorAtom : Atom, Row
      * @param old the ColorAtom for which the colorsettings should be overriden with the
      *                  given colors.
      */
-    public ColorAtom(Color? bg, Color? c, ColorAtom old)
+    public ColorAtom(Color bg, Color c, ColorAtom old)
     {
         elements = new RowAtom(old.elements);
-        background = (bg == null ? old.background : bg);
-        color = (c == null ? old.color : c);
+        background = (bg == Color.Empty ? old.background : bg);
+        color = (c == Color.Empty ? old.color : c);
     }
 
     public override Box CreateBox(TeXEnvironment env)
     {
         env.isColored = true;
         var copy = env.Copy();
-        if (background != null)
+        if (background != Color.Empty)
             copy.Background = background;
-        if (color != null)
+        if (color != Color.Empty)
             copy.Color = color;
         return elements.CreateBox(copy);
     }

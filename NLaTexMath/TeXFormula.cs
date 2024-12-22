@@ -1041,7 +1041,9 @@ public partial class TeXFormula
     {
         if (c != Color.Empty)
         {
-            root = root is ColorAtom atom ? new ColorAtom(c, null, atom) : (Atom)new ColorAtom(root, c, null);
+            root = root is ColorAtom atom 
+                ? new ColorAtom(atom, c, Color.Empty) 
+                : new ColorAtom(root, c, Color.Empty);
         }
         return this;
     }
@@ -1060,8 +1062,7 @@ public partial class TeXFormula
      */
     public TeXFormula SetColor(Color c)
     {
-
-        root = root is ColorAtom atom ? new ColorAtom(null, c, atom) : (Atom)new ColorAtom(root, null, c);
+        root = root is ColorAtom atom ? new ColorAtom(atom, c, Color.Empty) : (Atom)new ColorAtom(root, Color.Empty, c);
 
         return this;
     }

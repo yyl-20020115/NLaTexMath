@@ -57,7 +57,8 @@ public class FBoxAtom : Atom
 
     // base atom
     protected readonly Atom Base;
-    protected Color? bg, line;
+    protected Color bg;
+    protected Color line;
 
     public FBoxAtom(Atom Base)
     {
@@ -81,7 +82,7 @@ public class FBoxAtom : Atom
         var bbase = Base.CreateBox(env);
         float drt = env.TeXFont.GetDefaultRuleThickness(env.Style);
         float space = INTERSPACE * SpaceAtom.GetFactor(TeXConstants.UNIT_EM, env);
-        if (bg == null)
+        if (bg == Color.Empty)
         {
             return new FramedBox(bbase, drt, space);
         }

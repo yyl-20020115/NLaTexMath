@@ -111,23 +111,19 @@ public class FooPackage
         {
             var t = g.Transform.Clone();
             g.Transform.Translate(x, y - height);
-            //g.Transform.Scale(Math.Abs(1 / t.ScaleX()), Math.Abs(1 / t.ScaleY));
-            //TODO:
-            //Color old = g2.getColor();
-            //g2.setColor(Color.RED);
-            //AffineTransform oldAt = g2.getTransform();
-            //g2.translate(x, y - height);
-            //g2.scale(Math.abs(1 / oldAt.getScaleX()), Math.abs(1 / oldAt.getScaleY()));
-            //if (filled)
-            //{
-            //    g2.fillOval(0, 0, r, r);
-            //}
-            //else
-            //{
-            //    g2.drawOval(0, 0, r, r);
-            //}
-            //g2.setColor(old);
-            //g2.setTransform(oldAt);
+            g.Transform.Scale(Math.Abs(1.0f / this.scaleX), Math.Abs(1.0f / this.scaleY));
+
+            using var brush = new SolidBrush(this.foreground);
+            if (filled)
+            {
+                g.FillEllipse(brush, new RectangleF(0, 0, r, r));
+            }
+            else
+            {
+                using var pen = new Pen(brush);
+                g.DrawEllipse(pen, new RectangleF(0, 0, r, r));
+            }
+            g.Transform = t;
         }
 
         public override int LastFontId => 0;

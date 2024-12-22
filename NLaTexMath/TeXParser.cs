@@ -1318,7 +1318,7 @@ public class TeXParser
                 }
                 else
                 {
-                    return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int)c) + ")}").root), null, Color.Red);
+                    return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int)c) + ")}").root), Color.Empty, Color.Red);
                 }
             }
             else
@@ -1440,7 +1440,7 @@ public class TeXParser
         }
         else
         {
-            return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null, Color.Red);
+            return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), Color.Empty, Color.Red);
         }
     }
 
@@ -1613,7 +1613,7 @@ public class TeXParser
 
         if (NewCommandMacro.IsMacro(command))
         {
-            string ret = (string)mac.Invoke(this, args);
+            var ret = mac.Invoke(this, args) as string;
             Insert(spos, pos, ret);
             return null;
         }

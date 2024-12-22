@@ -70,26 +70,23 @@ public class FcscoreBox : Box
 
     public override void Draw(Graphics g2, float x, float y)
     {
-        //TODO:
-        //var transf = g2.Transform.Clone();
+        var transf = g2.Transform.Clone();
 
-        //double sx = transf.getScaleX();
-        //double sy = transf.getScaleY();
-        //double s = 1;
-        //if (sx == sy)
-        //{
-        //    // There are rounding problems due to scale factor: lines could have different
-        //    // spacing...
-        //    // So the increment (space+thickness) is done in using integer.
-        //    s = sx;
-        //    AffineTransform t = (AffineTransform)transf.Clone();
-        //    t.scale(1 / sx, 1 / sy);
-        //    g2.setTransform(t);
-        //}
-
+        float sx = this.scaleX;
+        float sy = this.scaleY;
+        double s = 1;
+        if (sx == sy)
+        {
+            // There are rounding problems due to scale factor: lines could have different
+            // spacing...
+            // So the increment (space+thickness) is done in using integer.
+            s = sx;
+            g2.Transform.Scale(1.0f / sx, 1.0f / sy);
+        }
+        
         //g2.setStroke(new BasicStroke((float)(s * thickness), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         //float th = thickness / 2.0f;
-        //Line line = new Line();
+
         //float xx = x + space;
         //xx = (float)(xx * s + (space / 2.0f) * s);
         //int inc = (int)Math.Round((space + thickness) * s);
@@ -103,12 +100,10 @@ public class FcscoreBox : Box
 
         //if (strike)
         //{
-        //    line.setLine((x + space) * s, (y - height / 2.f) * s, xx - s * space / 2, (y - height / 2.f) * s);
+        //    line.setLine((x + space) * s, (y - height / 2.0f) * s, xx - s * space / 2, (y - height / 2.0f) * s);
         //    g2.draw(line);
         //}
-
-        //g2.setTransform(transf);
-        //g2.setStroke(oldStroke);
+        //g2.Transform = transf;
     }
 
     public override int LastFontId => TeXFont.NO_FONT;

@@ -85,30 +85,30 @@ public class NewCommandMacro
 
     public string ExecuteMacro(TeXParser tp, string[] args)
     {
-        string code = macrocode[(args[0])];
+        var code = macrocode.TryGetValue(args[0],out var v)?v:"";
         string rep;
         int nbargs = args.Length - 11;
         int dec = 0;
 
-        //TODO: 
-        //if (args[nbargs + 1] != null)
-        //{
-        //    dec = 1;
-        //    rep = Matcher.quoteReplacement(args[nbargs + 1]);
-        //    code = code.replaceAll("#1", rep);
-        //}
-        //else if (macroreplacement[(args[0])] != null)
-        //{
-        //    dec = 1;
-        //    rep = Matcher.quoteReplacement(macroreplacement.Get(args[0]));
-        //    code = code.replaceAll("#1", rep);
-        //}
+        //WHAT: 
+        if (args[nbargs + 1] != null)
+        {
+            dec = 1;
+            //rep = Matcher.quoteReplacement(args[nbargs + 1]);
+            //code = code.replaceAll("#1", rep);
+        }
+        else if (macroreplacement[(args[0])] != null)
+        {
+            dec = 1;
+            //rep = Matcher.quoteReplacement(macroreplacement.Get(args[0]));
+            //code = code.replaceAll("#1", rep);
+        }
 
-        //for (int i = 1; i <= nbargs; i++)
-        //{
-        //    rep = Matcher.quoteReplacement(args[i]);
-        //    code = code.replaceAll("#" + (i + dec), rep);
-        //}
+        for (int i = 1; i <= nbargs; i++)
+        {
+            //rep = Matcher.quoteReplacement(args[i]);
+            //code = code.replaceAll("#" + (i + dec), rep);
+        }
 
         return code;
     }

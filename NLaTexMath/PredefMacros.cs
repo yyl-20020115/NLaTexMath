@@ -1149,7 +1149,7 @@ public class PredefMacros
         TeXFormula tf = new TeXFormula("\\mathbb{G}\\mathsf{e}");
         tf.Add(new GeoGebraLogoAtom());
         tf.Add("\\mathsf{Gebra}");
-        return new ColorAtom(tf.root, null, Color.FromArgb(102, 102, 102));
+        return new ColorAtom(tf.root, Color.Empty, Color.FromArgb(102, 102, 102));
     }
 
     public static Atom hphantom_macro(TeXParser tp, string[] args)
@@ -1403,7 +1403,7 @@ public class PredefMacros
     {
         try
         {
-            return new ColorAtom(new TeXFormula(tp, args[2]).root, null, ColorAtom.GetColor(args[1]));
+            return new ColorAtom(new TeXFormula(tp, args[2]).root, Color.Empty, ColorAtom.GetColor(args[1]));
         }
         catch (Exception e)
         {
@@ -1415,7 +1415,7 @@ public class PredefMacros
     {
         try
         {
-            return new ColorAtom(new TeXFormula(tp, args[2]).root, ColorAtom.GetColor(args[1]), null);
+            return new ColorAtom(new TeXFormula(tp, args[2]).root, ColorAtom.GetColor(args[1]), Color.Empty);
         }
         catch (Exception e)
         {
@@ -1424,7 +1424,7 @@ public class PredefMacros
     }
 
     public static Atom textcolor_macro(TeXParser tp, string[] args)
-    => new ColorAtom(new TeXFormula(tp, args[2]).root, null, ColorAtom.GetColor(args[1]));
+    => new ColorAtom(new TeXFormula(tp, args[2]).root, Color.Empty, ColorAtom.GetColor(args[1]));
 
     public static Atom colorbox_macro(TeXParser tp, string[] args)
     {

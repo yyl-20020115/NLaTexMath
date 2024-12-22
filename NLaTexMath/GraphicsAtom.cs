@@ -64,28 +64,9 @@ public class GraphicsAtom : Atom
 
     public GraphicsAtom(string path, string option)
     {
-        if (!File.Exists(path))
+        if (File.Exists(path))
         {
-        }
-        else
-        {
-            image = Bitmap.FromFile(path);
-        }
-
-        if (image != null)
-        {
-            //TODO:
-            //c = new Label();
-            //MediaTracker tracker = new MediaTracker(c);
-            //tracker.addImage(image, 0);
-            //try
-            //{
-            //    tracker.waitForID(0);
-            //}
-            //catch (InterruptedException e)
-            //{
-            //    image = null;
-            //}
+            image = Image.FromFile(path);
         }
         Draw();
         BuildAtom(option);

@@ -113,7 +113,7 @@ public class JavaFontRenderingBox : Box
         var t = g.Transform.Clone();
         g.Transform.Translate(x, y);
         g.Transform.Scale(0.1f * size, 0.1f * size);
-        //TODO:
+        //NOTICE:
         //text.draw(g, 0, 0);
         g.Transform.Scale(10 / size, 10 / size);
         g.Transform.Translate(-x, -y);

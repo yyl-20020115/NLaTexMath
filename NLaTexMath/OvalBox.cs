@@ -59,9 +59,9 @@ public class OvalBox(FramedBox fbox) : FramedBox(fbox.box, fbox.thickness, fbox.
         //g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         float th = thickness / 2;
         float r = 0.5f * Math.Min(width - thickness, height + depth - thickness);
-        //TODO:how to use round angle
-        using var brush = new SolidBrush(this.foreground != null ? this.foreground.Value : Color.Black);
-        using var pen = new Pen(brush);
+        //NOTICE:how to use round angle
+        using var brush = new SolidBrush(this.foreground != Color.Empty ? this.foreground : Color.Black);
+        using var pen = new Pen(brush, thickness);
         g.DrawRectangle(pen, new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
         //drawDebug(g2, x, y);
     }

@@ -58,7 +58,8 @@ using System.Drawing;
 public class TeXEnvironment
 {
     // colors
-    private Color? background, color;
+    private Color background;
+    private Color color;
 
     // current style
     private int style = TeXConstants.STYLE_DISPLAY;
@@ -88,7 +89,7 @@ public class TeXEnvironment
         this.textwidth = textwidth * SpaceAtom.GetFactor(widthUnit, this);
     }
 
-    private TeXEnvironment(int style, TeXFont tf, Color? bg, Color? c)
+    private TeXEnvironment(int style, TeXFont tf, Color bg, Color c)
     {
         this.style = style;
         this.tf = tf;
@@ -97,7 +98,7 @@ public class TeXEnvironment
         SetInterline(TeXConstants.UNIT_EX, 1f);
     }
 
-    private TeXEnvironment(int style, float scaleFactor, TeXFont tf, Color? bg, Color? c, string textStyle, bool smallCap)
+    private TeXEnvironment(int style, float scaleFactor, TeXFont tf, Color bg, Color c, string textStyle, bool smallCap)
     {
         this.style = style;
         this.scaleFactor = scaleFactor;
@@ -168,7 +169,7 @@ public class TeXEnvironment
  *
  * @param c the background color to be set
  */
-    public Color? Background { get => background; set => background = value; }
+    public Color Background { get => background; set => background = value; }
 
     /**
      *
@@ -178,7 +179,7 @@ public class TeXEnvironment
  *
  * @param c the foreground color to be set
  */
-    public Color? Color { get => color; set => color = value; }
+    public Color Color { get => color; set => color = value; }
 
     /**
      *
@@ -228,8 +229,8 @@ public class TeXEnvironment
      */
     public void Reset()
     {
-        color = null;
-        background = null;
+        color = Color.Empty;
+        background = Color.Empty;
     }
 
     /**
