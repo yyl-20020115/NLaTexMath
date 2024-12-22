@@ -74,14 +74,8 @@ namespace NLaTexMath;
  * TeXFormula arguments of these methods will remain unchanged and independent of
  * this TeXFormula object!</b>
  */
-public class TeXFormula
+public partial class TeXFormula
 {
-    public class FontInfos(string sansserif, string serif)
-    {
-
-        public readonly string sansserif = sansserif;
-        public readonly string serif = serif;
-    }
 
     public static readonly string VERSION = "1.0.3";
 

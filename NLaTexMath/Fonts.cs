@@ -43,11 +43,13 @@
  *
  */
 
+using System.Drawing;
+
 namespace NLaTexMath;
 
 public class Fonts
 {
-    public static int PLAIN { get; internal set; }
-    public static int BOLD { get; internal set; }
-    public static int ITALIC { get; internal set; }
+    public const FontStyle PLAIN = FontStyle.Regular;
+    public const FontStyle BOLD = FontStyle.Bold;
+    public const FontStyle ITALIC = FontStyle.Italic;
 }

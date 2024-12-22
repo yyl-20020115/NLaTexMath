@@ -55,58 +55,57 @@ public class JavaFontRenderingBox : Box
 
     //private static readonly Graphics TEMPGRAPHIC = new Bitmap(1, 1).createGraphics();
 
-    //TODO: 
-    private static Font font = null;// new Font("Serif", Font.PLAIN, 10);
+    public static Font DefaultFont { get; protected set; } = new Font("Serif",10.0f, Fonts.PLAIN);
+
+    public static void SetFont(string name) => DefaultFont = new Font(name, 10, Fonts.PLAIN);
 
     //private TextLayout text;
-    private float size;
-    private static TextAttribute KERNING;
-    private static TextAttribute LIGATURES;
+    private readonly float size;
+    //private static TextAttribute KERNING;
+    //private static TextAttribute LIGATURES;
     private static int KERNING_ON;
     private static int LIGATURES_ON;
 
     static JavaFontRenderingBox()
     {
-        try
-        { // to avoid problems with Java 1.5
-            //KERNING = (TextAttribute) (TextAttribute..getField("KERNING").Get(TextAttribute.));
-            //KERNING_ON = (int) (TextAttribute..getField("KERNING_ON").Get(TextAttribute.));
-            //LIGATURES = (TextAttribute) (TextAttribute..getField("LIGATURES").Get(TextAttribute.));
-            //LIGATURES_ON = (int) (TextAttribute..getField("LIGATURES_ON").Get(TextAttribute.));
-        }
-        catch (Exception e) { }
+        //try
+        //{ // to avoid problems with Java 1.5
+        //    //KERNING = (TextAttribute) (TextAttribute..getField("KERNING").Get(TextAttribute.));
+        //    //KERNING_ON = (int) (TextAttribute..getField("KERNING_ON").Get(TextAttribute.));
+        //    //LIGATURES = (TextAttribute) (TextAttribute..getField("LIGATURES").Get(TextAttribute.));
+        //    //LIGATURES_ON = (int) (TextAttribute..getField("LIGATURES_ON").Get(TextAttribute.));
+        //}
+        //catch (Exception e) { }
     }
 
-    public JavaFontRenderingBox(string str, int type, float size, Font f, bool kerning)
+    public JavaFontRenderingBox(string str, FontStyle type, float size, Font f, bool kerning)
     {
         this.size = size;
 
-        if (kerning && KERNING != null)
-        {
-            Dictionary<TextAttribute, object> map = new();
-            map.Add(KERNING, KERNING_ON);
-            map.Add(LIGATURES, LIGATURES_ON);
-            //f = f.deriveFont(map);
-        }
-
+        //if (kerning && KERNING != null)
+        //{
+        //    Dictionary<TextAttribute, object> map = new()
+        //    {
+        //        { KERNING, KERNING_ON },
+        //        { LIGATURES, LIGATURES_ON }
+        //    };
+        //    //f = f.deriveFont(map);
+        //}
         //this.text = new TextLayout(str, f.deriveFont(type), TEMPGRAPHIC.getFontRenderContext());
         //RectangleF rect = text.getBounds();
-        RectangleF rect=new();
+
+
+        RectangleF rect = new();
         this.height = (float)(-rect.Y * size / 10.0f);
         this.depth = (float)(rect.Height * size / 10) - this.height;
         this.width = (float)((rect.Width + rect.X + 0.4f) * size / 10);
     }
 
-    public JavaFontRenderingBox(string str, int type, float size)
-    : this(str, type, size, font, true)
+    public JavaFontRenderingBox(string str, FontStyle type, float size)
+    : this(str, type, size, DefaultFont, true)
     {
     }
 
-    public static void SetFont(string name)
-    {
-        //TODO:
-        //font = new Font(name, Fonts.PLAIN, 10);
-    }
 
     public override void Draw(Graphics g, float x, float y)
     {
