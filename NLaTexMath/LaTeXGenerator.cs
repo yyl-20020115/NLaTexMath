@@ -12,17 +12,12 @@ public static class LaTeXGenerator
     {
         var tf = new TeXFormula(formula);
         var ti = tf.CreateTeXIcon(TeXConstants.STYLE_DISPLAY, 40);
-        var bitmap = new Bitmap(ti.IconWidth, ti.IconHeight);
+        using var bitmap = new Bitmap(ti.IconWidth, ti.IconHeight);
 
-        using var g2d = Graphics.FromImage(bitmap);
-
-        //TODO:  
-        //g2d.setColor(Color.White);
-        //g2d.fillRect(0, 0, ti.getIconWidth(), ti.getIconHeight());
-        
-        //jl.setForeground(new Color());
-        //ti.paintIcon(jl, g2d, 0, 0);
-
+        using var g = Graphics.FromImage(bitmap);
+        using var b = new SolidBrush(Color.White);
+        g.FillRectangle(b, new RectangleF(0, 0, ti.IconWidth, ti.IconHeight));
+        ti.PaintIcon(g, 0, 0);
         bitmap.Save(path);
     }
 }

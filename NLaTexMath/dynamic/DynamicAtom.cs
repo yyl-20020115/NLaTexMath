@@ -43,7 +43,7 @@
  *
  */
 
-namespace NLaTexMath.dynamic;
+namespace NLaTexMath.Dynamic;
 
 /**
  * This kind of atom is used to have a dynamic content
@@ -86,7 +86,7 @@ public class DynamicAtom : Atom
     {
         if (!refreshed)
         {
-            formula.setLaTeX(converter.GetLaTeXString(externalCode));
+            formula.SetLaTeX(converter.GetLaTeXString(externalCode));
             refreshed = true;
         }
 
@@ -103,7 +103,7 @@ public class DynamicAtom : Atom
             }
             else
             {
-                formula.setLaTeX(converter.GetLaTeXString(externalCode));
+                formula.SetLaTeX(converter.GetLaTeXString(externalCode));
             }
             if (formula.root != null)
             {

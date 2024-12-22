@@ -43,6 +43,9 @@
  *
  */
 using NLaTexMath;
+using NLaTexMath.Internal.Util;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace NLaTexMathTests.Examples.Macros;
 
@@ -57,10 +60,9 @@ public class FooPackageTest
     [TestMethod]
     public void TestUseCustomPackage()
     {
-        //TODO:
-        //InputStream _is = FooPackageTest.getResourceAsStream("/Package_Foo.xml");
-        //assertNotNull(_is);
-        //TeXFormula.addPredefinedCommands(_is);
+        var stream = typeof(FooPackageTest).GetResourceAsStream("/Package_Foo.xml");
+        Assert.IsNotNull(stream);
+        TeXFormula.AddPredefinedCommands(stream);
         var latex = "\\begin{array}{l}";
         latex += "\\fooA{\\pi}{C}\\\\";
         latex += "\\mbox{A red circle }\\fooB{75.3}\\\\";
@@ -68,25 +70,17 @@ public class FooPackageTest
         latex += "\\mbox{An other red circle }\\fooD{159.81}[ab]";
         latex += "\\end{array}";
 
-        TeXFormula formula = new TeXFormula(latex);
-        //TeXIcon icon = formula.CreateTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
-        //icon.Insets = new Insets(5, 5, 5, 5);
+        var formula = new TeXFormula(latex);
+        var icon = formula.CreateTeXIcon(TeXConstants.STYLE_DISPLAY, 20);
+        icon.Insets = new Insets(5, 5, 5, 5);
 
-        //BufferedImage image = new BufferedImage(icon.GetIconWidth(), icon.GetIconHeight(),
-        //                                        BufferedImage.TYPE_INT_ARGB);
-        //Graphics2D g2 = image.createGraphics();
-        //g2.setColor(Color.white);
-        //g2.fillRect(0, 0, icon.GetIconWidth(), icon.GetIconHeight());
-        //JLabel jl = new JLabel();
-        //jl.setForeground(new Color(0, 0, 0));
-        //icon.paintIcon(jl, g2, 0, 0);
-        //File file = new File("target/ExampleMacros.png");
-        //try
-        //{
-        //    ImageIO.write(image, "png", file.getAbsoluteFile());
-        //}
-        //catch (IOException ex)
-        //{
-        //}
+        var image = new Bitmap(icon.IconWidth, icon.IconHeight);
+        using var g = Graphics.FromImage(image);
+        using var brush = new SolidBrush(Color.White);
+        g.FillRectangle(brush, 0, 0, icon.IconWidth, icon.IconHeight);
+
+        icon.PaintIcon(g, 0, 0);
+        string file = ("target/ExampleMacros.png");
+        image.Save(file, ImageFormat.Png);
     }
 }

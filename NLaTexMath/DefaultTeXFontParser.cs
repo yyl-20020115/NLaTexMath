@@ -45,7 +45,7 @@
  */
 
 /* Modified by Calixte Denizet */
-using NLaTexMath.Internal.util;
+using NLaTexMath.Internal.Util;
 using System.Drawing;
 using System.Reflection;
 using System.Xml.Linq;

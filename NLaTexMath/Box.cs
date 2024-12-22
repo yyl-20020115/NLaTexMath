@@ -65,7 +65,7 @@ using System.Drawing;
  * {@link #getLastFontId()} method (the last font
  * that will be used when this box will be painted).
  */
-public abstract class Box
+public abstract class Box(Color? fg, Color? bg)
 {
 
     public static bool DEBUG = false;
@@ -76,13 +76,13 @@ public abstract class Box
      * be used. If it has no parent, the foreground color of the component on which it
      * will be painted, will be used.
      */
-    protected Color? foreground;
+    protected Color? foreground = fg;
 
     /**
      * The background color of the whole box. Child boxes can paint a background on top of
      * this background. If it's null, no background will be painted.
      */
-    protected Color? background;
+    protected Color? background = bg;
 
     /**
      * The width of this box, i.e. the value that will be used for further
@@ -116,7 +116,7 @@ public abstract class Box
     public List<Box> Children = [];
     protected Box? parent;
     protected Box? elderParent;
-    protected Color? markForDEBUG;
+    protected Color? debugMark;
 
     /**
      * Inserts the given box at the end of the list of child boxes.
@@ -149,20 +149,6 @@ public abstract class Box
      */
     protected Box() : this(null, null)
     {
-    }
-
-    /**
-     * Creates an empty box (no children) with all dimensions set to 0 and sets
-     * the foreground and background color of the box.
-     *
-     * @param fg the foreground color
-     * @param bg the background color
-     */
-    protected Box(Color? fg, Color? bg)
-    {
-        foreground = fg;
-        background = bg;
-        //this.prevColor = fg;
     }
 
     public Box? Parent { get => parent; set => this.parent = value; }
@@ -244,41 +230,36 @@ public abstract class Box
      * @param x the x-coordinate
      * @param y the y-coordinate
      */
-    protected void StartDraw(Graphics g2, float x, float y)
+    protected void StartDraw(Graphics g, float x, float y)
     {
-        //TODO: 
 
-        // old color
-        //prevColor = g2.getColor();
-        //if (background != null)
-        //{ // draw background
-        //    g2.setColor(background);
-        //    g2.fill(new RectangleF(x, y - height, width, height + depth));
-        //}
-        //if (foreground == null)
-        //{
-        //    g2.setColor(prevColor); // old foreground color
-        //}
-        //else
-        //{
-        //    g2.setColor(foreground); // overriding foreground color
-        //}
-        //DrawDebug(g2, x, y);
+        if (this.background != null)
+        {
+            using var brush = new SolidBrush(this.background.Value);
+            g.FillRectangle(brush, new RectangleF(x, y - height, width, height + depth));
+        }
+
+        this.DrawDebug(g, x, y);
     }
 
-    protected void DrawDebug(Graphics g2, float x, float y, bool showDepth)
+    public void DrawDebug(Graphics g, float x, float y, bool showDepth = true)
     {
         if (DEBUG)
         {
+            if (this.debugMark != null)
+            {
+                using var b = new SolidBrush(this.debugMark.Value);
+                g.FillRectangle(b, new RectangleF(x, y - height, width, height + depth));
+            }
+            float scale = 1.0f;
+            float s = Math.Abs(1.0f / scale);
+
+            if (showDepth)
+            {
+
+
+            }
             //TODO:
-            //Stroke st = g2.getStroke();
-            //if (markForDEBUG != null)
-            //{
-            //    Color c = g2.getColor();
-            //    g2.setColor(markForDEBUG);
-            //    g2.fill(new RectangleF(x, y - height, width, height + depth));
-            //    g2.setColor(c);
-            //}
             //g2.setStroke(new BasicStroke((float)(Math.Abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             //if (width < 0)
             //{
@@ -311,23 +292,12 @@ public abstract class Box
         }
     }
 
-    protected void DrawDebug(Graphics g2, float x, float y)
-    {
-        if (DEBUG)
-        {
-            DrawDebug(g2, x, y, true);
-        }
-    }
-
     /**
      * Restores the previous color setting.
      *
      * @param g2 the graphics (2D) context
      */
-    protected void EndDraw(Graphics g2)
+    protected void EndDraw(Graphics g)
     {
-        //TODO:
-
-        //g2.setColor(prevColor);
     }
 }

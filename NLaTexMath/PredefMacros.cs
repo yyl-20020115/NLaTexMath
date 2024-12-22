@@ -43,7 +43,7 @@
  *
  */
 
-using NLaTexMath.dynamic;
+using NLaTexMath.Dynamic;
 using System.Drawing;
 using System.Text;
 
@@ -165,7 +165,6 @@ public class PredefMacros
 
     public static Atom Set_macro(TeXParser tp, string[] args)
     {
-        //TODO:
         var str = args[1].Replace
             ("\\|", "\\\\middle\\\\vert ");
         return new TeXFormula(tp, "\\left\\{" + str + "\\right\\}").root;
@@ -551,7 +550,7 @@ public class PredefMacros
 
     public static Atom Accentbis_macros(TeXParser tp, string[] args)
     {
-        var acc = (args.Length>0 && args[0].Length>0 ? args[0][0] :' ') switch
+        var acc = (args.Length > 0 && args[0].Length > 0 ? args[0][0] : ' ') switch
         {
             '~' => "tilde",
             '\'' => "acute",
@@ -1366,39 +1365,38 @@ public class PredefMacros
 
     public static Atom definecolor_macro(TeXParser tp, string[] args)
     {
-        ///TODO: 
-        //Color? color = null;
-        //if ("gray" == (args[2]))
-        //{
-        //    float f = float.TryParse(args[3], out var u) ? u : 0;
-        //    color = Color.FromArgb((int)f, (int)f, (int)f);
-        //}
-        //else if ("rgb" == (args[2]))
-        //{
-        //    StringTokenizer stok = new StringTokenizer(args[3], ";,");
-        //    if (stok.countTokens() != 3)
-        //        throw new ParseException("The color definition must have three components !");
-        //    float r = float.parseFloat(stok.nextToken().Trim());
-        //    float g = float.parseFloat(stok.nextToken().Trim());
-        //    float b = float.parseFloat(stok.nextToken().Trim());
-        //    color = Color.FromArgb(r, g, b);
-        //}
-        //else if ("cmyk" == (args[2]))
-        //{
-        //    StringTokenizer stok = new StringTokenizer(args[3], ",;");
-        //    if (stok.countTokens() != 4)
-        //        throw new ParseException("The color definition must have four components !");
-        //    float[] cmyk = new float[4];
-        //    for (int i = 0; i < 4; i++)
-        //        cmyk[i] = float.parseFloat(stok.nextToken().Trim());
-        //    float k = 1 - cmyk[3];
-        //    color = Color.FromArgb(k * (1 - cmyk[0]), k * (1 - cmyk[1]), k * (1 - cmyk[2]));
-        //}
-        //else
-        //    throw new ParseException("The color model is incorrect !");
+        var color = Color.Empty;
+        if ("gray".Equals(args[2], StringComparison.CurrentCultureIgnoreCase))
+        {
+            float f = float.TryParse(args[3], out var u) ? u : 0;
+            color = Color.FromArgb((int)f, (int)f, (int)f);
+        }
+        else if ("rgb" == (args[2]))
+        {
+            var stok = args[3].Split(',', ';');
+            if (stok.Length != 3)
+                throw new ParseException("The color definition must have three components !");
+            float r = float.TryParse(stok[0].Trim(), out var v1) ? v1 : 0;
+            float g = float.TryParse(stok[1].Trim(), out var v2) ? v2 : 0;
+            float b = float.TryParse(stok[2].Trim(), out var v3) ? v3 : 0;
+            color = Color.FromArgb((int)r * 255, (int)g * 255, (int)b * 255);
+        }
+        else if ("cmyk" == (args[2]))
+        {
+            var stok = args[3].Split(',', ';');
+            if (stok.Length != 4)
+                throw new ParseException("The color definition must have four components !");
+            float[] cmyk = new float[4];
+            for (int i = 0; i < 4; i++)
+                cmyk[i] = float.TryParse(stok[0].Trim(), out var v1) ? v1 : 0;
+            float k = 1 - cmyk[3];
+            color = Color.FromArgb((int)(255*k * (1 - cmyk[0])), (int)(k * (1 - cmyk[1])),(int)(k * (1 - cmyk[2])));
+        }
+        else
+            throw new ParseException("The color model is incorrect !");
 
-        //ColorAtom.Colors.Add(args[1], color);
-        return null;
+        ColorAtom.Colors.Add(args[1], color);
+        return new ColorAtom(null,color,color);
     }
 
     public static Atom fgcolor_macro(TeXParser tp, string[] args)

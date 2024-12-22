@@ -43,9 +43,15 @@
  *
  */
 
+using System.Drawing;
+
 namespace NLaTexMath.cache;
  
 public class AffineTransform
 {
-    //TODO: 
+    public static readonly AffineTransform Identity = new();
+
+    public float Scale = 1.0f;
+    public float Rotation = 0.0f;
+    public PointF Translate = new(0, 0);
 }

@@ -114,7 +114,7 @@ public class TeXFormula
     public List<MiddleAtom> middle = [];
 
     public Dictionary<string, string> jlmXMLMap;
-    private TeXParser parser;
+    private readonly TeXParser parser;
 
     static TeXFormula()
     {
@@ -134,8 +134,6 @@ public class TeXFormula
             DefaultTeXFont.RegisterAlphabet((AlphabetRegistration)Type.GetType("NLaTexMath.greek.GreekRegistration").GetConstructor([]).Invoke([]));
         }
         catch (Exception e) { }
-
-        //setDefaultDPI();
     }
 
     public static void AddSymbolMappings(string file)
@@ -154,7 +152,7 @@ public class TeXFormula
 
     public static void AddSymbolMappings(Stream _in, string name)
     {
-        TeXFormulaSettingsParser tfsp = new TeXFormulaSettingsParser(_in, name);
+        var tfsp = new TeXFormulaSettingsParser(_in, name);
         tfsp.ParseSymbolMappings(symbolMappings, symbolTextMappings);
         tfsp.ParseSymbolToFormulaMappings(symbolFormulaMappings, symbolTextMappings);
     }
@@ -207,14 +205,13 @@ public class TeXFormula
     /**
      * Set the default target DPI to the screen dpi (only if we're in non-headless mode)
      */
-    public static void SetDefaultDPI()
-    {
-        //TODO:
-        //if (!GraphicsEnvironment.isHeadless())
-        //{
-        //    SetDPITarget((float)Toolkit.getDefaultToolkit().getScreenResolution());
-        //}
-    }
+    //public static void SetDefaultDPI()
+    //{
+    //    //if (!GraphicsEnvironment.isHeadless())
+    //    //{
+    //    //    SetDPITarget((float)Toolkit.getDefaultToolkit().getScreenResolution());
+    //    //}
+    //}
 
     // the root atom of the "atom tree" that represents the formula
     public Atom root;
@@ -254,7 +251,6 @@ public class TeXFormula
      */
     public TeXFormula(string s) : this(s, (string)null)
     {
-        ;
     }
 
     public TeXFormula(string s, bool firstpass)
@@ -394,20 +390,20 @@ public class TeXFormula
         }
     }
 
-    public static TeXFormula getAsText(string text, int alignment)
+    public static TeXFormula GetAsText(string text, int alignment)
     {
-        TeXFormula formula = new TeXFormula();
+        var formula = new TeXFormula();
         if (text == null || "" == (text))
         {
             formula.Add(new EmptyAtom());
             return formula;
         }
 
-        string[] arr = text.Split("\n|\\\\\\\\|\\\\cr");
-        ArrayOfAtoms atoms = new ArrayOfAtoms();
-        foreach (string s in arr)
+        var arr = text.Split("\n|\\\\\\\\|\\\\cr");
+        var atoms = new ArrayOfAtoms();
+        foreach (var s in arr)
         {
-            TeXFormula f = new TeXFormula(s, "mathnormal", true, false);
+            var f = new TeXFormula(s, "mathnormal", true, false);
             atoms.Add(new RomanAtom(f.root));
             atoms.AddRow();
         }
@@ -421,15 +417,15 @@ public class TeXFormula
      * @param formula a formula
      * @return a partial TeXFormula containing the valid part of formula
      */
-    public static TeXFormula getPartialTeXFormula(string formula)
+    public static TeXFormula GetPartialTeXFormula(string formula)
     {
-        TeXFormula f = new TeXFormula();
+        var f = new TeXFormula();
         if (formula == null)
         {
             f.Add(new EmptyAtom());
             return f;
         }
-        TeXParser parser = new TeXParser(true, formula, f);
+        var parser = new TeXParser(true, formula, f);
         try
         {
             parser.Parse();
@@ -449,7 +445,7 @@ public class TeXFormula
      * @param b true if the fonts should be registered (Java 1.6 only) to be used
      * with FOP.
      */
-    public static void registerFonts(bool b)
+    public static void RegisterFonts(bool b)
     {
         DefaultTeXFontParser.RegisterFonts(b);
     }
@@ -459,7 +455,7 @@ public class TeXFormula
      *
      * @param ltx the latex formula
      */
-    public void setLaTeX(string ltx)
+    public void SetLaTeX(string ltx)
     {
         parser.Reset(ltx);
         if (ltx != null && ltx.Length != 0)
@@ -617,7 +613,7 @@ public class TeXFormula
      * @throws InvalidUnitException if the given integer value does not represent
      *                  a valid unit
      */
-    public TeXFormula addStrut(int type)
+    public TeXFormula AddStrut(int type)
     {
         return Add(new SpaceAtom(type));
     }
@@ -686,7 +682,7 @@ public class TeXFormula
      */
     public class TeXIconBuilder
     {
-        TeXFormula f;
+        readonly TeXFormula f;
         private int style;
         private float size;
         private int type;
@@ -810,7 +806,7 @@ public class TeXFormula
          * @param interLineSpacing the value
          * @return the builder, used for chaining
          */
-        public TeXIconBuilder setInterLineSpacing(int interLineUnit, float interLineSpacing)
+        public TeXIconBuilder SetInterLineSpacing(int interLineUnit, float interLineSpacing)
         {
             if (widthUnit == null)
             {
@@ -914,10 +910,10 @@ public class TeXFormula
 
     public TeXIcon CreateTeXIcon(int style, float size, int widthUnit, float textwidth, int align)
     {
-        return createTeXIcon(style, size, 0, widthUnit, textwidth, align);
+        return CreateTeXIcon(style, size, 0, widthUnit, textwidth, align);
     }
 
-    public TeXIcon createTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align)
+    public TeXIcon CreateTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align)
     {
         return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).Build();
     }
@@ -929,7 +925,7 @@ public class TeXFormula
 
     public TeXIcon CreateTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align, int interlineUnit, float interline)
     {
-        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).Build();
+        return new TeXIconBuilder().SetStyle(style).SetSize(size).SetType(type).SetWidth(widthUnit, textwidth, align).SetInterLineSpacing(interlineUnit, interline).Build();
     }
 
     public void CreateImage(string format, int style, float size, string _out, Color bg, Color fg, bool transparency)
@@ -1058,7 +1054,7 @@ public class TeXFormula
      * @param c the desired background color for the <i>current</i> TeXFormula
      * @return the modified TeXFormula
      */
-    public TeXFormula setBackground(Color c)
+    public TeXFormula SetBackground(Color c)
     {
         if (c != null)
         {

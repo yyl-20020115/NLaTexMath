@@ -107,8 +107,11 @@ public class FooPackage
             this.depth = f / 2;
         }
 
-        public override void Draw(Graphics g2, float x, float y)
+        public override void Draw(Graphics g, float x, float y)
         {
+            var t = g.Transform.Clone();
+            g.Transform.Translate(x, y - height);
+            //g.Transform.Scale(Math.Abs(1 / t.ScaleX()), Math.Abs(1 / t.ScaleY));
             //TODO:
             //Color old = g2.getColor();
             //g2.setColor(Color.RED);

@@ -125,14 +125,8 @@ public class HorizontalBox : Box
     {
         StartDraw(g2, x, y);
         float xPos = x;
-        //TODO:
         foreach (Box box in Children)
         { 
-            /*int i = children.IndexOf(box);
-              if (breakPositions != null && breakPositions.IndexOf(i) != -1) {
-              box.markForDEBUG = java.awt.Color.BLUE;
-              }*/
-
             box.Draw(g2, xPos, y + box.Shift);
             xPos += box.Width;
         }

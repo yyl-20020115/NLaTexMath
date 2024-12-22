@@ -44,6 +44,7 @@
  *
  */
 
+using NLaTexMath.Internal.Util;
 using System.Xml.Linq;
 
 namespace NLaTexMath;
@@ -70,12 +71,8 @@ public class GlueSettingsParser
         {
             SetTypeMappings();
             SetStyleMappings();
-            //TODO: 
-            //DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            //factory.setIgnoringElementContentWhitespace(true);
-            //factory.setIgnoringComments(true);
-            //root = factory.newDocumentBuilder().parse(GlueSettingsParser..getResourceAsStream(RESOURCE_NAME)).getDocumentElement();
-            //parseGlueTypes();
+            root = XDocument.Load(typeof(GlueSettingsParser)?.GetResourceAsStream(RESOURCE_NAME))?.Root;
+            ParseGlueTypes();
         }
         catch (Exception e)
         { // JDOMException or IOException

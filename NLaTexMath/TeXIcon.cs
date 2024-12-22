@@ -49,7 +49,6 @@
 
 namespace NLaTexMath;
 
-using System.ComponentModel;
 using System.Drawing;
 
 /**
@@ -64,7 +63,7 @@ using System.Drawing;
 public class TeXIcon
 {
 
-    private static readonly Color defaultColor = new();
+    private static readonly Color DefaultColor = new();
 
     public static float DefaultSize = -1;
     public static float MagFactor = 0;
@@ -75,7 +74,7 @@ public class TeXIcon
 
     private Insets insets = new(0, 0, 0, 0);
 
-    private Color fg;
+    private Color? fg;
 
     public bool isColored = false;
 
@@ -85,9 +84,7 @@ public class TeXIcon
      * @param b the formula box to be painted
      * @param size the point size
      */
-    public TeXIcon(Box b, float size) : this(b, size, false)
-    {
-    }
+    public TeXIcon(Box b, float size) : this(b, size, false) { }
 
     public TeXIcon(Box b, float size, bool trueValues)
     {
@@ -119,7 +116,7 @@ public class TeXIcon
         }
     }
 
-    public void SetForeground(Color fg) => this.fg = fg;
+    public void SetForeground(Color? fg) => this.fg = fg;
 
     /**
      * Get the insets of the TeXIcon.
@@ -221,43 +218,19 @@ public class TeXIcon
     /**
      * Paint the {@link TeXFormula} that created this icon.
      */
-    public void PaintIcon(Component c, Graphics g, int x, int y)
+    public void PaintIcon(Graphics g, int x, int y)
     {
-        //TODO:
-        //Graphics g2 = (Graphics)g;
-        //// copy graphics settings 
-        //RenderingHints oldHints = g2.getRenderingHints();
-        //AffineTransform oldAt = g2.getTransform();
-        //Color oldColor = g2.getColor();
+        var oldHints = g.TextRenderingHint;
+        var oldAt = g.Transform;
+        g.TextRenderingHint |= System.Drawing.Text.TextRenderingHint.AntiAlias;
 
-        //// new settings
-        //g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-        //                    RenderingHints.VALUE_ANTIALIAS_ON);
-        //g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-        //                    RenderingHints.VALUE_RENDER_QUALITY);
-        //g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-        //                    RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.Transform.Scale(size, size);
 
-        //g2.scale(size, size); // the point size
-        //if (fg != null)
-        //{
-        //    g2.setColor(fg);
-        //}
-        //else if (c != null)
-        //{
-        //    g2.setColor(c.getForeground()); // foreground will be used as default painting color
-        //}
-        //else
-        //{
-        //    g2.setColor(defaultColor);
-        //}
+        // draw formula box
+        box.Draw(g, (x + insets.left) / size, (y + insets.top) / size + box.Height);
 
-        //// draw formula box
-        //box.Draw(g2, (x + insets.left) / size, (y + insets.top) / size + box.Height);
+        g.TextRenderingHint = oldHints;
+        g.Transform = oldAt;
 
-        //// restore graphics settings
-        //g2.setRenderingHints(oldHints);
-        //g2.setTransform(oldAt);
-        //g2.setColor(oldColor);
     }
 }

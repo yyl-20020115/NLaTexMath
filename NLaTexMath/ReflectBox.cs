@@ -64,15 +64,16 @@ public class ReflectBox : Box
         shift = b.Shift;
     }
 
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
-        //TODO: 
-        //DrawDebug(g2, x, y);
-        //g2.translate(x, y);
-        //g2.scale(-1, 1);
-        //box.Draw(g2, -width, 0);
-        //g2.scale(-1, 1);
-        //g2.translate(-x, -y);
+        DrawDebug(g, x, y);
+        var t = g.Transform.Clone();
+        g.Transform.Translate(x, y);
+        g.Transform.Scale(-1, 1);
+        box.Draw(g, -width, 0);
+        g.Transform.Scale(-1, 1);
+        g.Transform.Translate(-x, -y);
+        g.Transform = t;
     }
 
     public override int LastFontId => box.LastFontId;

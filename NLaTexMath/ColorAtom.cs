@@ -104,7 +104,7 @@ public class ColorAtom : Atom, Row
     public override Box CreateBox(TeXEnvironment env)
     {
         env.isColored = true;
-        TeXEnvironment copy = env.Copy();
+        var copy = env.Copy();
         if (background != null)
             copy.Background = background;
         if (color != null)
@@ -130,79 +130,77 @@ public class ColorAtom : Atom, Row
             {
                 if (s[0] == '#')
                 {
-                    //TODO: 
-                    //return Color.Decode(s);
+                    var v = Convert.ToInt32(s[1..], 16);
+                    return Color.FromArgb(v);
                 }
                 else if (s.Contains(',') || s.Contains(';'))
                 {
-                    //TODO:
-                    //StringTokenizer toks = new StringTokenizer(s, ";,");
-                    //int n = toks.countTokens();
-                    //if (n == 3)
-                    //{
-                    //    // RGB model
-                    //    try
-                    //    {
-                    //        string R = toks.nextToken().Trim();
-                    //        string G = toks.nextToken().Trim();
-                    //        string B = toks.nextToken().Trim();
+                    var toks = s.Split(';', ',');
+                    int n = toks.Length;
+                    if (n == 3)
+                    {
+                        // RGB model
+                        try
+                        {
+                            string R = toks[0].Trim();
+                            string G = toks[1].Trim();
+                            string B = toks[2].Trim();
 
-                    //        float r = float.TryParse(R, out var _r) ? _r : 0;
-                    //        float g = float.TryParse(G, out var _g) ? _g : 0;
-                    //        float b = float.TryParse(B, out var _b) ? _b : 0;
+                            float r = float.TryParse(R, out var _r) ? _r : 0;
+                            float g = float.TryParse(G, out var _g) ? _g : 0;
+                            float b = float.TryParse(B, out var _b) ? _b : 0;
 
-                    //        if (r == (int)r && g == (int)g && b == (int)b && R.IndexOf('.') == -1 && G.IndexOf('.') == -1 && B.IndexOf('.') == -1)
-                    //        {
-                    //            int ir = (int)Math.Min(255, Math.Max(0, r));
-                    //            int ig = (int)Math.Min(255, Math.Max(0, g));
-                    //            int ib = (int)Math.Min(255, Math.Max(0, b));
-                    //            return Color.FromArgb(ir, ig, ib);
-                    //        }
-                    //        else
-                    //        {
-                    //            r = (float)Math.Min(1, Math.Max(0, r));
-                    //            g = (float)Math.Min(1, Math.Max(0, g));
-                    //            b = (float)Math.Min(1, Math.Max(0, b));
-                    //            return Color.FromArgb((int)r, (int)g, (int)b);
-                    //        }
-                    //    }
-                    //    catch (Exception e)
-                    //    {
-                    //        return Color.Black;
-                    //    }
-                    //}
-                    //else if (n == 4)
-                    //{
-                    //    // CMYK model
-                    //    try
-                    //    {
-                    //        float _c = float.TryParse(toks.nextToken().Trim(), out var c1) ? c1 : 0;
-                    //        float m = float.TryParse(toks.nextToken().Trim(), out var m1) ? m1 : 0;
-                    //        float y = float.TryParse(toks.nextToken().Trim(), out var y1) ? y1 : 0;
-                    //        float k = float.TryParse(toks.nextToken().Trim(), out var k1) ? k1 : 0;
+                            if (r == (int)r && g == (int)g && b == (int)b && R.IndexOf('.') == -1 && G.IndexOf('.') == -1 && B.IndexOf('.') == -1)
+                            {
+                                int ir = (int)Math.Min(255, Math.Max(0, r));
+                                int ig = (int)Math.Min(255, Math.Max(0, g));
+                                int ib = (int)Math.Min(255, Math.Max(0, b));
+                                return Color.FromArgb(ir, ig, ib);
+                            }
+                            else
+                            {
+                                r = (float)Math.Min(1, Math.Max(0, r));
+                                g = (float)Math.Min(1, Math.Max(0, g));
+                                b = (float)Math.Min(1, Math.Max(0, b));
+                                return Color.FromArgb((int)r, (int)g, (int)b);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            return Color.Black;
+                        }
+                    }
+                    else if (n == 4)
+                    {
+                        // CMYK model
+                        try
+                        {
+                            float _c = float.TryParse(toks[0].Trim(), out var c1) ? c1 : 0;
+                            float m = float.TryParse(toks[1].Trim(), out var m1) ? m1 : 0;
+                            float y = float.TryParse(toks[2].Trim(), out var y1) ? y1 : 0;
+                            float k = float.TryParse(toks[3].Trim(), out var k1) ? k1 : 0;
 
-                    //        _c = (float)Math.Min(1, Math.Max(0, _c));
-                    //        m = (float)Math.Min(1, Math.Max(0, m));
-                    //        y = (float)Math.Min(1, Math.Max(0, y));
-                    //        k = (float)Math.Min(1, Math.Max(0, k));
+                            _c = (float)Math.Min(1, Math.Max(0, _c));
+                            m = (float)Math.Min(1, Math.Max(0, m));
+                            y = (float)Math.Min(1, Math.Max(0, y));
+                            k = (float)Math.Min(1, Math.Max(0, k));
 
-                    //        return ConvertColor(_c, m, y, k);
-                    //    }
-                    //    catch (Exception e)
-                    //    {
-                    //        return Color.Black;
-                    //    }
-                    //}
+                            return ConvertColor(_c, m, y, k);
+                        }
+                        catch (Exception e)
+                        {
+                            return Color.Black;
+                        }
+                    }
                 }
 
-                Color c = Colors[(s.ToLower())];
-                if (c != null)
+                if (Colors.TryGetValue(s.ToLower(), out var c))
                 {
                     return c;
                 }
                 else
                 {
-                    if (s.IndexOf('.') != -1)
+                    if (s.Contains('.'))
                     {
                         try
                         {
@@ -210,10 +208,18 @@ public class ColorAtom : Atom, Row
 
                             return Color.FromArgb((int)g, (int)g, (int)g);
                         }
-                        catch (Exception e) { }
+                        catch (Exception e)
+                        {
+                        }
                     }
-
-                    //return Color.Decode("#" + s);
+                    try
+                    {
+                        var v = Convert.ToInt32(s, 16);
+                        return Color.FromArgb(v);
+                    }
+                    catch (Exception e)
+                    {
+                    }
                 }
             }
         }

@@ -60,7 +60,6 @@ public class GraphicsBox : Box
 
     private readonly Image image;
     private readonly float scl;
-    private readonly object interp;
 
     public GraphicsBox(Image image, float width, float height, float size, int interpolation)
     {
@@ -68,36 +67,17 @@ public class GraphicsBox : Box
         this.width = width;
         this.height = height;
         this.scl = 1 / size;
-        depth = 0;
-        shift = 0;
-        //TODO:
-        interp = interpolation switch
-        {
-            //BILINEAR => (object)RenderingHints.VALUE_INTERPOLATION_BILINEAR,
-            //NEAREST_NEIGHBOR => (object)RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR,
-            //BICUBIC => (object)RenderingHints.VALUE_INTERPOLATION_BICUBIC,
-            _ => null,
-        };
+        this.depth = 0;
+        this.shift = 0;
     }
 
     public override void Draw(Graphics g2, float x, float y)
     {
-        //TODO:
-        //AffineTransform oldAt = g2.getTransform();
-        //object oldKey = null;
-        //if (interp != null) 
-        //{
-        //    oldKey = g2.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
-        //    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, interp);
-        //}
-        //g2.translate(x, y - height);
-        //g2.scale(scl, scl);
-        //g2.drawImage(image, 0, 0, null);
-        //g2.setTransform(oldAt);
-        //if (oldKey != null)
-        //{
-        //    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, oldKey);
-        //}
+        var oldAt = g2.Transform.Clone();
+        g2.Transform.Translate(x, y - height);
+        g2.Transform.Scale(scl, scl);
+        g2.DrawImage(image, new PointF());
+        g2.Transform = (oldAt);
     }
 
     public override int LastFontId => 0;

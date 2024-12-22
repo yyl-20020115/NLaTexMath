@@ -53,53 +53,45 @@ namespace NLaTexMath;
  */
 public class HorizontalRule : Box
 {
-
     private readonly Color color = new();
     private readonly float speShift = 0;
 
     public HorizontalRule(float thickness, float width, float s)
     {
-        height = thickness;
+        this.height = thickness;
         this.width = width;
-        shift = s;
+        this.shift = s;
     }
 
     public HorizontalRule(float thickness, float width, float s, bool trueShift)
     {
-        height = thickness;
+        this.height = thickness;
         this.width = width;
         if (trueShift)
         {
-            shift = s;
+            this.shift = s;
         }
         else
         {
-            shift = 0;
-            speShift = s;
+            this.shift = 0;
+            this.speShift = s;
         }
     }
 
     public HorizontalRule(float thickness, float width, float s, Color c)
     {
-        height = thickness;
+        this.height = thickness;
         this.width = width;
-        color = c;
-        shift = s;
+        this.color = c;
+        this.shift = s;
     }
 
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
-        //TODO:
-        //Color old = g2.getColor(); 
-        //if (color != null)
-        //    g2.setColor(color);
-
-        //if (speShift == 0) {
-        //    g2.fill(new RectangleF(x, y - height, width, height));
-        //} else {
-        //    g2.fill(new RectangleF(x, y - height + speShift, width, height)); 
-        //}
-        //g2.setColor(old);
+        using var b = new SolidBrush(color);
+        g.FillRectangle(b, speShift == 0 
+            ? new RectangleF(x, y - height, width, height) 
+            : new RectangleF(x, y - height + speShift, width, height));
     }
 
     public override int LastFontId => TeXFont.NO_FONT;

@@ -1,10 +1,9 @@
-namespace NLaTexMath.Internal.util;
+namespace NLaTexMath.Internal.Util;
 
 using System.Drawing;
 
 public static class Images
 {
-
     public const double DISTANCE_THRESHOLD = 40;
 
     public static double Distance(Bitmap imgA, Bitmap imgB)
@@ -23,10 +22,11 @@ public static class Images
                 {
                     var ca = imgA.GetPixel(x, y);
                     var cb = imgB.GetPixel(x, y);
-                    var variance = Square(ca.R - cb.R) //
-                                      + Square(ca.B - cb.B) //
-                                      + Square(ca.G - cb.G) //
-                                      + Square(ca.A - cb.A);
+                    var variance = Square(ca.R - cb.R) 
+                        + Square(ca.B - cb.B) 
+                        + Square(ca.G - cb.G) 
+                        + Square(ca.A - cb.A)
+                        ;
                     mse += variance;
                 }
             }

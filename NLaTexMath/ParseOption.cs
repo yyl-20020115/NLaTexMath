@@ -50,34 +50,26 @@ namespace NLaTexMath;
  */
 public class ParseOption
 {
-
     public static Dictionary<string, string> ParseMap(string options)
     {
         Dictionary<string, string> map = [];
         if (options == null || options.Length == 0)
         {
             return map;
-        } 
-        //TODO:
-        //StringTokenizer tokens = new StringTokenizer(options, ",");
-        //while (tokens.hasMoreTokens())
-        //{
-        //    string tok = tokens.nextToken().Trim();
-        //    string[] optarg = tok.split("=");
-        //    if (optarg != null)
-        //    {
-        //        if (optarg.Length == 2)
-        //        {
-        //            map.Add(optarg[0].Trim(), optarg[1].Trim());
-        //        }
-        //        else if (optarg.Length == 1)
-        //        {
-        //            map.Add(optarg[0].Trim(), null);
-        //        }
-        //    }
-        //}
-
+        }
+        var tokens = options.Split(',');
+        foreach (var token in tokens)
+        {
+            var args = token.Trim().Split('=');
+            if (args.Length == 2)
+            {
+                map.Add(args[0].Trim(), args[1].Trim());
+            }
+            else if (args.Length == 1)
+            {
+                map.Add(args[0].Trim(), "");
+            }
+        }
         return map;
     }
-
 }

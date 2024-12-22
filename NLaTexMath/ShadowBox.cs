@@ -63,7 +63,7 @@ public class ShadowBox : FramedBox
         width += shadowRule;
     }
 
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
         //TODO: 
         //float th = thickness / 2;
@@ -81,20 +81,4 @@ public class ShadowBox : FramedBox
 
     public override int LastFontId => box.LastFontId;
 }
-/*
 
-    public void draw(Graphics g2, float x, float y) {
-	float th = thickness / 2;
-	float sh = shadowRule / 2;
-	box.draw(g2, x + space + thickness, y);
-	Stroke st = g2.getStroke();
-	g2.setStroke(new BasicStroke(shadowRule, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-	g2.draw(new Line2D(x + shadowRule, y + depth - sh, x + width, y +  depth - sh));
-	g2.draw(new Line2D(x + width - sh, y - height + shadowRule, x + width - sh, y + depth - shadowRule));
-	g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-	g2.draw(new RectangleF(x + th, y - height + th, width - shadowRule - thickness, height + depth - shadowRule - thickness));
-	//drawDebug(g2, x, y);
-	g2.setStroke(st);
-    }
-
-*/

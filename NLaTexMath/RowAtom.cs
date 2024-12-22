@@ -46,7 +46,7 @@
 
 /* Modified by Calixte Denizet to handle the case where several ligatures occure*/
 
-using NLaTexMath.dynamic;
+using NLaTexMath.Dynamic;
 
 namespace NLaTexMath;
 
@@ -160,8 +160,7 @@ public class RowAtom : Atom, Row
 
     public override Box CreateBox(TeXEnvironment env)
     {
-        //TODO:
-        TeXFont tf = env.TeXFont;
+        var tf = env.TeXFont;
         var hBox = new HorizontalBox(env.Color, env.Background);
         int position = 0;
         env.Reset();
@@ -208,7 +207,7 @@ public class RowAtom : Atom, Row
                 }
             }
 
-            Dummy atom = new Dummy(at);
+            var atom = new Dummy(at);
 
             // if necessary, change BIN type to ORD
             Atom nextAtom = null;

@@ -1,4 +1,5 @@
 using NLaTexMath;
+using System.Windows.Forms;
 
 namespace NLaTexMathTests.Examples.Basic;
 
@@ -10,14 +11,15 @@ public class ExampleSwing2
     {
         //TODO:
         var latex = "\\text{hello world}";
-        TeXFormula formula = new TeXFormula(latex);
-        TeXIcon icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY)
+        var formula = new TeXFormula(latex);
+        var icon = new TeXFormula.TeXIconBuilder().SetStyle(TeXConstants.STYLE_DISPLAY)
                        .SetSize(16)
                        .SetWidth(TeXConstants.UNIT_PIXEL, 256f, TeXConstants.ALIGN_CENTER)
-                       .SetIsMaxWidth(true).setInterLineSpacing(TeXConstants.UNIT_PIXEL, 20f)
+                       .SetIsMaxWidth(true).SetInterLineSpacing(TeXConstants.UNIT_PIXEL, 20f)
                        .Build();
 
-        //TODO:
+        //var form = new Form();
+
         //JFrame frame = new JFrame();
         //final JLabel label = new JLabel(icon);
         //label.setMaximumSize(new Dimension(100, 300));

@@ -58,16 +58,16 @@ public class NewCommandMacro
 
     public static void AddNewCommand(string name, string code, int nbargs)
     {
-        //if (macrocode.Get(name) != null)
-        //throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
+        if (macrocode.ContainsKey(name))
+            throw new ParseException($"Command {name} already exists ! Use renewcommand instead ...");
         macrocode.Add(name, code);
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
 
     public static void AddNewCommand(string name, string code, int nbargs, string def)
     {
-        if (macrocode[(name)] != null)
-            throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
+        if (macrocode.ContainsKey(name))
+            throw new ParseException($"Command {name} already exists ! Use renewcommand instead ...");
         macrocode.Add(name, code);
         macroreplacement.Add(name, def);
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs, 1));

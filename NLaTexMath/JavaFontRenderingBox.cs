@@ -108,15 +108,16 @@ public class JavaFontRenderingBox : Box
         //font = new Font(name, Fonts.PLAIN, 10);
     }
 
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
+        DrawDebug(g, x, y);
+        var t = g.Transform.Clone();
+        g.Transform.Translate(x, y);
+        g.Transform.Scale(0.1f * size, 0.1f * size);
         //TODO:
-        //DrawDebug(g2, x, y);
-        //g2.translate(x, y);
-        //g2.scale(0.1 * size, 0.1 * size);
-        //text.draw(g2, 0, 0);
-        //g2.scale(10 / size, 10 / size);
-        //g2.translate(-x, -y);
+        //text.draw(g, 0, 0);
+        g.Transform.Scale(10 / size, 10 / size);
+        g.Transform.Translate(-x, -y);
     }
 
     public override int LastFontId => 0;

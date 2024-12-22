@@ -26,7 +26,7 @@
  *
  */
 
-namespace NLaTexMath.greek;
+namespace NLaTexMath.Greek;
 
 public class GreekRegistration : AlphabetRegistration
 {

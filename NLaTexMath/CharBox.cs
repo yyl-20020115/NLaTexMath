@@ -84,25 +84,22 @@ public class CharBox : Box
     }
 
     public override void Draw(Graphics g2, float x, float y)
-    { 
+    {
         DrawDebug(g2, x, y);
-        //TODO:
-        //AffineTransform at = g2.getTransform();
-        //g2.translate(x, y);
-        //Font font = FontInfo.getFont(cf.fontId);
+        var at = g2.Transform.Clone();
+        g2.Transform.Translate(x, y);
+        var font = FontInfo.GetFont(cf.fontId);
 
-        //if (Math.Abs(size - TeXFormula.FONT_SCALE_FACTOR) > TeXFormula.PREC) {
-        //    g2.Scale(size / TeXFormula.FONT_SCALE_FACTOR,
-        //             size / TeXFormula.FONT_SCALE_FACTOR);
-        //}
-
-        //if (g2.getFont() != font) {
-        //    g2.setFont(font);
-        //}
-
-        //arr[0] = cf.c;
-        //g2.drawChars(arr, 0, 1, 0, 0);
-        //g2.setTransform(at);
+        if (Math.Abs(size - TeXFormula.FONT_SCALE_FACTOR) > TeXFormula.PREC)
+        {
+            g2.Transform.Scale(size / TeXFormula.FONT_SCALE_FACTOR,
+                     size / TeXFormula.FONT_SCALE_FACTOR);
+        }
+        using var brush = this.foreground != null
+            ? new SolidBrush(this.foreground.Value)
+            : new SolidBrush(Color.Black);
+        g2.DrawString(cf.ToString(), font, brush, new PointF());
+        g2.Transform = at;
     }
 
     public override int LastFontId => cf.fontId;

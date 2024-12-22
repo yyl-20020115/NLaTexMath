@@ -57,7 +57,7 @@ public class GeoGebraLogoBox : Box
     private static readonly Color gray = Color.FromArgb(102, 102, 102);
     private static readonly Color blue = Color.FromArgb(153, 153, 255);
 
-    private static readonly BasicStroke basic = new (3.79999995f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
+    //private static readonly BasicStroke basic = new (3.79999995f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 4f);
 
     public GeoGebraLogoBox(float w, float h)
     {
@@ -67,7 +67,7 @@ public class GeoGebraLogoBox : Box
         this.shift = 0;
     }
 
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
         //TODO:
         //AffineTransform oldAt = g2.getTransform(); 
@@ -91,7 +91,7 @@ public class GeoGebraLogoBox : Box
         //g2.setColor(oldC);
     }
 
-    private static void DrawCircle(Graphics g2, float x, float y)
+    private static void DrawCircle(Graphics g, float x, float y)
     {
         //TODO:
         //g2.setColor(blue);

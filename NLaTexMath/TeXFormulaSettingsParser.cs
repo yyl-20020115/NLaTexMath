@@ -44,7 +44,7 @@
  *
  */
 
-using NLaTexMath.Internal.util;
+using NLaTexMath.Internal.Util;
 using System.Xml.Linq;
 
 namespace NLaTexMath;

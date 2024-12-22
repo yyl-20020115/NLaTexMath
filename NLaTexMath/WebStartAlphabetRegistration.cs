@@ -44,7 +44,7 @@
  */
 
 using NLaTexMath.cyrillic;
-using NLaTexMath.greek;
+using NLaTexMath.Greek;
 
 namespace NLaTexMath;
 

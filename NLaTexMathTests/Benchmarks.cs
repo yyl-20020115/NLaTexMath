@@ -10,7 +10,8 @@ public class Benchmarks
 
     public static Bitmap? ParseAndRenderLatex()
     {
-        TeXFormula formula = new TeXFormula(LATEX_1);
+        var formula = new TeXFormula(LATEX_1);
+        
         //TODO:
 
         //TeXIcon icon = new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setSize(20)

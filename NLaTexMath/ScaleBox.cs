@@ -70,19 +70,20 @@ public class ScaleBox : Box
     {
     }
 
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
-        //TODO: 
-        //DrawDebug(g2, x, y);
-        //if (xscl != 0 && yscl != 0)
-        //{
-        //    float dec = xscl < 0 ? width : 0;
-        //    g2.translate(x + dec, y);
-        //    g2.scale(xscl, yscl);
-        //    box.Draw(g2, 0, 0);
-        //    g2.scale(1 / xscl, 1 / yscl);
-        //    g2.translate(-x - dec, -y);
-        //}
+        DrawDebug(g, x, y);
+        if (xscl != 0 && yscl != 0)
+        {
+            float dec = xscl < 0 ? width : 0;
+            var t = g.Transform.Clone();
+            g.Transform.Translate(x + dec, y);
+            g.Transform.Scale((float)xscl, (float)yscl);
+            box.Draw(g, 0, 0);
+            g.Transform.Scale(1.0f / (float)xscl, 1.0f / (float)yscl);
+            g.Transform.Translate(-x - dec, -y);
+            g.Transform = t;
+        }
     }
 
     public override int LastFontId => box.LastFontId;

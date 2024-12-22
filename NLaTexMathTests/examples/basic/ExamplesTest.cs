@@ -42,6 +42,9 @@
  * version.
  *
  */
+using NLaTexMath.Internal.Util;
+using System.Drawing;
+
 namespace NLaTexMathTests.Examples.Basic;
 
 [TestClass]
@@ -108,25 +111,23 @@ public class ExamplesTest
     {
         try
         {
-            //TODO:
-            //System._out.println("checking image " + filename);
-            //BufferedImage a = ImageIO.read(new File("src/test/resources/expected/" + filename));
-            //BufferedImage b = ImageIO.read(new File("target/" + filename));
-            //double distance = Images.distance(a, b);
-            //System._out.println("distance=" + distance);
-            //// TODO establish a reasonable threshold after running the tests on
-            //// different platforms (windows, osx, linux, others?) and different
-            //// jdks
-            //double THRESHOLD = Images.DISTANCE_THRESHOLD;
-            //assertTrue("actual and expected images for " + filename + " are different sizes!", distance >= 0);
-            //assertTrue(
-            //    "distance=" + distance + " is above threshold=" + THRESHOLD
-            //    + ", images are probably significantly different, distance=" + distance,
-            //    distance <= THRESHOLD);
+            Console.WriteLine("checking image " + filename);
+            var a = Bitmap.FromFile("src/test/resources/expected/" + filename) as Bitmap;
+            var b = Bitmap.FromFile("target/" + filename) as Bitmap;
+            var distance = Images.Distance(a, b);
+            Console.WriteLine("distance=" + distance);
+            // TODO establish a reasonable threshold after running the tests on
+            // different platforms (windows, osx, linux, others?) and different
+            // jdks
+            var THRESHOLD = Images.DISTANCE_THRESHOLD;
+            Assert.IsTrue(distance >= 0, $"actual and expected images for {filename} are different sizes!");
+            Assert.IsTrue(distance <= THRESHOLD,
+                $"distance={distance} is above threshold={THRESHOLD}, images are probably significantly different, distance={distance}"
+                );
         }
         catch (IOException e)
         {
-            throw (e);
+            throw e;
         }
     }
 

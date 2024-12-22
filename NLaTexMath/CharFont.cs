@@ -55,4 +55,5 @@ public class CharFont(char ch, int f, int bf)
     public int fontId = f;
     public int boldFontId = bf;
     public CharFont(char ch, int f) : this(ch, f, f) { }
+    public override string ToString() => c.ToString();
 }

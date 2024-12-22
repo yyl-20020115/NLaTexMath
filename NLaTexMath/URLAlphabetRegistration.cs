@@ -76,20 +76,15 @@ public class URLAlphabetRegistration : AlphabetRegistration
             var name = "NLaTexMath." + language
                           + "." + char.ToString(char.ToUpper(language[0]))
                           + language[1..] + "Registration";
-            //TODO:
-            //try
-            //{ 
-            //    ClassLoader loader = new URLClassLoader(urls);
-            //    pack = (AlphabetRegistration)Type.forName(name, true, loader).newInstance();
-            //}
-            //catch (TypeNotFoundException e)
-            //{
-            //    throw new AlphabetRegistrationException("Type at " + url + " cannot be got.");
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new AlphabetRegistrationException("Problem in loading the class at " + url + " :\n" + e.Message);
-            //}
+            try
+            {
+                var type = Type.GetType(name);
+                pack = (AlphabetRegistration)type.GetConstructor([typeof(object)]).Invoke([]);
+            }
+            catch (Exception e)
+            {
+                throw new AlphabetRegistrationException("Problem in loading the class at " + url + " :\n" + e.Message);
+            }
             return pack;
         }
     }

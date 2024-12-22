@@ -46,6 +46,8 @@
 
 using System.Drawing;
 
+using NLaTexMath.Internal.Util;
+
 namespace NLaTexMath;
 
 /**
@@ -99,42 +101,39 @@ public class OverUnderBox : Box
 
     public override void Draw(Graphics g2, float x, float y)
     {
-        //TODO:
-        //DrawDebug(g2, x, y);
-        //_base.Draw(g2, x, y); 
+        DrawDebug(g2, x, y);
+        Base.Draw(g2, x, y);
 
-        //float yVar = y - base.height - del.Width;
-        //del.        Depth = del.Height + del.Depth;
-        //del.        Height = 0;
-        //if (over) { // draw delimiter and script above base box
-        //    double transX = x + (del.height + del.depth) * 0.75, transY = yVar;
-        //    AffineTransform oldAt = g2.getTransform();
-        //    g2.translate(transX, transY);
-        //    g2.rotate(Math.PI / 2);
-        //    del.Draw(g2, 0, 0);
-        //    g2.setTransform(oldAt);
+        float yVar = y - base.height - del.Width;
+        del.Depth = del.Height + del.Depth;
+        del.Height = 0;
+        if (over)
+        { // draw delimiter and script above base box
+            double transX = x + (del.Height + del.Depth) * 0.75, transY = yVar;
+            var oldAt = g2.Transform.Clone();
+            g2.Transform.Translate((float)transX, (float)transY);
+            g2.Transform.Rotate((float)(Math.PI / 2.0).ToDegrees());
+            del.Draw(g2, 0, 0);
+            g2.Transform = oldAt;
 
-        //    // draw superscript
-        //    if (script != null) {
-        //        script.Draw(g2, x, yVar - kern - script.depth);
-        //    }
-        //}
+            // draw superscript
+            script?.Draw(g2, x, yVar - kern - script.Depth);
+        }
 
-        //yVar = y + base.depth;
-        //if (!over) { // draw delimiter and script under base box
-        //    double transX = x + (del.Height + del.depth) * 0.75, transY = yVar;
-        //    AffineTransform oldAt = g2.getTransform();
-        //    g2.translate(transX, transY);
-        //    g2.rotate(Math.PI / 2);
-        //    del.Draw(g2, 0, 0);
-        //    g2.setTransform(oldAt);
-        //    yVar += del.Width;
+        yVar = y + base.depth;
+        if (!over)
+        { // draw delimiter and script under base box
+            double transX = x + (del.Height + del.Depth) * 0.75, transY = yVar;
+            var oldAt = g2.Transform.Clone();
+            g2.Transform.Translate((float)transX, (float)transY);
+            g2.Transform.Rotate((float)(Math.PI / 2).ToDegrees());
+            del.Draw(g2, 0, 0);
+            g2.Transform = (oldAt);
+            yVar += del.Width;
 
-        //    // draw subscript
-        //    if (script != null) {
-        //        script.Draw(g2, x, yVar + kern + script.height);
-        //    }
-        //}
+            // draw subscript
+            script?.Draw(g2, x, yVar + kern + script.Height);
+        }
     }
 
     public override int LastFontId => Base.LastFontId;

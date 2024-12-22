@@ -45,6 +45,7 @@
 
 namespace NLaTexMath;
 
+using NLaTexMath.Internal.Util;
 using System.Drawing;
 
 /**
@@ -156,7 +157,7 @@ public class RotateBox : Box
 
     private static PointF CalculateShift(Box b, int option)
     {
-        PointF p = new PointF(0, -b.Depth);
+        var p = new PointF(0, -b.Depth);
         switch (option)
         {
             case BL:
@@ -214,17 +215,16 @@ public class RotateBox : Box
         return p;
     }
 
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
-        //TODO: 
-        //DrawDebug(g2, x, y);
-        //box.DrawDebug(g2, x, y, true);
-        //y -= shiftY;
-        //x += shiftX - xmin;
-        //g2.rotate(-angle, x, y);
-        //box.Draw(g2, x, y);
-        //box.DrawDebug(g2, x, y, true);
-        //g2.rotate(angle, x, y);
+        DrawDebug(g, x, y);
+        box.DrawDebug(g, x, y, true);
+        y -= shiftY;
+        x += shiftX - xmin;
+        g.Transform.Rotate((float)(-angle).ToDegrees()/*, x, y*/);
+        box.Draw(g, x, y);
+        box.DrawDebug(g, x, y, true);
+        g.Transform.Rotate((float)(angle).ToDegrees()/*, x, y*/);
     }
 
     public override int LastFontId => box.LastFontId;

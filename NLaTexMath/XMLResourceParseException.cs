@@ -51,7 +51,7 @@ public class XMLResourceParseException : ResourceParseException
     /*
      * Attribute problem
      */
-    public XMLResourceParseException(string resourceName, string elementName, string attributeName, string msg)
+    public XMLResourceParseException(string resourceName, string elementName, string attributeName, string? msg)
         : base($"{resourceName}: invalid <{elementName}>-element found: attribute '{attributeName}' {msg ?? "is required!"}")
     { }
 

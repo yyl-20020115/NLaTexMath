@@ -52,16 +52,18 @@ using System.Drawing;
  */
 public class OvalBox(FramedBox fbox) : FramedBox(fbox.box, fbox.thickness, fbox.space)
 {
-    public override void Draw(Graphics g2, float x, float y)
+    public override void Draw(Graphics g, float x, float y)
     {
-        //TODO: 
-        //box.Draw(g2, x + space + thickness, y);
+        box.Draw(g, x + space + thickness, y);
         //Stroke st = g2.getStroke();
         //g2.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        //float th = thickness / 2;
-        //float r = 0.5f * Math.Min(width - thickness, height + depth - thickness);
-        //g2.draw(new RoundRectangle2D(x + th, y - height + th, width - thickness, height + depth - thickness, r, r));
-        ////drawDebug(g2, x, y);
+        float th = thickness / 2;
+        float r = 0.5f * Math.Min(width - thickness, height + depth - thickness);
+        //TODO:how to use round angle
+        using var brush = new SolidBrush(this.foreground.Value);
+        using var pen = new Pen(brush);
+        g.DrawRectangle(pen, new RectangleF(x + th, y - height + th, width - thickness, height + depth - thickness));
+        //drawDebug(g2, x, y);
         //g2.setStroke(st);
     }
 

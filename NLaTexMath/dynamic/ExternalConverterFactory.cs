@@ -43,7 +43,7 @@
  *
  */
 
-namespace NLaTexMath.dynamic;
+namespace NLaTexMath.Dynamic;
 
 public interface ExternalConverterFactory
 {
