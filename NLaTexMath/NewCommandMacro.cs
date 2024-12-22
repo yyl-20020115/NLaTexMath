@@ -43,6 +43,8 @@
  *
  */
 
+using System.Text;
+
 namespace NLaTexMath;
 
 
@@ -83,6 +85,23 @@ public class NewCommandMacro
         MacroInfo.Commands.Add(name, new MacroInfo("NLaTexMath.NewCommandMacro", "executeMacro", nbargs));
     }
 
+    public static string QuoteReplacement(string s)
+    {
+        if ((!s.Contains('\\')) && (!s.Contains('$')))
+            return s;
+        var builder = new StringBuilder();
+        for (int i = 0; i < s.Length; i++)
+        {
+            char c = s[i];
+            if (c == '\\' || c == '$')
+            {
+                builder.Append('\\');
+            }
+            builder.Append(c);
+        }
+        return builder.ToString();
+    }
+
     public string ExecuteMacro(TeXParser tp, string[] args)
     {
         var code = macrocode.TryGetValue(args[0],out var v)?v:"";
@@ -90,24 +109,23 @@ public class NewCommandMacro
         int nbargs = args.Length - 11;
         int dec = 0;
 
-        //WHAT: 
         if (args[nbargs + 1] != null)
         {
             dec = 1;
-            //rep = Matcher.quoteReplacement(args[nbargs + 1]);
-            //code = code.replaceAll("#1", rep);
+            rep = QuoteReplacement(args[nbargs + 1]);
+            code = code.Replace("#1", rep);
         }
-        else if (macroreplacement[(args[0])] != null)
+        else if (macroreplacement.TryGetValue(args[0],out var m))
         {
             dec = 1;
-            //rep = Matcher.quoteReplacement(macroreplacement.Get(args[0]));
-            //code = code.replaceAll("#1", rep);
+            rep = QuoteReplacement(m);
+            code = code.Replace("#1", rep);
         }
 
         for (int i = 1; i <= nbargs; i++)
         {
-            //rep = Matcher.quoteReplacement(args[i]);
-            //code = code.replaceAll("#" + (i + dec), rep);
+            rep = QuoteReplacement(args[i]);
+            code = code.Replace("#" + (i + dec), rep);
         }
 
         return code;

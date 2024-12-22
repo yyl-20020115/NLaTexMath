@@ -63,10 +63,10 @@ public class RowAtom : Atom, Row
     public bool lookAtLastAtom = false;
 
     // previous atom (for nested Row atoms)
-    private Dummy previousAtom = null;
+    private Dummy? previousAtom = null;
 
     // set of atom types that make a previous bin atom change to ord
-    private static BitSet binSet;
+    private static readonly BitSet binSet;
 
     // set of atom types that can possibly need a kern or, together with the
     // previous atom, be replaced by a ligature
@@ -192,10 +192,12 @@ public class RowAtom : Atom, Row
             if (at is DynamicAtom atom2 && atom2.InsertMode)
             {
                 Atom a = atom2.GetAtom();
-                if (a is RowAtom atom1)
+                if (a is RowAtom atomRow)
                 {
+                    Atom? atom3 = null;
                     elements.RemoveAt(position - 1);
                     //WHAT: 
+
                     //elements.Insert(position - 1, atom1.elements);
                     //it = elements.listIterator(position - 1);
                     //at = it.next();
@@ -206,7 +208,7 @@ public class RowAtom : Atom, Row
                     at = a;
                 }
             }
-
+            ///TODO:
             var atom = new Dummy(at);
 
             // if necessary, change BIN type to ORD
@@ -262,23 +264,21 @@ public class RowAtom : Atom, Row
             // insert atom's box
             atom.SetPreviousAtom(previousAtom);
             Box b = atom.CreateBox(env);
-            if (atom.IsCharInMathMode && b is CharBox)
+            if (atom.IsCharInMathMode && b is CharBox cb)
             {
                 // When we've a single char, we need to Add italic correction
                 // As an example: (TVY) looks crappy...
-                CharBox cb = (CharBox)b;
                 cb.AddItalicCorrectionToWidth();
             }
-            if (markAdded || (at is CharAtom && char.IsDigit(((CharAtom)at).Character)))
+            if (markAdded || (at is CharAtom atom1 && char.IsDigit(atom1.Character)))
             {
                 hBox.AddBreakPosition(hBox.Children.Count);
             }
             hBox.Add(b);
 
             // set last used fontId (for next atom)
-            env.
             // set last used fontId (for next atom)
-            LastFontId = b.LastFontId;
+            env.LastFontId = b.LastFontId;
 
             // insert kern
             if (Math.Abs(kern) > TeXFormula.PREC)

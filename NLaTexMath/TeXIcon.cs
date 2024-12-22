@@ -218,7 +218,7 @@ public class TeXIcon
     /**
      * Paint the {@link TeXFormula} that created this icon.
      */
-    public void PaintIcon(Graphics g, int x, int y)
+    public void PaintIcon(Graphics g, int x = 0, int y = 0)
     {
         var oldHints = g.TextRenderingHint;
         var oldAt = g.Transform;

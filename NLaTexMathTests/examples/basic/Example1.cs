@@ -73,6 +73,5 @@ public class Example1 : TestBase
         latex += "\\end{array}";
 
         DoTest(latex,nameof(Example1));
-
     }
 }
