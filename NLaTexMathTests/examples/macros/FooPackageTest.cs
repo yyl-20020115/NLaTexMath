@@ -56,11 +56,10 @@ namespace NLaTexMathTests.Examples.Macros;
 [TestClass]
 public class FooPackageTest
 {
-
     [TestMethod]
     public void TestUseCustomPackage()
     {
-        var stream = typeof(FooPackageTest).GetResourceAsStream("/Package_Foo.xml");
+        var stream = typeof(FooPackageTest).GetResourceAsStream("Package_Foo.xml");
         Assert.IsNotNull(stream);
         TeXFormula.AddPredefinedCommands(stream);
         var latex = "\\begin{array}{l}";
@@ -78,9 +77,8 @@ public class FooPackageTest
         using var g = Graphics.FromImage(image);
         using var brush = new SolidBrush(Color.White);
         g.FillRectangle(brush, 0, 0, icon.IconWidth, icon.IconHeight);
-
-        icon.PaintIcon(g, 0, 0);
-        string file = ("target/ExampleMacros.png");
+        icon.PaintIcon(g);
+        var file = "target/ExampleMacros.png";
         image.Save(file, ImageFormat.Png);
     }
 }

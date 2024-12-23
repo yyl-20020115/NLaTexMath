@@ -18,6 +18,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\DefaultTeXFont.xml" />
+    <None Remove="Resources\GlueSettings.xml" />
+    <None Remove="Resources\TeXFormulaSettings.xml" />
+    <None Remove="Resources\TeXSymbols.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DefaultTeXFont.xml" />
+    <EmbeddedResource Include="Resources\GlueSettings.xml" />
+    <EmbeddedResource Include="Resources\TeXFormulaSettings.xml" />
+    <EmbeddedResource Include="Resources\TeXSymbols.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
   </ItemGroup>
 

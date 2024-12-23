@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NLaTexMathTests": {
+      "commandName": "Project",
+      "workingDirectory": "$(ProjectDir)"
+    }
+  }
+}

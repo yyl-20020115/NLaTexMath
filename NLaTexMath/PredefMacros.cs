@@ -1526,19 +1526,19 @@ public class PredefMacros
 
     public static Atom dotminus_macro(TeXParser tp, string[] args)
     {
-        Atom at = new UnderOverAtom(SymbolAtom.Get("minus"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, -3.3f, false, true);
+        var at = new UnderOverAtom(SymbolAtom.Get("minus"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, -3.3f, false, true);
         return new TypedAtom(TeXConstants.TYPE_BINARY_OPERATOR, TeXConstants.TYPE_BINARY_OPERATOR, at);
     }
 
     public static Atom ratio_macro(TeXParser tp, string[] args)
     {
-        Atom at = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var at = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
     }
 
     public static Atom geoprop_macro(TeXParser tp, string[] args)
     {
-        RowAtom ddot = new RowAtom(SymbolAtom.Get("normaldot"));
+        var ddot = new RowAtom(SymbolAtom.Get("normaldot"));
         ddot.Add(new SpaceAtom(TeXConstants.UNIT_MU, 4f, 0f, 0f));
         ddot.Add(SymbolAtom.Get("normaldot"));
         Atom at = new UnderOverAtom(SymbolAtom.Get("minus"), ddot, TeXConstants.UNIT_MU, -3.4f, false, ddot, TeXConstants.UNIT_MU, -3.4f, false);
@@ -1547,7 +1547,7 @@ public class PredefMacros
 
     public static Atom minuscolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("minus"));
+        var at = new RowAtom(SymbolAtom.Get("minus"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
         at.Add(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1555,9 +1555,9 @@ public class PredefMacros
 
     public static Atom minuscoloncolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("minus"));
+        var at = new RowAtom(SymbolAtom.Get("minus"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
-        Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
         at.Add(colon);
         at.Add(colon);
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1565,7 +1565,7 @@ public class PredefMacros
 
     public static Atom simcolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("sim"));
+        var at = new RowAtom(SymbolAtom.Get("sim"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
         at.Add(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1573,7 +1573,7 @@ public class PredefMacros
 
     public static Atom simcoloncolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("sim"));
+        var at = new RowAtom(SymbolAtom.Get("sim"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
         Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
         at.Add(colon);
@@ -1583,7 +1583,7 @@ public class PredefMacros
 
     public static Atom approxcolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("approx"));
+        var at = new RowAtom(SymbolAtom.Get("approx"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
         at.Add(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1591,7 +1591,7 @@ public class PredefMacros
 
     public static Atom approxcoloncolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("approx"));
+        var at = new RowAtom(SymbolAtom.Get("approx"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
         Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
         at.Add(colon);
@@ -1601,7 +1601,7 @@ public class PredefMacros
 
     public static Atom equalscolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("equals"));
+        var at = new RowAtom(SymbolAtom.Get("equals"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
         at.Add(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1609,9 +1609,9 @@ public class PredefMacros
 
     public static Atom equalscoloncolon_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(SymbolAtom.Get("equals"));
+        var at = new RowAtom(SymbolAtom.Get("equals"));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.095f, 0f, 0f));
-        Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
         at.Add(colon);
         at.Add(colon);
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1619,7 +1619,7 @@ public class PredefMacros
 
     public static Atom colonminus_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
+        var at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("minus"));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1627,8 +1627,8 @@ public class PredefMacros
 
     public static Atom coloncolonminus_macro(TeXParser tp, string[] args)
     {
-        Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
-        RowAtom at = new RowAtom(colon);
+        var colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var at = new RowAtom(colon);
         at.Add(colon);
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("minus"));
@@ -1637,7 +1637,7 @@ public class PredefMacros
 
     public static Atom colonequals_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
+        var at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("equals"));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1645,8 +1645,8 @@ public class PredefMacros
 
     public static Atom coloncolonequals_macro(TeXParser tp, string[] args)
     {
-        Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
-        RowAtom at = new RowAtom(colon);
+        var colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var at = new RowAtom(colon);
         at.Add(colon);
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("equals"));
@@ -1655,15 +1655,15 @@ public class PredefMacros
 
     public static Atom coloncolon_macro(TeXParser tp, string[] args)
     {
-        Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
-        RowAtom at = new RowAtom(colon);
+        var colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var at = new RowAtom(colon);
         at.Add(colon);
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
     }
 
     public static Atom colonsim_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
+        var at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("sim"));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1671,8 +1671,8 @@ public class PredefMacros
 
     public static Atom coloncolonsim_macro(TeXParser tp, string[] args)
     {
-        Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
-        RowAtom at = new RowAtom(colon);
+        var colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var at = new RowAtom(colon);
         at.Add(colon);
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("sim"));
@@ -1681,7 +1681,7 @@ public class PredefMacros
 
     public static Atom colonapprox_macro(TeXParser tp, string[] args)
     {
-        RowAtom at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
+        var at = new RowAtom(new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true));
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("approx"));
         return new TypedAtom(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_RELATION, at);
@@ -1689,8 +1689,8 @@ public class PredefMacros
 
     public static Atom coloncolonapprox_macro(TeXParser tp, string[] args)
     {
-        Atom colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
-        RowAtom at = new RowAtom(colon);
+        var colon = new UnderOverAtom(SymbolAtom.Get("normaldot"), SymbolAtom.Get("normaldot"), TeXConstants.UNIT_MU, 5.2f, false, true);
+        var at = new RowAtom(colon);
         at.Add(colon);
         at.Add(new SpaceAtom(TeXConstants.UNIT_EM, -0.32f, 0f, 0f));
         at.Add(SymbolAtom.Get("approx"));
@@ -1767,7 +1767,7 @@ public class PredefMacros
             number = number.Substring(2);
             radix = 16;
         }
-        else if (number.StartsWith("x") || number.StartsWith("X"))
+        else if (number.StartsWith('x') || number.StartsWith('X'))
         {
             number = number.Substring(1);
             radix = 16;
@@ -1852,16 +1852,16 @@ public class PredefMacros
 
     public static Atom Oint_macro(TeXParser tp, string[] args)
     {
-        Atom integral = SymbolAtom.Get("oint").Clone();
+        var integral = SymbolAtom.Get("oint").Clone();
         integral.TypeLimits = TeXConstants.SCRIPT_NOLIMITS;
         return integral;
     }
 
     public static Atom Iint_macro(TeXParser tp, string[] args)
     {
-        Atom integral = SymbolAtom.Get("int").Clone();
+        var integral = SymbolAtom.Get("int").Clone();
         integral.TypeLimits = TeXConstants.SCRIPT_NOLIMITS;
-        RowAtom ra = new RowAtom(integral);
+        var ra = new RowAtom(integral);
         ra.Add(new SpaceAtom(TeXConstants.UNIT_MU, -6f, 0f, 0f));
         ra.Add(integral);
         ra.lookAtLastAtom = true;
@@ -1936,7 +1936,7 @@ public class PredefMacros
     {
         Dictionary<string, string> map = tp.formula.jlmXMLMap;
         string str = args[1];
-        StringBuilder buffer = new StringBuilder();
+        var buffer = new StringBuilder();
         int start = 0;
         int pos;
         while ((pos = str.IndexOf('$')) != -1)
