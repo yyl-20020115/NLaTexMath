@@ -53,7 +53,7 @@ namespace NLaTexMath.Dynamic;
  */
 public class DynamicAtom : Atom
 {
-    private ExternalConverter? converter = null;
+    private readonly ExternalConverter? converter = null;
     private readonly TeXFormula formula = new();
     private readonly string externalCode;
     private readonly bool insert;

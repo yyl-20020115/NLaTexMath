@@ -18,7 +18,7 @@ public class TestBase
         using var g = Graphics.FromImage(image);
         using var brush = new SolidBrush(Color.White);
         g.FillRectangle(brush, new RectangleF(0, 0, icon.IconWidth, icon.IconHeight));
-        icon.PaintIcon(g, 0, 0);
+        icon.PaintIcon(g);
         var file = $"target/{testname}.png";
         image.Save(file,ImageFormat.Png);
 

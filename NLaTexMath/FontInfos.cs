@@ -49,12 +49,9 @@
 namespace NLaTexMath;
 
 
-public partial class TeXFormula
+public class FontInfos(string sansserif, string serif)
 {
-    public class FontInfos(string sansserif, string serif)
-    {
 
-        public readonly string sansserif = sansserif;
-        public readonly string serif = serif;
-    }
+    public readonly string sansserif = sansserif;
+    public readonly string serif = serif;
 }
